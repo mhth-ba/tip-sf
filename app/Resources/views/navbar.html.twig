@@ -115,7 +115,7 @@
                             {% endif %}
                             <div class="col-12 navbar-login-roles">
                                 {% for role in app.user.roles %}
-                                    {% if role is iterable %}
+                                    {% if role.id is defined %}
                                         <span class="badge badge-secondary my-tooltip"
                                               data-toggle="tooltip"
                                               data-placement="bottom"
