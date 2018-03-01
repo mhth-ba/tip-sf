@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% set title='Skutočná cena tepla' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>
+                    {{ title }}
+                    <br>
+                    <small>
+                        <em>Výpočet skutočnej ceny tepla</em>
+                    </small>
+                </h1>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col">
+                <div id="skutocna-cena-tepla"></div>
+            </div>
+        </div>
+
+        {#https://github.com/1up-lab/OneupUploaderBundle/issues/143#}
+        <div id="uploader-excel" data-endpoint="{{ oneup_uploader_endpoint('kontroling') }}"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('build/sct.js') }}"></script>
+{% endblock %}

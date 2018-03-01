@@ -1,0 +1,98 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: sk
+    cache_type: file_system
+
+framework:
+    #esi: ~
+    translator: { fallbacks: [en] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets:
+        json_manifest_path: '%kernel.project_dir%/web/build/manifest.json'
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    number_format:
+        decimals: 2
+        decimal_point: ,
+        thousands_separator: ' '
+    form_themes:
+        - bootstrap_4_layout.html.twig
+        # this alternative theme is also available
+        # form_themes: ['bootstrap_4_horizontal_layout.html.twig']
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        dbname: '%database_name%'
+        host: '%database_host%'
+        port: '%database_port%'
+        user: '%database_user%'
+        password: '%database_password%'
+        driver: pdo_sqlsrv
+        charset: UTF8
+        logging: '%kernel.debug%'
+        profiling: '%kernel.debug%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+# Cache Configuration
+doctrine_cache:
+    providers:
+        my_cache:
+            type: '%cache_type%'
+            file_system:
+                directory: '%kernel.cache_dir%/my_cache'
+
+oneup_uploader:
+    mappings:
+        kontroling:
+            frontend: dropzone
+            namer: AppBundle\Uploader\Naming\FileNamer
+        gallery:
+            frontend: dropzone
+            namer: AppBundle\Uploader\Naming\FileNamer
+            # The default directory that is used to upload files to is "web/uploads/{mapping_name}"
+            # In case you want to avoid a separated mapping folder, you can set root_folder: true
+            # and the default directory will be "web/uploads"
+            #root_folder: true
+            # If you want to use your own path, for example "/data/uploads"
+            #directory: "%kernel.root_dir%/../data/uploads"

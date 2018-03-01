@@ -1,0 +1,64 @@
+{{ form_start(formServisneHlasenie, {
+    'attr': {
+        'class': 'js-new-form',
+        'novalidate': 'novalidate',
+        'data-url': path('ris_servisne-hlasenia_new')
+    }
+}) }}
+    {{ form_errors(formServisneHlasenie) }}
+
+<div class="row">
+    <div class="col-xs-6">
+        {{ form_row(formServisneHlasenie.datum, {
+            'label': 'Dátum hlásenia',
+            'label_attr': {'class': 'sr-only'},
+            'attr': {
+                'placeholder': 'Dátum hlásenia'
+            }
+        }) }}
+
+        {{ form_row(formServisneHlasenie.oznamovatel, {
+            'label': 'Oznamovateľ',
+            'label_attr': {'class': 'sr-only'},
+            'attr': {
+                'placeholder': 'Oznamovateľ'
+            },
+            'value': app.user.fullname
+        }) }}
+
+        {{ form_row(formServisneHlasenie.miesto, {
+            'label': 'Miesto',
+            'label_attr': {'class': 'sr-only'}
+        }) }}
+
+        {{ form_row(formServisneHlasenie.profylaktika) }}
+
+        {{ form_row(formServisneHlasenie.popis) }}
+    </div>
+    <div class="col-xs-6">
+        {{ form_row(formServisneHlasenie.datumRiesenia, {
+            'label': 'Dátum riešenia',
+            'label_attr': {'class': 'sr-only'},
+            'attr': {
+                'placeholder': 'Dátum riešenia'
+            }
+        }) }}
+
+        {{ form_row(formServisneHlasenie.riesitel, {
+            'label': 'Vybavuje',
+            'label_attr': {'class': 'sr-only'}
+        }) }}
+
+        {{ form_row(formServisneHlasenie.skupina, {
+            'label': 'Skupina',
+            'label_attr': {'class': 'sr-only'}
+        }) }}
+
+        {{ form_row(formServisneHlasenie.pricina) }}
+
+        {{ form_row(formServisneHlasenie.riesenie) }}
+    </div>
+</div>
+
+<button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Odoslať servisné hlásenie</button>
+{{ form_end(formServisneHlasenie) }}

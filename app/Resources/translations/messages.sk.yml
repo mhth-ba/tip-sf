@@ -1,0 +1,34 @@
+# Using the translator example
+# (https://symfony.com/doc/current/components/translation/usage.html)
+symfony:
+  is:
+    great: Symfony je skvelý
+    amazing: Symfony je úžasný
+  has:
+    bundles: Symfony obsahuje balíky
+
+user:
+  login: Prihlásenie
+
+page:
+  home:
+    title: Vitajte na stránkach technicko-informačného portálu
+    subtitle: Technicko-informačný portál slúži predovšetkým pre potreby úseku výroby
+  admin:
+    title: Nástroje na správu portálu
+    subtitle: PHP Thread-Safe | VC11
+
+# Admin panel | portal management tools
+admin:
+  connected_users:
+    card_title: Prihlásení užívatelia
+    card_subtitle: Užívatelia, ktorí majú otvorené spojenie s portálom
+    zone: Zóna
+    time: Čas pripojenia
+    name: Meno
+    title: Pozícia
+    department: Odbor
+    office: Kancelária
+    phone: Klapka
+  roles: Role
+  grants: Prístupy

@@ -1,0 +1,139 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ path('homepage') }}"><i class="fa fa-home"></i></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            {# Úvod #}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUvod" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Úvod
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownUvod">
+                    <a class="dropdown-item" href="{{ path('hlasenia_pm') }}">Hlásenia modulu PM</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" href="#">Majetkové karty</a>
+                </div>
+            </li>
+            {# Meranie a odpočty #}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMeranie" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Meranie a odpočty
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMeranie">
+                    <a class="dropdown-item disabled" href="#">Plnenie a správa odpočtov</a>
+                    <a class="dropdown-item disabled" href="#">Odpočtový hárok</a>
+                    <a class="dropdown-item disabled" href="#">Vyhľadávanie meradiel</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" href="#">Chýbajúce meradlá v ProSQL</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" href="#">Kontroly - ProCop (Vlastné OST)</a>
+                    <a class="dropdown-item disabled" href="#">Kontroly - ProCop (Cudzie OST)</a>
+                    <a class="dropdown-item disabled" href="#">Kontroly - Rádio (Kamstrup)</a>
+                    <a class="dropdown-item disabled" href="#">Kontroly - Odpočtový hárok</a>
+                </div>
+            </li>
+            {# Riadiace informačné systémy #}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRis" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Riadiace systémy
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownRis">
+                    <a class="dropdown-item" href="{{ path('ris-servisne-hlasenia') }}">Servisné hlásenia, požiadavky a poruchy</a>
+                </div>
+            </li>
+            {# Energetická efektívnosť #}
+            {# Dispečerské riadenie #}
+            {# Prevádzka #}
+            {# Kontroling #}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownKontroling" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Kontroling
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownKontroling">
+                    <a class="dropdown-item disabled" href="#">Príprava návrhu ceny tepla</a>
+                    <a class="dropdown-item" href="{{ path('skutocna-cena-tepla') }}">Výpočet skutočnej ceny tepla</a>
+                    <a class="dropdown-item disabled" href="#">Vyhodnotenie ceny tepla</a>
+                </div>
+            </li>
+        </ul>
+
+        {# Užívateľ #}
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <i class="fa fa-diamond" aria-hidden="true"></i>
+                    {% elseif is_granted('ROLE_VIP') %}
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                    {% endif %}
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    {{ app.user.fullname }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownUser">
+                    <div class="navbar-login navbar-login-title">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="text-center navbar-login-icon">
+                                    <i class="fa fa-user fa-4x"></i>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div><strong class="text-left">{{ app.user.fullname }}</strong></div>
+                                <span class="text-left text-muted small">{{ app.user.mail }}</span><br>
+                                <span class="small"><em>{{ app.user.title }}</em></span><br>
+                                <span class="small">{{ app.user.department }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="navbar-login navbar-login-settings">
+                        <div class="row">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <div class="col-12">
+                                    <a href="{{ path('admin') }}" class="btn btn-primary btn-block mb-2">
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                        Nástroje na správu portálu
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if is_granted('ROLE_VIP') %}
+                                <div class="col-6">
+                                    <a href="#" class="btn btn-sm btn-primary btn-block mb-1">
+                                        <i class="fa fa-id-card" aria-hidden="true"></i>
+                                        Attendance
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="#" class="btn btn-sm btn-primary btn-block mb-1">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        Denník prístupov
+                                    </a>
+                                </div>
+                            {% endif %}
+                            <div class="col-12 navbar-login-roles">
+                                {% for role in app.user.roles %}
+                                    {% if role is iterable %}
+                                        <span class="badge badge-secondary my-tooltip"
+                                              data-toggle="tooltip"
+                                              data-placement="bottom"
+                                              title="{{ role.description }}">
+                                        {{ role.name }}
+                                        </span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        {#<form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>#}
+    </div>
+</nav>

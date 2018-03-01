@@ -1,0 +1,135 @@
+// main page
+$op1: 0.14;
+$op2: $op1 * 100;
+
+html {
+  font-size: 14px;
+}
+
+#background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url('../static/background.jpg') center;
+  z-index: -999;
+  opacity: $op1;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="$op2")";
+  filter: alpha(opacity=$op2);
+  -moz-opacity: $op1;
+  -khtml-opacity: $op1;
+}
+
+#head-top {
+  height: 54px;
+  background-image: url("../static/top11.jpg");
+  background-position-x: center;
+  //background-position-y: 10px;
+}
+
+#head-top-animated {
+  height: 54px;
+  //background-image: url("../static/giphy.gif");
+  background: url("../static/giphy.gif") repeat-y black;
+  background-position-y: -300px;
+}
+
+#head-top-particles {
+  height: 54px;
+  //background-color: #2e3133;
+  background: url("../static/top8.jpg") repeat-x;
+}
+
+#particles-js {
+  height: 133px;
+  top: -30px;
+  position: relative;
+}
+
+.riek-base {
+  text-decoration: dotted underline;
+  text-decoration-color: #005cbf;
+  background-color: #fff8a5;
+}
+
+.riek-loading {
+  text-decoration: none;
+  color: #8b8b8b;
+  font-style: italic;
+  cursor: wait;
+}
+
+#blur-overlay {
+  background: #ffffff;
+  border-radius: 4px;
+}
+
+$w: -(54px / 2);
+$h: -(42px / 2);
+
+.js-loader {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  margin-left: $w;
+  margin-top: $h;
+}
+
+h1 {
+  text-shadow: 4px 4px 7px #bfbfbf;
+}
+
+// profile tab
+.navbar-login {
+  white-space: nowrap;
+}
+
+.navbar-login-title {
+  padding: 0 20px;
+}
+
+.navbar-login-settings {
+  width: 400px;
+  padding: 0 10px;
+}
+
+.navbar-login-icon {
+  font-size: 1.4rem;
+  color: #414246;
+}
+
+.navbar-login-roles {
+  white-space: normal;
+}
+
+// loader
+.loader-blur {
+  /*-webkit-transition: filter .5s ease-in-out;
+  -moz-transition: filter .5s ease-in-out;
+  -ms-transition: filter .5s ease-in-out;
+  -o-transition: filter .5s ease-in-out;
+  transition: filter .5s ease-in-out;*/
+}
+
+.loader-overlay {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+
+  -webkit-transition: background-color.5s ease-in-out;
+  -moz-transition: background-color .5s ease-in-out;
+  -ms-transition: background-color .5s ease-in-out;
+  -o-transition: background-color .5s ease-in-out;
+  transition: background-color .5s ease-in-out;
+}
+
+/*
+.loader-spinner {
+  top: 45%;
+  left: 45%;
+  position: absolute;
+  color: #fff;
+}*/

@@ -1,0 +1,18 @@
+// overrides
+$theme-colors: (
+  "flower": #b15ba8
+);
+
+// bootstrap theming
+/*.card {
+  box-shadow: 4px 4px 12px #757575;
+}*/
+
+//$font-size-base: 0.95rem;
+
+// imports
+@import "~bootstrap/scss/bootstrap";
+@import "~font-awesome/scss/font-awesome";
+@import "~react-dropzone-component/styles/filepicker";
+@import "~dropzone/src/basic";
+@import "~dropzone/src/dropzone";

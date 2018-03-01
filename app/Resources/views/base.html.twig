@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    {#<meta http-equiv="X-UA-Compatible" content="IE=edge">#}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{% if title is defined %} {{ title }} | {% endif %} TI portál</title>
+
+    {% block stylesheets %}
+        {#<link rel="stylesheet" href="{{ asset('css/libs.css'|asset_version) }}" />#}
+        {#<link rel="stylesheet" href="{{ asset('css/site.css'|asset_version) }}" />#}
+        <link rel="stylesheet" href="{{ asset('build/layout.css') }}">
+    {% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    {# Randomize top image #}
+    <style type="text/css">
+        #head-top {
+            {% set bg = random([5, 6, 7, 8, 10, 11]) %}
+            {#background-image: url("../../../web/build/static/top{{ bg }}.jpg");#}
+        }
+    </style>
+</head>
+
+<body>
+    <div id="background"></div>
+    {#<div id="blur-overlay"></div>#}
+    {#<span id="loader"><img src="img/loader.gif" style="position:relative" /></span>#}
+    {#<div id="head-top"></div>#}
+    {#<div id="head-top-animated"></div>#}
+    <div id="head-top-particles">
+        <div id="particles-js"></div>
+    </div>
+
+    {{ include('navbar.html.twig') }}
+
+    {% block body %}
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+        <script src="{{ asset('build/library/library.dll.js') }}"></script>
+        <script src="{{ asset('build/layout.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

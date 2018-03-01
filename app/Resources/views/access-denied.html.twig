@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Prístup zamietnutý' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>
+                    Prístup zamietnutý
+                    <br>
+                    <small>
+                        <em>Ospravedlňujeme sa. K tejto aplikácii nemáte prístup.</em>
+                    </small>
+                </h1>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-8 col-lg-7 col-xl-6">
+                        <h4><small>Vyžaduje sa, aby ste mali pridelenú niektorú z nasledujúcich rolí:</small></h4>
+                        <br/>
+                        <ul class="list-group">
+                            {% for role in roles %}
+                                <li class="list-group-item">
+                                    {{ role.role }}
+                                    <br/>
+                                    <small>
+                                        {{ role.name }}
+                                        <br/>
+                                        <span class="text-muted"><em>{{ role.description }}</em></span>
+                                    </small>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

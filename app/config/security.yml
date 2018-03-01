@@ -1,0 +1,38 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+
+    # http://symfony.com/doc/3.4/security.html#b-configuring-how-users-are-loaded
+    providers:
+        in_memory:
+            memory: ~
+        db_provider:
+            entity:
+                class: AppBundle:App\User
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            #anonymous: ~
+            # activate different ways to authenticate
+
+            provider: db_provider
+
+            remote_user:
+                provider: db_provider
+
+            logout_on_user_change: true
+
+    access_control:
+        - { path: ^/hlasenia-pm, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+    role_hierarchy:
+        ROLE_ADMIN:     [ROLE_VIP, ROLE_SCT]
+        ROLE_SCT:       [ROLE_SCT_ADMIN]
+        ROLE_SCT_ADMIN: [ROLE_SCT_KONT]
+        ROLE_SCT_KONT:  [ROLE_SCT_MNG]

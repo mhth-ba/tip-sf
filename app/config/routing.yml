@@ -1,0 +1,35 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+oneup_uploader:
+    resource: .
+    type: uploader
+
+homepage:
+    path: /
+    defaults:
+        _controller: AppBundle:Main:index
+
+admin:
+    path: /admin
+    defaults:
+        _controller: AppBundle:Admin:index
+
+hlasenia_pm:
+    path: /hlasenia-pm
+    defaults:
+        _controller: AppBundle:HlaseniaPM:show
+
+ris-servisne-hlasenia:
+    path: /ris/sh
+    defaults:
+        _controller: AppBundle:ServisneHlasenia:index
+
+skutocna-cena-tepla:
+    path: /kont/sct
+    defaults:
+        _controller: AppBundle:SkutocnaCenaTepla:index

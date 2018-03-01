@@ -1,0 +1,5 @@
+AppBundle\Entity\Role:
+    rola_{1..10}:
+        name: <role()>
+        description: <text(20)>
+        valid: <boolean(75)>

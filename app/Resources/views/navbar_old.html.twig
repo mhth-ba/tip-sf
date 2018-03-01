@@ -1,0 +1,212 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('homepage') }}"><span class="glyphicon glyphicon-home"></span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+            {# Hlavné menu #}
+            <ul class="nav navbar-nav">
+                <li class="dropdown"> {# Úvod #}
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Úvod <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('hlasenia_pm') }}">Hlásenia modulu PM</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Majetkové karty</a></li>
+                        <li class="disabled"><a href="#">Hromadná prevodka</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Meteorologické údaje</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">ProCop Web</a></li>
+                        <li class="disabled"><a href="#">Zmena hesla do PCS7</a></li>
+                        <li class="disabled"><a href="#">Dispečing teplárenských sústav</a></li>
+                        <li class="disabled"><a href="#">GIS tenký klient</a></li>
+                        <li class="disabled"><a href="#">HR portál</a></li>
+                        <li class="disabled"><a href="#">Intranet</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"> {# Meranie a odpočty #}
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Meranie a odpočty <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="disabled"><a href="#">Plnenie a správa odpočtov</a></li>
+                        <li class="disabled"><a href="#">Odpočtový hárok</a></li>
+                        <li class="disabled"><a href="#">Vyhľadávanie meradiel</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Chýbajúce meradlá v ProSQL</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Kontroly - ProCop (Vlastné OST)</a></li>
+                        <li class="disabled"><a href="#">Kontroly - ProCop (Cudzie OST)</a></li>
+                        <li class="disabled"><a href="#">Kontroly - Rádio (Kamstrup)</a></li>
+                        <li class="disabled"><a href="#">Kontroly - Odpočtový hárok</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"> {# Riadiace informačné systémy #}
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Riadiace systémy <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="disabled"><a href="#">Celkový výkon sústav</a></li>
+                        <li class="disabled"><a href="#">Celkový odber tepla zo sústav</a></li>
+                        <li class="disabled"><a href="#">Celkový výkon + odber tepla zo sústav</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Trendy diferenčných tlakov - východ</a></li>
+                        <li class="disabled"><a href="#">Trendy diferenčných tlakov - západ</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ path('ris-servisne-hlasenia') }}">Servisné hlásenia, požiadavky a poruchy</a></li>
+                        <li class="disabled"><a href="#">Profylaktické kontroly</a></li>
+                        <li class="disabled"><a href="#">Harmonogram kontrol</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Klient WinCC - BAT</a></li>
+                        <li class="disabled"><a href="#">Klient WinCC - TpV</a></li>
+                        <li class="disabled"><a href="#">Klient WinCC - TpZ</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"> {# Energetická efektívnosť #}
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Energetická efektívnosť <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="disabled"><a href="#">Denný plán prevádzky</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Denné údaje - výroba a spotreba zdrojov</a></li>
+                        <li class="disabled"><a href="#">Denné údaje - dodávka tepla</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Mesačné údaje - výroba a spotreba zdrojov</a></li>
+                        <li class="disabled"><a href="#">Mesačné údaje - dodávka tepla</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Energetické bilancie - katalóg výrobných zariadení</a></li>
+                        <li class="disabled"><a href="#">Energetické bilancie - plánovanie výroby a odbytu</a></li>
+                        <li class="disabled"><a href="#">Energetické bilancie - hodnotenie výroby a odbytu</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Plánované ročné hodnoty</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"> {# Dispečerské riadenie #}
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Dispečerské riadenie <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="disabled"><a href="#">Týždenný plán prevádzky</a></li>
+                        <li class="disabled"><a href="#">Evidencia stavov OST a zdrojov</a></li>
+                        <li class="disabled"><a href="#">Manipulácie na zdrojoch a zariadeniach</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"> {# Prevádzka #}
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Prevádzka <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="disabled"><a href="#">Denník prevádzky TpV - Nový záznam</a></li>
+                        <li class="disabled"><a href="#">Denník prevádzky TpV - Zobrazenie údajov</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Denník prevádzky TpZ - Nový záznam</a></li>
+                        <li class="disabled"><a href="#">Denník prevádzky TpZ - Zobrazenie údajov</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="disabled"><a href="#">Denník prevádzky VhJ - Nový záznam</a></li>
+                        <li class="disabled"><a href="#">Denník prevádzky VhJ - Zobrazenie údajov</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown"> {# Kontroling #}
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Kontroling <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="disabled"><a href="#">Príprava návrhu ceny tepla</a></li>
+                        <li><a href="{{ path('skutocna-cena-tepla') }}">Výpočet skutočnej ceny tepla</a></li>
+                        <li class="disabled"><a href="#">Vyhodnotenie ceny tepla</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            {# Užívateľ #}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"
+                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <i class="fa fa-diamond" aria-hidden="true"></i>
+                        {% elseif is_granted('ROLE_VIP') %}
+                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        {% endif %}
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        {{ app.user.fullname }}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="navbar-login navbar-login-title">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="text-center navbar-login-icon">
+                                            <span class="glyphicon glyphicon-user"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <p><strong class="text-left">{{ app.user.fullname }}</strong></p>
+                                        <span class="text-left text-muted small">{{ app.user.mail }}</span><br>
+                                        <span class="small"><em>{{ app.user.title }}</em></span><br>
+                                        <span class="small">{{ app.user.department }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="navbar-login navbar-login-settings">
+                                <div class="row">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    <div class="col-xs-12">
+                                        <p>
+                                            <a href="{{ path('admin') }}" class="btn btn-primary btn-block">
+                                                <i class="fa fa-cog" aria-hidden="true"></i> Nástroje na správu portálu
+                                            </a>
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_VIP') %}
+                                    <div class="col-xs-6">
+                                        <p>
+                                            <a href="#" class="btn btn-sm btn-primary btn-block">
+                                                <i class="fa fa-id-card" aria-hidden="true"></i> Attendance
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <p>
+                                            <a href="#" class="btn btn-sm btn-primary btn-block">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> Denník prístupov
+                                            </a>
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script>
+        window.uid = '{{ app.user.id }}';
+        window.route = '{{ app.request.attributes.get('_route') }}';
+</script>
