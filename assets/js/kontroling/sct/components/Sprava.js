@@ -82,19 +82,28 @@ class Spravovat extends React.Component {
     }
 
     handleChange(e) {
-        const data = e.target.options[e.target.selectedIndex].dataset
+        const option = e.target.options[e.target.selectedIndex]
+
+        const nazov = option.getAttribute('data-nazov')
+        const rok = option.getAttribute('data-rok')
+        const stav = option.getAttribute('data-stav')
+        const poznamka = option.getAttribute('data-poznamka')
+        const vytvoril = option.getAttribute('data-vytvoril')
+        const datum = option.getAttribute('data-datum')
+        const excel_dt = option.getAttribute('data-upload_dt')
+        const excel_sn = option.getAttribute('data-upload_sn')
 
         this.setState({
             validOption: e.target.value !== '',
             id: e.target.value,
-            nazov: data.nazov,
-            rok: data.rok,
-            stav: data.stav,
-            poznamka: data.poznamka,
-            vytvoril: data.vytvoril,
-            datum: data.datum,
-            excel_dt: data.upload_dt,
-            excel_sn: data.upload_sn
+            nazov,
+            rok,
+            stav,
+            poznamka,
+            vytvoril,
+            datum,
+            excel_dt,
+            excel_sn
         })
     }
 
