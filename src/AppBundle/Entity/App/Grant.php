@@ -23,6 +23,11 @@ class Grant
     private $createdAt;
 
     /**
+     * @ORM\Column(type="datetime", name="ModifiedAt")
+     */
+    private $modifiedAt;
+
+    /**
      * @ORM\Column(type="guid", name="User_ID")
      */
     private $user;
@@ -61,6 +66,11 @@ class Grant
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
     }
 
     public function getUser()

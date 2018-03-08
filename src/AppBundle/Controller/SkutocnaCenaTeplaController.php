@@ -177,10 +177,12 @@ class SkutocnaCenaTeplaController extends BaseController
         $model = new SkutocnaCenaTeplaApiModel();
         $model->id = $cenaTepla->getId();
         $model->datum = $cenaTepla->getDatum();
+        $model->zmenene = $cenaTepla->getZmenene();
         $model->stav = $cenaTepla->getStav();
         $model->nazov = $cenaTepla->getNazov();
         $model->rok = $cenaTepla->getRok();
         $model->vytvoril = $cenaTepla->getVytvoril();
+        $model->upravil = $cenaTepla->getUpravil();
         $model->poznamka = $cenaTepla->getPoznamka();
 
         $upload_dt = $this->getDoctrine()->getManager()
@@ -216,8 +218,9 @@ class SkutocnaCenaTeplaController extends BaseController
      */
     public function updateCenaTeplaAction($id, Request $request)
     {
-        $cenaTepla = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Kontroling\SCT\CenaTepla')
+        $em = $this->getDoctrine()->getManager();
+
+        $cenaTepla = $em->getRepository('AppBundle:Kontroling\SCT\CenaTepla')
             ->find($id);
 
         if (!$cenaTepla) {
@@ -227,6 +230,13 @@ class SkutocnaCenaTeplaController extends BaseController
             ));
         }
 
+        $userId = $this->getUser()->getId();
+        $upravil = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+
+        $cenaTepla->setUpravil($upravil);
+        $cenaTepla->setZmenene(new \DateTime());
+
         $form = $this->createForm(CenaTeplaType::class, $cenaTepla);
         $this->processForm($request, $form);
 
@@ -234,7 +244,6 @@ class SkutocnaCenaTeplaController extends BaseController
             $this->createApiResponse($form->getErrors(), 400);
         }
 
-        $em = $this->getDoctrine()->getManager();
         $em->persist($cenaTepla);
         $em->flush();
 

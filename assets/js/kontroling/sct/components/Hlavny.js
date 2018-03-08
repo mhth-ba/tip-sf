@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, CardImg, CardText, CardBody, CardTitle, Table, Badge, UncontrolledTooltip,
 Form, FormGroup, Label, Input, FormFeedback, FormText } from 'reactstrap'
+import DateTime from '../../../utils/format'
 import FontAwesome from 'react-fontawesome'
 import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek2'
 import _ from 'lodash'
 import Loader from '../../../components/Loader'
-import Moment from 'react-moment'
 import { connect } from 'react-redux'
 import { updateHlavnyRequest } from '../../../services/ActionsCenaTepla'
 
@@ -142,8 +142,15 @@ class Hlavny extends React.Component {
                             <CardText className="small text-muted text-right">
                                 Vytvoril užívateľ { hlavny.vytvoril.fullname }
                                 <br/>
-                                <Moment unix>{ hlavny.datum.timestamp }</Moment>
+                                { DateTime(hlavny.datum.timestamp) }
                             </CardText>
+                            { hlavny.upravil && hlavny.zmenene &&
+                                <CardText className="small text-muted text-right">
+                                    Naposledy upravil užívateľ { hlavny.upravil.fullname }
+                                    <br/>
+                                    { DateTime(hlavny.zmenene.timestamp) }
+                                </CardText>
+                            }
                         </div> }
                     </CardBody>
                 }/>

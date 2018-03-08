@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, CardFooter,
     FormGroup, Label, Input, Table, Alert, Badge, UncontrolledTooltip } from 'reactstrap'
+import DateTime from '../../../utils/format'
 import FontAwesome from 'react-fontawesome'
-import Moment from 'react-moment'
 import Notifications from 'react-notification-system-redux'
 import { connect } from 'react-redux'
 import {
     fetchOpravneniaRequest,
     fetchSpravaRequest,
     loadMainEntryRequest,
-    toggleHighlightEditable } from '../../../services/ActionsCenaTepla'
+    toggleHighlightEditable
+} from '../../../services/ActionsCenaTepla'
 
 const Polozka = ({id, nazov, rok, stav, vytvoril, datum, poznamka, upload}) => (
     <option value={id}
@@ -224,7 +225,7 @@ class Spravovat extends React.Component {
                                         <CardText className="small text-muted text-right">
                                             Vytvoril užívateľ { this.state.vytvoril }
                                             <br/>
-                                            <Moment unix>{ this.state.datum }</Moment>
+                                            { DateTime(this.state.datum) }
                                         </CardText>
                                     </CardBody>
                                 </Card>

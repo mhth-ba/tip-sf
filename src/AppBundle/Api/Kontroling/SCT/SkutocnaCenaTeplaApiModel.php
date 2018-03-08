@@ -10,6 +10,8 @@ class SkutocnaCenaTeplaApiModel extends DefaultApiModel
 
     public $datum;
 
+    public $zmenene;
+
     public $stav;
 
     public $nazov;
@@ -17,6 +19,8 @@ class SkutocnaCenaTeplaApiModel extends DefaultApiModel
     public $rok;
 
     public $vytvoril;
+
+    public $upravil;
 
     public $poznamka;
 

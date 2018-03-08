@@ -5,6 +5,9 @@ const initState = {
     datum: {
         timestamp: null // datum vytvorenia
     },
+    zmenene: {
+        timestamp: null, // datum zmeny
+    },
     nazov: null,
     rok: null,
     stav: {
@@ -12,6 +15,9 @@ const initState = {
     },
     poznamka: null,
     vytvoril: {
+        fullname: null // cele meno uzivatela
+    },
+    upravil: {
         fullname: null // cele meno uzivatela
     },
     upload: { // povodny nazov uploadnuteho suboru

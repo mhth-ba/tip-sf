@@ -23,6 +23,11 @@ class CenaTepla
     private $datum;
 
     /**
+     * @ORM\Column(type="datetime", name="ModifiedAt")
+     */
+    private $zmenene;
+
+    /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Stav")
      */
     private $stav;
@@ -41,6 +46,11 @@ class CenaTepla
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
      */
     private $vytvoril;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
+     */
+    private $upravil;
 
     /**
      * @ORM\Column(type="text")
@@ -64,6 +74,16 @@ class CenaTepla
     public function getDatum()
     {
         return $this->datum;
+    }
+
+    public function getZmenene()
+    {
+        return $this->zmenene;
+    }
+
+    public function setZmenene($zmenene)
+    {
+        $this->zmenene = $zmenene;
     }
 
     public function getStav()
@@ -104,6 +124,16 @@ class CenaTepla
     public function setVytvoril($vytvoril)
     {
         $this->vytvoril = $vytvoril;
+    }
+
+    public function getUpravil()
+    {
+        return $this->upravil;
+    }
+
+    public function setUpravil($upravil)
+    {
+        $this->upravil = $upravil;
     }
 
     public function getPoznamka()
