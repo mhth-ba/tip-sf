@@ -40,8 +40,9 @@ const resolveUrlLoader = {
 const webpackConfig = {
     entry: {
         layout: './assets/js/layout.js',
-        admin: './assets/js/admin/index.js',
+        home: './assets/js/home/index.js',
         sct: './assets/js/kontroling/sct/index.js',
+        admin: './assets/js/admin/index.js',
     },
     output: {
         path: path.resolve(__dirname, 'web', 'build'),
@@ -178,11 +179,6 @@ const webpackConfig = {
             context: __dirname,
             manifest: require('./web/build/library/library.json')
         }),
-
-        new webpack.ContextReplacementPlugin(
-            /moment[\/\\]locale$/,
-            /de|sk/
-        )
     ],
     devtool: useSourcemaps ? 'inline-source-map' : false,
     devServer: {

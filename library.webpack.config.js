@@ -18,13 +18,13 @@ const webpackConfig = {
             'jquery',
             'bootstrap',
             'dropzone',
-            'moment',
             'babel-polyfill',
             'isomorphic-fetch',
             'classnames',
             'particles.js',
             'riek2',
             'lodash',
+            'date-fns',
             'react',
             'react-dom',
             'react-redux',
@@ -35,7 +35,6 @@ const webpackConfig = {
             'react-fontawesome',
             'react-number-format',
             'react-dropzone-component',
-            'react-moment',
             'react-notification-system',
             'react-notification-system-redux'
         ]

@@ -31,5 +31,7 @@ ris-servisne-hlasenia:
 
 skutocna-cena-tepla:
     path: /kont/sct
+    options:
+        expose: true
     defaults:
         _controller: AppBundle:SkutocnaCenaTepla:index
