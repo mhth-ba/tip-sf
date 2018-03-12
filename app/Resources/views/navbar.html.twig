@@ -12,9 +12,22 @@
                     Úvod
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownUvod">
-                    <a class="dropdown-item" href="{{ path('hlasenia_pm') }}">Hlásenia modulu PM</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_uvod_hlasenia-pm.php">Hlásenia modulu PM</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item disabled" href="#">Majetkové karty</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_uvod_majetkove-karty.php">Majetkové karty</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_uvod_prevodka.php">Hromadná prevodka</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_uvod_meteorologicke-udaje.php">Meteorologické údaje</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="http://192.168.20.19/ProCopWeb/ProWeb.dll/Display">ProCop Web</a>
+                    <a class="dropdown-item" href="https://192.168.20.107/">Zmena hesla do PCS7</a>
+                    <a class="dropdown-item" href="http://dispecer-dts:8080/">Dispečing teplárenských sústav</a>
+                    <a class="dropdown-item" href="http://fabasoft/fsc">Fabasoft</a>
+                    <a class="dropdown-item" href="http://i-portal/LZ/SitePages/Domov.aspx">I - Portal</a>
+                    <a class="dropdown-item" href="http://gisapp02-vi/GIS-iTS-Client/index.jsp">GIS - Tenký klient</a>
+                    <a class="dropdown-item" href="file://app01-vi/Obchod/BATAS.Viewer.exe">Digitálny archív obchodu</a>
+                    <a class="dropdown-item" href="http://192.168.3.12/aw2/">Dochádzka</a>
+                    <a class="dropdown-item" href="http://ibatas/intranet">Intranet</a>
                 </div>
             </li>
             {# Meranie a odpočty #}
@@ -23,16 +36,16 @@
                     Meranie a odpočty
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMeranie">
-                    <a class="dropdown-item disabled" href="#">Plnenie a správa odpočtov</a>
-                    <a class="dropdown-item disabled" href="#">Odpočtový hárok</a>
-                    <a class="dropdown-item disabled" href="#">Vyhľadávanie meradiel</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_denne-a-mesacne-odpocty.php">Plnenie a správa odpočtov</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_manualne-nahravanie.php">Odpočtový hárok</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_vyhladavanie-meradiel.php">Vyhľadávanie meradiel</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item disabled" href="#">Chýbajúce meradlá v ProSQL</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_chybajuce-v-prosql.php">Chýbajúce meradlá v ProSQL</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item disabled" href="#">Kontroly - ProCop (Vlastné OST)</a>
-                    <a class="dropdown-item disabled" href="#">Kontroly - ProCop (Cudzie OST)</a>
-                    <a class="dropdown-item disabled" href="#">Kontroly - Rádio (Kamstrup)</a>
-                    <a class="dropdown-item disabled" href="#">Kontroly - Odpočtový hárok</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_kontroly-procop-vlastne-ost.php">Kontroly - ProCop (Vlastné OST)</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_kontroly-procop-cudzie-ost.php">Kontroly - ProCop (Cudzie OST)</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_kontroly-radio-kamstrup.php">Kontroly - Rádio (Kamstrup)</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_kontroly-harky.php">Kontroly - Odpočtový hárok</a>
                 </div>
             </li>
             {# Riadiace informačné systémy #}
@@ -41,19 +54,78 @@
                     Riadiace systémy
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownRis">
-                    <a class="dropdown-item" href="{{ path('ris-servisne-hlasenia') }}">Servisné hlásenia, požiadavky a poruchy</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_celkovy-vykon-sustav.php">Celkový výkon sústav</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_celkovy-odber-tepla-zo-sustav.php">Celkový odber tepla zo sústav</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_vykon-odber-sustav.php">Celkový výkon + odber tepla zo sústav</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_ost-diferencny-tlak-trendy-tpv.php">Trendy diferenčných tlakov - východ</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_ost-diferencny-tlak-trendy-tpz.php">Trendy diferenčných tlakov - západ</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" href="#">Servisné zásahy a poruchy</a>
+                    <a class="dropdown-item disabled" href="#">Profylaktické kontroly</a>
+                    <a class="dropdown-item disabled" href="#">Harmonogram kontrol</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_wincc-bat.php">Klient WinCC - BAT</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_wincc-tpv.php">Klient WinCC - TpV</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_wincc-tpz.php">Klient WinCC - TpZ</a>
                 </div>
             </li>
             {# Energetická efektívnosť #}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownEe" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Energetická efektívnosť
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownEe">
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ee_denny-plan-prevadzky.php">Denný plán prevádzky</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" href="#">Denné údaje - výroba a spotreba zdrojov</a>
+                    <a class="dropdown-item disabled" href="#">Denné údaje - dodávka tepla</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" href="#">Mesačné údaje - výroba a spotreba zdrojov</a>
+                    <a class="dropdown-item disabled" href="#">Mesačné údaje - dodávka tepla</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" href="#">Energetické bilancie - katalóg výrobných zariadení</a>
+                    <a class="dropdown-item disabled" href="#">Energetické bilancie - plánovanie výroby a odbytu</a>
+                    <a class="dropdown-item disabled" href="#">Energetické bilancie - hodnotenie výroby a odbytu</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" href="#">Plánované ročné hodnoty</a>
+                </div>
+            </li>
             {# Dispečerské riadenie #}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDispecing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dispečing
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownDispecing">
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ee_plan-prevadzky.php">Týždenný plán prevádzky</a>
+                    <a class="dropdown-item disabled" href="#">Evidencia stavov OST a zdrojov</a>
+                    <a class="dropdown-item disabled" href="#">Manipulácie na zdrojoch a zariadeniach</a>
+                </div>
+            </li>
             {# Prevádzka #}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPrevadzka" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Prevádzka
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownPrevadzka">
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-tpv.php">Denník prevádzky TpV - Nový záznam</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-zoznam-tpv.php">Denník prevádzky TpV - Zobrazenie údajov</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_prevadzka_rozvod-tepla-vychod.php">Denník rozvodu tepla východ</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-tpz.php">Denník prevádzky TpZ - Nový záznam</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-zoznam-tpz.php">Denník prevádzky TpZ - Zobrazenie údajov</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-vhj.php">Denník prevádzky VhJ - Nový záznam</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-zoznam-vhj.php">Denník prevádzky VhJ - Zobrazenie údajov</a>
+                </div>
+            </li>
             {# Kontroling #}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownKontroling" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Kontroling
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownKontroling">
-                    <a class="dropdown-item disabled" href="#">Príprava návrhu ceny tepla</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_kont_navrh-ceny-tepla.php">Príprava návrhu ceny tepla</a>
                     <a class="dropdown-item" href="{{ path('skutocna-cena-tepla') }}">Výpočet skutočnej ceny tepla</a>
                     <a class="dropdown-item disabled" href="#">Vyhodnotenie ceny tepla</a>
                 </div>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, CardFooter,
     FormGroup, Label, Input, Table, Alert, Badge, UncontrolledTooltip } from 'reactstrap'
-import DateTime from '../../../utils/format'
+import dateTime from '../../../utils/format'
 import FontAwesome from 'react-fontawesome'
 import Notifications from 'react-notification-system-redux'
 import { connect } from 'react-redux'
@@ -225,7 +225,7 @@ class Spravovat extends React.Component {
                                         <CardText className="small text-muted text-right">
                                             Vytvoril užívateľ { this.state.vytvoril }
                                             <br/>
-                                            { DateTime(this.state.datum) }
+                                            { dateTime(this.state.datum) }
                                         </CardText>
                                     </CardBody>
                                 </Card>

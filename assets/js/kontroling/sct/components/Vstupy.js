@@ -124,5 +124,9 @@ Vstupy.contextTypes = {
 
 export default connect(
     (state) => ({ hlavny: state.hlavny }),
-    { fetchSpravaRequest, loadMainEntryRequest, processUploadedFileRequest }
+    {
+        fetchSpravaRequest,
+        loadMainEntryRequest,
+        processUploadedFileRequest
+    }
 )(Vstupy)

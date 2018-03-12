@@ -1,6 +1,6 @@
 import React from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink,
-    Card, CardBody, CardImg, CardTitle, CardText,
+    Card, CardBody, CardHeader, CardImg, CardTitle, CardText,
     Button, Row, Col, Table } from 'reactstrap'
 import FontAwesome from 'react-fontawesome'
 import classnames from 'classnames'
@@ -28,8 +28,8 @@ class Karty extends React.Component {
         return (
             <Card>
                 {/*<CardImg top src="../../build/static/economy3.jpg" />*/}
-                <CardBody>
-                    <Nav pills>
+                <CardHeader>
+                    <Nav tabs className="card-header-tabs">
                         <NavItem>
                             <NavLink
                                 className={classnames({ active: this.state.activeTab === '1' })}
@@ -96,9 +96,13 @@ class Karty extends React.Component {
                             </NavLink>
                         </NavItem>
                     </Nav>
-
-                    <br/>
-
+                </CardHeader>
+                <CardBody>
+                    { !this.props.hlavny.initialized &&
+                    <CardTitle className="text-center">
+                        Výpočet ceny
+                    </CardTitle>
+                    }
                     { this.props.hlavny.initialized &&
                     <TabContent activeTab={ this.state.activeTab }>
                         <TabPane tabId="1">
