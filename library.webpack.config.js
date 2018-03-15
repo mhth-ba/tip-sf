@@ -20,6 +20,7 @@ const webpackConfig = {
             'dropzone',
             'babel-polyfill',
             'isomorphic-fetch',
+            'raf',
             'classnames',
             'particles.js',
             'riek2',

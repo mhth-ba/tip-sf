@@ -12,6 +12,7 @@ import ParticlesConfig from './components/ParticlesConfig'
 // make sure the polyfill library is loaded in this main entry
 import 'babel-polyfill'
 import 'isomorphic-fetch'
+import 'raf/polyfill'
 
 // babel-polyfill obsahuje mnozstvo veciciek, jednou z nich je aj ES6 promise
 // v pripade, ze by sme chceli mat mensiu kniznicu a vyuzivat iba jednotlive moduly,

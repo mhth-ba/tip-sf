@@ -71,6 +71,7 @@
     "express": "^4.15.3",
     "isomorphic-fetch": "^2.2.1",
     "particles.js": "^2.0.0",
+    "raf": "^3.4.0",
     "react-dropzone-component": "^3.1.0",
     "react-fontawesome": "^1.6.1",
     "react-loader-advanced": "^1.7.1",
