@@ -175,8 +175,12 @@ class SkutocnaCenaTeplaController extends BaseController
 
     private function createCenaTeplaApiModel(CenaTepla $cenaTepla)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $id = $cenaTepla->getId();
+
         $model = new SkutocnaCenaTeplaApiModel();
-        $model->id = $cenaTepla->getId();
+        $model->id = $id;
         $model->datum = $cenaTepla->getDatum();
         $model->zmenene = $cenaTepla->getZmenene();
         $model->stav = $cenaTepla->getStav();
@@ -186,24 +190,21 @@ class SkutocnaCenaTeplaController extends BaseController
         $model->upravil = $cenaTepla->getUpravil();
         $model->poznamka = $cenaTepla->getPoznamka();
 
-        $upload_dt = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Kontroling\SCT\Upload')
-            ->getLastUploadedDodaneTeplo($cenaTepla->getId());
+        $upload = $em->getRepository('AppBundle:Kontroling\SCT\Upload');
 
-        $upload_sn = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Kontroling\SCT\Upload')
-            ->getLastUploadedSkutocneNaklady($cenaTepla->getId());
+        $upload_dt = $upload->getLastUploadedDodaneTeplo($id);
+        $upload_sn = $upload->getLastUploadedSkutocneNaklady($id);
 
         $model->upload['dt'] = $upload_dt; // dodane teplo
         $model->upload['sn'] = $upload_sn; // skutocne naklady
 
         $selfUrl = $this->generateUrl(
             'sct_cena-tepla_get',
-            ['id' => $cenaTepla->getId()]
+            ['id' => $id]
         );
         $dodaneTeploUrl = $this->generateUrl(
             'sct_dodane-teplo_get',
-            ['id' => $cenaTepla->getId()]
+            ['id' => $id]
         );
 
         $model->addLink('_self', $selfUrl);
