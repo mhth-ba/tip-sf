@@ -2,9 +2,15 @@
   "presets": ["env", "react"],
   "plugins": [
     "syntax-dynamic-import",
-    "transform-object-rest-spread",
-    "transform-react-constant-elements",
-    "transform-react-inline-elements",
-    "transform-react-remove-prop-types"
-  ]
+    "transform-object-rest-spread"
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-react-inline-elements",
+        "transform-react-constant-elements",
+        "transform-react-remove-prop-types"
+      ]
+    }
+  }
 }
