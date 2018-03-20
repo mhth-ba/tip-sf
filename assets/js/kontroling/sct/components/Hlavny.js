@@ -137,7 +137,14 @@ class Hlavny extends React.Component {
                                 </tbody>
                             </Table>
                             <CardText style={{whiteSpace: 'pre-line'}}>
-                                { hlavny.poznamka }
+                                <RIETextArea {...RIEConfig}
+                                             value={ hlavny.poznamka }
+                                             change={ this.handleChange }
+                                             propName="poznamka"
+                                             rows={8}
+                                             className={ sprava.highlightEditable ? "riek-base" : "" }
+                                             isDisabled={ !opravnenia.kont }
+                                />
                             </CardText>
                             <CardText className="small text-muted text-right">
                                 Vytvoril užívateľ { hlavny.vytvoril.fullname }
