@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Api\Kontroling\SCT\DodaneTeploApiModel;
 use AppBundle\Api\Kontroling\SCT\SkutocnaCenaTeplaApiModel;
+use AppBundle\Entity\App\ActivityLog;
 use AppBundle\Entity\Kontroling\SCT\CenaTepla;
 use AppBundle\Entity\Kontroling\SCT\DodaneTeplo;
 use AppBundle\Entity\Kontroling\SCT\Upload;
@@ -247,6 +248,9 @@ class SkutocnaCenaTeplaController extends BaseController
         $em->persist($cenaTepla);
         $em->flush();
 
+        $metadata = $em->getClassMetadata('AppBundle:Kontroling\SCT\CenaTepla');
+        $this->logUpdateActivity($metadata, $request);
+
         return $this->createApiResponse($cenaTepla, 200);
     }
 
@@ -289,5 +293,34 @@ class SkutocnaCenaTeplaController extends BaseController
         $model->addLink('_self', $selfUrl);
 
         return $model;
+    }
+
+    private function logUpdateActivity($metadata, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $log = new ActivityLog();
+
+        $log->setSchema($metadata->getSchemaName());
+        $log->setTable($metadata->getTableName());
+
+        // predpokladá sa, že patch request obsahuje iba dve polia: ID a novú hodnotu s názvom stĺpca
+        $data = json_decode($request->getContent(), true);
+        foreach ($data as $key => $val) {
+            if ($key === 'id') {
+                $log->setRow($val);
+            } else {
+                $log->setColumn($key);
+                $log->setValue($val);
+            }
+        }
+
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+        $log->setUser($user);
+
+        $em->persist($log);
+        $em->flush();
     }
 }
