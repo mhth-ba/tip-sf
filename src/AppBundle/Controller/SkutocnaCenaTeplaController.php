@@ -4,10 +4,12 @@ namespace AppBundle\Controller;
 
 use AppBundle\Api\Kontroling\SCT\DodaneTeploApiModel;
 use AppBundle\Api\Kontroling\SCT\SkutocnaCenaTeplaApiModel;
+use AppBundle\Api\Kontroling\SCT\VyrobaElektrinyApiModel;
 use AppBundle\Entity\App\ActivityLog;
 use AppBundle\Entity\Kontroling\SCT\CenaTepla;
 use AppBundle\Entity\Kontroling\SCT\DodaneTeplo;
 use AppBundle\Entity\Kontroling\SCT\Upload;
+use AppBundle\Entity\Kontroling\SCT\VyrobaElektriny;
 use AppBundle\Form\Type\CenaTeplaType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -292,6 +294,36 @@ class SkutocnaCenaTeplaController extends BaseController
             ['id' => $dodaneTeplo->getId()]
         );
         $model->addLink('_self', $selfUrl);
+
+        return $model;
+    }
+
+    /**
+     * @Route("kont/sct/vyroba-elektriny/{id}", name="sct_vyroba-elektriny_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getVyrobaElektriny($id)
+    {
+        $polozky = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\VyrobaElektriny')
+            ->getVyrobaElektriny($id);
+
+        $models = [];
+        foreach ($polozky as $vyrobaElektriny) {
+            $models[] = $this->createVyrobaElektrinyApiModel($vyrobaElektriny);
+        }
+
+        return $this->createApiResponse($models);
+    }
+
+    private function createVyrobaElektrinyApiModel(VyrobaElektriny $vyrobaElektriny)
+    {
+        $model = new VyrobaElektrinyApiModel();
+        $model->id = $vyrobaElektriny->getId();
+        $model->polozka = $vyrobaElektriny->getPolozka();
+        $model->tpv = $vyrobaElektriny->getTpv();
+        $model->tpz = $vyrobaElektriny->getTpz();
 
         return $model;
     }

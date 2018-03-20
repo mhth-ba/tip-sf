@@ -29,6 +29,11 @@ export const fetchDodavkaTeplaRequest = (id) => ({
     id
 })
 
+export const fetchVyrobaElektrinyRequest = (id) => ({
+    type: TYPES.FETCH_VYROBA_ELEKTRINY_REQUEST,
+    id
+})
+
 export const processUploadedFileRequest = (data) => ({
     type: TYPES.PROCESS_UPLOADED_FILE_REQUEST,
     data
@@ -77,6 +82,7 @@ export function* loadMainEntry(action) {
 
         yield put({type: TYPES.LOAD_MAIN_ENTRY_SUCCESS, data: udaje})
         yield put(fetchDodavkaTeplaRequest(id))
+        yield put(fetchVyrobaElektrinyRequest(id))
 
         if (udaje.upload.dt === null) {
             yield put(Notifications.warning({
@@ -111,6 +117,21 @@ export function* fetchDodavkaTepla(action) {
 
     } catch (e) {
         yield put({type: TYPES.FETCH_DODAVKA_TEPLA_ERROR, data: e})
+        console.log(e)
+    }
+}
+
+export function* fetchVyrobaElektriny(action) {
+    const url = Routing.generate('sct_vyroba-elektriny_get')
+    const id = action.id
+
+    try {
+        const polozky = yield call(Api.fetch, `${url}/${id}`)
+
+        yield put({type: TYPES.FETCH_VYROBA_ELEKTRINY_SUCCESS, data: polozky})
+
+    } catch (e) {
+        yield put({type: TYPES.FETCH_VYROBA_ELEKTRINY_ERROR, data: e})
         console.log(e)
     }
 }

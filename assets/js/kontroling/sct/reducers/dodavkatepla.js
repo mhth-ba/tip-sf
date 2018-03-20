@@ -85,6 +85,15 @@ export default (state = initState, action) => {
                 ost: action.data[9],
                 sekundar: action.data[10]
             }}
+        case TYPES.FETCH_VYROBA_ELEKTRINY_REQUEST:
+            return {...state, loading: true}
+        case TYPES.FETCH_VYROBA_ELEKTRINY_SUCCESS:
+            return {...state, loading: false, elektrina: {
+                veez: action.data[0],
+                dszse: action.data[1],
+                dree: action.data[2],
+                vsee: action.data[3]
+            }}
         default:
             return state
     }

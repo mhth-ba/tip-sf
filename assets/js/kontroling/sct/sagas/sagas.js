@@ -7,6 +7,7 @@ import {
     fetchSprava,
     loadMainEntry,
     fetchDodavkaTepla,
+    fetchVyrobaElektriny,
     processUploadedFile,
     updateHlavny
 } from '../../../services/ActionsCenaTepla'
@@ -21,6 +22,7 @@ function* mySaga() {
         takeLatest(TYPES.FETCH_SPRAVA_REQUEST, fetchSprava),
         takeLatest(TYPES.LOAD_MAIN_ENTRY_REQUEST, loadMainEntry),
         takeLatest(TYPES.FETCH_DODAVKA_TEPLA_REQUEST, fetchDodavkaTepla),
+        takeLatest(TYPES.FETCH_VYROBA_ELEKTRINY_REQUEST, fetchVyrobaElektriny),
         takeLatest(TYPES.PROCESS_UPLOADED_FILE_REQUEST, processUploadedFile),
         takeLatest(TYPES.UPDATE_HLAVNY_REQUEST, updateHlavny)
     ])
