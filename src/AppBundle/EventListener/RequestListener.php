@@ -41,6 +41,8 @@ class RequestListener
         $path = $request->getPathInfo();
         $uri = $request->getRequestUri();
         $method = $request->getMethod();
+        $agent = $request->headers->get('User-Agent');
+        $payload = $request->getContent() === '' ? null : $request->getContent();
 
         $log = new RequestLog();
         $log->setIp($ip);
@@ -49,6 +51,8 @@ class RequestListener
         $log->setPath($path);
         $log->setUri($uri);
         $log->setMethod($method);
+        $log->setPayload($payload);
+        $log->setAgent($agent);
 
         if ($token !== null) {
             $userId = $token->getUser()->getId();

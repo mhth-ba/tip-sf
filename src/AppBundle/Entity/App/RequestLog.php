@@ -64,6 +64,16 @@ class RequestLog
     private $method;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $payload;
+
+    /**
+     * @ORM\Column(type="string", name="UserAgent")
+     */
+    private $agent;
+
+    /**
      * Set the default values
      * This works as the constructor of a persisted class is not called upon hydration.
      */
@@ -160,5 +170,25 @@ class RequestLog
     public function setMethod($method)
     {
         $this->method = $method;
+    }
+
+    public function getPayload()
+    {
+        return $this->payload;
+    }
+
+    public function setPayload($payload)
+    {
+        $this->payload = $payload;
+    }
+
+    public function getAgent()
+    {
+        return $this->agent;
+    }
+
+    public function setAgent($agent)
+    {
+        $this->agent = $agent;
     }
 }
