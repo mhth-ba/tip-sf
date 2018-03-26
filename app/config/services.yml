@@ -39,6 +39,11 @@ services:
         tags:
             - { name: twig.extension }
 
+    AppBundle\EventListener\RequestListener:
+        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
     AppBundle\EventListener\UploadListener:
         arguments: ["@doctrine.orm.entity_manager", "%kernel.project_dir%"]
         tags:
