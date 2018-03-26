@@ -41,11 +41,6 @@ class RequestLog
     /**
      * @ORM\Column(type="string")
      */
-    private $host;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     private $locale;
 
     /**
@@ -62,6 +57,11 @@ class RequestLog
      * @ORM\Column(type="string", name="RequestUri")
      */
     private $uri;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $method;
 
     /**
      * Set the default values
@@ -112,16 +112,6 @@ class RequestLog
         $this->ip = $ip;
     }
 
-    public function getHost()
-    {
-        return $this->host;
-    }
-
-    public function setHost($host)
-    {
-        $this->host = $host;
-    }
-
     public function getLocale()
     {
         return $this->locale;
@@ -160,5 +150,15 @@ class RequestLog
     public function setUri($uri)
     {
         $this->uri = $uri;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    public function setMethod($method)
+    {
+        $this->method = $method;
     }
 }

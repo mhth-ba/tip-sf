@@ -36,19 +36,19 @@ class RequestListener
 
         $request = $event->getRequest();
         $ip = $request->getClientIp();
-        $host = $request->getHost();
         $locale = $request->getLocale();
         $base = $request->getBaseUrl();
         $path = $request->getPathInfo();
         $uri = $request->getRequestUri();
+        $method = $request->getMethod();
 
         $log = new RequestLog();
         $log->setIp($ip);
-        $log->setHost($host);
         $log->setLocale($locale);
         $log->setBase($base);
         $log->setPath($path);
         $log->setUri($uri);
+        $log->setMethod($method);
 
         if ($token !== null) {
             $userId = $token->getUser()->getId();
