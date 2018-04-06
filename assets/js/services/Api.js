@@ -24,6 +24,8 @@ class Api {
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response)
+                } else {
+                    return response.json()
                 }
             })
     }

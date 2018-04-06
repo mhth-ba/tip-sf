@@ -3,7 +3,7 @@ $op1: 0.14;
 $op2: $op1 * 100;
 
 html {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 #background {
@@ -73,6 +73,13 @@ $h: -(42px / 2);
   left: 50%;
   margin-left: $w;
   margin-top: $h;
+}
+
+.react-loader {
+  position: fixed;
+  top: 49%;
+  left: 49%;
+  z-index: 5;
 }
 
 h1 {

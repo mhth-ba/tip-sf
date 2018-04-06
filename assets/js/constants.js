@@ -1,0 +1,1 @@
+export const CACHE_DISP_VCO_PAGES = 'tipsf/disp/vco/table#1_rowsPerPage'

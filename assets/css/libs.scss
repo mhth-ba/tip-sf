@@ -12,7 +12,8 @@ $theme-colors: (
 
 // imports
 @import "~bootstrap/scss/bootstrap";
+@import "~react-bootstrap-table-2/dist/react-bootstrap-table-all.min";
 @import "~font-awesome/scss/font-awesome";
 @import "~react-dropzone-component/styles/filepicker";
-@import "~dropzone/src/basic";
-@import "~dropzone/src/dropzone";
+@import "~dropzone/dist/basic";
+@import "~dropzone/dist/dropzone";

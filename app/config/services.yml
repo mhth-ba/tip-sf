@@ -65,3 +65,6 @@ services:
 
     AppBundle\Entity\Kontroling\SCT\CenaTepla:
         public: true
+
+    AppBundle\Entity\Dispecing\VCO\Vychladenie:
+        public: true

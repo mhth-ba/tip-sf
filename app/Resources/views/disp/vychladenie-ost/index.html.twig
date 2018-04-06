@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Vychladenie OST' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>Vychladenie OST</h1>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col">
+                <div id="vychladenie-ost"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('build/vco.js') }}"></script>
+{% endblock %}

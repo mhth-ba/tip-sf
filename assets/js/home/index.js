@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Container, Row, Col, Card, CardTitle, CardText, CardBody, Button } from 'reactstrap'
+import { Row, Col, Card, CardTitle, CardText, CardBody, Button, Badge } from 'reactstrap'
 
 import Routing from '../Components/Routing'
 
@@ -27,6 +27,12 @@ const polozky = [
             nazov: 'Celkový odber tepla zo sústav',
             color: 'secondary',
             size: 'sm'
+        }, {
+            url: Routing.generate('vychladenie-ost'),
+            nazov: 'Vychladenie OST',
+            color: 'success',
+            size: 'sm',
+            new: true
         }]
     }, {
         title: 'Plánovanie prevádzky',
@@ -150,13 +156,16 @@ const Karta = ({title, text, users, links}) => (
                 <CardText>{text}</CardText>
                 <CardText>
                 <span className="text-muted small">
-                    {/*Kľúčoví používatelia:*/}
-                    {/*<br/>*/}
                     {users}
                 </span>
                 </CardText>
                 {links.map(
-                    (link) => <Button href={link.url} color={link.color} size={link.size} disabled={link.disabled} block>{link.nazov}</Button>
+                    (link, ix) =>
+                        <Button key={ix} href={link.url} color={link.color} size={link.size} disabled={link.disabled} block>
+                            {link.nazov}
+                            {' '}
+                            { link.new && <Badge color="light">Nové</Badge> }
+                        </Button>
                 )}
             </CardBody>
         </Card>
@@ -169,7 +178,7 @@ class App extends React.Component {
             <div>
                 <Row>
                     {polozky.map(
-                        (polozka, index) => <Karta key={index} {...polozka} />
+                        (polozka, ix) => <Karta key={ix} {...polozka} />
                     )}
                 </Row>
             </div>

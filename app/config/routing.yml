@@ -29,6 +29,23 @@ ris-servisne-hlasenia:
     defaults:
         _controller: AppBundle:ServisneHlasenia:index
 
+dodavka-zdrojov:
+    path: /disp/dz
+    defaults:
+        _controller: AppBundle:DodavkaZdrojov:index
+
+vykon-ost:
+    path: /disp/vko
+    defaults:
+        _controller: AppBundle:VykonOST:index
+
+vychladenie-ost:
+    path: /disp/vco
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:VychladenieOST:index
+
 skutocna-cena-tepla:
     path: /kont/sct
     options:
