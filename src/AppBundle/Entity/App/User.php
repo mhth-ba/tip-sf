@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\App\UserRepository")
- * @ORM\Table(name="Users")
+ * @ORM\Table(name="Users", schema="dbo")
  */
 class User implements UserInterface
 {

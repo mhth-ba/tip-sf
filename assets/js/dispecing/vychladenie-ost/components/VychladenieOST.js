@@ -7,51 +7,194 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import dateTime from '../../../utils/format'
 import { connect } from 'react-redux'
 
+import Highcharts from 'highcharts'
+require('highcharts/modules/exporting')(Highcharts)
+//require('highcharts/modules/export-data')(Highcharts)
+require('highcharts/highcharts-more')(Highcharts)
+
 import ReactHighcharts from 'react-highcharts'
 
 import * as CONSTANTS from '../../../constants'
 import * as CONFIGS from '../../../configs'
 
+Highcharts.setOptions({...CONFIGS.REACT_HIGHCHART_OPTIONS})
+
 const chart = {
     ...CONFIGS.REACT_HIGHCHARTS,
     chart: {
         //margin: [0, 0, 0, 0],
-        height: 300,
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'spline'
+        height: 360,
+        zoomType: 'x',
+        //plotBackgroundColor: null,
+        //plotBorderWidth: null,
+        //plotShadow: false,
     },
     credits: false,
+    exporting: {
+        enabled: true,
+        sourceWidth: 1100,
+        sourceHeight: 360,
+        scale: 2
+    },
     title: {
         text: null
     },
     xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        type: 'datetime',
+        dateTimeLabelFormats: { month: '%b %Y' },
+        //title: { text: 'Dátum' },
+        tickPixelInterval: 60
     },
-    yAxis: {
+    yAxis: [{
         title: {
-            text: 'Temperature (°C)'
+            text: 'Vonkajšia teplota'
+        },
+        labels: {
+            format: '{value} °C',
+            style: {
+                color: '#ecba17'
+            }
+        },
+        opposite: true,
+        min: -20,
+        max: 40
+    }, {
+        title: {
+            text: 'Vychladenie'
+        },
+        labels: {
+            format: '{value} °C',
+            style: {
+                color: '#47e'
+            }
+        },
+        plotLines: [{
+            value: 40,
+            color: '#78a6f7',
+            dashStyle: 'longdash',
+            zIndex: 2,
+            width: 1,
+            label: {
+                text: 'Optimálne vychladenie',
+                style: {
+                    color: '#78a6f7'
+                }
+            }
+        }],
+        min: 0,
+        max: 90
+    }, {
+        title: {
+            text: 'Vplyv'
+        },
+        labels: {
+            style: {
+                color: '#000'
+            }
+        }
+    }, {
+        title: {
+            text: null, // energia
+        },
+        labels: {
+            format: '{value} GJ',
+            style: {
+                color: '#e41e25'
+            }
+        }
+    }, {
+        title: {
+            text: null // objem
+        },
+        labels: {
+            format: '{value} m3',
+            style: {
+                color: '#1dc'
+            }
+        }
+    }],
+    tooltip: {
+        //pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:.2f}</b><br/>',
+        shared: true,
+        split: false,
+        dateTimeLabelFormats: {
+            hour: "%B %Y"
         }
     },
-    tooltip: {
-        shared: true,
-        split: false
-    },
     plotOptions: {
+        series: {
+            marker: {
+                enabled: false
+            }
+        },
         spline: {
             dataLabels: {
-                enabled: true
+                enabled: false
             },
             enableMouseTracking: true
         }
     },
     series: [{
-        name: 'Tokyo',
-        data: [7.0, 6.9, 9.5, 14.5, 18.4, null, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+        name: 'Teplota',
+        color: '#ecba17',
+        //dashStyle: 'ShortDot',
+        //type: 'spline',
+        yAxis: 0,
+        tooltip: { valueSuffix: ' °C' },
+        marker: {
+            fillColor: 'white',
+            lineWidth: 2,
+            lineColor: '#ecba17',
+            enabled: true
+        },
+        zIndex: 1,
+        data: []
     }, {
-        name: 'London',
-        data: [3.9, 4.2, 5.7, 8.5, 11.9, null, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+        name: 'Rozsah',
+        yAxis: 0,
+        tooltip: { valueSuffix: ' °C' },
+        type: 'arearange',
+        lineWidth: 0,
+        linkedTo: ':previous',
+        color: '#ecba17',
+        fillOpacity: 0.3,
+        zIndex: 0,
+        marker: {
+            enabled: false
+        },
+        data: []
+    }, {
+        name: 'Vychladenie',
+        color: '#47e',
+        type: 'spline',
+        lineWidth: 3,
+        yAxis: 1,
+        tooltip: { valueSuffix: ' °C' },
+        zIndex: 2,
+        data: []
+    }, {
+        name: 'Vplyv',
+        color: '#000',
+        type: 'spline',
+        yAxis: 2,
+        zIndex: 2,
+        data: []
+    }, {
+        name: 'Energia',
+        color: '#e41e25',
+        type: 'spline',
+        yAxis: 3,
+        zIndex: 2,
+        visible: false,
+        data: []
+    }, {
+        name: 'Objem',
+        color: '#1dc',
+        type: 'spline',
+        yAxis: 4,
+        zIndex: 2,
+        visible: false,
+        data: []
     }]
 }
 
@@ -117,20 +260,87 @@ const monthFormatter = ( month ) => {
 class VychladenieOST extends React.Component {
     constructor(props) {
         super(props)
-
-        this.tableRef = React.createRef()
-    }
-
-    onSizePerPageList(sizePerPage) {
-        localStorage.setItem(CONSTANTS.CACHE_DISP_VCO_PAGES, sizePerPage);
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.tabulka !== this.props.tabulka) {
-            /*const data = this.props.graf
 
-            const chart = this.refs.chart_ost.getChart()
-            chart.series[0].setData(data)*/
+            const dataGrafu = this.props.graf
+            const ost = this.props.ost
+
+            dataGrafu.map(
+                ( data, index ) => {
+
+                    let om, meranie, ref
+
+                    let datum = [], teplotaPriemer = [], teplotaRozsah = [],
+                        energia = [], objem = [],
+                        vychladenie = [], vplyv = []
+
+                    om = data.find(x => x.om !== null).om
+                    meranie = data.find(x => x.meranie !== null).meranie
+                    ref = 'chart_ost_' + index
+
+                    data.map(
+                        ( riadok, i ) => {
+                            datum.push(riadok.datum * 1000)
+
+                            let teplotaAvg_a = riadok.teplotaAvg && parseFloat(riadok.teplotaAvg.toFixed(2))
+                            let teplotaMin_a = riadok.teplotaMin && parseFloat(riadok.teplotaMin.toFixed(2))
+                            let teplotaMax_a = riadok.teplotaMax && parseFloat(riadok.teplotaMax.toFixed(2))
+                            let energia_a = riadok.energia && parseFloat(riadok.energia.toFixed(2))
+                            let objem_a = riadok.objem && parseFloat(riadok.objem.toFixed(2))
+                            let vychladenie_a = riadok.vychladenie && parseFloat(riadok.vychladenie.toFixed(2))
+                            let vplyv_a = riadok.vplyv && parseFloat(riadok.vplyv.toFixed(2))
+
+                            teplotaPriemer.push([ datum[i], teplotaAvg_a ])
+                            teplotaRozsah.push([ datum[i], teplotaMin_a, teplotaMax_a ])
+                            energia.push([ datum[i], energia_a ])
+                            objem.push([ datum[i], objem_a ])
+                            vychladenie.push([ datum[i], vychladenie_a ])
+                            vplyv.push([ datum[i], vplyv_a ])
+                        }
+                    )
+
+                    const chart = this.refs[ref].getChart()
+
+                    chart.setTitle({text: `${meranie} na OST ${ost}`})
+                    chart.setSubtitle({text: `Odberné miesto ${om}`})
+
+                    chart.series[0].setData(teplotaPriemer, false)
+                    chart.series[1].setData(teplotaRozsah, false)
+                    chart.series[2].setData(vychladenie, false)
+                    chart.series[3].setData(vplyv, false)
+                    chart.series[4].setData(energia, false)
+                    chart.series[5].setData(objem, false)
+
+                    chart.redraw()
+
+                    let points_a = []
+                    points_a.push(chart.series[2].points)
+                    points_a.push(chart.series[3].points)
+                    points_a.push(chart.series[4].points)
+
+                    points_a.map(
+                        points => {
+                            for (let i = 0; i < points.length - 1; i++) {
+                                if (i > 0
+                                    && points[i].y !== null
+                                    && points[i-1].y === null
+                                    && points[i+1].y === null) {
+                                    points[i].update({
+                                        marker: {
+                                            enabled: true
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                    )
+
+                    chart.reflow()
+                }
+            )
 
             scrollToComponent(this.refs.table_ost, { offset: -5, align: 'top', duration: 2000, ease:'inOutQuart'})
         }
@@ -139,6 +349,7 @@ class VychladenieOST extends React.Component {
     render() {
 
         const tabulka = this.props.tabulka
+        const graf = this.props.graf
 
         const ost = this.props.ost
         const odberatel = this.props.odberatel
@@ -207,7 +418,14 @@ class VychladenieOST extends React.Component {
                         <br/>
                         <Row>
                             <Col>
-                                {/*<ReactHighcharts config={chart} ref="chart_ost" isPureConfig />*/}
+                                { graf.map(
+                                    ( data, ix ) =>
+                                        <div key={ix}>
+                                            <ReactHighcharts config={chart} ref={'chart_ost_' + ix} isPureConfig />
+                                            <br/>
+                                            <br/>
+                                        </div>
+                                ) }
                             </Col>
                         </Row>
                         <CardText>
@@ -228,7 +446,8 @@ const mapStateToProps = ( state, ownProps ) => ({
     ost: state.vychladenieost.data.ost,
     odberatel: state.vychladenieost.data.odberatel,
     adresa: state.vychladenieost.data.adresa,
-    tabulka: state.vychladenieost.data.tabulka
+    tabulka: state.vychladenieost.data.tabulka,
+    graf: state.vychladenieost.data.graf
 })
 
 const mapDispatchToProps = ( state, ownProps ) => ({

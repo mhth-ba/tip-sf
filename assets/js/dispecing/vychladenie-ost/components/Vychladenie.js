@@ -306,7 +306,8 @@ class Vychladenie extends React.Component {
                             <TableHeaderColumn dataField={'om'} width={'85px'} dataSort>
                                 Odberné<br/>miesto
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'ost'} width={'55px'} tdStyle={{ cursor: 'pointer', textDecoration: 'underline' }} dataSort>
+                            <TableHeaderColumn dataField={'ost'} width={'55px'}
+                                               tdStyle={{ cursor: 'pointer', textDecoration: 'underline' }} dataSort>
                                 OST
                             </TableHeaderColumn>
                             <TableHeaderColumn dataField={'mp'} width={'75px'} isKey dataSort>
@@ -321,26 +322,33 @@ class Vychladenie extends React.Component {
                             <TableHeaderColumn dataField={'tarifa'} width={'80px'} dataAlign={'center'} dataSort>
                                 Tarifa
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'prvyDen'} width={'130px'} dataFormat={dateTimeFormatter} dataSort>
+                            <TableHeaderColumn dataField={'prvyDen'} width={'130px'}
+                                               dataFormat={dateTimeFormatter} dataSort>
                                 Prvý deň
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'poslednyDen'} width={'130px'} dataFormat={dateTimeFormatter} dataSort>
+                            <TableHeaderColumn dataField={'poslednyDen'} width={'130px'}
+                                               dataFormat={dateTimeFormatter} dataSort>
                                 Posledný deň
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'spotrebaEnergie'} width={'90px'} dataFormat={energyFormatter} dataAlign={'right'} dataSort>
+                            <TableHeaderColumn dataField={'spotrebaEnergie'} width={'90px'}
+                                               dataFormat={energyFormatter} dataAlign={'right'} dataSort>
                                 Teplo
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'spotrebaObjemu'} width={'100px'} dataFormat={volumeFormatter} dataAlign={'right'} dataSort>
+                            <TableHeaderColumn dataField={'spotrebaObjemu'} width={'100px'}
+                                               dataFormat={volumeFormatter} dataAlign={'right'} dataSort>
                                 Prietok
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'vychladenie'} width={'110px'} dataFormat={coolingFormatter} dataAlign={'right'} dataSort>
+                            <TableHeaderColumn dataField={'vychladenie'} width={'110px'}
+                                               dataFormat={coolingFormatter} dataAlign={'right'} dataSort>
                                 Vychladenie
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'vplyv'} width={'80px'} dataFormat={decimalFormatter} dataAlign={'right'} dataSort>
+                            <TableHeaderColumn dataField={'vplyv'} width={'80px'}
+                                               dataFormat={decimalFormatter} dataAlign={'right'} dataSort>
                                 Vplyv
                             </TableHeaderColumn>
                         </BootstrapTable>
-                        <Alert color="info" style={{ width: '595px' }} isOpen={ this.state.alertInfoVisible } toggle={this.onDismiss}>
+                        <Alert color="info" style={{ width: '595px' }}
+                               isOpen={ this.state.alertInfoVisible } toggle={this.onDismiss}>
                             <FontAwesome name="info-circle" />{' '}
                             Vychladenie konkrétnej stanice v jednotlivých mesiacoch zobrazíte kliknutím na číslo OST
                         </Alert>
@@ -376,8 +384,12 @@ class Vychladenie extends React.Component {
                                         <tr key={ix}>
                                             <td>{ polozka.hranica }</td>
                                             <td>{ polozka.pocetOm }</td>
-                                            <td className="text-right">{ decimalFormatter(polozka.energia) } GJ</td>
-                                            <td className="text-right">{ decimalFormatter(polozka.objem) } m<sup>3</sup></td>
+                                            <td className="text-right">
+                                                { decimalFormatter(polozka.energia) } GJ
+                                            </td>
+                                            <td className="text-right">
+                                                { decimalFormatter(polozka.objem) } m<sup>3</sup>
+                                            </td>
                                         </tr>
                                     )}
                                     </tbody>

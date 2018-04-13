@@ -42,6 +42,11 @@ class Vychladenie
     private $tarifa;
 
     /**
+     * @ORM\Column(type="string", name="Tarifa")
+     */
+    private $meranie;
+
+    /**
      * @ORM\Column(type="datetime", name="FirstDay")
      */
     private $prvyDen;
@@ -131,6 +136,11 @@ class Vychladenie
     public function getTarifa()
     {
         return $this->tarifa;
+    }
+
+    public function getMeranie()
+    {
+        return $this->meranie;
     }
 
     public function getPrvyDen()

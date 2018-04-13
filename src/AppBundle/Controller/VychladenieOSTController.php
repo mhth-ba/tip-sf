@@ -5,8 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Api\Dispecing\VCO\PrehladGrafApiModel;
 use AppBundle\Api\Dispecing\VCO\VychladenieApiModel;
 use AppBundle\Api\Dispecing\VCO\VychladenieOSTApiModel;
+use AppBundle\Api\Dispecing\VCO\VychladenieOSTGrafApiModel;
 use AppBundle\Entity\Dispecing\VCO\PrehladA;
 use AppBundle\Entity\Dispecing\VCO\Vychladenie;
+use Doctrine\DBAL\DriverManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,20 +126,33 @@ class VychladenieOSTController extends BaseController
         $odberatel = $data['odberatel'];
         $adresa = $data['adresa'];
 
-        $polozky = $this->getDoctrine()->getManager()
+        $polozky_tabulka = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Dispecing\VCO\Vychladenie')
             ->getVychladenieByOST($ost);
 
-        $models = [];
-        foreach ($polozky as $vychladenie) {
-            $models[] = $this->createVychladenieOSTApiModel($vychladenie);
+        $sql = "EXECUTE [Dispecing].[OST_Vychladenie_Detail] @OST = ?";
+        $sqlParams = array($ost);
+        $conn = $this->getDoctrine()->getConnection();
+        $polozky_graf = $conn->execProcedureWithResultSet($sql, $sqlParams);
+
+        $tabulka = [];
+        foreach ($polozky_tabulka as $vychladenie) {
+            $tabulka[] = $this->createVychladenieOSTApiModel($vychladenie);
+        }
+
+        $graf = [];
+        foreach ($polozky_graf as $ix => $resultSet) {
+            foreach ($resultSet as $vychladenie) {
+                $graf[$ix][] = $this->createVychladenieOSTGrafApiModel($vychladenie);
+            }
         }
 
         return $this->createApiResponse([
             'ost' => $ost,
             'odberatel' => $odberatel,
             'adresa' => $adresa,
-            'tabulka' => $models
+            'tabulka' => $tabulka,
+            'graf' => $graf
         ]);
     }
 
@@ -155,6 +170,30 @@ class VychladenieOSTController extends BaseController
         $model->prietok = $vychladenie->getSpotrebaObjemu();
         $model->vychladenie = $vychladenie->getVychladenie();
         $model->vplyv = $vychladenie->getVplyv();
+
+        return $model;
+    }
+
+    private function createVychladenieOSTGrafApiModel($vychladenie)
+    {
+        $model = new VychladenieOSTGrafApiModel();
+
+        $datum = new \DateTime($vychladenie['DateIndex']);
+        $datum = $datum->getTimestamp();
+
+        $model->datum = $datum;
+
+        $model->teplotaAvg = $vychladenie['Priemerna'];
+        $model->teplotaMin = $vychladenie['Najnizsia'];
+        $model->teplotaMax = $vychladenie['Najvyssia'];
+
+        $model->om = $vychladenie['OM'];
+        $model->mp = $vychladenie['MP'];
+        $model->meranie = $vychladenie['Tarifa'];
+        $model->energia = $vychladenie['ConsumeEnergy'];
+        $model->objem = $vychladenie['ConsumeVolume'];
+        $model->vychladenie = $vychladenie['Cooling'];
+        $model->vplyv = $vychladenie['Impact'];
 
         return $model;
     }

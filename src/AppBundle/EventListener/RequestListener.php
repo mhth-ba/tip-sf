@@ -31,6 +31,11 @@ class RequestListener
             return;
         }
 
+        // Do not log local requests while developing
+        if ($event->getRequest()->getClientIp() === '::1') {
+            return;
+        }
+
         $em = $this->em;
         $token = $this->token->getToken();
 

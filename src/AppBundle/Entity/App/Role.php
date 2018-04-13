@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\App\RoleRepository")
- * @ORM\Table(name="Roles")
+ * @ORM\Table(name="Roles", schema="dbo")
  */
 class Role extends \Symfony\Component\Security\Core\Role\Role
 {

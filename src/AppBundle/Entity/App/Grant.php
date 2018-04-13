@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\App\GrantRepository")
- * @ORM\Table(name="Grants")
+ * @ORM\Table(name="Grants", schema="dbo")
  */
 class Grant
 {

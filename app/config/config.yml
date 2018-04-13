@@ -51,6 +51,7 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
+        wrapper_class: 'AppBundle\Doctrine\DBAL\ExtendedConnection'
         dbname: '%database_name%'
         host: '%database_host%'
         port: '%database_port%'
@@ -60,6 +61,7 @@ doctrine:
         charset: UTF8
         logging: '%kernel.debug%'
         profiling: '%kernel.debug%'
+        MultipleActiveResultSets: true
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
