@@ -36,6 +36,8 @@ denny-plan-prevadzky:
 
 sczt-vychod:
     path: /disp/scztv
+    options:
+        expose: true
     defaults:
         _controller: AppBundle:SCZTVychod:index
 
