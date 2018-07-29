@@ -29,6 +29,16 @@ ris-servisne-hlasenia:
     defaults:
         _controller: AppBundle:ServisneHlasenia:index
 
+denny-plan-prevadzky:
+    path: /ee/dpp
+    defaults:
+        _controller: AppBundle:DennyPlanPrevadzky:index
+
+sczt-vychod:
+    path: /disp/scztv
+    defaults:
+        _controller: AppBundle:SCZTVychod:index
+
 dodavka-zdrojov:
     path: /disp/dz
     defaults:
