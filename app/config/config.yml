@@ -62,6 +62,8 @@ doctrine:
         logging: '%kernel.debug%'
         profiling: '%kernel.debug%'
         MultipleActiveResultSets: true
+        types:
+            datetime: AppBundle\Doctrine\Types\DateTime
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'

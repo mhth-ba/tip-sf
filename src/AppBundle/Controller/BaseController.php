@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -23,7 +24,7 @@ class BaseController extends Controller
     protected function createApiResponse($data, $statusCode = 200)
     {
         $encoder = new JsonEncoder();
-        $normalizer = new ObjectNormalizer();
+        $normalizer = new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter());
 
         $normalizer->setCircularReferenceHandler(function ($object) {
             //return $object->getId();

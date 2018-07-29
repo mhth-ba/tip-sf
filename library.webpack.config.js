@@ -17,6 +17,7 @@ const webpackConfig = {
         library: [
             'jquery',
             'bootstrap',
+            'highcharts',
             'dropzone',
             'babel-polyfill',
             'isomorphic-fetch',
@@ -33,6 +34,10 @@ const webpackConfig = {
             'redux-saga',
             'redux-devtools-extension',
             'reactstrap',
+            'react-loading',
+            'react-scroll-to-component',
+            'react-highcharts',
+            'react-bootstrap-table',
             'react-fontawesome',
             'react-number-format',
             'react-dropzone-component',
