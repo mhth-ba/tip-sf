@@ -45,6 +45,16 @@ html {
   position: relative;
 }
 
+#footer-credits {
+  position: fixed;
+  bottom: 0;
+  font-size: 11px;
+}
+
+#footer-credits a {
+  color: white;
+}
+
 .riek-base {
   text-decoration: dotted underline;
   text-decoration-color: #005cbf;
