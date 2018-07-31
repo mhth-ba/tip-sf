@@ -288,7 +288,7 @@ class VychodVykon extends React.Component {
       <div>
         <Row>
           <Col sm={2}>
-            <span className="font-weight-bold" style={{ color: '#a28c10' }}>&bull; Teplota</span>
+            <li className="font-weight-bold" style={{ color: '#a28c10' }}>Teplota</li>
           </Col>
           <Col sm={10}>
             <span>
@@ -300,7 +300,7 @@ class VychodVykon extends React.Component {
         <br/>
         <Row>
           <Col sm={2}>
-            <span className="font-weight-bold" style={{ color: '#2354c5' }}>&bull; Plán</span>
+            <li className="font-weight-bold" style={{ color: '#2354c5' }}>Plán</li>
           </Col>
           <Col sm={10}>
             <span>
@@ -311,7 +311,7 @@ class VychodVykon extends React.Component {
         <br/>
         <Row>
           <Col sm={2}>
-            <span className="font-weight-bold" style={{ color: '#000000' }}>&bull; Zdroje</span>
+            <li className="font-weight-bold" style={{ color: '#000000' }}>Zdroje</li>
           </Col>
           <Col sm={10}>
             <span>
@@ -327,7 +327,7 @@ class VychodVykon extends React.Component {
               <br/><br/>
               <div className="text-center">
                 <img src="../build/static/scztv_help_schema.png" alt="PPC, VhJ a Slovnaft - zapojenie meračov"
-                     title="PPC, VHJ a Slovnaft - zapojenie meračov" />
+                     title="PPC, VhJ a Slovnaft - zapojenie meračov" />
               </div>
             </span>
           </Col>
@@ -335,7 +335,7 @@ class VychodVykon extends React.Component {
         <br/>
         <Row>
           <Col sm={2}>
-            <span className="font-weight-bold" style={{ color: '#e41e25' }}>&bull; OST</span>
+            <li className="font-weight-bold" style={{ color: '#e41e25' }}>OST</li>
           </Col>
           <Col sm={10}>
             <span>
@@ -362,7 +362,7 @@ class VychodVykon extends React.Component {
         <br/>
         <Row>
           <Col sm={2}>
-            <span className="font-weight-bold" style={{ color: '#108408' }}>&bull; Komunikácia</span>
+            <li className="font-weight-bold" style={{ color: '#108408' }}>Komunikácia</li>
           </Col>
           <Col sm={10}>
             <span>
@@ -373,9 +373,9 @@ class VychodVykon extends React.Component {
                 Niektoré merače (resp. dátové koncentrátory) najprv komunikujú so systémom ProCop a až potom odčítajú
                 aktuálne stavy, t.j. prenesú sa posledné odčítané stavy z predchádzajúcej hodiny. Dôležité je
                 nastavenie synchronizácie týchto medzi sebou súvisiacich procesov a takisto správne a rovnaké nastavenie
-                časov na <strong>všetkých</strong> OST. Je potrebné zohľadniť časové pásmo UTC + 1 a letný a zimný čas
-                DST (daylight saving time). Niektoré technologické servery majú nastavený svetový čas UTC, čo môže značne
-                skreslovať skutočný výkon všetkých OST spolu.
+                časov na <strong>všetkých</strong> OST. Je potrebné zohľadniť časové pásmo UTC + 1 a letný/zimný posun
+                času DST (daylight saving time). Niektoré technologické servery majú nastavený svetový čas UTC, čo môže
+                značne skreslovať skutočný výkon všetkých OST spolu.
               </span>
             </span>
           </Col>
