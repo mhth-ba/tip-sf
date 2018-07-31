@@ -1,9 +1,12 @@
 import React from 'react'
 import {
+  Row, Col,
   Card, CardHeader, CardBody, CardTitle, CardSubtitle,
   Table,
-  Input
+  Input,
+  Button, Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap'
+import Help from '../../../components/Help'
 import FontAwesome from 'react-fontawesome'
 
 import Highcharts from 'highcharts'
@@ -220,6 +223,18 @@ const chart = {
 class VychodVykon extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      help: false
+    }
+
+    this.help = this.help.bind(this)
+  }
+
+  help() {
+    this.setState({
+      help: !this.state.help
+    })
   }
 
   componentDidMount() {
@@ -269,9 +284,111 @@ class VychodVykon extends React.Component {
       ...CONFIGS.REACT_BOOTSTRAP_TABLE,
     }
 
+    const Pomocnik = (
+      <div>
+        <Row>
+          <Col sm={2}>
+            <span className="font-weight-bold" style={{ color: '#a28c10' }}>&bull; Teplota</span>
+          </Col>
+          <Col sm={10}>
+            <span>
+              Údaj je z rozvodného uzla. Vzorkovanie v 30 minútovom intervale.
+              V databáze prebieha automatické načítanie nových údajov každých :05 a :35 minút po celej hodine.
+            </span>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col sm={2}>
+            <span className="font-weight-bold" style={{ color: '#2354c5' }}>&bull; Plán</span>
+          </Col>
+          <Col sm={10}>
+            <span>
+              Plánovaný výkon podľa denného plánu prevádzky na danú hodinu. Aktualizácia údajov raz za deň o pol noci.
+            </span>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col sm={2}>
+            <span className="font-weight-bold" style={{ color: '#000000' }}>&bull; Zdroje</span>
+          </Col>
+          <Col sm={10}>
+            <span>
+              Sumárny výkon zdrojov vypočítaný z údajov z databázy PROCESS HISTORIAN (Information server)
+              ako súčet výkonov PPC + TpV + Slovnaft + VhJ.
+              <br/><br/>
+              <ul>
+                <li>PPC = výtlak - spiatočka</li>
+                <li>TpV = TpV severná vetva + TpV južná vetva</li>
+                <li>VhJ = VhJ výmenniková stanica - Slovnaft</li>
+              </ul>
+              Vzorkovanie v 30 minútovom intervale. Aktualizácia údajov každých :05 a :35 minút po celej hodine.
+              <br/><br/>
+              <div className="text-center">
+                <img src="../build/static/scztv_help_schema.png" alt="PPC, VhJ a Slovnaft - zapojenie meračov"
+                     title="PPC, VHJ a Slovnaft - zapojenie meračov" />
+              </div>
+            </span>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col sm={2}>
+            <span className="font-weight-bold" style={{ color: '#e41e25' }}>&bull; OST</span>
+          </Col>
+          <Col sm={10}>
+            <span>
+              Sumárny výkon všetkých OST, ktorých odberné miesto začína číslicou 2 alebo 8 a s meračmi:
+              <br/><br/>
+              <ul>
+                <li>centrálneho merania,</li>
+                <li>ÚK,</li>
+                <li>TÚV,</li>
+                <li>vzduchotechniky.</li>
+              </ul>
+              Do výpočtu vstupujú iba hodnoty namerané v čase od :50 až :10 minút po celej hodine.
+              Vzorkovanie v hodinovom intervale. Aktualizácia údajov každých :20 a :50 minút po celej hodine.
+              Dáta z meračov na OST sa do systému ProCop dostávajú v rôznych obdobiach.
+              <br/>
+              <span className="small">
+                Napríklad od 13:50 do 14:10 sa všetky namerané okamžité výkony spočítajú a priradia k 14:00 hod.
+                Merania v iných časoch sa do úvahy neberú.
+              </span>
+              <br/>
+            </span>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col sm={2}>
+            <span className="font-weight-bold" style={{ color: '#108408' }}>&bull; Komunikácia</span>
+          </Col>
+          <Col sm={10}>
+            <span>
+              Predstavuje počet meraní, ktoré spĺňajú kritériá v položke OST popísané vyššie v danej hodine.
+              Taktiež musia byť merania v databáze označené príznakom VALID = 1.
+              <br/><br/>
+              <span className="text-muted">
+                Niektoré merače (resp. dátové koncentrátory) najprv komunikujú so systémom ProCop a až potom odčítajú
+                aktuálne stavy, t.j. prenesú sa posledné odčítané stavy z predchádzajúcej hodiny. Dôležité je
+                nastavenie synchronizácie týchto medzi sebou súvisiacich procesov a takisto správne a rovnaké nastavenie
+                časov na <strong>všetkých</strong> OST. Je potrebné zohľadniť časové pásmo UTC + 1 a letný a zimný čas
+                DST (daylight saving time). Niektoré technologické servery majú nastavený svetový čas UTC, čo môže značne
+                skreslovať skutočný výkon všetkých OST spolu.
+              </span>
+            </span>
+          </Col>
+        </Row>
+      </div>
+    )
+
     return (
       <div>
         <ReactHighcharts config={chart} ref={'chart_vykon_prehlad'} isPureConfig />
+        <br/>
+        <Help buttonLabel={'Vysvetlivky k legende'} modalTitle={'Legenda grafu priebeh výkonu SCZT východ'}
+              modalBody={Pomocnik} size={'lg'} />
       </div>
     )
   }
