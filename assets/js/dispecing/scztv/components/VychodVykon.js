@@ -45,7 +45,7 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Priebeh výkonu SCZT východ'
+    text: 'Porovnanie plánovaného a skutočného výkonu zdrojov a OST v SCZT východ'
   },
   xAxis: {
     type: 'datetime',
@@ -132,11 +132,14 @@ const chart = {
     shared: true,
     split: true,
     dateTimeLabelFormats: {
-      // minute: '%I:%M',
-      // hour: '%I:%M',
-      // week: '%I:%M',
-      day: '%e. %b %Y, %H:%M',
-      // month: '%b %Y'
+      millisecond: '%A %e. %b %Y, %H:%M:%S.%L',
+      second: '%A %e. %b %Y, %H:%M:%S',
+      minute: '%A %e. %b %Y, %H:%M',
+      hour: '%A %e. %b %Y, %H:%M',
+      day: '%A %e. %b %Y, %H:%M',
+      week: '%A %e. %b %Y',
+      month: '%B %Y',
+      year: '%Y'
     }
   },
   plotOptions: {
@@ -220,6 +223,8 @@ const chart = {
   }]
 }
 
+
+
 class VychodVykon extends React.Component {
   constructor(props) {
     super(props)
@@ -242,7 +247,6 @@ class VychodVykon extends React.Component {
 
     this.timerID = setInterval(
       () => this.props.fetchVykon(),
-      //5000
       5 * 60 * 1000 // 5 minut
     )
   }

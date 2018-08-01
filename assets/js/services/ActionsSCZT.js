@@ -10,6 +10,10 @@ export const fetchSCZTVychodVykonRequest = () => ({
   type: TYPES.FETCH_SCZT_VYCHOD_VYKON_REQUEST
 })
 
+export const fetchSCZTVychodZdrojeRequest = () => ({
+  type: TYPES.FETCH_SCZT_VYCHOD_ZDROJE_REQUEST
+})
+
 export function* fetchSCZTVychodVykon(action) {
 
   const url = Routing.generate('sczt_vychod_vykon_get')
@@ -23,6 +27,21 @@ export function* fetchSCZTVychodVykon(action) {
 
   } catch (e) {
     yield put({type: TYPES.FETCH_SCZT_VYCHOD_VYKON_ERROR, data: e})
+    console.log(e)
+  }
+}
+
+export function* fetchSCZTVychodZdroje(action) {
+
+  const url = Routing.generate('sczt_vychod_zdroje_get')
+
+  try {
+    const polozky = yield call(Api.fetch, url)
+
+    yield put({type: TYPES.FETCH_SCZT_VYCHOD_ZDROJE_SUCCESS, data: polozky})
+
+  } catch (e) {
+    yield put({type: TYPES.FETCH_SCZT_VYCHOD_ZDROJE_ERROR, data: e})
     console.log(e)
   }
 }
