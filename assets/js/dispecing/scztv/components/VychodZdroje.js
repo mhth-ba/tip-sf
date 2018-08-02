@@ -224,7 +224,7 @@ class VychodZdroje extends React.Component {
 
     this.timerID = setInterval(
       () => this.props.fetchZdroje(),
-      2 * 60 * 1000 // 2 minuty
+      10 * 60 * 1000 // 10 minuty
     )
   }
 

@@ -247,7 +247,7 @@ class VychodVykon extends React.Component {
 
     this.timerID = setInterval(
       () => this.props.fetchVykon(),
-      5 * 60 * 1000 // 5 minut
+      10 * 60 * 1000 // 10 minut
     )
   }
 
