@@ -41,10 +41,9 @@ const webpackConfig = {
     entry: {
         layout: './assets/js/layout.js',
         home: './assets/js/home/index.js',
+        rm: './assets/js/meranie-a-odpocty/rm/index.js',
         dpp: './assets/js/efektivnost/dpp/index.js',
         scztv: './assets/js/dispecing/scztv/index.js',
-        dz: './assets/js/dispecing/dodavka-zdrojov/index.js',
-        vko: './assets/js/dispecing/vykon-ost/index.js',
         vco: './assets/js/dispecing/vychladenie-ost/index.js',
         sct: './assets/js/kontroling/sct/index.js',
         admin: './assets/js/admin/index.js',

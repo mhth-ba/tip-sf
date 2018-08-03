@@ -24,6 +24,13 @@ hlasenia_pm:
     defaults:
         _controller: AppBundle:HlaseniaPM:show
 
+report-meracov:
+    path: /smo/rm
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:ReportMeracov:index
+
 ris-servisne-hlasenia:
     path: /ris/sh
     defaults:
@@ -40,17 +47,6 @@ sczt-vychod:
         expose: true
     defaults:
         _controller: AppBundle:SCZTVychod:index
-
-dodavka-zdrojov:
-    path: /disp/dz
-    defaults:
-        _controller: AppBundle:DodavkaZdrojov:index
-
-vykon-ost:
-    path: /disp/vko
-    defaults:
-        _controller: AppBundle:VykonOST:index
-
 vychladenie-ost:
     path: /disp/vco
     options:
