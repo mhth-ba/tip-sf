@@ -273,7 +273,20 @@ class VychodVykon extends React.Component {
     chart.series[4].setData(ost, false)
     chart.series[5].setData(komunikacia, false)
 
-    chart.yAxis[1].setExtremes(0, this.props.vykon.max['hodnota'] * 1.2)
+    chart.yAxis[0].setExtremes(
+      this.props.vykon.extremy_teplota['hodnota_min'],
+      this.props.vykon.extremy_teplota['hodnota_max']
+    )
+
+    chart.yAxis[1].setExtremes(
+      this.props.vykon.extremy_vykon['hodnota_min'],
+      this.props.vykon.extremy_vykon['hodnota_max']
+    )
+
+    chart.yAxis[2].setExtremes(
+      this.props.vykon.extremy_komunikacia['hodnota_min'],
+      this.props.vykon.extremy_komunikacia['hodnota_max']
+    )
 
     chart.redraw()
     chart.reflow()

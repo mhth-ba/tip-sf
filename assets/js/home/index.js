@@ -72,6 +72,12 @@ const polozky = [
       nazov: 'Vyhľadávanie meradiel',
       color: 'secondary',
       size: 'sm'
+    }, {
+      url: Routing.generate('report-meracov'),
+      nazov: 'Report meračov',
+      color: 'success',
+      size: 'sm',
+      new: true
     }]
   }, {
     title: 'Cena tepla',

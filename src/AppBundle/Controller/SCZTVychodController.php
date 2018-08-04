@@ -35,7 +35,9 @@ class SCZTVychodController extends BaseController
         $ost = $repository->getOST($dateTo, $dateFrom);
         $komunikacia = $repository->getPocetKomunikujucich($dateTo, $dateFrom);
         $teplota = $repository->getTeplota($dateTo, $dateFrom);
-        $maxVykon = $repository->getMaxVykon($dateTo, $dateFrom);
+        $extremy_vykon = $repository->getExtremesVykon($dateTo, $dateFrom);
+        $extremy_teplota = $repository->getExtremesTeplota($dateTo, $dateFrom);
+        $extremy_komunikacia = $repository->getExtremesKomunikacia($dateTo, $dateFrom);
 
         $plan_models = [];
         $zdroje_models = [];
@@ -69,7 +71,9 @@ class SCZTVychodController extends BaseController
             'ost' => $ost_models,
             'komunikacia' => $komunikacia_models,
             'teplota' => $teplota_models,
-            'max' => $maxVykon[0]
+            'extremy_vykon' => $extremy_vykon[0],
+            'extremy_teplota' => $extremy_teplota[0],
+            'extremy_komunikacia' => $extremy_komunikacia[0]
         ]);
     }
 

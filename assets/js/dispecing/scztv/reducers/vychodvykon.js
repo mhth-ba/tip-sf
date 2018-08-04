@@ -6,7 +6,9 @@ const initState = { // Dispecing.SCZTV_Vykon
   ost: [],
   komunikacia: [],
   teplota: [],
-  max: 0,
+  extremy_vykon: [],
+  extremy_teplota: [],
+  extremy_komunikacia: [],
 
   loading: false,
   error: null
@@ -23,7 +25,9 @@ export default (state = initState, action) => {
         ost: action.data['ost'],
         komunikacia: action.data['komunikacia'],
         teplota: action.data['teplota'],
-        max: action.data['max']
+        extremy_vykon: action.data['extremy_vykon'],
+        extremy_teplota: action.data['extremy_teplota'],
+        extremy_komunikacia: action.data['extremy_komunikacia']
       }
     case TYPES.FETCH_SCZT_VYCHOD_VYKON_ERROR:
       return {...state, loading: false, error: action.data}
