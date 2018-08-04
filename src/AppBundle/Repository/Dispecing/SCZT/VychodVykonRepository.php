@@ -66,15 +66,42 @@ class VychodVykonRepository extends EntityRepository
             ->execute();
     }
 
-    public function getMaxVykon($dateTo, $dateFrom)
+    public function getExtremesVykon($dateTo, $dateFrom)
     {
         return $this->createQueryBuilder('vv')
-            ->select('MAX(vv.hodnota) AS hodnota')
+            ->select('MIN(vv.hodnota) as hodnota_min')
+            ->addSelect('MAX(vv.hodnota) AS hodnota_max')
             ->andWhere('vv.datum BETWEEN :from AND :to')
             ->setParameter('from', $dateFrom)
             ->setParameter('to', $dateTo)
             ->andWhere('vv.kategoria = 1')
             ->orWhere('vv.kategoria = 2')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getExtremesTeplota($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('vv')
+            ->select('MIN(vv.hodnota) as hodnota_min')
+            ->addSelect('MAX(vv.hodnota) as hodnota_max')
+            ->andWhere('vv.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->andWhere('vv.kategoria = 5')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getExtremesKomunikacia($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('vv')
+            ->select('MIN(vv.hodnota) as hodnota_min')
+            ->addSelect('MAX(vv.hodnota) as hodnota_max')
+            ->andWhere('vv.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->andWhere('vv.kategoria = 4')
             ->getQuery()
             ->execute();
     }
