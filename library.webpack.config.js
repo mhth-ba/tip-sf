@@ -26,6 +26,7 @@ const webpackConfig = {
             'particles.js',
             'riek2',
             'lodash',
+            'moment',
             'date-fns',
             'react',
             'react-dom',

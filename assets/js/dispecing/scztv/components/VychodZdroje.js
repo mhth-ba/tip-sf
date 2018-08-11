@@ -5,10 +5,9 @@ import {
   Table,
   InputGroup, InputGroupText, InputGroupAddon, Label, Input,
   Form, FormGroup, FormFeedback,
-  Button, Modal, ModalHeader, ModalBody, ModalFooter
+  Button, Modal, ModalHeader, ModalBody, ModalFooter,
+  Tooltip
 } from 'reactstrap'
-import Help from '../../../components/Help'
-import FontAwesome from 'react-fontawesome'
 
 import Highcharts from 'highcharts'
 require('highcharts/modules/exporting')(Highcharts)
@@ -20,7 +19,7 @@ import * as CONSTANTS from '../../../constants'
 import * as CONFIGS from '../../../configs'
 
 import { connect } from 'react-redux'
-import { fetchSCZTVychodZdrojeRequest } from "../../../services/ActionsSCZT";
+import { fetchSCZTVychodZdrojeRequest } from "../actions";
 
 
 
@@ -28,7 +27,7 @@ Highcharts.setOptions({...CONFIGS.REACT_HIGHCHART_OPTIONS})
 
 const chart = {
   chart: {
-    height: 400,
+    height: 450,
     zoomType: 'x',
   },
   credits: {
@@ -77,7 +76,7 @@ const chart = {
       }
     },
     sourceWidth: 1100,
-    sourceHeight: 400,
+    sourceHeight: 450,
     scale: 2
   },
   title: {
@@ -97,10 +96,7 @@ const chart = {
   },
   yAxis: [{
     title: {
-      text: 'Výkon zdrojov',
-      style: {
-        color: Highcharts.getOptions().colors[1]
-      }
+      text: 'Výkon'
     },
     labels: {
       formatter: function () {
@@ -113,10 +109,7 @@ const chart = {
     },
   }, {
     title: {
-      text: 'Vonkajšia teplota',
-      style: {
-        color: '#eecc12',
-      }
+      text: 'Vonkajšia teplota'
     },
     labels: {
       formatter: function () {
@@ -132,13 +125,14 @@ const chart = {
     shared: true,
     split: true,
     dateTimeLabelFormats: {
-      millisecond: '%A %e. %b %Y, %H:%M:%S.%L',
-      second: '%A %e. %b %Y, %H:%M:%S',
-      minute: '%A %e. %b %Y, %H:%M',
-      hour: '%A %e. %b %Y, %H:%M',
-      day: '%A %e. %b %Y, %H:%M',
-      week: '%A %e. %b %Y, %H:%M',
-      month: '%A %e. %b %Y, %H:%M'
+      millisecond: '%A %e. %B %Y, %H:%M:%S.%L',
+      second: '%A %e. %B %Y, %H:%M:%S',
+      minute: '%A %e. %B %Y, %H:%M',
+      hour: '%A %e. %B %Y, %H:%M',
+      day: '%A %e. %B %Y, %H:%M',
+      week: '%A %e. %B %Y',
+      month: '%B %Y',
+      year: '%Y'
     }
   },
   plotOptions: {
@@ -174,28 +168,28 @@ const chart = {
     type: 'areaspline',
     color: '#92b',
     tooltip: { valueSuffix: ' MW' },
-    data: [200, 160, 210, 230, 220, 180, 120]
+    data: []
   }, {
     name: 'Slovnaft',
     yAxis: 0,
     type: 'areaspline',
     color: '#2b3',
     tooltip: { valueSuffix: ' MW' },
-    data: [163, 203, 276, 408, 547, 729, 628]
+    data: []
   }, {
     name: 'TpV',
     yAxis: 0,
     type: 'areaspline',
     color: '#39c',
     tooltip: { valueSuffix: ' MW' },
-    data: [106, 130, 190, 250, 100, 260, 98]
+    data: []
   }, {
     name: 'PPC',
     yAxis: 0,
     type: 'areaspline',
     color: '#a51',
     tooltip: { valueSuffix: ' MW' },
-    data: [502, 635, 809, 947, 700, 500, 630]
+    data: []
   }, {
     name: 'Teplota',
     color: '#eecc12',
@@ -206,9 +200,7 @@ const chart = {
     marker: {
       enabled: false
     },
-    data: [
-      18, 16, 19, 20, 21, 23, 10
-    ]
+    data: []
   }]
 }
 
@@ -217,19 +209,6 @@ const chart = {
 class VychodZdroje extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  componentDidMount() {
-    this.props.fetchZdroje()
-
-    this.timerID = setInterval(
-      () => this.props.fetchZdroje(),
-      10 * 60 * 1000 // 10 minuty
-    )
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -259,21 +238,6 @@ class VychodZdroje extends React.Component {
 
     return (
       <div>
-        {/*<div style={{ width: '200px' }}>
-          <InputGroup>
-            <InputGroupAddon addonType={'prepend'}>
-              <InputGroupText>Vzorkovanie</InputGroupText>
-            </InputGroupAddon>
-            <Input type={'select'} id="zdroje_vzorkovanie">
-              <option value="1">10 minút</option>
-              <option value="2">1 hodina</option>
-              <option value="3">6 hodín</option>
-              <option value="4">12 hodín</option>
-              <option value="5">1 deň</option>
-            </Input>
-          </InputGroup>
-        </div>
-        <br/>*/}
         <ReactHighcharts config={chart} ref={'chart_vykon_zdroje'} isPureConfig />
       </div>
     )
@@ -285,7 +249,7 @@ const mapStateToProps = ( state, ownProps ) => ({
 })
 
 const mapDispatchToProps = ( dispatch, ownProps ) => ({
-  fetchZdroje: () => dispatch(fetchSCZTVychodZdrojeRequest())
+  // fetchZdroje: () => dispatch(fetchSCZTVychodZdrojeRequest())
 })
 
 export default connect(

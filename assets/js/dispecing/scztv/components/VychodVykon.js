@@ -1,13 +1,4 @@
 import React from 'react'
-import {
-  Row, Col,
-  Card, CardHeader, CardBody, CardTitle, CardSubtitle,
-  Table,
-  Input,
-  Button, Modal, ModalHeader, ModalBody, ModalFooter
-} from 'reactstrap'
-import Help from '../../../components/Help'
-import FontAwesome from 'react-fontawesome'
 
 import Highcharts from 'highcharts'
 require('highcharts/modules/exporting')(Highcharts)
@@ -19,7 +10,7 @@ import * as CONSTANTS from '../../../constants'
 import * as CONFIGS from '../../../configs'
 
 import { connect } from 'react-redux'
-import { fetchSCZTVychodVykonRequest } from '../../../services/ActionsSCZT'
+import { fetchSCZTVychodVykonRequest } from '../actions'
 
 
 
@@ -28,7 +19,7 @@ Highcharts.setOptions({...CONFIGS.REACT_HIGHCHART_OPTIONS})
 const chart = {
   chart: {
     //margin: [0, 0, 0, 0],
-    height: 400,
+    height: 450,
     zoomType: 'x',
     //plotBackgroundColor: null,
     //plotBorderWidth: null,
@@ -41,7 +32,7 @@ const chart = {
   exporting: {
     enabled: true,
     sourceWidth: 1100,
-    sourceHeight: 400,
+    sourceHeight: 450,
     scale: 2
   },
   title: {
@@ -81,21 +72,6 @@ const chart = {
         color: '#47e'
       }
     },
-    /*plotLines: [{
-      value: 40,
-      color: '#78a6f7',
-      dashStyle: 'longdash',
-      zIndex: 2,
-      width: 1,
-      label: {
-        text: 'Optimálne vychladenie',
-        style: {
-          color: '#78a6f7'
-        }
-      }
-    }],
-    min: 0,
-    max: 90*/
   }, {
     title: {
       text: 'Komunikácia'
@@ -105,39 +81,20 @@ const chart = {
       style: {
         color: '#2add1d'
       }
-    }
-  }, /*{
-    title: {
-      text: 'OST', // energia
     },
-    labels: {
-      format: '{value} GJ',
-      style: {
-        color: '#e41e25'
-      }
-    }
-  }, {
-    title: {
-      text: 'Komunikácia' // objem
-    },
-    labels: {
-      format: '{value} OST',
-      style: {
-        color: '#1dc'
-      }
-    }
-  }*/],
+    visible: false
+  }],
   tooltip: {
     //pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:.2f}</b><br/>',
     shared: true,
     split: true,
     dateTimeLabelFormats: {
-      millisecond: '%A %e. %b %Y, %H:%M:%S.%L',
-      second: '%A %e. %b %Y, %H:%M:%S',
-      minute: '%A %e. %b %Y, %H:%M',
-      hour: '%A %e. %b %Y, %H:%M',
-      day: '%A %e. %b %Y, %H:%M',
-      week: '%A %e. %b %Y',
+      millisecond: '%A %e. %B %Y, %H:%M:%S.%L',
+      second: '%A %e. %B %Y, %H:%M:%S',
+      minute: '%A %e. %B %Y, %H:%M',
+      hour: '%A %e. %B %Y, %H:%M',
+      day: '%A %e. %B %Y, %H:%M',
+      week: '%A %e. %B %Y',
       month: '%B %Y',
       year: '%Y'
     }
@@ -224,35 +181,9 @@ const chart = {
 }
 
 
-
 class VychodVykon extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      help: false
-    }
-
-    this.help = this.help.bind(this)
-  }
-
-  help() {
-    this.setState({
-      help: !this.state.help
-    })
-  }
-
-  componentDidMount() {
-    this.props.fetchVykon()
-
-    this.timerID = setInterval(
-      () => this.props.fetchVykon(),
-      10 * 60 * 1000 // 10 minut
-    )
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -297,115 +228,9 @@ class VychodVykon extends React.Component {
 
   render() {
 
-    const options = {
-      ...CONFIGS.REACT_BOOTSTRAP_TABLE,
-    }
-
-    const Pomocnik = (
-      <div>
-        <Row>
-          <Col sm={2}>
-            <li className="font-weight-bold" style={{ color: '#a28c10' }}>Teplota</li>
-          </Col>
-          <Col sm={10}>
-            <span>
-              Údaj je z rozvodného uzla. Vzorkovanie v 30 minútovom intervale.
-              V databáze prebieha automatické načítanie nových údajov každých :05 a :35 minút po celej hodine.
-            </span>
-          </Col>
-        </Row>
-        <br/>
-        <Row>
-          <Col sm={2}>
-            <li className="font-weight-bold" style={{ color: '#2354c5' }}>Plán</li>
-          </Col>
-          <Col sm={10}>
-            <span>
-              Plánovaný výkon podľa denného plánu prevádzky na danú hodinu. Aktualizácia údajov raz za deň o pol noci.
-            </span>
-          </Col>
-        </Row>
-        <br/>
-        <Row>
-          <Col sm={2}>
-            <li className="font-weight-bold" style={{ color: '#000000' }}>Zdroje</li>
-          </Col>
-          <Col sm={10}>
-            <span>
-              Sumárny výkon zdrojov vypočítaný z údajov z databázy PROCESS HISTORIAN (Information server)
-              ako súčet výkonov PPC + TpV + Slovnaft + VhJ.
-              <br/><br/>
-              <ul>
-                <li>PPC = výtlak - spiatočka</li>
-                <li>TpV = TpV severná vetva + TpV južná vetva</li>
-                <li>VhJ = VhJ výmenniková stanica - Slovnaft</li>
-              </ul>
-              Vzorkovanie v 30 minútovom intervale. Aktualizácia údajov každých :05 a :35 minút po celej hodine.
-              <br/><br/>
-              <div className="text-center">
-                <img src="../build/static/scztv_help_schema.png" alt="PPC, VhJ a Slovnaft - zapojenie meračov"
-                     title="PPC, VhJ a Slovnaft - zapojenie meračov" />
-              </div>
-            </span>
-          </Col>
-        </Row>
-        <br/>
-        <Row>
-          <Col sm={2}>
-            <li className="font-weight-bold" style={{ color: '#e41e25' }}>OST</li>
-          </Col>
-          <Col sm={10}>
-            <span>
-              Sumárny výkon všetkých OST, ktorých odberné miesto začína číslicou 2 alebo 8 a s meračmi:
-              <br/><br/>
-              <ul>
-                <li>centrálneho merania,</li>
-                <li>ÚK,</li>
-                <li>TÚV,</li>
-                <li>vzduchotechniky.</li>
-              </ul>
-              Do výpočtu vstupujú iba hodnoty namerané v čase od :50 až :10 minút po celej hodine.
-              Vzorkovanie v hodinovom intervale. Aktualizácia údajov každých :20 a :50 minút po celej hodine.
-              Dáta z meračov na OST sa do systému ProCop dostávajú v rôznych obdobiach.
-              <br/>
-              <span className="small">
-                Napríklad od 13:50 do 14:10 sa všetky namerané okamžité výkony spočítajú a priradia k 14:00 hod.
-                Merania v iných časoch sa do úvahy neberú.
-              </span>
-              <br/>
-            </span>
-          </Col>
-        </Row>
-        <br/>
-        <Row>
-          <Col sm={2}>
-            <li className="font-weight-bold" style={{ color: '#108408' }}>Komunikácia</li>
-          </Col>
-          <Col sm={10}>
-            <span>
-              Predstavuje počet meraní, ktoré spĺňajú kritériá v položke OST popísané vyššie v danej hodine.
-              Taktiež musia byť merania v databáze označené príznakom VALID = 1.
-              <br/><br/>
-              <span className="text-muted">
-                Niektoré merače (resp. dátové koncentrátory) najprv komunikujú so systémom ProCop a až potom odčítajú
-                aktuálne stavy, t.j. prenesú sa posledné odčítané stavy z predchádzajúcej hodiny. Dôležité je
-                nastavenie synchronizácie týchto medzi sebou súvisiacich procesov a takisto správne a rovnaké nastavenie
-                časov na <strong>všetkých</strong> OST. Je potrebné zohľadniť časové pásmo UTC + 1 a letný/zimný posun
-                času DST (daylight saving time). Niektoré technologické servery majú nastavený svetový čas UTC, čo môže
-                značne skreslovať skutočný výkon všetkých OST spolu.
-              </span>
-            </span>
-          </Col>
-        </Row>
-      </div>
-    )
-
     return (
       <div>
         <ReactHighcharts config={chart} ref={'chart_vykon_prehlad'} isPureConfig />
-        <br/>
-        <Help buttonLabel={'Vysvetlivky k legende'} modalTitle={'Legenda grafu priebeh výkonu SCZT východ'}
-              modalBody={Pomocnik} size={'lg'} />
       </div>
     )
   }
@@ -416,7 +241,7 @@ const mapStateToProps = ( state, ownProps ) => ({
 })
 
 const mapDispatchToProps = ( dispatch, ownProps ) => ({
-  fetchVykon: () => dispatch(fetchSCZTVychodVykonRequest())
+  // fetch: (e) => dispatch(fetchSCZTVychodVykonRequest(e))
 })
 
 export default connect(

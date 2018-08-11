@@ -8,6 +8,8 @@ use AppBundle\Entity\Dispecing\SCZT\VychodVykon;
 use AppBundle\Entity\Dispecing\SCZT\VychodZdroje;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class SCZTVychodController extends BaseController
 {
@@ -18,14 +20,19 @@ class SCZTVychodController extends BaseController
 
     /**
      * @Route("disp/scztv/vykon", name="sczt_vychod_vykon_get", options={"expose"=true})
-     * @Method("GET")
+     * @Method("POST")
      */
-    public function getVychodVykonAction()
+    public function getVychodVykonAction(Request $request)
     {
-        $dateTo = new \DateTime();
-        $dateTo->add(new \DateInterval('PT3H'));
-        $dateFrom = new \DateTime();
-        $dateFrom->sub(new \DateInterval('P4D'));
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $obdobie = $this->getObdobie($data);
+
+        $dateFrom = $obdobie['from'];
+        $dateTo = $obdobie['to'];
 
         $repository = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Dispecing\SCZT\VychodVykon');
@@ -91,14 +98,19 @@ class SCZTVychodController extends BaseController
 
     /**
      * @Route("disp/scztv/zdroje", name="sczt_vychod_zdroje_get", options={"expose"=true})
-     * @Method("GET")
+     * @Method("POST")
      */
-    public function getVychodZdrojeAction()
+    public function getVychodZdrojeAction(Request $request)
     {
-        $dateTo = new \DateTime();
-        $dateTo->add(new \DateInterval('PT3H'));
-        $dateFrom = new \DateTime();
-        $dateFrom->sub(new \DateInterval('P4D'));
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $obdobie = $this->getObdobie($data);
+
+        $dateFrom = $obdobie['from'];
+        $dateTo = $obdobie['to'];
 
         $repository = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Dispecing\SCZT\VychodZdroje');
@@ -156,5 +168,30 @@ class SCZTVychodController extends BaseController
         $model->hodnota = $vychodZdroje->getHodnota();
 
         return $model;
+    }
+
+    private function getObdobie($data)
+    {
+        $kalendar = $data['kalendar'];
+        $start = null;
+        $end = null;
+
+        if ($kalendar === true) {
+            $start = $data['start'] . " 00:00:00";
+            $end =  $data['end'] . " 23:59:59";
+
+            $dateFrom = \DateTime::createFromFormat('Y-m-d H:i:s', $start);
+            $dateTo = \DateTime::createFromFormat('Y-m-d H:i:s', $end);
+        } else {
+            $dateFrom = new \DateTime();
+            $dateFrom->sub(new \DateInterval('P4D')); // minus 4 dni
+            $dateTo = new \DateTime();
+            $dateTo->add(new \DateInterval('PT3H')); // plus 3 hodiny
+        }
+
+        return array(
+            'from' => $dateFrom,
+            'to' => $dateTo
+        );
     }
 }
