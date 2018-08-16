@@ -7,10 +7,12 @@ import {
   Row, Col,
   Table
 } from 'reactstrap'
-import { date } from '../../../utils/format'
+import { number } from '../../../utils/format'
+import NumberFormat from 'react-number-format'
 import FontAwesome from 'react-fontawesome'
 
 import { connect } from 'react-redux'
+import { fetchReportMeracovRequest } from '../actions'
 
 class Report extends React.Component {
   constructor(props) {
@@ -19,12 +21,18 @@ class Report extends React.Component {
 
   render() {
 
+    const report = this.props.report
+    const loading = report.loading
+
     return (
       <div>
         <Row>
           <Col sm={4}>
             <Card>
-              <CardHeader className="text-white bg-primary">Celkový prehľad počtu meradiel</CardHeader>
+              <CardHeader className="text-white bg-primary">
+                Celkový prehľad počtu meradiel{' '}
+                { loading && <FontAwesome name="spinner" spin /> }
+              </CardHeader>
               <CardBody>
                 <CardTitle>Delenie podľa spôsobu odpočtu</CardTitle>
                 <br/>
@@ -32,29 +40,29 @@ class Report extends React.Component {
                   <thead>
                   <tr>
                     <th>Spolu</th>
-                    <th>3 156</th>
+                    <th>{ number(this.props.report.spolu) }</th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
                     <th>ProCop</th>
-                    <td>2 459</td>
+                    <td>{ number(this.props.report.procop) }</td>
                   </tr>
                   <tr>
                     <th>Rádio</th>
-                    <td>562</td>
+                    <td>{ number(this.props.report.radio) }</td>
                   </tr>
                   <tr>
                     <th>Ručne</th>
-                    <td>10</td>
+                    <td>{ number(this.props.report.rucne) }</td>
                   </tr>
                   <tr>
                     <th>BVS</th>
-                    <td>117</td>
+                    <td>{ number(this.props.report.bvs) }</td>
                   </tr>
                   <tr>
-                    <th>Merače odberateľa</th>
-                    <td>8</td>
+                    <th>Merače odberateľov</th>
+                    <td>{ number(this.props.report.odberatelske) }</td>
                   </tr>
                   </tbody>
                 </Table>
@@ -63,7 +71,10 @@ class Report extends React.Component {
           </Col>
           <Col sm={4}>
             <Card>
-              <CardHeader className="text-white bg-primary">Celkový prehľad počtu meradiel</CardHeader>
+              <CardHeader className="text-white bg-primary">
+                Celkový prehľad počtu meradiel{' '}
+                { loading && <FontAwesome name="spinner" spin /> }
+              </CardHeader>
               <CardBody>
                 <CardTitle>Delenie podľa typu merania</CardTitle>
                 <br/>
@@ -71,19 +82,19 @@ class Report extends React.Component {
                   <tbody>
                   <tr>
                     <th>Merače tepla</th>
-                    <td>1 989</td>
+                    <td>{ number(this.props.report.gj + this.props.report.mwh) }</td>
                   </tr>
                   <tr>
                     <td>merná jednotka GJ</td>
-                    <td>1 916</td>
+                    <td>{ number(this.props.report.gj) }</td>
                   </tr>
                   <tr>
                     <td>merná jednotka MWh</td>
-                    <td>73</td>
+                    <td>{ number(this.props.report.mwh) }</td>
                   </tr>
                   <tr>
                     <th>Vodomery</th>
-                    <td>1 167</td>
+                    <td>{ number(this.props.report.voda) }</td>
                   </tr>
                   </tbody>
                 </Table>
@@ -92,7 +103,10 @@ class Report extends React.Component {
           </Col>
           <Col sm={4}>
             <Card>
-              <CardHeader className="text-white bg-primary">Celkový prehľad počtu meradiel</CardHeader>
+              <CardHeader className="text-white bg-primary">
+                Celkový prehľad počtu meradiel{' '}
+                { loading && <FontAwesome name="spinner" spin /> }
+              </CardHeader>
               <CardBody>
                 <CardTitle>Delenie podľa lokality</CardTitle>
                 <br/>
@@ -100,11 +114,11 @@ class Report extends React.Component {
                   <tbody>
                   <tr>
                     <th>Východná časť</th>
-                    <td>1 672</td>
+                    <td>{ number(this.props.report.vychod) }</td>
                   </tr>
                   <tr>
                     <th>Západná časť</th>
-                    <td>1 484</td>
+                    <td>{ number(this.props.report.zapad) }</td>
                   </tr>
                   </tbody>
                 </Table>
@@ -119,27 +133,27 @@ class Report extends React.Component {
                   <tbody>
                   <tr>
                     <th>Merače tepla</th>
-                    <td>1 050</td>
+                    <td>{ number(this.props.report.vychod_gj + this.props.report.vychod_mwh) }</td>
                     <th>Merače tepla</th>
-                    <td>939</td>
+                    <td>{ number(this.props.report.zapad_gj + this.props.report.zapad_mwh) }</td>
                   </tr>
                   <tr>
                     <td>merná jednotka GJ</td>
-                    <td>1 010</td>
+                    <td>{ number(this.props.report.vychod_gj) }</td>
                     <td>merná jednotka GJ</td>
-                    <td>906</td>
+                    <td>{ number(this.props.report.zapad_gj) }</td>
                   </tr>
                   <tr>
                     <td>merná jednotka MWh</td>
-                    <td>40</td>
+                    <td>{ number(this.props.report.vychod_mwh) }</td>
                     <td>merná jednotka MWh</td>
-                    <td>33</td>
+                    <td>{ number(this.props.report.zapad_mwh) }</td>
                   </tr>
                   <tr>
                     <th>Vodomery</th>
-                    <td>622</td>
+                    <td>{ number(this.props.report.vychod_voda) }</td>
                     <th>Vodomery</th>
-                    <td>545</td>
+                    <td>{ number(this.props.report.zapad_voda) }</td>
                   </tr>
                   </tbody>
                 </Table>
@@ -152,10 +166,13 @@ class Report extends React.Component {
           <Col sm={6}>
             <Card>
               <CardHeader className="text-white bg-primary">
-                Delenie podľa spôsobu odpočtu na východnú a západnú časť
+                Delenie podľa spôsobu odpočtu na východnú a západnú časť{' '}
+                { loading && <FontAwesome name="spinner" spin /> }
               </CardHeader>
               <CardBody>
-                <CardTitle>Meradlá odčítavané cez systém ProCop (2 459)</CardTitle>
+                <CardTitle>
+                  Meradlá odčítavané cez systém ProCop ({ number(this.props.report.procop) })
+                </CardTitle>
                 <CardSubtitle>Delenie podľa lokality</CardSubtitle>
                 <br/>
                 <Row>
@@ -164,25 +181,26 @@ class Report extends React.Component {
                       <thead>
                       <tr>
                         <th>Východná časť</th>
-                        <th>1 521</th>
+                        <th>{ number(this.props.report.procop_vychod_gj + this.props.report.procop_vychod_mwh
+                          + this.props.report.procop_vychod_voda) }</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr>
                         <th>Merače tepla</th>
-                        <td>998</td>
+                        <td>{ number(this.props.report.procop_vychod_gj + this.props.report.procop_vychod_mwh) }</td>
                       </tr>
                       <tr>
                         <td>merná jednotka GJ</td>
-                        <td>961</td>
+                        <td>{ number(this.props.report.procop_vychod_gj) }</td>
                       </tr>
                       <tr>
                         <td>merná jednotka MWh</td>
-                        <td>37</td>
+                        <td>{ number(this.props.report.procop_vychod_mwh) }</td>
                       </tr>
                       <tr>
                         <th>Vodomery</th>
-                        <td>523</td>
+                        <td>{ number(this.props.report.procop_vychod_voda) }</td>
                       </tr>
                       </tbody>
                     </Table>
@@ -192,25 +210,26 @@ class Report extends React.Component {
                       <thead>
                       <tr>
                         <th>Západná časť</th>
-                        <th>938</th>
+                        <th>{ number(this.props.report.procop_zapad_gj + this.props.report.procop_zapad_mwh
+                          + this.props.report.procop_zapad_voda) }</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr>
                         <th>Merače tepla</th>
-                        <td>594</td>
+                        <td>{ number(this.props.report.procop_zapad_gj + this.props.report.procop_zapad_mwh) }</td>
                       </tr>
                       <tr>
                         <td>merná jednotka GJ</td>
-                        <td>564</td>
+                        <td>{ number(this.props.report.procop_zapad_gj) }</td>
                       </tr>
                       <tr>
                         <td>merná jednotka MWh</td>
-                        <td>30</td>
+                        <td>{ number(this.props.report.procop_zapad_mwh) }</td>
                       </tr>
                       <tr>
                         <th>Vodomery</th>
-                        <td>344</td>
+                        <td>{ number(this.props.report.procop_zapad_voda) }</td>
                       </tr>
                       </tbody>
                     </Table>
@@ -222,10 +241,13 @@ class Report extends React.Component {
           <Col sm={6}>
             <Card>
               <CardHeader className="text-white bg-primary">
-                Delenie podľa spôsobu odpočtu na východnú a západnú časť
+                Delenie podľa spôsobu odpočtu na východnú a západnú časť{' '}
+                { loading && <FontAwesome name="spinner" spin /> }
               </CardHeader>
               <CardBody>
-                <CardTitle>Meradlá odčítavané pomocou rádiových terminálov z auta (562)</CardTitle>
+                <CardTitle>
+                  Meradlá odčítavané pomocou rádiových terminálov z auta ({ number(this.props.report.radio) })
+                </CardTitle>
                 <CardSubtitle>Delenie podľa lokality</CardSubtitle>
                 <br/>
                 <Row>
@@ -234,25 +256,26 @@ class Report extends React.Component {
                       <thead>
                       <tr>
                         <th>Východná časť</th>
-                        <th>67</th>
+                        <th>{ number(this.props.report.radio_vychod_gj + this.props.report.radio_vychod_mwh
+                          + this.props.report.radio_vychod_voda) }</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr>
                         <th>Merače tepla</th>
-                        <td>47</td>
+                        <td>{ number(this.props.report.radio_vychod_gj + this.props.report.radio_vychod_mwh) }</td>
                       </tr>
                       <tr>
                         <td>merná jednotka GJ</td>
-                        <td>46</td>
+                        <td>{ number(this.props.report.radio_vychod_gj) }</td>
                       </tr>
                       <tr>
                         <td>merná jednotka MWh</td>
-                        <td>1</td>
+                        <td>{ number(this.props.report.radio_vychod_mwh) }</td>
                       </tr>
                       <tr>
                         <th>Vodomery</th>
-                        <td>20</td>
+                        <td>{ number(this.props.report.radio_vychod_voda) }</td>
                       </tr>
                       </tbody>
                     </Table>
@@ -262,25 +285,26 @@ class Report extends React.Component {
                       <thead>
                       <tr>
                         <th>Západná časť</th>
-                        <th>495</th>
+                        <th>{ number(this.props.report.radio_zapad_gj + this.props.report.radio_zapad_mwh
+                          + this.props.report.radio_zapad_voda) }</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr>
                         <th>Merače tepla</th>
-                        <td>340</td>
+                        <td>{ number(this.props.report.radio_zapad_gj + this.props.report.radio_zapad_mwh) }</td>
                       </tr>
                       <tr>
                         <td>merná jednotka GJ</td>
-                        <td>340</td>
+                        <td>{ number(this.props.report.radio_zapad_gj) }</td>
                       </tr>
                       <tr>
                         <td>merná jednotka MWh</td>
-                        <td>0</td>
+                        <td>{ number(this.props.report.radio_zapad_mwh) }</td>
                       </tr>
                       <tr>
                         <th>Vodomery</th>
-                        <td>155</td>
+                        <td>{ number(this.props.report.radio_zapad_voda) }</td>
                       </tr>
                       </tbody>
                     </Table>
@@ -296,11 +320,11 @@ class Report extends React.Component {
 }
 
 const mapStateToProps = ( state, ownProps ) => ({
-
+  report: state.report
 })
 
 const mapDispatchToProps = ( dispatch, ownProps ) => ({
-
+  fetch: () => dispatch(fetchReportMeracovRequest())
 })
 
 export default connect(

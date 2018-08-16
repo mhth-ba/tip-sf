@@ -3,13 +3,13 @@ import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects'
 
 import * as TYPES from '../../services/ActionTypes'
 import {
-  fetchSprava,
+  fetchVyberPolozky,
   fetchReportMeracov
-} from '../../services/ActionsReportMeracov'
+} from './actions'
 
 function* mySaga() {
   yield all([
-    takeLatest(TYPES.FETCH_SPRAVA_REQUEST, fetchSprava),
+    takeLatest(TYPES.FETCH_VYBER_POLOZKY_REQUEST, fetchVyberPolozky),
     takeLatest(TYPES.FETCH_REPORT_MERACOV_REQUEST, fetchReportMeracov)
   ])
 }

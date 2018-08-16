@@ -9,11 +9,11 @@ const initState = {
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case TYPES.FETCH_SPRAVA_REQUEST:
+    case TYPES.FETCH_VYBER_POLOZKY_REQUEST:
       return {...state, loading: true}
-    case TYPES.FETCH_SPRAVA_SUCCESS:
+    case TYPES.FETCH_VYBER_POLOZKY_SUCCESS:
       return {...state, loading: false, polozky: action.data}
-    case TYPES.FETCH_SPRAVA_ERROR:
+    case TYPES.FETCH_VYBER_POLOZKY_ERROR:
       return {...state, loading: false, error: action.data}
     default:
       return state
