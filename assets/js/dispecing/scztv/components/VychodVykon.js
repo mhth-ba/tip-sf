@@ -151,6 +151,14 @@ const chart = {
     zIndex: 2,
     data: []
   }, {
+    name: 'Termis',
+    color: '#cb26b3',
+    type: 'spline',
+    yAxis: 1,
+    tooltip: { valueSuffix: ' MW' },
+    zIndex: 2,
+    data: []
+  }, {
     name: 'Zdroje',
     color: '#000',
     type: 'spline',
@@ -190,9 +198,10 @@ class VychodVykon extends React.Component {
 
     const chart = this.refs['chart_vykon_prehlad'].getChart()
 
-    let plan = [], zdroje = [], ost = [], komunikacia = [], teplota = []
+    let plan = [], termis = [], zdroje = [], ost = [], komunikacia = [], teplota = []
 
     this.props.vykon.plan.map( row => { plan.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.termis.map( row => { termis.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.zdroje.map( row => { zdroje.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.ost.map( row => { ost.push([ row['datum'], parseFloat((row['hodnota'] / 1000).toFixed(4)) ]) })
     this.props.vykon.komunikacia.map( row => { komunikacia.push([ row['datum'], row['hodnota'] ]) })
@@ -200,9 +209,10 @@ class VychodVykon extends React.Component {
 
     chart.series[0].setData(teplota, false)
     chart.series[2].setData(plan, false)
-    chart.series[3].setData(zdroje, false)
-    chart.series[4].setData(ost, false)
-    chart.series[5].setData(komunikacia, false)
+    chart.series[3].setData(termis, false)
+    chart.series[4].setData(zdroje, false)
+    chart.series[5].setData(ost, false)
+    chart.series[6].setData(komunikacia, false)
 
     chart.yAxis[0].setExtremes(
       this.props.vykon.extremy_teplota['hodnota_min'],

@@ -16,7 +16,7 @@ import 'raf/polyfill'
 
 // babel-polyfill obsahuje mnozstvo veciciek, jednou z nich je aj ES6 promise
 // v pripade, ze by sme chceli mat mensiu kniznicu a vyuzivat iba jednotlive moduly,
-// naimportujeme si teito moduly
+// naimportujeme si tieto moduly
 //import 'core-js/library/es6/promise';
 
 import '../css/libs.scss'

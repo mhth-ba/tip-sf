@@ -38,6 +38,7 @@ class SCZTVychodController extends BaseController
             ->getRepository('AppBundle:Dispecing\SCZT\VychodVykon');
 
         $plan = $repository->getPlan($dateTo, $dateFrom);
+        $termis = $repository->getTermis($dateTo, $dateFrom);
         $zdroje = $repository->getZdroje($dateTo, $dateFrom);
         $ost = $repository->getOST($dateTo, $dateFrom);
         $komunikacia = $repository->getPocetKomunikujucich($dateTo, $dateFrom);
@@ -47,6 +48,7 @@ class SCZTVychodController extends BaseController
         $extremy_komunikacia = $repository->getExtremesKomunikacia($dateTo, $dateFrom);
 
         $plan_models = [];
+        $termis_models = [];
         $zdroje_models = [];
         $ost_models = [];
         $komunikacia_models = [];
@@ -54,6 +56,10 @@ class SCZTVychodController extends BaseController
 
         foreach ($plan as $plan_riadok) {
             $plan_models[] = $this->createVychodVykonApiModel($plan_riadok);
+        }
+
+        foreach ($termis as $termis_riadok) {
+            $termis_models[] = $this->createVychodVykonApiModel($termis_riadok);
         }
 
         foreach ($zdroje as $zdroje_riadok) {
@@ -74,6 +80,7 @@ class SCZTVychodController extends BaseController
 
         return $this->createApiResponse([
             'plan' => $plan_models,
+            'termis' => $termis_models,
             'zdroje' => $zdroje_models,
             'ost' => $ost_models,
             'komunikacia' => $komunikacia_models,
@@ -88,9 +95,7 @@ class SCZTVychodController extends BaseController
     {
         $model = new VychodVykonApiModel();
 
-        $datum = $vychodVykon->getDatum();
-
-        $model->datum = ($datum->getTimestamp() + $datum->getOffset()) * 1000;
+        $model->datum = $vychodVykon->getDatum() * 1000;
         $model->hodnota = $vychodVykon->getHodnota();
 
         return $model;
@@ -162,9 +167,7 @@ class SCZTVychodController extends BaseController
     {
         $model = new VychodZdrojeApiModel();
 
-        $datum = $vychodZdroje->getDatum();
-
-        $model->datum = ($datum->getTimestamp() + $datum->getOffset()) * 1000;
+        $model->datum = $vychodZdroje->getDatum() * 1000;
         $model->hodnota = $vychodZdroje->getHodnota();
 
         return $model;

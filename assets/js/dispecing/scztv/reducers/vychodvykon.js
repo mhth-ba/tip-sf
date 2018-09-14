@@ -2,6 +2,7 @@ import * as TYPES from '../../../services/ActionTypes'
 
 const initState = { // Dispecing.SCZTV_Vykon
   plan: [],
+  termis: [],
   zdroje: [],
   ost: [],
   komunikacia: [],
@@ -21,6 +22,7 @@ export default (state = initState, action) => {
     case TYPES.FETCH_SCZT_VYCHOD_VYKON_SUCCESS:
       return {...state, loading: false,
         plan: action.data['plan'],
+        termis: action.data['termis'],
         zdroje: action.data['zdroje'],
         ost: action.data['ost'],
         komunikacia: action.data['komunikacia'],

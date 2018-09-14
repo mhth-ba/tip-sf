@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity\Dispecing\SCZT;
 
+use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\SCZT\VychodVykonRepository")
  * @ORM\Table(name="SCZTV_Vykon", schema="Dispecing")
  */
-class VychodVykon
+class VychodVykon extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -44,7 +45,7 @@ class VychodVykon
 
     public function getDatum()
     {
-        return $this->datum;
+        return $this->getTimestampWithOffset($this->datum);
     }
 
     public function getHodnota()
