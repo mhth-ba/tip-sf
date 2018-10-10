@@ -36,7 +36,7 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Porovnanie plánovaného a skutočného výkonu zdrojov a OST v SCZT východ'
+    text: 'Porovnanie predikcie a skutočného výkonu OST v SCZT východ'
   },
   xAxis: {
     type: 'datetime',
@@ -143,25 +143,8 @@ const chart = {
     },
     data: []
   }, {
-    name: 'Plán',
-    color: '#47e',
-    type: 'spline',
-    //lineWidth: 3,
-    yAxis: 1,
-    tooltip: { valueSuffix: ' MW' },
-    zIndex: 2,
-    data: []
-  }, {
-    name: 'Termis',
-    color: '#cb26b3',
-    type: 'spline',
-    yAxis: 1,
-    tooltip: { valueSuffix: ' MW' },
-    zIndex: 2,
-    data: []
-  }, {
-    name: 'Zdroje',
-    color: '#000',
+    name: 'Termis OST',
+    color: '#a85ccb',
     type: 'spline',
     yAxis: 1,
     tooltip: { valueSuffix: ' MW' },
@@ -190,30 +173,26 @@ const chart = {
 }
 
 
-class VychodVykon extends React.Component {
+class VychodOST extends React.Component {
   constructor(props) {
     super(props)
   }
 
   componentDidUpdate(prevProps, prevState) {
 
-    const chart = this.refs['chart_vykon_prehlad'].getChart()
+    const chart = this.refs['chart_ost_prehlad'].getChart()
 
-    let plan = [], termis = [], zdroje = [], ost = [], komunikacia = [], teplota = []
+    let termis_ost = [], ost = [], komunikacia = [], teplota = []
 
-    this.props.vykon.plan.map( row => { plan.push([ row['datum'], row['hodnota'] ]) })
-    this.props.vykon.termis.map( row => { termis.push([ row['datum'], row['hodnota'] ]) })
-    this.props.vykon.zdroje.map( row => { zdroje.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.termis_ost.map( row => { termis_ost.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.ost.map( row => { ost.push([ row['datum'], parseFloat((row['hodnota'] / 1000).toFixed(4)) ]) })
     this.props.vykon.komunikacia.map( row => { komunikacia.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.teplota.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(teplota, false)
-    chart.series[2].setData(plan, false)
-    chart.series[3].setData(termis, false)
-    chart.series[4].setData(zdroje, false)
-    chart.series[5].setData(ost, false)
-    chart.series[6].setData(komunikacia, false)
+    chart.series[2].setData(termis_ost, false)
+    chart.series[3].setData(ost, false)
+    chart.series[4].setData(komunikacia, false)
 
     chart.yAxis[0].setExtremes(
       this.props.vykon.extremy_teplota['hodnota_min'],
@@ -241,7 +220,7 @@ class VychodVykon extends React.Component {
 
     return (
       <div>
-        <ReactHighcharts config={chart} ref={'chart_vykon_prehlad'} isPureConfig />
+        <ReactHighcharts config={chart} ref={'chart_ost_prehlad'} isPureConfig />
       </div>
     )
   }
@@ -258,4 +237,4 @@ const mapDispatchToProps = ( dispatch, ownProps ) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(VychodVykon)
+)(VychodOST)

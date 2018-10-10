@@ -30,6 +30,18 @@ class VychodVykonRepository extends EntityRepository
             ->execute();
     }
 
+    public function getTermisOST($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('vv')
+            ->andWhere('vv.kategoria = 8')
+            ->andWhere('vv.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('vv.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
     public function getZdroje($dateTo, $dateFrom)
     {
         return $this->createQueryBuilder('vv')

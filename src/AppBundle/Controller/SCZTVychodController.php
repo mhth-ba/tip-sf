@@ -39,6 +39,7 @@ class SCZTVychodController extends BaseController
 
         $plan = $repository->getPlan($dateTo, $dateFrom);
         $termis = $repository->getTermis($dateTo, $dateFrom);
+        $termis_ost = $repository->getTermisOST($dateTo, $dateFrom);
         $zdroje = $repository->getZdroje($dateTo, $dateFrom);
         $ost = $repository->getOST($dateTo, $dateFrom);
         $komunikacia = $repository->getPocetKomunikujucich($dateTo, $dateFrom);
@@ -49,6 +50,7 @@ class SCZTVychodController extends BaseController
 
         $plan_models = [];
         $termis_models = [];
+        $termis_ost_models = [];
         $zdroje_models = [];
         $ost_models = [];
         $komunikacia_models = [];
@@ -60,6 +62,10 @@ class SCZTVychodController extends BaseController
 
         foreach ($termis as $termis_riadok) {
             $termis_models[] = $this->createVychodVykonApiModel($termis_riadok);
+        }
+
+        foreach ($termis_ost as $termis_ost_riadok) {
+            $termis_ost_models[] = $this->createVychodVykonApiModel($termis_ost_riadok);
         }
 
         foreach ($zdroje as $zdroje_riadok) {
@@ -81,6 +87,7 @@ class SCZTVychodController extends BaseController
         return $this->createApiResponse([
             'plan' => $plan_models,
             'termis' => $termis_models,
+            'termis_ost' => $termis_ost_models,
             'zdroje' => $zdroje_models,
             'ost' => $ost_models,
             'komunikacia' => $komunikacia_models,

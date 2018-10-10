@@ -167,6 +167,30 @@ class Kriteria extends React.Component {
         <br/>
         <Row>
           <Col sm={2}>
+            <li className="font-weight-bold" style={{ color: '#cb26b3' }}>Termis</li>
+          </Col>
+          <Col sm={10}>
+            <span>
+              Predikcia výkonu zdrojov podľa TERMISu.
+              Aktualizácia údajov raz za hodinu, :15 minút po celej.
+            </span>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col sm={2}>
+            <li className="font-weight-bold" style={{ color: '#a85ccb' }}>Termis OST</li>
+          </Col>
+          <Col sm={10}>
+            <span>
+              Predikcia výkonu OST podľa TERMISu.
+              Aktualizácia údajov raz za hodinu, :15 minút po celej.
+            </span>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col sm={2}>
             <li className="font-weight-bold" style={{ color: '#000000' }}>Zdroje</li>
           </Col>
           <Col sm={10}>

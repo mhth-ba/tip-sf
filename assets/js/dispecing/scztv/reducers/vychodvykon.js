@@ -3,6 +3,7 @@ import * as TYPES from '../../../services/ActionTypes'
 const initState = { // Dispecing.SCZTV_Vykon
   plan: [],
   termis: [],
+  termis_ost: [],
   zdroje: [],
   ost: [],
   komunikacia: [],
@@ -23,6 +24,7 @@ export default (state = initState, action) => {
       return {...state, loading: false,
         plan: action.data['plan'],
         termis: action.data['termis'],
+        termis_ost: action.data['termis_ost'],
         zdroje: action.data['zdroje'],
         ost: action.data['ost'],
         komunikacia: action.data['komunikacia'],

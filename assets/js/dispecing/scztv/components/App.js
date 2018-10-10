@@ -3,6 +3,7 @@ import { Row, Col } from 'reactstrap'
 import Kriteria from './Kriteria'
 import VychodVykon from './VychodVykon'
 import VychodZdroje from './VychodZdroje'
+import VychodOST from './VychodOST'
 
 class App extends React.Component {
   render() {
@@ -23,6 +24,12 @@ class App extends React.Component {
         <Row>
           <Col>
             <VychodZdroje/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col>
+            <VychodOST/>
           </Col>
         </Row>
         <br/>

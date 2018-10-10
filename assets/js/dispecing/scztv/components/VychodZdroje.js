@@ -228,7 +228,7 @@ class VychodZdroje extends React.Component {
     chart.series[3].setData(ppc, false)
     chart.series[4].setData(teplota, false)
 
-    chart.yAxis[0].setExtremes(0, this.props.zdroje.max['hodnota'])
+    //chart.yAxis[0].setExtremes(0, this.props.zdroje.max['hodnota'])
 
     chart.redraw()
     chart.reflow()
