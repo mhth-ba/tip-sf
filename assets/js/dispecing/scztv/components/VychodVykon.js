@@ -150,7 +150,8 @@ const chart = {
     yAxis: 1,
     tooltip: { valueSuffix: ' MW' },
     zIndex: 2,
-    data: []
+    data: [],
+    visible: false,
   }, {
     name: 'Termis',
     color: '#cb26b3',
