@@ -196,7 +196,7 @@ class SCZTVychodController extends BaseController
             $dateFrom = new \DateTime();
             $dateFrom->sub(new \DateInterval('P3D')); // minus 3 dni
             $dateTo = new \DateTime();
-            $dateTo->add(new \DateInterval('PT8H')); // plus 8 hodín
+            $dateTo->add(new \DateInterval('PT18H')); // plus 18 hodín
         }
 
         return array(
