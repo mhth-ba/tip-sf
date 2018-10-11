@@ -148,7 +148,7 @@ class Kriteria extends React.Component {
           </Col>
           <Col sm={10}>
             <span>
-              Údaj je z rozvodného uzla. Vzorkovanie v 30 minútovom intervale.
+              Údaj je z Teplárne Západ. Vzorkovanie v hodinovom intervale.
               V databáze prebieha automatické načítanie nových údajov každých :05 a :35 minút po celej hodine.
             </span>
           </Col>
@@ -171,8 +171,8 @@ class Kriteria extends React.Component {
           </Col>
           <Col sm={10}>
             <span>
-              Predikcia výkonu zdrojov podľa TERMISu.
-              Aktualizácia údajov raz za hodinu, :15 minút po celej.
+              Predikcia výkonu zdrojov podľa optimalizátora TERMISu.
+              Aktualizácia údajov raz za hodinu, :30 minút po celej.
             </span>
           </Col>
         </Row>
@@ -183,8 +183,8 @@ class Kriteria extends React.Component {
           </Col>
           <Col sm={10}>
             <span>
-              Predikcia výkonu OST podľa TERMISu.
-              Aktualizácia údajov raz za hodinu, :15 minút po celej.
+              Predikcia výkonu OST podľa optimalizátora TERMISu.
+              Aktualizácia údajov raz za hodinu, :30 minút po celej.
             </span>
           </Col>
         </Row>
@@ -303,7 +303,7 @@ class Kriteria extends React.Component {
           <Input type={'checkbox'} id="rozsah" onChange={this.handleChangeCheckBox} />
           <Tooltip isOpen={this.state.tooltipOpen} toggle={this.toggleTooltip} target="rozsah">
             Po zaškrtnutí poľa sa zobrazia údaje za obdobie v zvolenom rozsahu.<br/>
-            V opačnom prípade sa zobrazujú údaje za posledných 5 dní
+            V opačnom prípade sa zobrazujú údaje za posledné 3 dni
             a automaticky sa načítavajú každých 10 minút z databázy.
           </Tooltip>
           &nbsp;
