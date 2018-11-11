@@ -2,7 +2,7 @@
 
 namespace AppBundle\Api\Dispecing\SCZT;
 
-class VychodVykonApiModel
+class VykonApiModel
 {
     public $datum;
 

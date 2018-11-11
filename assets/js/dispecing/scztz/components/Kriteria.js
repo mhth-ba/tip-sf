@@ -12,7 +12,7 @@ import moment from 'moment'
 moment.locale('sk')
 
 import {connect} from 'react-redux'
-import { loadSCZTVychodRequest } from "../actions";
+import { loadSCZTZapadRequest } from "../actions";
 
 class Kriteria extends React.Component {
   constructor(props) {
@@ -65,21 +65,21 @@ class Kriteria extends React.Component {
     })
   }
 
-  handleLoadSCZTVychod() {
+  handleLoadSCZTZapad() {
     const parameters = {
       kalendar: this.state.kalendar,
       start: this.state.startDate.format('YYYY-MM-DD'),
       end: this.state.endDate.format('YYYY-MM-DD')
     }
 
-    this.props.loadSCZTVychod(parameters)
+    this.props.loadSCZTZapad(parameters)
   }
 
   componentDidMount() {
-    this.handleLoadSCZTVychod()
+    this.handleLoadSCZTZapad()
 
     this.timerID = setInterval(
-      () => this.handleLoadSCZTVychod(),
+      () => this.handleLoadSCZTZapad(),
       10 * 60 * 1000 // 10 minut
     )
   }
@@ -99,13 +99,13 @@ class Kriteria extends React.Component {
       } else { // inac obnovovat graf v pravidelnych intervaloch
 
         this.timerID = setInterval(
-          () => this.handleLoadSCZTVychod(),
+          () => this.handleLoadSCZTZapad(),
           10 * 60 * 1000 // 10 minut
         )
 
       }
 
-      this.handleLoadSCZTVychod()
+      this.handleLoadSCZTZapad()
 
     }
 
@@ -113,7 +113,7 @@ class Kriteria extends React.Component {
 
       if (this.state.kalendar) {
 
-        this.handleLoadSCZTVychod()
+        this.handleLoadSCZTZapad()
 
       }
 
@@ -137,7 +137,7 @@ class Kriteria extends React.Component {
           </Col>
         </Row>
         <br/>
-        <Row>
+        {/*<Row>
           <Col sm={2}>
             <li className="font-weight-bold" style={{ color: '#ee9d18' }}>Termis teplota</li>
           </Col>
@@ -148,7 +148,7 @@ class Kriteria extends React.Component {
             </span>
           </Col>
         </Row>
-        <br/>
+        <br/>*/}
         <Row>
           <Col sm={2}>
             <li className="font-weight-bold" style={{ color: '#2354c5' }}>Denný plán</li>
@@ -179,25 +179,23 @@ class Kriteria extends React.Component {
           </Col>
           <Col sm={10}>
             <span>
-              Sumárny výkon zdrojov vo východnej sústave vypočítaný z údajov v databázach na serveri CIRRUS
-              ako súčet výkonov PPC + TpV + Slovnaft + VhJ.
+              Sumárny výkon zdrojov v západnej sústave vypočítaný z údajov v databázach na serveri CIRRUS
+              ako súčet výkonov TpZ + Cogen West.
               <br/><br/>
-              <ul>
-                <li>PPC = výtlak - spiatočka</li>
-                <li>TpV = TpV severná vetva + TpV južná vetva</li>
-                <li>VhJ = VhJ výmenniková stanica - Slovnaft</li>
-              </ul>
+              {/*<ul>
+                <li>TpZ = TpZ - Cogen West</li>
+              </ul>*/}
               Vzorkovanie v hodinovom intervale. Aktualizácia údajov každých :05 a :35 minút po celej hodine.
               <br/><br/>
               <div className="text-center">
-                <img src="../build/static/scztv_help_schema.png" alt="PPC, VhJ a Slovnaft - zapojenie meračov"
-                     title="PPC, VhJ a Slovnaft - zapojenie meračov" />
+                {/*<img src="../build/static/scztv_help_schema.png" alt="PPC, VhJ a Slovnaft - zapojenie meračov"
+                     title="PPC, VhJ a Slovnaft - zapojenie meračov" />*/}
               </div>
             </span>
           </Col>
         </Row>
         <br/>
-        <Row>
+        {/*<Row>
           <Col sm={2}>
             <li className="font-weight-bold" style={{ color: '#a85ccb' }}>Termis OST</li>
           </Col>
@@ -208,8 +206,8 @@ class Kriteria extends React.Component {
             </span>
           </Col>
         </Row>
-        <br/>
-        <Row>
+        <br/>*/}
+        {/*<Row>
           <Col sm={2}>
             <li className="font-weight-bold" style={{ color: '#e41e25' }}>OST</li>
           </Col>
@@ -235,8 +233,8 @@ class Kriteria extends React.Component {
             </span>
           </Col>
         </Row>
-        <br/>
-        <Row>
+        <br/>*/}
+        {/*<Row>
           <Col sm={2}>
             <li className="font-weight-bold" style={{ color: '#108408' }}>Komunikácia</li>
           </Col>
@@ -255,14 +253,14 @@ class Kriteria extends React.Component {
               </span>
             </span>
           </Col>
-        </Row>
+        </Row>*/}
       </div>
     )
 
     return (
       <div>
         <Form inline>
-          <Help buttonLabel={'Vysvetlivky k legende'} modalTitle={'Legenda grafu priebeh výkonu SCZT východ'}
+          <Help buttonLabel={'Vysvetlivky k legende'} modalTitle={'Legenda grafu priebeh výkonu SCZT západ'}
                 modalBody={Pomocnik} size={'lg'} />
           {/*&nbsp;
           <div style={{ width: '190px' }}>
@@ -315,7 +313,7 @@ const mapStateToProps = ( state, ownProps ) => ({
 })
 
 const mapDispatchToProps = ( dispatch, ownProps ) => ({
-  loadSCZTVychod: (e) => dispatch(loadSCZTVychodRequest(e))
+  loadSCZTZapad: (e) => dispatch(loadSCZTZapadRequest(e))
 })
 
 export default connect(

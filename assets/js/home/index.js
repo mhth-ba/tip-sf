@@ -15,10 +15,14 @@ const polozky = [
     links: [{
       url: Routing.generate('sczt-vychod'),
       nazov: 'SCZT Východ',
-      color: 'success',
-      size: 'sm',
-      new: true
+      color: 'primary',
+      size: 'sm'
     }, {
+      url: Routing.generate('sczt-zapad'),
+      nazov: 'SCZT Západ',
+      color: 'primary',
+      size: 'sm'
+    },{
       url: 'http://zeusprod-vi/tip/zone_ris_vykon-odber-sustav.php',
       nazov: 'Výkon a odber tepla',
       color: 'primary',
@@ -75,9 +79,8 @@ const polozky = [
     }, {
       url: Routing.generate('report-meracov'),
       nazov: 'Report meračov',
-      color: 'success',
-      size: 'sm',
-      new: true
+      color: 'secondary',
+      size: 'sm'
     }]
   }, {
     title: 'Cena tepla',

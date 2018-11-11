@@ -8,6 +8,12 @@ const initState = { // Dispecing.SCZTV_Zdroje
   teplota: [],
   max: 0,
 
+  ppc_1h: [],
+  tpv_1h: [],
+  slovnaft_1h: [],
+  vhj_1h: [],
+  teplota_1h: [],
+
   loading: false,
   error: null
 }
@@ -23,7 +29,13 @@ export default (state = initState, action) => {
         slovnaft: action.data['slovnaft'],
         vhj: action.data['vhj'],
         teplota: action.data['teplota'],
-        max: action.data['max']
+        max: action.data['max'],
+
+        ppc_1h: action.data['ppc_1h'],
+        tpv_1h: action.data['tpv_1h'],
+        slovnaft_1h: action.data['slovnaft_1h'],
+        vhj_1h: action.data['vhj_1h'],
+        teplota_1h: action.data['teplota_1h']
       }
     case TYPES.FETCH_SCZT_VYCHOD_ZDROJE_ERROR:
       return {...state, loading: false, error: action.data}

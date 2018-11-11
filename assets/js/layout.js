@@ -17,7 +17,7 @@ import 'raf/polyfill'
 // babel-polyfill obsahuje mnozstvo veciciek, jednou z nich je aj ES6 promise
 // v pripade, ze by sme chceli mat mensiu kniznicu a vyuzivat iba jednotlive moduly,
 // naimportujeme si tieto moduly
-//import 'core-js/library/es6/promise';
+// import 'core-js/library/es6/promise';
 
 import '../css/libs.scss'
 import '../css/main.scss'
@@ -25,6 +25,6 @@ import '../css/main.scss'
 particlesJS('particles-js', ParticlesConfig)
 
 $(document).ready(function() {
-    // do something ...
-    $('.my-tooltip').tooltip()
+  // do something ...
+  $('.my-tooltip').tooltip()
 })

@@ -32,7 +32,7 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Porovnanie predikcie a skutočného výkonu OST v SCZT východ'
+    text: 'Porovnanie plánovaného a skutočného výkonu zdrojov a OST v SCZT západ'
   },
   legend: {
     useHTML: true,
@@ -44,19 +44,31 @@ const chart = {
                   >${this.name}</span>`
         case 1:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Predpoveď vonkajšej teploty"
+                        title="Predpoveď vonkajšej teploty pre západnú oblasť zatiaľ nie je v Termise k dispozícií"
                   >${this.name}</span>`
         case 2:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Predikcia odberu tepla zo siete"
+                        title="Denný plán prevádzky"
                   >${this.name}</span>`
         case 3:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Celkový odber tepla zo siete"
+                        title="Predikcia celkového výkonu zdrojov"
                   >${this.name}</span>`
         case 4:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Počet meradiel s platnými údajmi"
+                        title="Skutočný celkový výkon zdrojov"
+                  >${this.name}</span>`
+        case 5:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Predikcia odberu tepla zo západnej siete zatiaľ nie je v Termise k dispozícií"
+                  >${this.name}</span>`
+        case 6:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Celkový odber tepla zo západnej siete zatiaľ nie je možné presne vypočítať, iba odhadnúť"
+                  >${this.name}</span>`
+        case 7:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Počet meradiel s platnými údajmi (v súčasnosti nerelevantné)"
                   >${this.name}</span>`
       }
     }
@@ -83,7 +95,7 @@ const chart = {
         color: '#eecc12'
       }
     },
-    opposite: true,
+    opposite: true
   }, {
     title: {
       text: 'Výkon'
@@ -165,14 +177,43 @@ const chart = {
     /*marker: {
       enabled: false
     },*/
+    visible: false,
     data: []
   }, {
-    name: 'Termis OST',
-    color: '#a85ccb',
+    name: 'Denný plán',
+    color: '#47e',
+    type: 'spline',
+    //lineWidth: 3,
+    yAxis: 1,
+    tooltip: { valueSuffix: ' MW' },
+    zIndex: 2,
+    //visible: false,
+    data: [],
+  }, {
+    name: 'Termis zdroje',
+    color: '#cb26b3',
     type: 'spline',
     yAxis: 1,
     tooltip: { valueSuffix: ' MW' },
     zIndex: 2,
+    data: []
+  }, {
+    name: 'Zdroje',
+    color: '#000',
+    type: 'spline',
+    yAxis: 1,
+    tooltip: { valueSuffix: ' MW' },
+    zIndex: 2,
+    data: []
+  }, {
+    name: 'Termis OST',
+    color: '#a062cb',
+    dashStyle: 'ShortDash',
+    type: 'spline',
+    yAxis: 1,
+    tooltip: { valueSuffix: ' MW' },
+    zIndex: 2,
+    visible: false,
     data: []
   }, {
     name: 'OST',
@@ -181,7 +222,7 @@ const chart = {
     yAxis: 1,
     tooltip: { valueSuffix: ' MW' },
     zIndex: 2,
-    //visible: false,
+    visible: false,
     data: []
   }, {
     name: 'Komunikácia',
@@ -191,38 +232,47 @@ const chart = {
     lineWidth: 1,
     yAxis: 2,
     zIndex: 2,
-    //visible: false,
+    visible: false,
     data: []
   }]
 }
 
 
-class VychodOST extends React.Component {
+class ZapadVykon extends React.Component {
   constructor(props) {
     super(props)
   }
 
   componentDidUpdate(prevProps, prevState) {
 
-    const chart = this.refs['chart_ost_prehlad'].getChart()
+    const chart = this.refs['chart_vykon_prehlad'].getChart()
 
     let teplota = [],
       termis_pocasie = [],
+      plan = [],
+      termis = [],
+      zdroje = [],
       termis_ost = [],
       ost = [],
       komunikacia = []
 
     this.props.vykon.teplota.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
-    this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
-    this.props.vykon.termis_ost.map( row => { termis_ost.push([ row['datum'], row['hodnota'] ]) })
-    this.props.vykon.ost.map( row => { ost.push([ row['datum'], parseFloat((row['hodnota'] / 1000).toFixed(4)) ]) })
-    this.props.vykon.komunikacia.map( row => { komunikacia.push([ row['datum'], row['hodnota'] ]) })
+    //this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.plan.map( row => { plan.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.termis.map( row => { termis.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.zdroje.map( row => { zdroje.push([ row['datum'], row['hodnota'] ]) })
+    //this.props.vykon.termis_ost.map( row => { termis_ost.push([ row['datum'], row['hodnota'] ]) })
+    //this.props.vykon.ost.map( row => { ost.push([ row['datum'], parseFloat((row['hodnota'] / 1000).toFixed(4)) ]) })
+    //this.props.vykon.komunikacia.map( row => { komunikacia.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(teplota, false)
-    chart.series[1].setData(termis_pocasie, false)
-    chart.series[2].setData(termis_ost, false)
-    chart.series[3].setData(ost, false)
-    chart.series[4].setData(komunikacia, false)
+    //chart.series[1].setData(termis_pocasie, false)
+    chart.series[2].setData(plan, false)
+    chart.series[3].setData(termis, false)
+    chart.series[4].setData(zdroje, false)
+    //chart.series[5].setData(termis_ost, false)
+    //chart.series[6].setData(ost, false)
+    //chart.series[7].setData(komunikacia, false)
 
     /*chart.yAxis[0].setExtremes(
       this.props.vykon.extremy_teplota['hodnota_min'],
@@ -234,10 +284,10 @@ class VychodOST extends React.Component {
       this.props.vykon.extremy_vykon['hodnota_max']
     )*/
 
-    chart.yAxis[2].setExtremes(
+    /*chart.yAxis[2].setExtremes(
       0,
       this.props.vykon.extremy_komunikacia['hodnota_max']
-    )
+    )*/
 
     chart.redraw()
     chart.reflow()
@@ -250,21 +300,21 @@ class VychodOST extends React.Component {
 
     return (
       <div>
-        <ReactHighcharts config={chart} ref={'chart_ost_prehlad'} isPureConfig />
+        <ReactHighcharts config={chart} ref={'chart_vykon_prehlad'} isPureConfig />
       </div>
     )
   }
 }
 
 const mapStateToProps = ( state, ownProps ) => ({
-  vykon: state.vychodvykon
+  vykon: state.zapadvykon
 })
 
 const mapDispatchToProps = ( dispatch, ownProps ) => ({
-  // fetch: (e) => dispatch(fetchSCZTVychodVykonRequest(e))
+  // fetch: (e) => dispatch(fetchSCZTZapadVykonRequest(e))
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(VychodOST)
+)(ZapadVykon)

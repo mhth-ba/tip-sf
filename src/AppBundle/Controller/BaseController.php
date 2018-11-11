@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\App\ActivityLog;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\FormInterface;
@@ -88,5 +89,132 @@ class BaseController extends Controller
             ."/$file";
 
         return $this->file($path, $orig, ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    /**
+     * Performs update of entry in SQL database
+     *
+     * @param $id
+     * @param string $className Fully-qualified classname without a leading backslash
+     * @param string $type Form type
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    protected function updateDatabase($id, $className, $type, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entry = $em->getRepository($className)->find($id);
+
+        if (!$entry) {
+            throw $this->createNotFoundException(sprintf(
+                'Záznam s id %s sa nenašiel',
+                $id
+            ));
+        }
+
+        $form = $this->createForm($type, $entry);
+        $this->processForm($request, $form);
+
+        if (!$form->isValid()) {
+            $this->createApiResponse($form->getErrors(), 400);
+        }
+
+        $em->persist($entry);
+        $em->flush();
+
+        $metadata = $em->getClassMetadata($className);
+        $this->logUpdateActivity($metadata, $request);
+
+        return $this->createApiResponse($entry, 200);
+    }
+
+    /**
+     * Performs delete of entry in SQL database
+     *
+     * @param $id
+     * @param $className Fully-qualified classname without a leading backslash
+     * @param Request $request
+     *
+     * @return JsonResponse \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    protected function deleteFromDatabase($id, $className, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entry = $em->getRepository($className)->find($id);
+
+        if (!$entry) {
+            throw $this->createNotFoundException(sprintf(
+                'Záznam s id %s sa nenašiel',
+                $id
+            ));
+        }
+
+        $em->remove($entry);
+        $em->flush();
+
+        $metadata = $em->getClassMetadata($className);
+        $this->logDeleteActivity($metadata, $id);
+
+        return $this->createApiResponse(null, 204);
+    }
+
+    /**
+     * @param $metadata \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory
+     * @param Request $request HTTP request
+     */
+    protected function logUpdateActivity($metadata, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $log = new ActivityLog();
+
+        $log->setSchema($metadata->getSchemaName());
+        $log->setTable($metadata->getTableName());
+
+        // predpokladá sa, že patch request obsahuje iba dve polia: ID a novú hodnotu s názvom stĺpca
+        $data = json_decode($request->getContent(), true);
+        foreach ($data as $key => $val) {
+            if ($key === 'id') {
+                $log->setRow($val);
+            } else if ($key !== 'key') {
+                $log->setColumn($key);
+                $log->setValue($val);
+            }
+        }
+
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+        $log->setUser($user);
+
+        $em->persist($log);
+        $em->flush();
+    }
+
+    /**
+     * @param $metadata \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory
+     * @param $id integer Row ID
+     */
+    protected function logDeleteActivity($metadata, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $log = new ActivityLog();
+
+        $log->setSchema($metadata->getSchemaName());
+        $log->setTable($metadata->getTableName());
+        $log->setRow($id);
+        $log->setValue('DELETE ENTRY');
+
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+        $log->setUser($user);
+
+        $em->persist($log);
+        $em->flush();
     }
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Row, Col } from 'reactstrap'
 import Kriteria from './Kriteria'
-import VychodVykon from './VychodVykon'
-import VychodZdrojeLine from './VychodZdrojeLine'
-import VychodZdrojeColumn from './VychodZdrojeColumn'
-import VychodOST from './VychodOST'
+import ZapadVykon from './ZapadVykon'
+import ZapadZdrojeLine from './ZapadZdrojeLine'
+import ZapadZdrojeColumn from './ZapadZdrojeColumn'
+//import VychodOST from './VychodOST'
 
 class App extends React.Component {
   render() {
@@ -18,25 +18,19 @@ class App extends React.Component {
         <br/>
         <Row>
           <Col>
-            <VychodVykon/>
+            <ZapadVykon/>
           </Col>
         </Row>
         <br/>
         <Row>
           <Col>
-            <VychodZdrojeLine/>
+            <ZapadZdrojeLine/>
           </Col>
         </Row>
         <br/>
         <Row>
           <Col>
-            <VychodZdrojeColumn/>
-          </Col>
-        </Row>
-        <br/>
-        <Row>
-          <Col>
-            <VychodOST/>
+            <ZapadZdrojeColumn/>
           </Col>
         </Row>
         <br/>

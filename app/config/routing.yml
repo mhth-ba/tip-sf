@@ -47,6 +47,14 @@ sczt-vychod:
         expose: true
     defaults:
         _controller: AppBundle:SCZTVychod:index
+
+sczt-zapad:
+    path: /disp/scztz
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:SCZTZapad:index
+
 vychladenie-ost:
     path: /disp/vco
     options:

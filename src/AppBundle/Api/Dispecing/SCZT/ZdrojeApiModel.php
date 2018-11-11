@@ -2,7 +2,7 @@
 
 namespace AppBundle\Api\Dispecing\SCZT;
 
-class VychodZdrojeApiModel
+class ZdrojeApiModel
 {
     public $datum;
 

@@ -3,8 +3,10 @@ $theme-colors: (
     "flower": #b15ba8,
     "lime": #d9ffe2,
     "azure": #deeeff,
-    "yellow": #ffffb1
+    "yellow": #ffffe5
 );
+
+$popover-max-width: 400px;
 
 // bootstrap theming
 /*.card {
@@ -15,7 +17,8 @@ $theme-colors: (
 
 // imports
 @import "~bootstrap/scss/bootstrap";
-@import "~react-bootstrap-table-2/dist/react-bootstrap-table-all.min";
+//@import "~react-bootstrap-table-2/dist/react-bootstrap-table-all.min";
+@import "~react-bootstrap-table/dist/react-bootstrap-table-all.min";
 @import "~font-awesome/scss/font-awesome";
 @import "~react-dropzone-component/styles/filepicker";
 @import "~dropzone/dist/basic";
