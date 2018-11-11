@@ -1,14 +1,14 @@
 <?php
 
-namespace AppBundle\Entity\Kontroling\SCT;
+namespace AppBundle\Entity\Kontroling;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\PolozkaRepository")
- * @ORM\Table(name="_RefPolozka", schema="Kontroling")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\UcetRepository")
+ * @ORM\Table(name="_RefUcet", schema="Kontroling")
  */
-class Polozka
+class Ucet
 {
     /**
      * @ORM\Id

@@ -6,10 +6,10 @@ use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\VyrobaElektrinyRepository")
- * @ORM\Table(name="SCT_Elektrina", schema="Kontroling")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\KonstantyRepository")
+ * @ORM\Table(name="SCT_Konstanty", schema="Kontroling")
  */
-class VyrobaElektriny extends BaseEntity
+class Konstanty extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -36,12 +36,7 @@ class VyrobaElektriny extends BaseEntity
     /**
      * @ORM\Column(type="decimal", precision=37, scale=10)
      */
-    private $tpv;
-
-    /**
-     * @ORM\Column(type="decimal", precision=37, scale=10)
-     */
-    private $tpz;
+    private $hodnota;
 
     public function getId()
     {
@@ -63,23 +58,13 @@ class VyrobaElektriny extends BaseEntity
         return $this->polozka;
     }
 
-    public function getTpv()
+    public function getHodnota()
     {
-        return $this->tpv;
+        return $this->hodnota;
     }
 
-    public function setTpv($tpv)
+    public function setHodnota($hodnota)
     {
-        $this->tpv = $tpv;
-    }
-
-    public function getTpz()
-    {
-        return $this->tpz;
-    }
-
-    public function setTpz($tpz)
-    {
-        $this->tpz = $tpz;
+        $this->hodnota = $hodnota;
     }
 }

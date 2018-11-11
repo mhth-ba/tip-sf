@@ -1,19 +1,18 @@
 <?php
 
-namespace AppBundle\Entity\Kontroling\SCT;
+namespace AppBundle\Entity\Kontroling\NCT;
 
 use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\VyrobaElektrinyRepository")
- * @ORM\Table(name="SCT_Elektrina", schema="Kontroling")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\NCT\KonstantyRepository")
+ * @ORM\Table(name="NCT_Konstanty", schema="Kontroling")
  */
-class VyrobaElektriny extends BaseEntity
+class Konstanty extends BaseEntity
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -24,7 +23,7 @@ class VyrobaElektriny extends BaseEntity
     private $datum;
 
     /**
-     * @ORM\OneToOne(targetEntity="Hlavny")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\NCT\Hlavny")
      */
     private $hlavny;
 
@@ -36,12 +35,7 @@ class VyrobaElektriny extends BaseEntity
     /**
      * @ORM\Column(type="decimal", precision=37, scale=10)
      */
-    private $tpv;
-
-    /**
-     * @ORM\Column(type="decimal", precision=37, scale=10)
-     */
-    private $tpz;
+    private $hodnota;
 
     public function getId()
     {
@@ -50,7 +44,7 @@ class VyrobaElektriny extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->datum;
     }
 
     public function getHlavny()
@@ -63,23 +57,13 @@ class VyrobaElektriny extends BaseEntity
         return $this->polozka;
     }
 
-    public function getTpv()
+    public function getHodnota()
     {
-        return $this->tpv;
+        return $this->hodnota;
     }
 
-    public function setTpv($tpv)
+    public function setHodnota($hodnota)
     {
-        $this->tpv = $tpv;
-    }
-
-    public function getTpz()
-    {
-        return $this->tpz;
-    }
-
-    public function setTpz($tpz)
-    {
-        $this->tpz = $tpz;
+        $this->hodnota = $hodnota;
     }
 }

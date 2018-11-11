@@ -4,7 +4,7 @@ namespace AppBundle\Repository\Kontroling\SCT;
 
 use Doctrine\ORM\EntityRepository;
 
-class CenaTeplaRepository extends EntityRepository
+class HlavnyRepository extends EntityRepository
 {
     public function getZoznam()
     {

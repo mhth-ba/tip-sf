@@ -1,14 +1,15 @@
 <?php
 
-namespace AppBundle\Entity\Kontroling\SCT;
+namespace AppBundle\Entity\Kontroling\NCT;
 
+use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\CenaTeplaRepository")
- * @ORM\Table(name="SCT_Hlavny", schema="Kontroling")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\NCT\HlavnyRepository")
+ * @ORM\Table(name="NCT_Hlavny", schema="Kontroling")
  */
-class CenaTepla
+class Hlavny extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -28,9 +29,14 @@ class CenaTepla
     private $zmenene;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Stav")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\Stav")
      */
     private $stav;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\Verzia")
+     */
+    private $verzia;
 
     /**
      * @ORM\Column(type="string")
@@ -73,12 +79,12 @@ class CenaTepla
 
     public function getDatum()
     {
-        return $this->datum;
+        return $this->getTimestampWithOffset($this->datum);
     }
 
     public function getZmenene()
     {
-        return $this->zmenene;
+        return $this->getTimestampWithOffset($this->zmenene);
     }
 
     public function setZmenene($zmenene)
@@ -94,6 +100,16 @@ class CenaTepla
     public function setStav($stav)
     {
         $this->stav = $stav;
+    }
+
+    public function getVerzia()
+    {
+        return $this->verzia;
+    }
+
+    public function setVerzia($verzia)
+    {
+        $this->verzia = $verzia;
     }
 
     public function getNazov()

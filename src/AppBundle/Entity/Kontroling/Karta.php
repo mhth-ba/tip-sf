@@ -1,14 +1,14 @@
 <?php
 
-namespace AppBundle\Entity\Kontroling\SCT;
+namespace AppBundle\Entity\Kontroling;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\UploadTypeRepository")
- * @ORM\Table(name="_RefUpload", schema="Kontroling")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\KartaRepository")
+ * @ORM\Table(name="_RefKarta", schema="Kontroling")
  */
-class UploadType
+class Karta
 {
     /**
      * @ORM\Id

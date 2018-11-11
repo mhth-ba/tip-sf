@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Entity\Kontroling\SCT;
+namespace AppBundle\Entity\Kontroling;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\ZdrojRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\ZdrojRepository")
  * @ORM\Table(name="_RefZdroj", schema="Kontroling")
  */
 class Zdroj

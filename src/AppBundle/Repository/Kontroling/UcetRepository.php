@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repository\Kontroling\SCT;
+namespace AppBundle\Repository\Kontroling;
 
 use Doctrine\ORM\EntityRepository;
 

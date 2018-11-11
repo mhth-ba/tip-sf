@@ -1,15 +1,15 @@
 <?php
 
-namespace AppBundle\Entity\Kontroling\SCT;
+namespace AppBundle\Entity\Kontroling\NCT;
 
 use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\DodaneTeploRepository")
- * @ORM\Table(name="SCT_DodaneTeplo", schema="Kontroling")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\NCT\PlanDodavkyTeplaRepository")
+ * @ORM\Table(name="NCT_PlanDodavkyTepla", schema="Kontroling")
  */
-class DodaneTeplo extends BaseEntity
+class PlanDodavkyTepla extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -29,7 +29,7 @@ class DodaneTeplo extends BaseEntity
     private $platne;
 
     /**
-     * @ORM\OneToOne(targetEntity="Hlavny")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\NCT\Hlavny")
      */
     private $hlavny;
 
@@ -44,19 +44,9 @@ class DodaneTeplo extends BaseEntity
     private $vychod_kwh;
 
     /**
-     * @ORM\Column(type="decimal", precision=37, scale=10, name="V_kW")
-     */
-    private $vychod_kw;
-
-    /**
      * @ORM\Column(type="decimal", precision=37, scale=10, name="Z_kWh")
      */
     private $zapad_kwh;
-
-    /**
-     * @ORM\Column(type="decimal", precision=37, scale=10, name="Z_kW")
-     */
-    private $zapad_kw;
 
     public function getId()
     {
@@ -88,18 +78,8 @@ class DodaneTeplo extends BaseEntity
         return $this->vychod_kwh;
     }
 
-    public function getVychodKw()
-    {
-        return $this->vychod_kw;
-    }
-
     public function getZapadKwh()
     {
         return $this->zapad_kwh;
-    }
-
-    public function getZapadKw()
-    {
-        return $this->zapad_kw;
     }
 }

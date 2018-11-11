@@ -11,6 +11,7 @@ class VyrobaElektrinyRepository extends EntityRepository
         return $this->createQueryBuilder('ve')
             ->andWhere('ve.hlavny = :id')
             ->setParameter('id', $id)
+            ->orderBy('ve.polozka', 'asc')
             ->getQuery()
             ->execute();
     }

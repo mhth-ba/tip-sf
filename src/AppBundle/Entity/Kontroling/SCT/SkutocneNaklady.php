@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity\Kontroling\SCT;
 
+use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\SkutocneNakladyRepository")
  * @ORM\Table(name="SCT_SkutocneNaklady", schema="Kontroling")
  */
-class SkutocneNaklady
+class SkutocneNaklady extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -28,12 +29,12 @@ class SkutocneNaklady
     private $platne;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\CenaTepla")
+     * @ORM\OneToOne(targetEntity="Hlavny")
      */
     private $hlavny;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Ucet")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\Ucet")
      */
     private $ucet;
 
@@ -90,7 +91,7 @@ class SkutocneNaklady
 
     public function getDatum()
     {
-        return $this->datum;
+        return $this->getTimestampWithOffset($this->datum);
     }
 
     public function getPlatne()

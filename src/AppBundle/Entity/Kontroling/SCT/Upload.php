@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity\Kontroling\SCT;
 
+use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     )
  * })
  */
-class Upload
+class Upload extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -35,12 +36,12 @@ class Upload
     private $datum;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\CenaTepla")
+     * @ORM\OneToOne(targetEntity="Hlavny")
      */
     private $hlavny;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\UploadType")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\UploadType")
      */
     private $upload;
 
@@ -70,7 +71,7 @@ class Upload
 
     public function getDatum()
     {
-        return $this->datum;
+        return $this->getTimestampWithOffset($this->datum);
     }
 
     public function getHlavny()
