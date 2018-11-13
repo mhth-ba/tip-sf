@@ -22,21 +22,6 @@ const polozky = [
       nazov: 'SCZT Západ',
       color: 'primary',
       size: 'sm'
-    },{
-      url: 'http://zeusprod-vi/tip/zone_ris_vykon-odber-sustav.php',
-      nazov: 'Výkon a odber tepla',
-      color: 'primary',
-      size: 'md'
-    }, {
-      url: 'http://zeusprod-vi/tip/zone_ris_celkovy-vykon-sustav.php',
-      nazov: 'Celkový výkon sústav',
-      color: 'secondary',
-      size: 'sm'
-    }, {
-      url: 'http://zeusprod-vi/tip/zone_ris_celkovy-odber-tepla-zo-sustav.php',
-      nazov: 'Celkový odber tepla zo sústav',
-      color: 'secondary',
-      size: 'sm'
     }, {
       url: Routing.generate('vychladenie-ost'),
       nazov: 'Vychladenie OST',

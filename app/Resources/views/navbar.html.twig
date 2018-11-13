@@ -58,11 +58,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownRis">
                     {#<a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_celkovy-vykon-sustav.php">Celkový výkon sústav</a>#}
                     {#<a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_celkovy-odber-tepla-zo-sustav.php">Celkový odber tepla zo sústav</a>#}
-                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_vykon-odber-sustav.php">Celkový výkon + odber tepla zo sústav</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_ost-diferencny-tlak-trendy-tpv.php">Trendy diferenčných tlakov - východ</a>
-                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_ost-diferencny-tlak-trendy-tpz.php">Trendy diferenčných tlakov - západ</a>
-                    <div class="dropdown-divider"></div>
+                    {#<a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_vykon-odber-sustav.php">Celkový výkon + odber tepla zo sústav</a>#}
+                    {#<div class="dropdown-divider"></div>#}
                     <a class="dropdown-item disabled" href="#">Servisné zásahy a poruchy</a>
                     <a class="dropdown-item disabled" href="#">Profylaktické kontroly</a>
                     <a class="dropdown-item disabled" href="#">Harmonogram kontrol</a>
@@ -101,6 +98,9 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownDispecing">
                     <a class="dropdown-item" href={{ path('sczt-vychod') }}>SCZT Východ</a>
                     <a class="dropdown-item" href={{ path('sczt-zapad') }}>SCZT Západ</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_ost-diferencny-tlak-trendy-tpv.php">Diferenčný tlak OST východ</a>
+                    <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_ost-diferencny-tlak-trendy-tpz.php">Diferenčný tlak OST západ</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ee_plan-prevadzky.php">Týždenný plán prevádzky</a>
                     <a class="dropdown-item disabled" href="#">Evidencia stavov OST a zdrojov</a>
