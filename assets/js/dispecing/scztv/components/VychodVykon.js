@@ -12,6 +12,10 @@ import { connect } from 'react-redux'
 
 Highcharts.setOptions({...CONFIGS.REACT_HIGHCHART_OPTIONS})
 
+// oznacenie dni/noci a vikendov
+// http://jsfiddle.net/yj06z3qo/1/
+// https://api.highcharts.com/highcharts/xAxis.plotBands
+
 const chart = {
   chart: {
     //margin: [0, 0, 0, 0],

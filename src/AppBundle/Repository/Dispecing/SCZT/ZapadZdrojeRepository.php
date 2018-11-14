@@ -41,4 +41,52 @@ class ZapadZdrojeRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function getHK1($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('zz')
+            ->andWhere('zz.kategoria = 31')
+            ->andWhere('zz.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('zz.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getHK3($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('zz')
+            ->andWhere('zz.kategoria = 32')
+            ->andWhere('zz.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('zz.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getK6($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('zz')
+            ->andWhere('zz.kategoria = 33')
+            ->andWhere('zz.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('zz.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getTG1($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('zz')
+            ->andWhere('zz.kategoria = 34')
+            ->andWhere('zz.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('zz.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
 }

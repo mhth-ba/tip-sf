@@ -139,10 +139,20 @@ class SCZTZapadController extends BaseController
         $tpz = $repository->getTpZ($dateTo, $dateFrom);
         $cw = $repository->getCW($dateTo, $dateFrom);
         $teplota = $repository->getTeplota($dateTo, $dateFrom);
+        
+        $hk1 = $repository->getHK1($dateTo, $dateFrom);
+        $hk3 = $repository->getHK3($dateTo, $dateFrom);
+        $k6 = $repository->getK6($dateTo, $dateFrom);
+        $tg1 = $repository->getTG1($dateTo, $dateFrom);
 
         $tpz_models = [];
         $cw_models = [];
         $teplota_models = [];
+        
+        $hk1_models = [];
+        $hk3_models = [];
+        $k6_models = [];
+        $tg1_models = [];
 
         foreach ($tpz as $ppc_riadok) {
             $tpz_models[] = $this->createZdrojeApiModel($ppc_riadok);
@@ -154,6 +164,22 @@ class SCZTZapadController extends BaseController
 
         foreach ($teplota as $teplota_riadok) {
             $teplota_models[] = $this->createZdrojeApiModel($teplota_riadok);
+        }
+
+        foreach ($hk1 as $hk1_riadok) {
+            $hk1_models[] = $this->createZdrojeApiModel($hk1_riadok);
+        }
+
+        foreach ($hk3 as $hk3_riadok) {
+            $hk3_models[] = $this->createZdrojeApiModel($hk3_riadok);
+        }
+
+        foreach ($k6 as $k6_riadok) {
+            $k6_models[] = $this->createZdrojeApiModel($k6_riadok);
+        }
+
+        foreach ($tg1 as $tg1_riadok) {
+            $tg1_models[] = $this->createZdrojeApiModel($tg1_riadok);
         }
 
         $zdroje_1h = $this->getDoctrine()->getManager()
@@ -183,6 +209,11 @@ class SCZTZapadController extends BaseController
             'tpz' => $tpz_models,
             'cw' => $cw_models,
             'teplota' => $teplota_models,
+            
+            'hk1' => $hk1_models,
+            'hk3' => $hk3_models,
+            'k6' => $k6_models,
+            'tg1' => $tg1_models,
             
             'tpz_1h' => $tpz_1h_models,
             'cw_1h' => $cw_1h_models,
