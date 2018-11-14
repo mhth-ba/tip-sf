@@ -195,7 +195,7 @@ const chart = {
     yAxis: 0,
     type: 'areaspline',
     color: '#eedf23',
-    tooltip: { valueSuffix: ' MW' },
+    tooltip: { valueSuffix: ' MWel' },
     data: []
   }, {
     name: 'Teplota',
