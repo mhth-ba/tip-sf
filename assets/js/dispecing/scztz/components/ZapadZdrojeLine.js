@@ -69,6 +69,9 @@ const chart = {
   title: {
     text: 'Priebeh výkonu jednotlivých zdrojov v SCZT západ'
   },
+  subtitle: {
+    text: 'Vzorkovanie 10 minút'
+  },
   legend: {
     useHTML: true,
     labelFormatter: function() {

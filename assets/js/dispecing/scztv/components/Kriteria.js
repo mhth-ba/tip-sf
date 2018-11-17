@@ -131,8 +131,8 @@ class Kriteria extends React.Component {
           </Col>
           <Col sm={10}>
             <span>
-              Údaj je z Teplárne Západ. Vzorkovanie v hodinovom intervale.
-              V databáze prebieha automatické načítanie nových údajov každých :05 a :35 minút po celej hodine.
+              Priemerná vonkajšia teplota z OST: 644, 655 a 798. Vzorkovanie v hodinovom intervale.
+              V databáze prebieha automatické načítanie nových údajov každých :05 minút po celej hodine.
             </span>
           </Col>
         </Row>

@@ -47,7 +47,7 @@ const chart = {
           return `<span>${this.name}</span>`
         case 4:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Vonkajšia teplota na TpZ"
+                        title="Vonkajšia teplota ako priemer z OST 644, 655 a 798"
                   >${this.name}</span>`
       }
     }

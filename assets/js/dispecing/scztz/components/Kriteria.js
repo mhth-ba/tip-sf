@@ -132,7 +132,7 @@ class Kriteria extends React.Component {
           <Col sm={10}>
             <span>
               Údaj je z Teplárne Západ. Vzorkovanie v hodinovom intervale.
-              V databáze prebieha automatické načítanie nových údajov každých :05 a :35 minút po celej hodine.
+              V databáze prebieha automatické načítanie nových údajov každých :05 minút po celej hodine.
             </span>
           </Col>
         </Row>

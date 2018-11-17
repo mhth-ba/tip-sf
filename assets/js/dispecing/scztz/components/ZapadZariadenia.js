@@ -69,6 +69,9 @@ const chart = {
   title: {
     text: 'Priebeh výkonu jednotlivých zariadení na Teplárni Západ'
   },
+  subtitle: {
+    text: 'Vzorkovanie 10 minút'
+  },
   legend: {
     useHTML: true,
     labelFormatter: function() {
