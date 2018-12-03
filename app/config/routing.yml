@@ -68,3 +68,10 @@ skutocna-cena-tepla:
         expose: true
     defaults:
         _controller: AppBundle:SkutocnaCenaTepla:index
+
+projekty:
+    path: /projekty
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:Projekty:index

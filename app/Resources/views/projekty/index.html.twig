@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Projekty a úlohy' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>Projekty a úlohy - vývoj aplikácií</h1>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col">
+                <div id="projekty"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('build/prj.js') }}"></script>
+{% endblock %}
