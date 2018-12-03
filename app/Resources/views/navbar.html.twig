@@ -1,3 +1,11 @@
+{% set url = app.request.pathInfo %}
+{% set meranie = url == '/smo/rm' %}
+{% set dispecing = (url == '/disp/scztv'
+    or url == '/disp/scztz'
+    or url == '/disp/vco') %}
+{% set kontroling = url == '/kont/sct' %}
+{% set projekty = url == '/projekty' %}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="{{ path('homepage') }}"><i class="fa fa-home"></i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,6 +14,7 @@
 
     <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
             {# Úvod #}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUvod" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -30,8 +39,9 @@
                     <a class="dropdown-item" href="http://ibatas/intranet">Intranet</a>
                 </div>
             </li>
+
             {# Meranie a odpočty #}
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown {% if meranie %}active{% endif %}">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMeranie" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Meranie a odpočty
                 </a>
@@ -50,6 +60,7 @@
                     <a class="dropdown-item" href={{ path('report-meracov') }}>Report meračov</a>
                 </div>
             </li>
+
             {# Riadiace informačné systémy #}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRis" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,6 +80,7 @@
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_wincc-tpz.php">Klient WinCC - TpZ</a>
                 </div>
             </li>
+
             {# Energetická efektívnosť #}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownEe" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -90,8 +102,9 @@
                     <a class="dropdown-item disabled" href="#">Plánované ročné hodnoty</a>
                 </div>
             </li>
+
             {# Dispečerské riadenie #}
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown {% if dispecing %}active{% endif %}">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDispecing" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dispečing
                 </a>
@@ -109,6 +122,7 @@
                     <a class="dropdown-item" href="{{ path('vychladenie-ost') }}">Vychladenie OST</a>
                 </div>
             </li>
+
             {# Prevádzka #}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPrevadzka" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -126,8 +140,9 @@
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-zoznam-vhj.php">Denník prevádzky VhJ - Zobrazenie údajov</a>
                 </div>
             </li>
+
             {# Kontroling #}
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown {% if kontroling %}active{% endif %}">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownKontroling" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Kontroling
                 </a>
@@ -137,10 +152,20 @@
                     <a class="dropdown-item disabled" href="#">Vyhodnotenie ceny tepla</a>
                 </div>
             </li>
+
+            {# Projekty a úlohy, vývoj aplikácií #}
+            <li class="nav-item {% if projekty %}active{% endif %}">
+                <a class="nav-link" href="{{ path('projekty') }}">Projekty&nbsp;<i class="fa fa-tasks"></i></a>
+            </li>
         </ul>
 
-        {# Užívateľ #}
         <ul class="navbar-nav ml-auto">
+            {# Search box #}
+            {#<form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Hľadať...">
+            </form>#}
+
+            {# Užívateľ #}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% if is_granted('ROLE_ADMIN') %}
@@ -209,10 +234,5 @@
                 </div>
             </li>
         </ul>
-
-        {#<form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>#}
     </div>
 </nav>
