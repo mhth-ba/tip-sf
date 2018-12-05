@@ -38,16 +38,24 @@ const chart = {
     labelFormatter: function() {
       switch (this.index) {
         case 0:
-          return `<span>${this.name}</span>`
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Predpoveď vonkajšej teploty"
+                  >${this.name}</span>`
         case 1:
-          return `<span>${this.name}</span>`
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Vonkajšia teplota ako priemer z OST 644, 655 a 798"
+                  >${this.name}</span>`
         case 2:
           return `<span>${this.name}</span>`
         case 3:
           return `<span>${this.name}</span>`
         case 4:
+          return `<span>${this.name}</span>`
+        case 5:
+          return `<span>${this.name}</span>`
+        case 6:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Vonkajšia teplota ako priemer z OST 644, 655 a 798"
+                        title="Predikcia celkového výkonu zdrojov"
                   >${this.name}</span>`
       }
     }
@@ -125,6 +133,28 @@ const chart = {
     }*/
   },
   series: [{
+    name: 'Teplota',
+    color: '#eecc12',
+    dashStyle: 'ShortDash',
+    type: 'spline',
+    yAxis: 1,
+    tooltip: { valueSuffix: ' °C' },
+    marker: {
+      enabled: false
+    },
+    data: []
+  }, {
+    name: 'Termis teplota',
+    color: '#ed7e14',
+    dashStyle: 'ShortDash',
+    type: 'spline',
+    yAxis: 1,
+    tooltip: { valueSuffix: ' °C' },
+    marker: {
+      enabled: false
+    },
+    data: []
+  }, {
     name: 'VhJ',
     yAxis: 0,
     type: 'column',
@@ -153,14 +183,13 @@ const chart = {
     tooltip: { valueSuffix: ' MW' },
     data: []
   }, {
-    name: 'Teplota',
-    color: '#eecc12',
-    dashStyle: 'ShortDash',
+    name: 'Termis zdroje',
+    yAxis: 0,
     type: 'spline',
-    yAxis: 1,
-    tooltip: { valueSuffix: ' °C' },
+    color: '#2f2f2f',
+    tooltip: { vallueSuffix: ' MW' },
     marker: {
-      enabled: false
+      enabled: true
     },
     data: []
   }]
@@ -176,19 +205,24 @@ class VychodZdrojeColumn extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const chart = this.refs['chart_vykon_zdroje_column'].getChart()
 
-    let ppc = [], tpv = [], slovnaft = [], vhj = [], teplota = []
+    let teplota = [], termis_pocasie = [],
+      ppc = [], tpv = [], slovnaft = [], vhj = [], termis_zdroje = []
 
+    this.props.zdroje.teplota_1h.map( row => { teplota.push([ row['hodina'], row['priemer'] ]) })
+    this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.ppc_1h.map( row => { ppc.push([ row['hodina'], row['priemer'] ]) })
     this.props.zdroje.tpv_1h.map( row => { tpv.push([ row['hodina'], row['priemer'] ]) })
     this.props.zdroje.slovnaft_1h.map( row => { slovnaft.push([ row['hodina'], row['priemer'] ]) })
     this.props.zdroje.vhj_1h.map( row => { vhj.push([ row['hodina'], row['priemer'] ]) })
-    this.props.zdroje.teplota_1h.map( row => { teplota.push([ row['hodina'], row['priemer'] ]) })
+    this.props.vykon.termis.map( row => { termis_zdroje.push([ row['datum'], row['hodnota'] ]) })
 
-    chart.series[0].setData(vhj, false)
-    chart.series[1].setData(slovnaft, false)
-    chart.series[2].setData(tpv, false)
-    chart.series[3].setData(ppc, false)
-    chart.series[4].setData(teplota, false)
+    chart.series[0].setData(teplota, false)
+    chart.series[1].setData(termis_pocasie, false)
+    chart.series[2].setData(vhj, false)
+    chart.series[3].setData(slovnaft, false)
+    chart.series[4].setData(tpv, false)
+    chart.series[5].setData(ppc, false)
+    chart.series[6].setData(termis_zdroje, false)
 
     //chart.yAxis[0].setExtremes(0, this.props.zdroje.max['hodnota'])
 
@@ -207,6 +241,7 @@ class VychodZdrojeColumn extends React.Component {
 }
 
 const mapStateToProps = ( state, ownProps ) => ({
+  vykon: state.vychodvykon,
   zdroje: state.vychodzdroje
 })
 

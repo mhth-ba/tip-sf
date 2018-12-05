@@ -237,6 +237,19 @@ class SCZTVychodController extends BaseController
         return $model;
     }
 
+    /**
+     * @Route("disp/scztv/zariadenia", name="sczt_vychod_zariadenia_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getVychodZariadeniaAction()
+    {
+        $zariadenia = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Dispecing\SCZT\VychodZariadenia')
+            ->find(1);
+
+        return $this->createApiResponse($zariadenia);
+    }
+
     private function getObdobie($data)
     {
         $kalendar = $data['kalendar'];
@@ -250,8 +263,9 @@ class SCZTVychodController extends BaseController
             $dateFrom = \DateTime::createFromFormat('Y-m-d H:i:s', $start);
             $dateTo = \DateTime::createFromFormat('Y-m-d H:i:s', $end);
         } else {
-            $dateFrom = new \DateTime();
-            $dateFrom->sub(new \DateInterval('P1D')); // minus 1 den
+            $dateFrom = new \DateTime("today");
+//            $dateFrom = new \DateTime();
+//            $dateFrom->sub(new \DateInterval('P1D')); // minus 1 den
             $dateTo = new \DateTime();
             $dateTo->add(new \DateInterval('PT18H')); // plus 18 hodín
         }

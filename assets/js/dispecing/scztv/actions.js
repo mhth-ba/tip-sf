@@ -21,6 +21,10 @@ export const fetchSCZTVychodZdrojeRequest = (data) => ({
   data
 })
 
+export const fetchSCZTVychodZariadeniaRequest = () => ({
+  type: TYPES.FETCH_SCZT_VYCHOD_ZARIADENIA_REQUEST
+})
+
 export function* loadSCZTVychod(action) {
 
   let data = action.data
@@ -69,6 +73,21 @@ export function* fetchSCZTVychodZdroje(action) {
 
   } catch (e) {
     yield put({type: TYPES.FETCH_SCZT_VYCHOD_ZDROJE_ERROR, data: e})
+    console.log(e)
+  }
+}
+
+export function* fetchSCZTVychodZariadenia() {
+
+  const url = Routing.generate('sczt_vychod_zariadenia_get')
+
+  try {
+    const polozky = yield call(Api.fetch, url)
+
+    yield put({type: TYPES.FETCH_SCZT_VYCHOD_ZARIADENIA_SUCCESS, data: polozky})
+
+  } catch (e) {
+    yield put({type: TYPES.FETCH_SCZT_VYCHOD_ZARIADENIA_ERROR})
     console.log(e)
   }
 }
