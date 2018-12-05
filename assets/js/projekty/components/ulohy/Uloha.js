@@ -130,14 +130,22 @@ class Uloha extends React.Component {
         }
         <br/>
         <div>
-          <span className='text-muted'>
-            { !this.state.collapse ?
-              <FontAwesome name={'plus-square'} /> : <FontAwesome name={'minus-square'} />
-            }
-          </span>
-          &nbsp;
           <a onClick={this.toggle} href={'#'} className='text-secondary'>
-            { !this.state.collapse ? 'Zobraziť' : 'Skryť' } podrobnosti
+            { !this.state.collapse ?
+              <span>
+                <span>
+                  <FontAwesome name={'plus-square'} />&nbsp;
+                </span>
+                Zobraziť podrobnosti
+              </span>
+              :
+              <span>
+                <span>
+                  <FontAwesome name={'minus-square'} />&nbsp;
+                </span>
+                Skryť podrobnosti
+              </span>
+            }
           </a>
           <Collapse isOpen={this.state.collapse}>
             <br/>
