@@ -18,4 +18,19 @@ class BaseEntity
 
         return $timestamp;
     }
+
+    /**
+     * @param object $dateTime
+     * @return object Timestamp
+     */
+    protected function getTimestampWithoutOffset($dateTime) {
+
+        $timestamp = $dateTime;
+
+        if ($timestamp != null) {
+            return ($timestamp->getTimestamp());
+        }
+
+        return $timestamp;
+    }
 }
