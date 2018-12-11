@@ -51,6 +51,16 @@ class VychodZariadenia extends BaseEntity
      */
     private $hk4;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $dop_nvs;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $dop_ppc;
+
     public function getId()
     {
         return $this->id;
@@ -89,5 +99,15 @@ class VychodZariadenia extends BaseEntity
     public function getHk4()
     {
         return $this->hk4;
+    }
+
+    public function getDopNvs()
+    {
+        return $this->dop_nvs;
+    }
+
+    public function getDopPpc()
+    {
+        return $this->dop_ppc;
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardBody, CardHeader } from 'reactstrap'
+import { Row, Col, Card, CardBody, CardHeader, Progress } from 'reactstrap'
 import {connect} from 'react-redux'
 import { fetchSCZTVychodZariadeniaRequest } from "../actions";
 import Zariadenie from './helpers/Zariadenie'
@@ -36,9 +36,12 @@ class VychodZariadenia extends React.Component {
     const hk3 = z.hk3
     const hk4 = z.hk4
 
+    const dop_nvs = Number(z.dop_nvs).toFixed(2)
+    const dop_ppc = Number(z.dop_ppc).toFixed(2)
+
     return (
-      <div style={{ width: '570px' }}>
-        <Card>
+      <div className="card-columns" style={{ display: 'inline-block' }}>
+        <Card style={{ width: '570px' }}>
           <CardHeader>
             Stavy zariadení - { dateTime(datum) }
           </CardHeader>
@@ -54,6 +57,35 @@ class VychodZariadenia extends React.Component {
             <Zariadenie val={hk3} nazov={'HK3'} col={'pruple'} />
             &nbsp;&nbsp;&nbsp;
             <Zariadenie val={hk4} nazov={'HK4'} col={'pruple'} />
+          </CardBody>
+        </Card>
+
+        <Card style={{ width: '400px' }}>
+          <CardHeader>
+            Doplňovanie do sústavy
+          </CardHeader>
+          <CardBody>
+            <Row>
+              <Col md={8}>
+                <Progress animated value={0.9 * dop_nvs} />
+              </Col>
+              <Col md={4} className='text-right'>
+                <span>{ dop_nvs.replace('.', ',') }</span>
+                &nbsp;
+                <span>t/h NVS</span>
+              </Col>
+            </Row>
+            <br/>
+            <Row>
+              <Col md={8}>
+                <Progress animated value={0.9 * dop_ppc} />
+              </Col>
+              <Col md={4} className='text-right'>
+                <span>{ dop_ppc.replace('.', ',') }</span>
+                &nbsp;
+                <span>t/h PPC</span>
+              </Col>
+            </Row>
           </CardBody>
         </Card>
       </div>
