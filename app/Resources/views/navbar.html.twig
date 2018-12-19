@@ -4,6 +4,7 @@
     or url == '/disp/scztz'
     or url == '/disp/vco') %}
 {% set kontroling = url == '/kont/sct' %}
+{% set uctovnictvo = url == '/uct/dp' %}
 {% set projekty = url == '/projekty' %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -150,6 +151,16 @@
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_kont_navrh-ceny-tepla.php">Príprava návrhu ceny tepla</a>
                     <a class="dropdown-item" href="{{ path('skutocna-cena-tepla') }}">Výpočet skutočnej ceny tepla</a>
                     <a class="dropdown-item disabled" href="#">Vyhodnotenie ceny tepla</a>
+                </div>
+            </li>
+
+            {# Účtovníctvo #}
+            <li class="nav-item dropdown {% if uctovnictvo %}active{% endif %}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownKontroling" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Účtovníctvo
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownKontroling">
+                    <a class="dropdown-item" href="{{ path('danove-priznanie') }}">Daňové priznanie</a>
                 </div>
             </li>
 

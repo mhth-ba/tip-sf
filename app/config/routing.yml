@@ -69,6 +69,13 @@ skutocna-cena-tepla:
     defaults:
         _controller: AppBundle:SkutocnaCenaTepla:index
 
+danove-priznanie:
+    path: /uct/dp
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:DanovePriznanie:index
+
 projekty:
     path: /projekty
     options:

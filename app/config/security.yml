@@ -32,7 +32,10 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
 
     role_hierarchy:
-        ROLE_ADMIN:     [ROLE_VIP, ROLE_SCT]
+        ROLE_ADMIN:     [ROLE_VIP, ROLE_NCT, ROLE_SCT, ROLE_DPP, ROLE_DP_UCT]
+        ROLE_NCT:       [ROLE_NCT_ADMIN]
+        ROLE_NCT_ADMIN: [ROLE_NCT_KONT]
+        ROLE_NCT_KONT:  [ROLE_NCT_MNG]
         ROLE_SCT:       [ROLE_SCT_ADMIN]
         ROLE_SCT_ADMIN: [ROLE_SCT_KONT]
         ROLE_SCT_KONT:  [ROLE_SCT_MNG]
