@@ -8,20 +8,20 @@ use Doctrine\ORM\EntityRepository;
 class RoleRepository extends EntityRepository
 {
     /**
-     * Get all roles descending ordered by name
+     * Get all roles ascending ordered by name
      *
      * @return Role[]
      */
     public function findAllOrderedById()
     {
         return $this->createQueryBuilder('role')
-            ->orderBy('role.id', 'ASC')
+            ->orderBy('role.id', 'asc')
             ->getQuery()
             ->execute();
     }
 
     /**
-     * Get all granted roles to users
+     * Get all granted roles to all users
      *
      * @return array
      */
@@ -34,11 +34,30 @@ class RoleRepository extends EntityRepository
             ->getArrayResult();
     }
 
+    /**
+     * Get list of roles regarding SCT app
+     *
+     * @return array
+     */
     public function findRolesSCT()
     {
         return $this->createQueryBuilder('role')
             ->andWhere('role.role LIKE :role')
             ->setParameter('role', 'ROLE_SCT%')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
+     * Get list of roles regarding Danove priznanie app
+     *
+     * @return array
+     */
+    public function findRolesDP()
+    {
+        return $this->createQueryBuilder('role')
+            ->andWhere('role.role LIKE :role')
+            ->setParameter('role', 'ROLE_DP_UCT%')
             ->getQuery()
             ->getArrayResult();
     }
