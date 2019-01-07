@@ -49,6 +49,11 @@ class Vystup extends BaseEntity
     private $icdph;
 
     /**
+     * @ORM\Column(type="string", name="DruhDokladu")
+     */
+    private $druhDokladu;
+
+    /**
      * @ORM\Column(type="date", name="DatumDokladu")
      */
     private $datumDokladu;
@@ -106,6 +111,11 @@ class Vystup extends BaseEntity
     public function getIcdph()
     {
         return $this->icdph;
+    }
+
+    public function getDruhDokladu()
+    {
+        return $this->druhDokladu;
     }
 
     public function getDatumDokladu()
