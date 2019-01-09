@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Uctovnictvo\DP\VystupRepository")
- * @ORM\Table(name="DP_Vystup", schema="Uctovnictvo")
+ * @ORM\Table(name="DP_Vystup_Z", schema="Uctovnictvo")
  */
 class Vystup extends BaseEntity
 {
