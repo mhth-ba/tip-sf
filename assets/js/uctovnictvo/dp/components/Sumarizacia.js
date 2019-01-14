@@ -1,12 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Row, Col, Card, CardHeader, CardBody, CardFooter, Input, Table } from 'reactstrap'
+import { Row, Col, Card, CardHeader, CardBody, CardFooter, Input, Table, Button } from 'reactstrap'
 
 import Suma from './helpers/Suma'
+import Routing from '../../../Components/Routing'
 
 class Sumarizacia extends React.Component {
   constructor(props) {
     super(props)
+
+    this.export = this.export.bind(this)
   }
 
   findSuma(riadok, stlpec) {
@@ -21,9 +24,15 @@ class Sumarizacia extends React.Component {
     return item === undefined ? undefined : item[stlpec]
   }
 
+  export() {
+    console.log('test')
+  }
+
   render() {
 
     const init = this.props.hlavny.initialized
+    const hlavny = this.props.hlavny
+    const path = Routing.generate('dp_download')
 
     const r3 = this.findSuma('3_4', 'z')
     const r4 = this.findSuma('3_4', 'd')
@@ -44,13 +53,13 @@ class Sumarizacia extends React.Component {
 
     return (
       <div>
-        { init === true &&
+        { init &&
           <Card>
             <CardHeader className="bg-primary text-white">
               Sumarizácia a popis tlačiva
             </CardHeader>
             <CardBody>
-              <Table>
+              <Table bordered>
                 <thead>
                 <tr>
                   <th>Popis položky</th>
@@ -79,10 +88,6 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">1</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">2</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -177,9 +182,6 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">12</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
@@ -189,9 +191,6 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">13</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">14</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -220,9 +219,6 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td>×</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
@@ -232,9 +228,6 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">17</td>
                   <td>{''}</td>
                   <td>×</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -248,9 +241,6 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">18</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
@@ -260,9 +250,6 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">19</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -480,9 +467,6 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">24</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
@@ -492,9 +476,6 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">25</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -582,18 +563,12 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">29</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>Vrátenie dane cestujúcim pri vývoze tovaru - § 60</td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">30</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -605,9 +580,6 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">31</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
@@ -617,9 +589,6 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">32</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -633,18 +602,12 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">33</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>Vlastná daňová povinnosť na úhradu</td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">34</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -659,9 +622,6 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td>×</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
@@ -675,9 +635,6 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td>×</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
@@ -688,9 +645,6 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">37</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>Údaje dodat. daň. priznania - Daň na úhradu (+ /-)</td>
@@ -698,13 +652,15 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">38</td>
                   <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
-                  <td>{''}</td>
                 </tr>
                 </tbody>
               </Table>
             </CardBody>
+            <CardFooter>
+              <a href={`${path}/${hlavny.id}`} className="btn btn-success" role="button">
+                Exportovať do XML
+              </a>
+            </CardFooter>
           </Card>
         }
       </div>
