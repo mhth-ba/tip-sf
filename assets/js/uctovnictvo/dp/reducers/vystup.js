@@ -1,6 +1,6 @@
 import * as TYPES from '../../../services/ActionTypes'
 
-const initState = { // Uctovnictvo.DP_Vystup
+const initState = { // Uctovnictvo.DP_Vystup_Z
   polozky: [],
 
   loading: false,

@@ -1,6 +1,6 @@
 import * as TYPES from '../../../services/ActionTypes'
 
-const initState = { // Uctovnictvo.DP_Vstup_Z
+const initState = { // Uctovnictvo.DP_Sumarizacia
   polozky: [],
 
   loading: false,
@@ -10,11 +10,11 @@ const initState = { // Uctovnictvo.DP_Vstup_Z
 export default (state = initState, action) => {
   switch (action.type) {
 
-    case TYPES.FETCH_VSTUP_REQUEST:
+    case TYPES.FETCH_SUMARIZACIA_REQUEST:
       return {...state, loading: true}
-    case TYPES.FETCH_VSTUP_SUCCESS:
+    case TYPES.FETCH_SUMARIZACIA_SUCCESS:
       return {...state, loading: false, polozky: action.data}
-    case TYPES.FETCH_VSTUP_ERROR:
+    case TYPES.FETCH_SUMARIZACIA_ERROR:
       return {...state, loading: false, error: action.data}
 
     default:

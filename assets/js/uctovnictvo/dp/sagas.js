@@ -8,7 +8,8 @@ import {
   loadMainEntry,
   fetchZnakyDane,
   fetchVstup,
-  fetchVystup
+  fetchVystup,
+  fetchSumarizacia
 } from './actions'
 
 function* mySaga() {
@@ -17,7 +18,8 @@ function* mySaga() {
     takeLatest(TYPES.LOAD_MAIN_ENTRY_REQUEST, loadMainEntry),
     takeLatest(TYPES.FETCH_ZNAKY_DANE_REQUEST, fetchZnakyDane),
     takeLatest(TYPES.FETCH_VSTUP_REQUEST, fetchVstup),
-    takeLatest(TYPES.FETCH_VYSTUP_REQUEST, fetchVystup)
+    takeLatest(TYPES.FETCH_VYSTUP_REQUEST, fetchVystup),
+    takeLatest(TYPES.FETCH_SUMARIZACIA_REQUEST, fetchSumarizacia)
   ])
 }
 

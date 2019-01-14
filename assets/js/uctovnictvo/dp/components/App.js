@@ -5,6 +5,7 @@ import VyberPolozky from './VyberPolozky'
 
 import Vstup from './Vstup'
 import Vystup from './Vystup'
+import Sumarizacia from './Sumarizacia'
 
 class App extends React.Component {
   render() {
@@ -33,6 +34,12 @@ class App extends React.Component {
         <Row>
           <Col>
             <Vystup/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col>
+            <Sumarizacia/>
           </Col>
         </Row>
         <br/>

@@ -102,6 +102,20 @@ class DanovePriznanieController extends BaseController
     }
 
     /**
+     * @Route("uct/dp/sumarizacia/{id}", name="dp_sumarizacia_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function getSumarizaciaAction($id)
+    {
+        $sumarizacia = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
+            ->findByHlavny($id);
+
+        return $this->createApiResponse($sumarizacia);
+    }
+
+    /**
      * @Route("uct/dp/predbezne-hlasenie/{id}", name="dp_predbezne-hlasenie_get", options={"expose"=true})
      * @Method("GET")
      * @Security("has_role('ROLE_DP_UCT')")
