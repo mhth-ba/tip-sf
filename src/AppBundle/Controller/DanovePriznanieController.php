@@ -172,7 +172,7 @@ class DanovePriznanieController extends BaseController
         $r27 = $this->checkArray($sum->findR26_27($id), 'd');
         $r28 = $this->checkArray($sum->findR28($id), 'd');
 
-        $filename =  'dph.xml';
+        $filename =  'DPH form.391.xml';
 
         $fileContent = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
 <dokument>
@@ -196,6 +196,7 @@ class DanovePriznanieController extends BaseController
 <inaPovinna>0</inaPovinna>
 <zdanitelna>0</zdanitelna>
 <zastupca>0</zastupca>
+<zastupca69aa>0</zastupca69aa>
 </osoba>
 <zdanObd>
 <mesiac></mesiac>
@@ -212,23 +213,15 @@ class DanovePriznanieController extends BaseController
 <cislo></cislo>
 <psc></psc>
 <obec></obec>
-<tel>
-<predcislie></predcislie>
-<cislo></cislo>
-</tel>
-<fax>
-<predcislie></predcislie>
-<cislo></cislo>
-</fax>
+<telefon></telefon>
+<email></email>
 </adresa>
 <opravnenaOsoba>
 <menoPriezvisko></menoPriezvisko>
-<tel>
-<predcislie></predcislie>
-<cislo></cislo>
-</tel>
+<telefon></telefon>
+<email></email>
 </opravnenaOsoba>
-<datumVyhlasenia>14.01.2019</datumVyhlasenia>
+<datumVyhlasenia>15.01.2019</datumVyhlasenia>
 </hlavicka>
 <telo>
 <r01></r01>
