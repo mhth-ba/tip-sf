@@ -155,6 +155,19 @@ class DanovePriznanieController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $sum = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia');
 
+        $icdph = 2020285245;
+        $urad = 'pre vybrané daňové subjekty';
+        $nazov = 'Bratislavská teplárenská, a.s.';
+        $ulica = 'Turbínová';
+        $cislo = 3;
+        $psc = 82905;
+        $obec = 'Bratislava';
+        $telefon = '025737184';
+        $email = 'dejovaa@batas.sk';
+
+        $datum = date('d.m.Y');
+
+        $r2 = 0;
         $r3 = $this->checkArray($sum->findR3_4($id), 'z');
         $r4 = $this->checkArray($sum->findR3_4($id), 'd');
         $r5 = $this->checkArray($sum->findR5_6($id), 'z');
@@ -163,7 +176,11 @@ class DanovePriznanieController extends BaseController
         $r8 = $this->checkArray($sum->findR7_8($id), 'd');
         $r9 = $this->checkArray($sum->findR9_10($id), 'z');
         $r10 = $this->checkArray($sum->findR9_10($id), 'd');
+        $r12 = 0;
+        $r14 = 0;
         $r15 = $this->checkArray($sum->findR15($id), 'z');
+        $r18 = 0;
+        $r19 = $r2 + $r4 + $r6 + $r8 + $r10 + $r12 + $r14 + $r18;
         $r20 = $this->checkArray($sum->findR20($id), 'd');
         $r21 = $this->checkArray($sum->findR21($id), 'd');
         $r22 = $this->checkArray($sum->findR22($id), 'd');
@@ -179,10 +196,10 @@ class DanovePriznanieController extends BaseController
 <hlavicka>
 <identifikacneCislo>
 <kodStatu>SK</kodStatu>
-<cislo></cislo>
+<cislo>$icdph</cislo>
 </identifikacneCislo>
 <dic></dic>
-<danovyUrad></danovyUrad>
+<danovyUrad>$urad</danovyUrad>
 <nevzniklaPov>0</nevzniklaPov>
 <typDP>
 <rdp>1</rdp>
@@ -204,28 +221,26 @@ class DanovePriznanieController extends BaseController
 <rok></rok>
 </zdanObd>
 <meno>
-<riadok></riadok>
-<riadok></riadok>
-<riadok></riadok>
+<riadok>$nazov</riadok>
 </meno>
 <adresa>
-<ulica></ulica>
-<cislo></cislo>
-<psc></psc>
-<obec></obec>
-<telefon></telefon>
-<email></email>
+<ulica>$ulica</ulica>
+<cislo>$cislo</cislo>
+<psc>$psc</psc>
+<obec>$obec</obec>
+<telefon>$telefon</telefon>
+<email>$email</email>
 </adresa>
 <opravnenaOsoba>
 <menoPriezvisko></menoPriezvisko>
 <telefon></telefon>
 <email></email>
 </opravnenaOsoba>
-<datumVyhlasenia>15.01.2019</datumVyhlasenia>
+<datumVyhlasenia>$datum</datumVyhlasenia>
 </hlavicka>
 <telo>
 <r01></r01>
-<r02></r02>
+<r02>$r2</r02>
 <r03>$r3</r03>
 <r04>$r4</r04>
 <r05>$r5</r05>
@@ -235,14 +250,14 @@ class DanovePriznanieController extends BaseController
 <r09>$r9</r09>
 <r10>$r10</r10>
 <r11></r11>
-<r12></r12>
+<r12>$r12</r12>
 <r13></r13>
-<r14></r14>
+<r14>$r14</r14>
 <r15>$r15</r15>
 <r16></r16>
 <r17></r17>
-<r18></r18>
-<r19></r19>
+<r18>$r18</r18>
+<r19>$r19</r19>
 <r20>$r20</r20>
 <r21>$r21</r21>
 <r22>$r22</r22>
@@ -285,6 +300,6 @@ class DanovePriznanieController extends BaseController
             case 'd': $stlpec = 'dan'; break;
         }
 
-        return array_key_exists(0, $array) ? $array[0][$stlpec] : null;
+        return array_key_exists(0, $array) ? $array[0][$stlpec] : 0;
     }
 }

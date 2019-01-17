@@ -21,7 +21,7 @@ class Sumarizacia extends React.Component {
       case 'd': stlpec = 'dan'; break;
     }
 
-    return item === undefined ? undefined : item[stlpec]
+    return item === undefined ? 0 : item[stlpec]
   }
 
   export() {
@@ -34,6 +34,7 @@ class Sumarizacia extends React.Component {
     const hlavny = this.props.hlavny
     const path = Routing.generate('dp_download')
 
+    const r2 = 0;
     const r3 = this.findSuma('3_4', 'z')
     const r4 = this.findSuma('3_4', 'd')
     const r5 = this.findSuma('5_6', 'z')
@@ -42,7 +43,11 @@ class Sumarizacia extends React.Component {
     const r8 = this.findSuma('7_8', 'd')
     const r9 = this.findSuma('9_10', 'z')
     const r10 = this.findSuma('9_10', 'd')
+    const r12 = 0;
+    const r14 = 0;
     const r15 = this.findSuma('15', 'z')
+    const r18 = 0;
+    const r19 = r2 + r4 + r6 + r8 + r10 +r12 + r14 + r18;
     const r20 = this.findSuma('20', 'd')
     const r21 = this.findSuma('21', 'd')
     const r22 = this.findSuma('22', 'd')
@@ -181,7 +186,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">11</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">12</td>
-                  <td>{''}</td>
+                  <td className="text-right font-weight-bold"><Suma v={r12} /></td>
                 </tr>
                 <tr>
                   <td>
@@ -191,7 +196,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">13</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">14</td>
-                  <td>{''}</td>
+                  <td className="text-right font-weight-bold"><Suma v={r14} /></td>
                 </tr>
                 <tr>
                   <td>
@@ -240,7 +245,7 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">18</td>
-                  <td>{''}</td>
+                  <td className="text-right font-weight-bold"><Suma v={r18} /></td>
                 </tr>
                 <tr>
                   <td>
@@ -250,7 +255,7 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">19</td>
-                  <td>{''}</td>
+                  <td className="text-right font-weight-bold"><Suma v={r19} /></td>
                 </tr>
                 <tr>
                   <td rowSpan={5} className="align-middle">
@@ -571,9 +576,9 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">30</td>
                   <td>{''}</td>
                 </tr>
-                <tr>
+                <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
-                    Vlastá daňová povinnosť <br/>
+                    Vlastná daňová povinnosť <br/>
                     <span className="text-primary">(kladný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span>
                   </td>
                   <td>×</td>
@@ -581,7 +586,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">31</td>
                   <td>{''}</td>
                 </tr>
-                <tr>
+                <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
                     Nadmerný odpočet <br/>
                     <span className="text-primary">(záporný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span>
@@ -591,7 +596,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">32</td>
                   <td>{''}</td>
                 </tr>
-                <tr>
+                <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
                     Nadmerný odpočet odpočítaný od daňovej povinnosti <br/>
                     <span className="text-primary">
@@ -603,7 +608,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">33</td>
                   <td>{''}</td>
                 </tr>
-                <tr>
+                <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>Vlastná daňová povinnosť na úhradu</td>
                   <td>×</td>
                   <td>{''}</td>
