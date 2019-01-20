@@ -50,7 +50,7 @@ const polozky = [
     text: `Plnenie dát z ProCop do odpočtovej zbernice na základe spájania údajov so SAPom.
         Kontrola anomálií. Porovnanie spotrieb.
         Export nameraných a skontrolovaných stavov do SAPu.`,
-    users: `Ing. Miroslav Lenhartovič, Ing. Zlatica Morávková`,
+    users: `Ing. Miroslav Lenhartovič, Ing. Zlatica Tatarková`,
     links: [{
       url: 'http://zeusprod-vi/tip/zone_smao_denne-a-mesacne-odpocty.php',
       nazov: 'Správa odpočtov',
@@ -143,6 +143,17 @@ const polozky = [
       nazov: 'Hromadná prevodka',
       color: 'secondary',
       size: 'sm'
+    }]
+  }, {
+    title: 'Účtovníctvo',
+    text: `Daňové priznanie k DPH. Import súborov zo SAPu.
+        Výpočet a sumarizácia. Export do XML súboru pre následné použitie na stránke finančnej správy.`,
+    users: `Ing. Marcela Belanská, Ing. Helena Rejmanová`,
+    links: [{
+      url: Routing.generate('danove-priznanie'),
+      nazov: 'Daňové priznanie',
+      color: 'primary',
+      size: 'md'
     }]
   }
 ]
