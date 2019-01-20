@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Row, Col, Card, CardHeader, CardBody, CardFooter, Input, Table, Button } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardFooter, Table } from 'reactstrap'
 
 import Suma from './helpers/Suma'
 import Routing from '../../../Components/Routing'
@@ -108,7 +108,7 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={3} className="align-middle text-right font-weight-bold"><Suma v={r4} /></td>
                   <td>343121</td>
                   <td>3B</td>
-                  <td>OB, ST, OY</td>
+                  <td>OB, OY, ST</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -212,7 +212,7 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td>{''}</td>
                   <td>1G</td>
-                  <td>ID, ST</td>
+                  <td>ID, OO, ST</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -442,7 +442,7 @@ class Sumarizacia extends React.Component {
                 <tr>
                   <td>343431</td>
                   <td>3V</td>
-                  <td>DI, D J, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>

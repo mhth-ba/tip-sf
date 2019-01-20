@@ -5,6 +5,7 @@ import VyberPolozky from './VyberPolozky'
 
 import Vstup from './Vstup'
 import Vystup from './Vystup'
+import Znamienka from './Znamienka'
 import Sumarizacia from './Sumarizacia'
 
 class App extends React.Component {
@@ -34,6 +35,12 @@ class App extends React.Component {
         <Row>
           <Col>
             <Vystup/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col>
+            <Znamienka/>
           </Col>
         </Row>
         <br/>
