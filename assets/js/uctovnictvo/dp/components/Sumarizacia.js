@@ -71,6 +71,7 @@ class Sumarizacia extends React.Component {
       r31 = x
       r32 = ''
       r33 = ''
+      r34 = r31
     } // ak x < 0 (nadmerný odpočet), tak r32 = x a r31 = 0
     else if (x < 0) {
       r31 = 0
