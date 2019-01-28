@@ -110,39 +110,25 @@ class DanovePriznanieController extends BaseController
      */
     public function getSumarizaciaAction($id)
     {
-        $sumarizacia = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
+        $em = $this->getDoctrine()->getManager();
+
+        $sumarizacia_s = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
             ->findByHlavny($id);
+        $sumarizacia_p = null;
 
-        return $this->createApiResponse($sumarizacia);
-    }
+        $predchadzajuci = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
+            ->getPredchadzajuci($id);
 
-    /**
-     * @Route("uct/dp/predbezne-hlasenie/{id}", name="dp_predbezne-hlasenie_get", options={"expose"=true})
-     * @Method("GET")
-     * @Security("has_role('ROLE_DP_UCT')")
-     */
-    public function getPredbezneHlasenieAction($id)
-    {
-        $ph = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\PredbezneHlasenie')
-            ->findByHlavny($id);
+        if ($predchadzajuci !== null) {
+            $id_p = $predchadzajuci['predchadzajuci'];
+            $sumarizacia_p = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
+                ->findByHlavny($id_p);
+        }
 
-        return $this->createApiResponse($ph);
-    }
-
-    /**
-     * @Route("uct/dp/danove-doklady/{id}", name="dp_danove-doklady_get", options={"expose"=true})
-     * @Method("GET")
-     * @Security("has_role('ROLE_DP_UCT')")
-     */
-    public function getDanoveDoklady($id)
-    {
-        $dd = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\DanoveDoklady')
-            ->findByHlavny($id);
-
-        return $this->createApiResponse($dd);
+        return $this->createApiResponse([
+            'sucasny' => $sumarizacia_s,
+            'predchadzajuci' => $sumarizacia_p
+        ]);
     }
 
     /**

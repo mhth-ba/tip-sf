@@ -9,8 +9,20 @@ class HlavnyRepository extends EntityRepository
     public function getZoznam()
     {
         return $this->createQueryBuilder('h')
-            ->orderBy('h.datum', 'desc')
+            ->addOrderBy('h.obdobie', 'desc')
+            ->addOrderBy('h.druh', 'asc')
+            ->addOrderBy('h.id', 'asc')
             ->getQuery()
             ->execute();
+    }
+
+    public function getPredchadzajuci($id)
+    {
+        return $this->createQueryBuilder('h')
+            ->select('h.predchadzajuci')
+            ->andWhere('h.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

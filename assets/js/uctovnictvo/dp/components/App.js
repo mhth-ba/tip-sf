@@ -2,11 +2,13 @@ import React from 'react'
 import { Row, Col } from 'reactstrap'
 
 import VyberPolozky from './VyberPolozky'
+import Hlavny from './Hlavny'
 
 import Vstup from './Vstup'
 import Vystup from './Vystup'
 import Znamienka from './Znamienka'
 import Sumarizacia from './Sumarizacia'
+import Export from './Export'
 
 class App extends React.Component {
   render() {
@@ -16,16 +18,11 @@ class App extends React.Component {
           <Col>
             <VyberPolozky/>
           </Col>
+          <Col>
+            <Hlavny/>
+          </Col>
         </Row>
         <br/>
-        {/*<Row>
-          <Col>
-            <Vstup/>
-          </Col>
-          <Col>
-            <Vystup/>
-          </Col>
-        </Row>*/}
         <Row>
           <Col>
             <Vstup/>
@@ -47,6 +44,12 @@ class App extends React.Component {
         <Row>
           <Col>
             <Sumarizacia/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col>
+            <Export/>
           </Col>
         </Row>
         <br/>

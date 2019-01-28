@@ -1,16 +1,13 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
-  Card, CardHeader, CardBody, CardText,
-  Form, FormGroup,
+  Card, CardHeader, CardBody,
   Input, InputGroup, InputGroupAddon, InputGroupText,
-  Button,
-  Row, Col,
-  Table
+  Button
 } from 'reactstrap'
-import { dateMonthYear } from '../../../utils/format'
+import { dateYearMonth } from '../../../utils/format'
 import FontAwesome from 'react-fontawesome'
 
-import { connect } from 'react-redux'
 import { fetchVyberPolozkyRequest, loadMainEntryRequest } from '../actions'
 
 class VyberPolozky extends React.Component {
@@ -51,11 +48,11 @@ class VyberPolozky extends React.Component {
     const hlavny = this.props.hlavny
 
     return (
-      <div style={{ width: '380px' }}>
-        <Card>
+      <div>
+        <Card style={{ width: '400px' }}>
           <CardHeader className="text-white bg-secondary">Výber obdobia</CardHeader>
           <CardBody>
-            <div style={{ width: '340px' }}>
+            <div style={{ width: '360px' }}>
               <InputGroup>
                 <InputGroupAddon addonType={'prepend'}>
                   <InputGroupText>Obdobie</InputGroupText>
@@ -65,13 +62,15 @@ class VyberPolozky extends React.Component {
                   <option value={'-'}>- Vyberte položku -</option>
                   { vyberpolozky.polozky.map(
                     (polozka, ix) =>
-                      <option key={ix} value={polozka.id}>{dateMonthYear(polozka.datum)}</option>
+                      <option key={ix} value={polozka.id}>
+                        [{polozka.id}] {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh}
+                      </option>
                   )}
                 </Input>
                 {/*{ vyberpolozky.loading &&
-                <InputGroupAddon addonType={'append'}>
-                  <InputGroupText><FontAwesome name="spinner" spin /></InputGroupText>
-                </InputGroupAddon> }*/}
+              <InputGroupAddon addonType={'append'}>
+                <InputGroupText><FontAwesome name="spinner" spin /></InputGroupText>
+              </InputGroupAddon> }*/}
 
                 &nbsp;
 
@@ -87,20 +86,20 @@ class VyberPolozky extends React.Component {
               </InputGroup>
             </div>
             {/*<Form inline>
-              <FormGroup>
-                <Input type={'select'}>
-                  { vyberpolozky.loading && <option>- Načítavanie položiek -</option> }
-                  { vyberpolozky.polozky.map( (polozka, ix) => <option key={ix} id={polozka.id}>{date(polozka.datum)}</option>) }
-                </Input>
-                &nbsp;
-                <Button color="secondary" disabled={vyberpolozky.loading || report.loading} >
-                  { vyberpolozky.loading || report.loading ?
-                    <FontAwesome name="spinner" spin /> : <FontAwesome name="folder-open" /> }
-                  {' '}
-                  Načítať
-                </Button>
-              </FormGroup>
-            </Form>*/}
+            <FormGroup>
+              <Input type={'select'}>
+                { vyberpolozky.loading && <option>- Načítavanie položiek -</option> }
+                { vyberpolozky.polozky.map( (polozka, ix) => <option key={ix} id={polozka.id}>{date(polozka.datum)}</option>) }
+              </Input>
+              &nbsp;
+              <Button color="secondary" disabled={vyberpolozky.loading || report.loading} >
+                { vyberpolozky.loading || report.loading ?
+                  <FontAwesome name="spinner" spin /> : <FontAwesome name="folder-open" /> }
+                {' '}
+                Načítať
+              </Button>
+            </FormGroup>
+          </Form>*/}
           </CardBody>
         </Card>
       </div>

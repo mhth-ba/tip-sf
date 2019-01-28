@@ -3,17 +3,24 @@ import {connect} from 'react-redux'
 import { Card, CardHeader, CardBody, CardFooter, Table } from 'reactstrap'
 
 import Suma from './helpers/Suma'
-import Routing from '../../../Components/Routing'
 
 class Sumarizacia extends React.Component {
   constructor(props) {
     super(props)
-
-    this.export = this.export.bind(this)
   }
 
-  findSuma(riadok, stlpec) {
-    const polozky = this.props.sumarizacia.polozky
+  findSuma_s(riadok, stlpec) {
+    const polozky = this.props.sumarizacia.polozky_s
+
+    return this.findSuma(riadok, stlpec, polozky)
+  }
+  
+  findSuma_p(riadok, stlpec) {
+    const polozky = this.props.sumarizacia.polozky_p
+    return this.findSuma(riadok, stlpec, polozky)
+  }
+
+  findSuma(riadok, stlpec, polozky) {
     const item = polozky.find( x => x['riadok'] == riadok )
 
     switch (stlpec) {
@@ -24,37 +31,109 @@ class Sumarizacia extends React.Component {
     return item === undefined ? 0 : item[stlpec]
   }
 
-  export() {
-    console.log('test')
-  }
-
   render() {
 
     const init = this.props.hlavny.initialized
     const hlavny = this.props.hlavny
-    const path = Routing.generate('dp_download')
 
     const r2 = 0;
-    const r3 = this.findSuma('3_4', 'z')
-    const r4 = this.findSuma('3_4', 'd')
-    const r5 = this.findSuma('5_6', 'z')
-    const r6 = this.findSuma('5_6', 'd')
-    const r7 = this.findSuma('7_8', 'z')
-    const r8 = this.findSuma('7_8', 'd')
-    const r9 = this.findSuma('9_10', 'z')
-    const r10 = this.findSuma('9_10', 'd')
-    const r12 = 0;
-    const r14 = 0;
-    const r15 = this.findSuma('15', 'z')
-    const r18 = 0;
-    const r19 = r2 + r4 + r6 + r8 + r10 +r12 + r14 + r18;
-    const r20 = this.findSuma('20', 'd')
-    const r21 = this.findSuma('21', 'd')
-    const r22 = this.findSuma('22', 'd')
-    const r23 = this.findSuma('23', 'd')
-    const r26 = this.findSuma('26_27', 'z')
-    const r27 = this.findSuma('26_27', 'd')
-    const r28 = this.findSuma('28', 'd')
+    const r3 = this.findSuma_s('3_4', 'z')
+    const r4 = this.findSuma_s('3_4', 'd')
+    const r5 = this.findSuma_s('5_6', 'z')
+    const r6 = this.findSuma_s('5_6', 'd')
+    const r7 = this.findSuma_s('7_8', 'z')
+    const r8 = this.findSuma_s('7_8', 'd')
+    const r9 = this.findSuma_s('9_10', 'z')
+    const r10 = this.findSuma_s('9_10', 'd')
+    const r12 = 0
+    const r14 = 0
+    const r15 = this.findSuma_s('15', 'z')
+    const r18 = 0
+    // DAŃ CELKOM
+    const r19 = r2 + r4 + r6 + r8 + r10 +r12 + r14 + r18
+    const r20 = this.findSuma_s('20', 'd')
+    const r21 = this.findSuma_s('21', 'd')
+    const r22 = this.findSuma_s('22', 'd')
+    const r23 = this.findSuma_s('23', 'd')
+    const r26 = this.findSuma_s('26_27', 'z')
+    const r27 = this.findSuma_s('26_27', 'd')
+    const r28 = this.findSuma_s('28', 'd')
+    const r29 = 0
+    const r30 = 0
+    let r31, r32, r33
+    let r34 = 0
+
+    // Daňová povinnosť alebo nadmerný odpočet
+    const x = r19 - r20 - r21 + r27 + r28 - r29 - r30
+
+    // ak x > 0 (daňová povinnosť), tak r31 = x a r32 prázdny
+    if (x >= 0) {
+      r31 = x
+      r32 = ''
+      r33 = ''
+    } // ak x < 0 (nadmerný odpočet), tak r32 = x a r31 = 0
+    else if (x < 0) {
+      r31 = 0
+      r32 = x
+      r33 = ''
+    }
+
+    // ak v predchádzajúcom zdaňovacom období bol nadmerný odpočet
+    if (hlavny.predchadzajuci !== null) {
+
+      const r_2 = 0;
+      const r_4 = this.findSuma_p('3_4', 'd')
+      const r_6 = this.findSuma_p('5_6', 'd')
+      const r_8 = this.findSuma_p('7_8', 'd')
+      const r_10 = this.findSuma_p('9_10', 'd')
+      const r_12 = 0
+      const r_14 = 0
+      const r_18 = 0
+      const r_20 = this.findSuma_p('20', 'd')
+      const r_21 = this.findSuma_p('21', 'd')
+      const r_27 = this.findSuma_p('26_27', 'd')
+      const r_28 = this.findSuma_p('28', 'd')
+      const r_29 = 0
+      const r_30 = 0
+
+      // DAŃ CELKOM (predchadzajuci)
+      const r_19 = r_2 + r_4 + r_6 + r_8 + r_10 + r_12 + r_14 + r_18
+      let r_31, r_32
+
+      // Daňová povinnosť alebo nadmerný odpočet ??
+      const y = r_19 - r_20 - r_21 + r_27 + r_28 - r_29 - r_30
+
+      // ak y > 0 (daňová povinnosť), tak r_31 = y a r_šľ prázdny
+      if (y >= 0) {
+        r_31 = y
+      } // ak r_31 < 0 (nadmerný odpočet), tak r_32 = y a r31 = 0
+      else if (y < 0) {
+        r_31 = 0
+        r_32 = y
+
+        // ak je nadmerný odpočet väčší ako daňová povinnosť
+        if (r_32 * (-1) > r31) {
+          r_32 = r31 * (-1)
+        }
+      }
+
+      // ak v predchádzajúcom daňovom priznané je vyplnený r_32
+      // čiže ak v predchádzajúcom daňovom priznaní je nadmerný odpočet, čiže ZÁPORNÉ ČÍSLO a NIE KLADNÉ
+      if (r_32 < 0) {
+        // a zároveň :
+
+        // 1. je vyplnený r31, tak v súčasnom hlavnom zázname
+        if (r31 > 0) {
+          r33 = r_32
+          r34 = r31 + r33
+        }
+
+        // 2. nie je vyplnený r_31, tak v súčasnom hlavnom zázname
+        if (r31 === 0) {
+           // r32 = r32 (??)
+        }
+      }
+    }
 
     return (
       <div>
@@ -579,41 +658,46 @@ class Sumarizacia extends React.Component {
                 <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
                     Vlastná daňová povinnosť <br/>
-                    <span className="text-primary">(kladný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span>
+                    <span className="text-primary">(kladný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span><br/>
+                    <span className="text-primary">(r. 19 - r. 20 - r. 21 + r. 27 + r. 28 - r. 29 - r. 30)</span>
                   </td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">31</td>
-                  <td>{''}</td>
+                  <td className="align-middle text-right font-weight-bold"><Suma v={r31} /></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
                     Nadmerný odpočet <br/>
-                    <span className="text-primary">(záporný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span>
+                    <span className="text-primary">(záporný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span><br/>
+                    <span className="text-primary">(r. 19 - r. 20 - r. 21 + r. 27 + r. 28 - r. 29 - r. 30)</span>
                   </td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">32</td>
-                  <td>{''}</td>
+                  <td className="align-middle text-right font-weight-bold"><Suma v={r32} /></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
                     Nadmerný odpočet odpočítaný od daňovej povinnosti <br/>
                     <span className="text-primary">
-                      (NO za predchádzajúce zdaň. obd., ktorý sa odpočítava z daň. povinnosti v r. 31)
+                      (NO za predchádzajúce zdaň. obd., ktorý sa odpočítava z daň. povinnosti v r. 32)
                     </span>
                   </td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">33</td>
-                  <td>{''}</td>
+                  <td className="align-middle text-right font-weight-bold"><Suma v={r33} /></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
-                  <td>Vlastná daňová povinnosť na úhradu</td>
+                  <td>
+                    Vlastná daňová povinnosť na úhradu <br/>
+                    <span className="text-primary">(r. 31 - r. 33)</span>
+                  </td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">34</td>
-                  <td>{''}</td>
+                  <td className="align-middle text-right font-weight-bold"><Suma v={r34} /></td>
                 </tr>
                 <tr>
                   <td>
@@ -661,11 +745,6 @@ class Sumarizacia extends React.Component {
                 </tbody>
               </Table>
             </CardBody>
-            <CardFooter>
-              <a href={`${path}/${hlavny.id}`} className="btn btn-success" role="button">
-                Exportovať do XML
-              </a>
-            </CardFooter>
           </Card>
         }
       </div>

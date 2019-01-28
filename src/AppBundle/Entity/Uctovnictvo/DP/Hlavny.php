@@ -33,6 +33,21 @@ class Hlavny extends BaseEntity
      */
     private $datum;
 
+    /**
+     *@ORM\Column(type="date")
+     */
+    private $obdobie;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $predchadzajuci;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $podane;
+
     public function getId()
     {
         return $this->id;
@@ -51,5 +66,20 @@ class Hlavny extends BaseEntity
     public function getDatum()
     {
         return $this->getTimestampWithOffset($this->datum);
+    }
+
+    public function getObdobie()
+    {
+        return $this->getTimestampWithOffset($this->obdobie);
+    }
+
+    public function getPredchadzajuci()
+    {
+        return $this->predchadzajuci;
+    }
+
+    public function getPodane()
+    {
+        return $this->podane;
     }
 }
