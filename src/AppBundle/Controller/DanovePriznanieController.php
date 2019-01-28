@@ -23,6 +23,8 @@ class DanovePriznanieController extends BaseController
             ]);
         }
 
+        // here comes the test
+
         return $this->render('uct/danove-priznanie/index.html.twig');
     }
 
