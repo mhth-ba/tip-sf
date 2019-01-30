@@ -8,6 +8,7 @@ let numFormat = {
   thousandSeparator: ' ',
   decimalSeparator: ',',
   decimalScale: 2,
+  fixedDecimalScale: true,
   displayType: 'text',
   suffix: ' €',
   value: 0

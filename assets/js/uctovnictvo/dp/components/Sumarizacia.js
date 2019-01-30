@@ -171,9 +171,9 @@ class Sumarizacia extends React.Component {
                 <tr>
                   <td>Dodanie tovaru a služby - § 8,9 - 10% sadzba DPH</td>
                   <td className="text-danger font-weight-bold">1</td>
-                  <td>{''}</td>
+                  <td></td>
                   <td className="text-danger font-weight-bold">2</td>
-                  <td>{''}</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td rowSpan={3} className="align-middle">
@@ -379,17 +379,17 @@ class Sumarizacia extends React.Component {
                   <td>Vstup</td>
                 </tr>
                 <tr>
-                  <td rowSpan={14} className="align-middle">
+                  <td rowSpan={11} className="align-middle">
                     odpočítanie dane celkom - 20% sadzba DPH <br/>
                     <span className="text-primary">
                       (tuzemsko, samozdanenie, vysporiadanie koeficientu, úprava odpočítanej DPH pri zmene
                       rozsahu použitia investič. majetku)
                     </span>
                   </td>
-                  <td rowSpan={14} className="align-middle">×</td>
-                  <td rowSpan={14} className="align-middle">{''}</td>
-                  <td rowSpan={14} className="align-middle text-danger font-weight-bold">21</td>
-                  <td rowSpan={14} className="align-middle text-right font-weight-bold"><Suma v={r21} /></td>
+                  <td rowSpan={11} className="align-middle">×</td>
+                  <td rowSpan={11} className="align-middle">{''}</td>
+                  <td rowSpan={11} className="align-middle text-danger font-weight-bold">21</td>
+                  <td rowSpan={11} className="align-middle text-right font-weight-bold"><Suma v={r21} /></td>
                   <td>343431</td>
                   <td>3V</td>
                   <td>DI, DJ, DK, DV, PP, ST</td>
@@ -455,7 +455,7 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td>Vstup</td>
                 </tr>
-                <tr>
+                {/*<tr>
                   <td>511990</td>
                   <td>D3</td>
                   <td>DI, DJ, DK, DV, PP, ST</td>
@@ -472,7 +472,7 @@ class Sumarizacia extends React.Component {
                   <td>D5</td>
                   <td>DI, DJ, DK, DV, PP, ST</td>
                   <td>Vstup</td>
-                </tr>
+                </tr>*/}
                 <tr>
                   <td rowSpan={3} className="align-middle">
                     z toho § 51 ods.1 písm.a ) - 10% sadzba DPH <br/>
@@ -551,7 +551,7 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">24</td>
-                  <td>{''}</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>
@@ -561,7 +561,7 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">25</td>
-                  <td>{''}</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td rowSpan={4} className="align-middle">
@@ -647,57 +647,57 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">29</td>
-                  <td>{''}</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>Vrátenie dane cestujúcim pri vývoze tovaru - § 60</td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">30</td>
-                  <td>{''}</td>
+                  <td></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
-                    Vlastná daňová povinnosť <br/>
+                    <strong>Vlastná daňová povinnosť</strong> <br/>
                     <span className="text-primary">(kladný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span><br/>
                     <span className="text-primary">(r. 19 - r. 20 - r. 21 + r. 27 + r. 28 - r. 29 - r. 30)</span>
                   </td>
-                  <td>×</td>
+                  <td className="align-middle">×</td>
                   <td>{''}</td>
-                  <td className="text-danger font-weight-bold">31</td>
+                  <td className="align-middle text-danger font-weight-bold">31</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r31} /></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
-                    Nadmerný odpočet <br/>
+                    <strong>Nadmerný odpočet</strong> <br/>
                     <span className="text-primary">(záporný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span><br/>
                     <span className="text-primary">(r. 19 - r. 20 - r. 21 + r. 27 + r. 28 - r. 29 - r. 30)</span>
                   </td>
-                  <td>×</td>
+                  <td className="align-middle">×</td>
                   <td>{''}</td>
-                  <td className="text-danger font-weight-bold">32</td>
+                  <td className="align-middle text-danger font-weight-bold">32</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r32} /></td>
                 </tr>
-                <tr style={{ backgroundColor: '#feffe5' }}>
+                <tr>
                   <td>
                     Nadmerný odpočet odpočítaný od daňovej povinnosti <br/>
                     <span className="text-primary">
                       (NO za predchádzajúce zdaň. obd., ktorý sa odpočítava z daň. povinnosti v r. 32)
                     </span>
                   </td>
-                  <td>×</td>
+                  <td className="align-middle">×</td>
                   <td>{''}</td>
-                  <td className="text-danger font-weight-bold">33</td>
+                  <td className="align-middle text-danger font-weight-bold">33</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r33} /></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
-                    Vlastná daňová povinnosť na úhradu <br/>
+                    <strong>Vlastná daňová povinnosť na úhradu</strong> <br/>
                     <span className="text-primary">(r. 31 - r. 33)</span>
                   </td>
-                  <td>×</td>
+                  <td className="align-middle">×</td>
                   <td>{''}</td>
-                  <td className="text-danger font-weight-bold">34</td>
+                  <td className="align-middle text-danger font-weight-bold">34</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r34} /></td>
                 </tr>
                 <tr>
@@ -708,9 +708,9 @@ class Sumarizacia extends React.Component {
                       druhého odberateľa pri trojstrannom obchode)
                     </span>
                   </td>
-                  <td className="text-danger font-weight-bold">35</td>
-                  <td>{''}</td>
-                  <td>×</td>
+                  <td className="align-middle text-danger font-weight-bold">35</td>
+                  <td></td>
+                  <td className="align-middle">×</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -721,9 +721,9 @@ class Sumarizacia extends React.Component {
                       druhého odberateľa pri trojstrannom obchode)
                     </span>
                   </td>
-                  <td className="text-danger font-weight-bold">36</td>
-                  <td>{''}</td>
-                  <td>×</td>
+                  <td className="align-middle text-danger font-weight-bold">36</td>
+                  <td></td>
+                  <td className="align-middle">×</td>
                   <td>{''}</td>
                 </tr>
                 <tr>
@@ -734,14 +734,14 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">37</td>
-                  <td>{''}</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>Údaje dodat. daň. priznania - Daň na úhradu (+ /-)</td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">38</td>
-                  <td>{''}</td>
+                  <td></td>
                 </tr>
                 </tbody>
               </Table>

@@ -55,7 +55,14 @@ class Vstup extends React.Component {
   render() {
 
     const init = this.props.hlavny.initialized
-    const zn = this.props.zn.vstup
+    let zn = this.props.zn.vstup
+
+    // nezobrazovat polozky pri znakoch dane: D3, D4 a D5
+    zn = zn.filter(item =>
+      item.znak !== 'D3'
+      && item.znak !== 'D4'
+      && item.znak !== 'D5'
+    )
 
     // const polozky = this.props.vstup.polozky // vstupna dph
     const polozky = this.state.filtered // vstupna dph
