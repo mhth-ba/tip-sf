@@ -19,9 +19,14 @@ class Hlavny extends BaseEntity
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="datetime", name="CreatedAt")
      */
-    private $hlavny_id;
+    private $datum;
+
+    /**
+     * @ORM\Column(type="datetime", name="ModifiedAt")
+     */
+    private $zmenene;
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Uctovnictvo\DP\Druh")
@@ -29,9 +34,14 @@ class Hlavny extends BaseEntity
     private $druh;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="integer", name="Predchadzajuci_ID")
      */
-    private $datum;
+    private $predchadzajuci;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $riadne_id;
 
     /**
      *@ORM\Column(type="date")
@@ -39,28 +49,37 @@ class Hlavny extends BaseEntity
     private $obdobie;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $predchadzajuci;
-
-    /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="date")
      */
     private $podane;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
+     */
+    private $vytvoril;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
+     */
+    private $upravil;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $poznamka;
+
+    /**
+     * Set the default values
+     * This works as the constructor of a persisted class is not called upon hydration.
+     */
+    public function __construct()
+    {
+        $this->datum = new \DateTime();
+    }
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getHlavnyId()
-    {
-        return $this->hlavny_id;
-    }
-
-    public function getDruh()
-    {
-        return $this->druh;
     }
 
     public function getDatum()
@@ -68,9 +87,24 @@ class Hlavny extends BaseEntity
         return $this->getTimestampWithOffset($this->datum);
     }
 
-    public function getObdobie()
+    public function getZmenene()
     {
-        return $this->getTimestampWithOffset($this->obdobie);
+        return $this->getTimestampWithOffset($this->zmenene);
+    }
+
+    public function setZmenene($zmenene)
+    {
+        $this->zmenene = $zmenene;
+    }
+
+    public function getDruh()
+    {
+        return $this->druh;
+    }
+
+    public function setDruh($druh)
+    {
+        $this->druh = $druh;
     }
 
     public function getPredchadzajuci()
@@ -78,8 +112,68 @@ class Hlavny extends BaseEntity
         return $this->predchadzajuci;
     }
 
+    public function setPredchadzajuci($predchadzajuci)
+    {
+        $this->predchadzajuci = $predchadzajuci;
+    }
+
+    public function getRiadneId()
+    {
+        return $this->riadne_id;
+    }
+
+    public function setRiadneId($riadne_id)
+    {
+        $this->riadne_id = $riadne_id;
+    }
+
+    public function getObdobie()
+    {
+        return $this->getTimestampWithOffset($this->obdobie);
+    }
+
+    public function setObdobie($obdobie)
+    {
+        $this->obdobie = $obdobie;
+    }
+
     public function getPodane()
     {
-        return $this->podane;
+        return $this->getTimestampWithOffset($this->podane);
+    }
+
+    public function setPodane($podane)
+    {
+        $this->podane = $podane;
+    }
+
+    public function getVytvoril()
+    {
+        return $this->vytvoril;
+    }
+
+    public function setVytvoril($vytvoril)
+    {
+        $this->vytvoril = $vytvoril;
+    }
+
+    public function getUpravil()
+    {
+        return $this->upravil;
+    }
+
+    public function setUpravil($upravil)
+    {
+        $this->upravil = $upravil;
+    }
+
+    public function getPoznamka()
+    {
+        return $this->poznamka;
+    }
+
+    public function setPoznamka($poznamka)
+    {
+        $this->poznamka = $poznamka;
     }
 }

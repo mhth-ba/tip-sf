@@ -12,7 +12,7 @@ class Export extends React.Component {
 
     const init = this.props.hlavny.initialized
     const hlavny = this.props.hlavny
-    const path = Routing.generate('dp_download')
+    const path = Routing.generate('dp_export')
 
     return (
       <div>

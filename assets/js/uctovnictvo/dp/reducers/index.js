@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux'
 
 import vyberpolozky from './vyberpolozky'
+import moznosti from './moznosti'
+
+import upload from './import'
 import hlavny from './hlavny'
 import znakydane from './znakydane'
 import vstup from './vstup'
@@ -9,6 +12,9 @@ import sumarizacia from './sumarizacia'
 
 export default combineReducers({
   vyberpolozky,
+  moznosti,
+
+  upload,
   hlavny,
   znakydane,
   vstup,

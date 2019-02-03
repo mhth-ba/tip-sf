@@ -49,10 +49,10 @@ class VyberPolozky extends React.Component {
 
     return (
       <div>
-        <Card style={{ width: '400px' }}>
+        <Card style={{ width: '410px' }}>
           <CardHeader className="text-white bg-secondary">Výber obdobia</CardHeader>
           <CardBody>
-            <div style={{ width: '360px' }}>
+            <div style={{ width: '370px' }}>
               <InputGroup>
                 <InputGroupAddon addonType={'prepend'}>
                   <InputGroupText>Obdobie</InputGroupText>

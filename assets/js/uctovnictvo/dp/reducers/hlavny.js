@@ -1,15 +1,33 @@
 import * as TYPES from '../../../services/ActionTypes'
 
 const initState = {
-  id: null, // id zaznamu
-  hlavny: null, // v pripade opravneho/dodatocneho - id riadneho dan. priznania
-  druh: null, // druh dan. priznania (riadne, opravne, dodatocne)
-  datum: null, // datum podania dan. priznania
+  id: null,      // ID záznamu
+  datum: null,   // dátum a čas vytvorenia hlavného záznamu
+  zmenene: null, // dátum a čas zmeny hlavného záznamu
+  druh: null,    // druh priznania (riadne, opravné, dodatočné)
+  predchadzajuci: null, // priznanie v predošlom období na zohľadnenie nadmerného odpočtu
+  riadne: null,  // v prípade opravného/dodatočného - ID riadneho priznania
+  obdobie: null, // zdaňovacie obdobie
+  podane: null,  // dátum podania daňového priznania
+
+  vytvoril: {
+    fullname: null // celé meno používateľa
+  },
+  upravil: {
+    fullname: null // celé meno používateľa
+  },
+
+  upload: {      // pôvodný názov uploadnutého súboru
+    alr: null,   // predbežné hlásenie hlásenie - S_ALR
+    ddokl: null, // daňové doklady - ZFC_DDOKL
+  },
+
+  poznamka: null,
 
   loading: false,
   updating: false,
   error: null,
-  initialized: false // identifikacia prveho nacitania
+  initialized: false // identifikácia prvého načítania
 }
 
 export default (state = initState, action) => {

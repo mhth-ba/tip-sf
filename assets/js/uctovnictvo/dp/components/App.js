@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Col } from 'reactstrap'
 
 import VyberPolozky from './VyberPolozky'
+import Import from './Import'
 import Hlavny from './Hlavny'
 
 import Vstup from './Vstup'
@@ -17,6 +18,8 @@ class App extends React.Component {
         <Row>
           <Col>
             <VyberPolozky/>
+            <br/>
+            <Import/>
           </Col>
           <Col>
             <Hlavny/>

@@ -194,7 +194,7 @@ class Sumarizacia extends React.Component {
                 <tr>
                   <td>343191</td>
                   <td>3D</td>
-                  <td>OO, ID, ST</td>
+                  <td>OO, OZ, ID, ST</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -317,7 +317,7 @@ class Sumarizacia extends React.Component {
                 </tr>
                 <tr>
                   <td>
-                    Daň pri zrušení registrácie <br/>
+                    Daňová povinnosť pri zrušení registrácie podľa § 81 <br/>
                     <span className="text-primary">
                       (suma dane prislúchajúca k zostatkovej cene majetku a zásob pri zrušení registrácie platiteľa DPH)
                     </span>
@@ -327,10 +327,10 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">18</td>
                   <td className="text-right font-weight-bold"><Suma v={r18} /></td>
                 </tr>
-                <tr>
+                <tr style={{ backgroundColor: '#feffe5' }}>
                   <td>
-                    <strong>DAŇ CELKOM</strong> <br/>
-                    <span className="text-primary">(súčet riadku 2,4,6,8,10,12,14,18)</span>
+                    <strong>Daň celkom</strong> <br/>
+                    <span className="text-primary">(súčet riadku 2, 4, 6, 8, 10, 12, 14 a 18)</span>
                   </td>
                   <td>×</td>
                   <td>{''}</td>
@@ -339,7 +339,7 @@ class Sumarizacia extends React.Component {
                 </tr>
                 <tr>
                   <td rowSpan={5} className="align-middle">
-                    odpočítanie dane celkom - 10% sadzba DPH <br/>
+                    <strong>Odpočítanie dane celkom</strong> - 10% sadzba DPH <br/>
                     <span className="text-primary">
                       (tuzemsko, samozdanenie, vysporiadanie koeficientu, úprava odpočítanej DPH pri zmene
                       rozsahu použitia investič. majetku)
@@ -380,7 +380,7 @@ class Sumarizacia extends React.Component {
                 </tr>
                 <tr>
                   <td rowSpan={11} className="align-middle">
-                    odpočítanie dane celkom - 20% sadzba DPH <br/>
+                    <strong>Odpočítanie dane celkom</strong> - 20% sadzba DPH <br/>
                     <span className="text-primary">
                       (tuzemsko, samozdanenie, vysporiadanie koeficientu, úprava odpočítanej DPH pri zmene
                       rozsahu použitia investič. majetku)
@@ -596,20 +596,20 @@ class Sumarizacia extends React.Component {
                   <td>Výstup</td>
                 </tr>
                 <tr>
-                  <td rowSpan={6} className="align-middle">
+                  <td rowSpan={1} className="align-middle">
                     Oprava odpočítanej dane - § 53 <br/>
                     <span className="text-primary">(D, Ť na vstupe)</span>
                   </td>
-                  <td rowSpan={6} className="align-middle">×</td>
-                  <td rowSpan={6} className="align-middle">{''}</td>
-                  <td rowSpan={6} className="align-middle text-danger font-weight-bold">28</td>
-                  <td rowSpan={6} className="align-middle text-right font-weight-bold"><Suma v={r28} /></td>
+                  <td rowSpan={1} className="align-middle">×</td>
+                  <td rowSpan={1} className="align-middle">{''}</td>
+                  <td rowSpan={1} className="align-middle text-danger font-weight-bold">28</td>
+                  <td rowSpan={1} className="align-middle text-right font-weight-bold"><Suma v={r28} /></td>
                   <td>343441</td>
                   <td>XG</td>
-                  <td>DM, DN, DO, DR, DS, DT, ST</td>
+                  <td>DM, DN, DO, DR, DS, DT, DJ, ST</td>
                   <td>Vstup</td>
                 </tr>
-                <tr>
+                {/*<tr>
                   <td>343451</td>
                   <td>XH</td>
                   <td>DM, DN, DO, DR, DS, DT, ST</td>
@@ -638,7 +638,7 @@ class Sumarizacia extends React.Component {
                   <td>3V</td>
                   <td>DM, DN, DO, ST</td>
                   <td>Vstup</td>
-                </tr>
+                </tr>*/}
                 <tr>
                   <td>
                     Odpočítanie dane pri registrácii - § 55 <br/>
