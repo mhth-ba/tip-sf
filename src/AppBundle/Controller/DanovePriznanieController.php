@@ -396,11 +396,16 @@ class DanovePriznanieController extends BaseController
      */
     public function getVstupAction($id)
     {
-        $vstup = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\Vstup')
-            ->findByHlavny($id);
+        $repository = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Uctovnictvo\DP\Vstup');
 
-        return $this->createApiResponse($vstup);
+        $zmenene = $repository->findZmeneneByHlavny($id);
+        $povodne = $repository->findPovodneByHlavny($id);
+
+        return $this->createApiResponse([
+            'zmenene' => $zmenene,
+            'povodne' => $povodne
+        ]);
     }
 
     /**
@@ -410,11 +415,16 @@ class DanovePriznanieController extends BaseController
      */
     public function getVystupAction($id)
     {
-        $vstup = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\Vystup')
-            ->findByHlavny($id);
+        $repository = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Uctovnictvo\DP\Vystup');
 
-        return $this->createApiResponse($vstup);
+        $zmenene = $repository->findZmeneneByHlavny($id);
+        $povodne = $repository->findPovodneByHlavny($id);
+
+        return $this->createApiResponse([
+            'zmenene' => $zmenene,
+            'povodne' => $povodne
+        ]);
     }
 
     /**

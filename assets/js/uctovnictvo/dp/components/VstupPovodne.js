@@ -4,9 +4,9 @@ import { Row, Col, Card, CardHeader, CardBody, CardFooter, Input, Collapse, Butt
 import FontAwesome from 'react-fontawesome'
 
 import ZnakDane from './polozky/ZnakDane'
-import PolozkyVystup from './polozky/PolozkyVystup'
+import PolozkyVstup from './polozky/PolozkyVstup'
 
-class Vystup extends React.Component {
+class VstupPovodne extends React.Component {
   constructor(props) {
     super(props)
 
@@ -40,7 +40,7 @@ class Vystup extends React.Component {
   handleFilter(val) {
 
     const regexp = new RegExp(val, 'i')
-    const filtered = this.props.vystup.zmenene.filter(
+    const filtered = this.props.vstup.povodne.filter(
       (v) => {
         return String (v.doklad).search(regexp) > -1
           || String (v.referencia).search(regexp) > -1
@@ -53,9 +53,9 @@ class Vystup extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.vystup.zmenene !== this.props.vystup.zmenene) {
+    if (prevProps.vstup.povodne !== this.props.vstup.povodne) {
       this.setState({
-        filtered: this.props.vystup.zmenene
+        filtered: this.props.vstup.povodne
       })
     }
   }
@@ -63,24 +63,31 @@ class Vystup extends React.Component {
   render() {
 
     const init = this.props.hlavny.initialized
-    let zn = this.props.zn.vystup
+    let zn = this.props.zn.vstup
 
-    // const polozky = this.props.vystup.zmenene // vystupna dph
-    const polozky = this.state.filtered // vystupna dph
+    // nezobrazovat polozky pri znakoch dane: D3, D4 a D5
+    zn = zn.filter(item =>
+      item.znak !== 'D3'
+      && item.znak !== 'D4'
+      && item.znak !== 'D5'
+    )
+
+    // const polozky = this.props.vstup.povodne // vstupna dph
+    const polozky = this.state.filtered // vstupna dph
 
     return (
       <div>
         { init === true &&
         <Card>
           <CardHeader className="bg-primary text-white">
-            Výstupná DPH
+            Vstupná DPH
             <span className="pull-right">
               <Button onClick={this.collapse} color={'light'} size={'sm'}>
-              { !this.state.collapse ?
-                <FontAwesome name={'plus-square'}/>
-                :
-                <FontAwesome name={'minus-square'}/>
-              }
+                { !this.state.collapse ?
+                  <FontAwesome name={'plus-square'}/>
+                  :
+                  <FontAwesome name={'minus-square'}/>
+                }
               </Button>
             </span>
           </CardHeader>
@@ -93,7 +100,7 @@ class Vystup extends React.Component {
                 <Col md={1}><strong>Sadzba</strong></Col>
                 <Col md={1}><strong>Účet hlavnej knihy</strong></Col>
                 <Col md={1}><strong>Základ dane</strong></Col>
-                <Col md={1}><strong>Výstupná DPH</strong></Col>
+                <Col md={1}><strong>Vstupná DPH</strong></Col>
                 <Col md={1}><strong>Suma s DPH</strong></Col>
               </Row>
               <br/>
@@ -106,7 +113,7 @@ class Vystup extends React.Component {
                                    sadzba={z.sadzba}
                                    ucet_hk={z.ucet_hk}
                                    items={ items }
-                                   polozky={ <PolozkyVystup p={items} /> }
+                                   polozky={ <PolozkyVstup p={items} /> }
                   />
                 }
               )}
@@ -129,7 +136,7 @@ class Vystup extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   hlavny: state.hlavny,
   zn: state.znakydane,
-  vystup: state.vystup
+  vstup: state.vstup
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -139,4 +146,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Vystup)
+)(VstupPovodne)

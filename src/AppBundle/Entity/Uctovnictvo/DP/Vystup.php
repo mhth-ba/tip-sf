@@ -78,6 +78,11 @@ class Vystup extends BaseEntity
      */
     private $sumaSDPH;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $zmenene;
+
     public function getId()
     {
         return $this->id;
@@ -141,5 +146,10 @@ class Vystup extends BaseEntity
     public function getSumaSDph()
     {
         return $this->sumaSDPH;
+    }
+
+    public function getZmenene()
+    {
+        return $this->zmenene;
     }
 }

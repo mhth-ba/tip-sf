@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Row, Col, Card, CardHeader, CardBody, CardFooter, Input } from 'reactstrap'
+import { Row, Col, Card, CardHeader, CardBody, CardFooter, Input, Collapse, Button } from 'reactstrap'
+import FontAwesome from 'react-fontawesome'
 
 import ZnakDane from './polozky/ZnakDane'
 import PolozkyVstup from './polozky/PolozkyVstup'
@@ -10,11 +11,18 @@ class Vstup extends React.Component {
     super(props)
 
     this.state = {
-      filtered: []
+      filtered: [],
+      collapse: true
     }
 
+    this.collapse = this.collapse.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleFilter = this.handleFilter.bind(this)
+  }
+
+  collapse(e) {
+    e.preventDefault()
+    this.setState({ collapse: !this.state.collapse })
   }
 
   handleChange(e) {
@@ -32,7 +40,7 @@ class Vstup extends React.Component {
   handleFilter(val) {
 
     const regexp = new RegExp(val, 'i')
-    const filtered = this.props.vstup.polozky.filter(
+    const filtered = this.props.vstup.zmenene.filter(
       (v) => {
         return String (v.doklad).search(regexp) > -1
           || String (v.referencia).search(regexp) > -1
@@ -44,10 +52,10 @@ class Vstup extends React.Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.vstup.polozky !== this.props.vstup.polozky) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.vstup.zmenene !== this.props.vstup.zmenene) {
       this.setState({
-        filtered: this.props.vstup.polozky
+        filtered: this.props.vstup.zmenene
       })
     }
   }
@@ -64,7 +72,7 @@ class Vstup extends React.Component {
       && item.znak !== 'D5'
     )
 
-    // const polozky = this.props.vstup.polozky // vstupna dph
+    // const polozky = this.props.vstup.zmenene // vstupna dph
     const polozky = this.state.filtered // vstupna dph
 
     return (
@@ -73,40 +81,51 @@ class Vstup extends React.Component {
         <Card>
           <CardHeader className="bg-primary text-white">
             Vstupná DPH
-          </CardHeader>
-          <CardBody>
-            <Row>
-              <Col md={1}><strong>Znak</strong></Col>
-              <Col md={1}><strong>Počet položiek</strong></Col>
-              <Col md={5}><strong>Popis</strong></Col>
-              <Col md={1}><strong>Sadzba</strong></Col>
-              <Col md={1}><strong>Účet hlavnej knihy</strong></Col>
-              <Col md={1}><strong>Základ dane</strong></Col>
-              <Col md={1}><strong>Vstupná DPH</strong></Col>
-              <Col md={1}><strong>Suma s DPH</strong></Col>
-            </Row>
-            <br/>
-            { zn.map(
-              (z, idx) => {
-                const items = polozky.filter(v => v.znak === z.znak)
-                return <ZnakDane key={idx}
-                                 znak={z.znak}
-                                 popis={z.popis}
-                                 sadzba={z.sadzba}
-                                 ucet_hk={z.ucet_hk}
-                                 items={ items }
-                                 polozky={ <PolozkyVstup p={items} /> }
-                />
+            <span className="pull-right">
+              <Button onClick={this.collapse} color={'light'} size={'sm'}>
+              { !this.state.collapse ?
+                <FontAwesome name={'plus-square'}/>
+                :
+                <FontAwesome name={'minus-square'}/>
               }
-            )}
-          </CardBody>
-          <CardFooter>
-            <Input type={'text'}
-                   placeholder={'Vyhľadať doklad alebo faktúru'}
-                   style={{ width: '200px' }}
-                   onChange={this.handleChange}
-            />
-          </CardFooter>
+              </Button>
+            </span>
+          </CardHeader>
+          <Collapse isOpen={this.state.collapse}>
+            <CardBody>
+              <Row>
+                <Col md={1}><strong>Znak</strong></Col>
+                <Col md={1}><strong>Počet položiek</strong></Col>
+                <Col md={5}><strong>Popis</strong></Col>
+                <Col md={1}><strong>Sadzba</strong></Col>
+                <Col md={1}><strong>Účet hlavnej knihy</strong></Col>
+                <Col md={1}><strong>Základ dane</strong></Col>
+                <Col md={1}><strong>Vstupná DPH</strong></Col>
+                <Col md={1}><strong>Suma s DPH</strong></Col>
+              </Row>
+              <br/>
+              { zn.map(
+                (z, idx) => {
+                  const items = polozky.filter(v => v.znak === z.znak)
+                  return <ZnakDane key={idx}
+                                   znak={z.znak}
+                                   popis={z.popis}
+                                   sadzba={z.sadzba}
+                                   ucet_hk={z.ucet_hk}
+                                   items={ items }
+                                   polozky={ <PolozkyVstup p={items} /> }
+                  />
+                }
+              )}
+            </CardBody>
+            <CardFooter>
+              <Input type={'text'}
+                     placeholder={'Vyhľadať doklad alebo faktúru'}
+                     style={{ width: '200px' }}
+                     onChange={this.handleChange}
+              />
+            </CardFooter>
+          </Collapse>
         </Card>
         }
       </div>

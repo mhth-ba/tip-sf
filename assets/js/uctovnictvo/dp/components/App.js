@@ -5,8 +5,13 @@ import VyberPolozky from './VyberPolozky'
 import Import from './Import'
 import Hlavny from './Hlavny'
 
+import Pohlad from './Pohlad'
+
 import Vstup from './Vstup'
 import Vystup from './Vystup'
+import VstupPovodne from './VstupPovodne'
+import VystupPovodne from './VystupPovodne'
+
 import Znamienka from './Znamienka'
 import Sumarizacia from './Sumarizacia'
 import Export from './Export'
@@ -28,6 +33,17 @@ class App extends React.Component {
         <br/>
         <Row>
           <Col>
+            <Pohlad
+              vstup_zmenene={<Vstup/>}
+              vystup_zmenene={<Vystup/>}
+              vstup_povodne={<VstupPovodne/>}
+              vystup_povodne={<VystupPovodne/>}
+            />
+          </Col>
+        </Row>
+        <br/>
+        {/*<Row>
+          <Col>
             <Vstup/>
           </Col>
         </Row>
@@ -37,7 +53,7 @@ class App extends React.Component {
             <Vystup/>
           </Col>
         </Row>
-        <br/>
+        <br/>*/}
         <Row>
           <Col>
             <Znamienka/>

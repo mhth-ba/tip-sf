@@ -7,6 +7,7 @@ export const POZNAMKA_UPDATE = 'POZNAMKA_UPDATE'
 
 // Local user interface
 export const TOGGLE_HIGHLIGHT_EDITABLE = 'TOGGLE_HIGHLIGHT_EDITABLE'
+export const TOGGLE_TAB = 'TOGGLE_TAB'
 
 export const TOGGLE_VYPOCTY = 'TOGGLE_VYPOCTY'
 export const HIGHLIGHT_CELLS = 'HIGHLIGHT_CELLS'

@@ -6,6 +6,11 @@ import Api from '../../services/Api'
 import Routing from '../../Components/Routing'
 import Notifications from 'react-notification-system-redux'
 
+export const toggleTab = (tab) => ({
+  type: TYPES.TOGGLE_TAB,
+  tab
+})
+
 export const fetchVyberPolozkyRequest = () => ({
   type: TYPES.FETCH_VYBER_POLOZKY_REQUEST
 })

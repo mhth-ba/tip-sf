@@ -6,7 +6,7 @@ import FontAwesome from 'react-fontawesome'
 import ZnakDane from './polozky/ZnakDane'
 import PolozkyVystup from './polozky/PolozkyVystup'
 
-class Vystup extends React.Component {
+class VystupPovodne extends React.Component {
   constructor(props) {
     super(props)
 
@@ -40,7 +40,7 @@ class Vystup extends React.Component {
   handleFilter(val) {
 
     const regexp = new RegExp(val, 'i')
-    const filtered = this.props.vystup.zmenene.filter(
+    const filtered = this.props.vystup.povodne.filter(
       (v) => {
         return String (v.doklad).search(regexp) > -1
           || String (v.referencia).search(regexp) > -1
@@ -53,9 +53,9 @@ class Vystup extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.vystup.zmenene !== this.props.vystup.zmenene) {
+    if (prevProps.vystup.povodne !== this.props.vystup.povodne) {
       this.setState({
-        filtered: this.props.vystup.zmenene
+        filtered: this.props.vystup.povodne
       })
     }
   }
@@ -65,7 +65,7 @@ class Vystup extends React.Component {
     const init = this.props.hlavny.initialized
     let zn = this.props.zn.vystup
 
-    // const polozky = this.props.vystup.zmenene // vystupna dph
+    // const polozky = this.props.vystup.povodne // vystupna dph
     const polozky = this.state.filtered // vystupna dph
 
     return (
@@ -76,11 +76,11 @@ class Vystup extends React.Component {
             Výstupná DPH
             <span className="pull-right">
               <Button onClick={this.collapse} color={'light'} size={'sm'}>
-              { !this.state.collapse ?
-                <FontAwesome name={'plus-square'}/>
-                :
-                <FontAwesome name={'minus-square'}/>
-              }
+                { !this.state.collapse ?
+                  <FontAwesome name={'plus-square'}/>
+                  :
+                  <FontAwesome name={'minus-square'}/>
+                }
               </Button>
             </span>
           </CardHeader>
@@ -139,4 +139,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Vystup)
+)(VystupPovodne)

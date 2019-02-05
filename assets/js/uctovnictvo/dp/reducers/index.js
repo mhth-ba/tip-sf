@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
 
+import userinterface from './userinterface'
+
 import vyberpolozky from './vyberpolozky'
 import moznosti from './moznosti'
 
@@ -11,6 +13,8 @@ import vystup from './vystup'
 import sumarizacia from './sumarizacia'
 
 export default combineReducers({
+  userinterface,
+
   vyberpolozky,
   moznosti,
 
