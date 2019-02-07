@@ -81,14 +81,14 @@ class BaseController extends Controller
      * @param $orig String Original filename uploaded by user
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    protected function downloadFile($sub, $file, $orig)
+    protected function downloadFile($sub, $file, $orig, $disposition = ResponseHeaderBag::DISPOSITION_INLINE)
     {
         $path = $this->container->getParameter('kernel.project_dir')
             .'/web/uploads'
             ."/$sub"
             ."/$file";
 
-        return $this->file($path, $orig, ResponseHeaderBag::DISPOSITION_INLINE);
+        return $this->file($path, $orig, $disposition);
     }
 
     /**
