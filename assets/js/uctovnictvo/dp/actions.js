@@ -15,6 +15,11 @@ export const fetchVyberPolozkyRequest = () => ({
   type: TYPES.FETCH_VYBER_POLOZKY_REQUEST
 })
 
+export const fetchAktivitaRequest = (id) => ({
+  type: TYPES.FETCH_AKTIVITA_REQUEST,
+  id
+})
+
 export const loadMainEntryRequest = (data) => ({
   type: TYPES.LOAD_MAIN_ENTRY_REQUEST,
   data
@@ -69,6 +74,29 @@ export function* fetchVyberPolozky() {
   }
 }
 
+export function* fetchAktivita(action) {
+  let url
+  const id = action.id
+
+  if (id === undefined) {
+    // ID nie je definované, načítať aktivitu vo všetkých záznamoch
+    url = Routing.generate('dp_aktivita_get')
+  } else {
+    // ID je definované, načítať aktivitu iba v hlavnom zázname
+    url = Routing.generate('dp_aktivita_hlavny_get')
+    url = `${url}/${id}`
+  }
+
+  try {
+    const udaje = yield call(Api.fetch, url)
+
+    yield put({type: TYPES.FETCH_AKTIVITA_SUCCESS, data: udaje})
+  } catch (e) {
+    yield put({type: TYPES.FETCH_AKTIVITA_ERROR, data: e})
+    console.error(e)
+  }
+}
+
 export function* loadMainEntry(action) {
   const url = Routing.generate('dp_hlavny_get')
   const data = action.data
@@ -82,6 +110,7 @@ export function* loadMainEntry(action) {
 
     yield put({type: TYPES.LOAD_MAIN_ENTRY_SUCCESS, data: udaje})
 
+    yield put(fetchAktivitaRequest(id))
     yield put(fetchMoznostiRequest(id))
     yield put(fetchZnakyDaneRequest())
     yield put(fetchVstupRequest(id))
@@ -186,8 +215,10 @@ export function* processUploadedFile(action) {
       message: 'Údaje zo súboru boli úspešne uložené do databázy'
     }))
 
-    yield put(fetchVyberPolozkyRequest())
-    yield put(loadMainEntryRequest(data))
+    if (data.uploadtype !== 3) {
+      yield put(fetchVyberPolozkyRequest())
+      yield put(loadMainEntryRequest(data))
+    }
 
   } catch (e) {
     yield put({type: TYPES.PROCESS_UPLOADED_FILE_ERROR, data: e})

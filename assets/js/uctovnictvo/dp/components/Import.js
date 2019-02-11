@@ -11,7 +11,7 @@ import { processUploadedFileRequest } from '../actions'
 const componentConfig = {
   iconFiletypes: ['.xls'],
   showFiletypeIcon: true,
-  postUrl: $('#uploader-excel').data('endpoint')
+  postUrl: $('#uploader').data('endpoint')
 }
 
 const config = {
@@ -92,41 +92,29 @@ class Import extends React.Component {
 
   render() {
 
-    const init = this.props.hlavny.initialized
-
     return (
       <div>
-        { init &&
-          <div>
-            <Button color={'primary'} onClick={this.toggle} style={{ marginBottom: '1rem' }}>
-              Import údajov&nbsp;&nbsp;
-              <FontAwesome name={'upload'} />
-            </Button>
-            <Collapse isOpen={this.state.collapse}>
-              <DropzoneComponent
-                {...config.alr}
-                /*djsConfig={{...config.dt.djsConfig, params: {
-                    hlavny: id,
-                    upload: 1
-                }}}*/
-                // 1 = predbezne hlasenie (S_ALR)
-                eventHandlers={{
-                  addedfile: (file) => this.handleAddedFile(file),
-                  complete: (file, uploadtype) => this.handleUpload(file, 1)
-                }}
-              />
-              <br/>
-              <DropzoneComponent
-                {...config.ddokl}
-                // 2 = danove doklady (ZFC_DDOKL)
-                eventHandlers={{
-                  addedfile: (file) => this.handleAddedFile(file),
-                  complete: (file, uploadtype) => this.handleUpload(file, 2)
-                }}
-              />
-            </Collapse>
-          </div>
-        }
+        <DropzoneComponent
+          {...config.alr}
+          /*djsConfig={{...config.dt.djsConfig, params: {
+              hlavny: id,
+              upload: 1
+          }}}*/
+          // 1 = predbezne hlasenie (S_ALR)
+          eventHandlers={{
+            addedfile: (file) => this.handleAddedFile(file),
+            complete: (file, uploadtype) => this.handleUpload(file, 1)
+          }}
+        />
+        <br/>
+        <DropzoneComponent
+          {...config.ddokl}
+          // 2 = danove doklady (ZFC_DDOKL)
+          eventHandlers={{
+            addedfile: (file) => this.handleAddedFile(file),
+            complete: (file, uploadtype) => this.handleUpload(file, 2)
+          }}
+        />
       </div>
     )
   }

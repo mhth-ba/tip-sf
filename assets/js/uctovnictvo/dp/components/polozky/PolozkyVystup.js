@@ -35,8 +35,7 @@ class PolozkyVystup extends React.Component {
     const options = {
       ...CONFIGS.REACT_BOOTSTRAP_TABLE,
       sizePerPage,
-      onSizePerPageList: this.onSizePerPageList,
-      onRowClick: this.handleFetchOST
+      onSizePerPageList: this.onSizePerPageList
     }
 
     return (

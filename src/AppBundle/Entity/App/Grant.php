@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity\App;
 
+use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\App\GrantRepository")
  * @ORM\Table(name="Grants", schema="dbo")
  */
-class Grant
+class Grant extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -65,12 +66,12 @@ class Grant
 
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->getTimestampWithOffset($this->createdAt);
     }
 
     public function getModifiedAt()
     {
-        return $this->modifiedAt;
+        return $this->getTimestampWithOffset($this->modifiedAt);
     }
 
     public function getUser()

@@ -43,4 +43,33 @@ class UploadRepository extends EntityRepository
             ->setParameter('id', $id)
             ->execute();
     }
+
+    public function findPrilohyByHlavny($id)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.upload = 3')
+            ->andWhere('u.hlavny = :id')
+            ->setParameter('id', $id)
+            ->orderBy('u.datum', 'desc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findActivityAll()
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.datum', 'desc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findActivityByHlavny($id)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.hlavny = :id')
+            ->setParameter('id', $id)
+            ->orderBy('u.datum', 'desc')
+            ->getQuery()
+            ->execute();
+    }
 }

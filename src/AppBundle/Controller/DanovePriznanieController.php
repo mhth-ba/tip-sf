@@ -47,19 +47,19 @@ class DanovePriznanieController extends BaseController
             throw new BadRequestHttpException('Invalid JSON');
         }
 
-        //TODO upload DPH
+        $em = $this->getDoctrine()->getManager();
 
         $hlavny_id = $data['id'];
         $uploadtype_id = $data['uploadtype'];
         $original = $data['original'];
         $filename = $data['filename'];
 
-        $hlavny = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
+        $hlavny = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
             ->find($hlavny_id);
-        $uploadtype = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\UploadType')
+        $uploadtype = $em->getRepository('AppBundle:Uctovnictvo\UploadType')
             ->find($uploadtype_id);
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find( $this->getUser()->getId() );
 
         $upload = new Upload();
 
@@ -67,6 +67,7 @@ class DanovePriznanieController extends BaseController
         $upload->setUpload($uploadtype);
         $upload->setOriginal($original);
         $upload->setSubor($filename);
+        $upload->setNahral($user);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($upload);
@@ -104,6 +105,9 @@ class DanovePriznanieController extends BaseController
                     ->getRepository('AppBundle:Uctovnictvo\DP\Upload')
                     ->uploadDDOKL($hlavny_id);
                 //sleep(8);
+                break;
+            case 3:
+                // obycajna priloha -> nevykonat nic
                 break;
         }
 
@@ -295,6 +299,42 @@ class DanovePriznanieController extends BaseController
     }
 
     /**
+     * @Route("uct/dp/aktivita", name="dp_aktivita_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function getAktivitaAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $upload = $em->getRepository('AppBundle:Uctovnictvo\DP\Upload')
+            ->findActivityAll();
+
+        return $this->createApiResponse([
+            'upload_vsetky' => $upload,
+            'udaje_vsetky' => null
+        ]);
+    }
+
+    /**
+     * @Route("uct/dp/aktivita/{id}", name="dp_aktivita_hlavny_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function getAktivitaByHlavnyAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $upload = $em->getRepository('AppBundle:Uctovnictvo\DP\Upload')
+            ->findActivityByHlavny($id);
+
+        return $this->createApiResponse([
+            'upload_hlavny' => $upload,
+            'udaje_hlavny' => null
+        ]);
+    }
+
+    /**
      * @Route("uct/dp/hlavny/{id}", name="dp_hlavny_get", options={"expose"=true})
      * @Method("GET")
      * @Security("has_role('ROLE_DP_UCT')")
@@ -333,9 +373,11 @@ class DanovePriznanieController extends BaseController
 
         $upload_alr = $upload->getLastUploadedALR($id);
         $upload_ddokl = $upload->getLastUploadedDDOKL($id);
+        $upload_prilohy = $upload->findPrilohyByHlavny($id);
 
-        $model->upload['alr'] = $upload_alr;     // predbežné hlásenie - S_ALR
-        $model->upload['ddokl'] = $upload_ddokl; // daňové doklady - ZFC_DDOKL
+        $model->upload['alr'] = $upload_alr;         // predbežné hlásenie - S_ALR
+        $model->upload['ddokl'] = $upload_ddokl;     // daňové doklady - ZFC_DDOKL
+        $model->upload['prilohy'] = $upload_prilohy; // ostatné prílohy
 
         return $model;
     }

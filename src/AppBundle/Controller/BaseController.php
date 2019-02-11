@@ -162,6 +162,8 @@ class BaseController extends Controller
     }
 
     /**
+     * Writes log about updated entry in SQL database
+     *
      * @param $metadata \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory
      * @param Request $request HTTP request
      */
@@ -195,6 +197,8 @@ class BaseController extends Controller
     }
 
     /**
+     * Writes log about deleted entry in SQL database
+     *
      * @param $metadata \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory
      * @param $id integer Row ID
      */

@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import userinterface from './userinterface'
 
 import vyberpolozky from './vyberpolozky'
+import aktivita from './aktivita'
 import moznosti from './moznosti'
 
 import upload from './import'
@@ -16,6 +17,7 @@ export default combineReducers({
   userinterface,
 
   vyberpolozky,
+  aktivita,
   moznosti,
 
   upload,

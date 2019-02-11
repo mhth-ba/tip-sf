@@ -8,7 +8,7 @@ import {
 import { dateYearMonth } from '../../../utils/format'
 import FontAwesome from 'react-fontawesome'
 
-import { fetchVyberPolozkyRequest, loadMainEntryRequest } from '../actions'
+import { fetchVyberPolozkyRequest, fetchAktivitaRequest, loadMainEntryRequest } from '../actions'
 
 class VyberPolozky extends React.Component {
   constructor(props) {
@@ -41,6 +41,7 @@ class VyberPolozky extends React.Component {
 
   componentDidMount() {
     this.props.fetchZoznam()
+    this.props.fetchAktivita()
   }
 
   render() {
@@ -49,10 +50,10 @@ class VyberPolozky extends React.Component {
 
     return (
       <div>
-        <Card style={{ width: '410px' }}>
+        <Card style={{ width: '430px' }}>
           <CardHeader className="text-white bg-secondary">Výber obdobia</CardHeader>
           <CardBody>
-            <div style={{ width: '370px' }}>
+            <div style={{ width: '390px' }}>
               <InputGroup>
                 <InputGroupAddon addonType={'prepend'}>
                   <InputGroupText>Obdobie</InputGroupText>
@@ -114,6 +115,7 @@ const mapStateToProps = ( state, ownProps ) => ({
 
 const mapDispatchToProps = ( dispatch, ownProps ) => ({
   fetchZoznam: () => dispatch(fetchVyberPolozkyRequest()),
+  fetchAktivita: (e) => dispatch(fetchAktivitaRequest(e)),
   load: (e) => dispatch(loadMainEntryRequest(e))
 })
 

@@ -4,9 +4,10 @@ import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects'
 import * as TYPES from '../../services/ActionTypes'
 
 import {
-  fetchMoznosti,
   fetchVyberPolozky,
+  fetchAktivita,
   loadMainEntry,
+  fetchMoznosti,
   fetchZnakyDane,
   fetchVstup,
   fetchVystup,
@@ -19,9 +20,10 @@ import {
 
 function* mySaga() {
   yield all([
-    takeLatest(TYPES.FETCH_MOZNOSTI_REQUEST, fetchMoznosti),
     takeLatest(TYPES.FETCH_VYBER_POLOZKY_REQUEST, fetchVyberPolozky),
+    takeLatest(TYPES.FETCH_AKTIVITA_REQUEST, fetchAktivita),
     takeLatest(TYPES.LOAD_MAIN_ENTRY_REQUEST, loadMainEntry),
+    takeLatest(TYPES.FETCH_MOZNOSTI_REQUEST, fetchMoznosti),
     takeLatest(TYPES.FETCH_ZNAKY_DANE_REQUEST, fetchZnakyDane),
     takeLatest(TYPES.FETCH_VSTUP_REQUEST, fetchVstup),
     takeLatest(TYPES.FETCH_VYSTUP_REQUEST, fetchVystup),

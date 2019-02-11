@@ -2,11 +2,15 @@ import React from 'react'
 import { Row, Col } from 'reactstrap'
 
 import VyberPolozky from './VyberPolozky'
+import Nastroje from './Nastroje'
+
 import Import from './Import'
+import Prilohy from './Prilohy'
+import Aktivita from './Aktivita'
+
 import Hlavny from './Hlavny'
 
 import Pohlad from './Pohlad'
-
 import Vstup from './Vstup'
 import Vystup from './Vystup'
 import VstupPovodne from './VstupPovodne'
@@ -21,12 +25,16 @@ class App extends React.Component {
     return (
       <div>
         <Row>
-          <Col>
+          <Col md={7}>
             <VyberPolozky/>
             <br/>
-            <Import/>
+            <Nastroje
+              import={<Import/>}
+              prilohy={<Prilohy/>}
+              aktivita={<Aktivita/>}
+            />
           </Col>
-          <Col>
+          <Col md={5}>
             <Hlavny/>
           </Col>
         </Row>

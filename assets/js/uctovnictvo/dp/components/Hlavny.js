@@ -128,7 +128,7 @@ class Hlavny extends React.Component {
                   <td>{ dateYearMonth(obdobie) }</td>
                 </tr>
                 <tr>
-                  <th>Priznanie v predchádzajúcom období<br/><span className="small">Nadmerný odpočet</span></th>
+                  <th>Priznanie v predchádzajúcom období<br/><span className="small">V prípade nadmerného odpočtu</span></th>
                   <td>
                     <Input type={'select'} disabled={hlavny.updating}
                            value={predchadzajuci ? predchadzajuci : ''}

@@ -18,11 +18,32 @@ class GrantRepository extends EntityRepository
             ->execute();
     }
 
+    /**
+     * Get all roles granted to specified user
+     * @param string $guid Unique identifier
+     * @return Grant[]
+     */
     public function findGrantedRolesToUser($guid)
     {
         return $this->createQueryBuilder('grant')
             ->andWhere('grant.user = :guid')
             ->setParameter('guid', $guid)
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * Get all grants for SCT app
+     *
+     * @return Grant[]
+     */
+    public function findGrantedRolesSCT()
+    {
+        return $this->createQueryBuilder('grant')
+            ->andWhere('grant.role BETWEEN :start and :end')
+            ->setParameter('start', 70)
+            ->setParameter('end', 73)
+            ->orderBy('grant.role', 'asc')
             ->getQuery()
             ->execute();
     }

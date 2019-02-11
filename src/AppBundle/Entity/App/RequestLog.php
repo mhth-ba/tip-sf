@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity\App;
 
+use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\App\RequestLogRepository")
  * @ORM\Table(name="RequestLog")
  */
-class RequestLog
+class RequestLog extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -89,7 +90,7 @@ class RequestLog
 
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->getTimestampWithOffset($this->createdAt);
     }
 
     public function getUser()

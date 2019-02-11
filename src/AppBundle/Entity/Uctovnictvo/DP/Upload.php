@@ -56,6 +56,11 @@ class Upload extends BaseEntity
     private $subor;
 
     /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
+     */
+    private $nahral;
+
+    /**
      * Set the default values
      * This works as the constructor of a persisted class is not called upon hydration.
      */
@@ -112,5 +117,15 @@ class Upload extends BaseEntity
     public function setSubor($subor)
     {
         $this->subor = $subor;
+    }
+
+    public function getNahral()
+    {
+        return $this->nahral;
+    }
+
+    public function setNahral($nahral)
+    {
+        $this->nahral = $nahral;
     }
 }

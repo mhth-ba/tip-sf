@@ -17,9 +17,10 @@ const initState = {
     fullname: null // celé meno používateľa
   },
 
-  upload: {      // pôvodný názov uploadnutého súboru
-    alr: null,   // predbežné hlásenie hlásenie - S_ALR
-    ddokl: null, // daňové doklady - ZFC_DDOKL
+  upload: {        // pôvodný názov uploadnutého súboru
+    alr: null,     // predbežné hlásenie hlásenie - S_ALR
+    ddokl: null,   // daňové doklady - ZFC_DDOKL
+    prilohy: null, // ostatné prílohy
   },
 
   poznamka: null,
