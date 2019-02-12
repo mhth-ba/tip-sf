@@ -2,9 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Api\Uctovnictvo\DP\DokladApiModel;
 use AppBundle\Api\Uctovnictvo\DP\HlavnyApiModel;
 use AppBundle\Entity\Uctovnictvo\DP\Hlavny;
 use AppBundle\Entity\Uctovnictvo\DP\Upload;
+use AppBundle\Entity\Uctovnictvo\DP\Vstup;
+use AppBundle\Entity\Uctovnictvo\DP\Vystup;
 use AppBundle\Form\Type\Uctovnictvo\DP\HlavnyType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -444,10 +447,18 @@ class DanovePriznanieController extends BaseController
         $zmenene = $repository->findZmeneneByHlavny($id);
         $povodne = $repository->findPovodneByHlavny($id);
 
-        return $this->createApiResponse([
-            'zmenene' => $zmenene,
-            'povodne' => $povodne
-        ]);
+        $data = [];
+
+
+        foreach ($zmenene as $zmeneny) {
+            $data['zmenene'][] = $this->createDokladVstupApiModel($zmeneny);
+        }
+
+        foreach ($povodne as $povodny) {
+            $data['povodne'][] = $this->createDokladVstupApiModel($povodny);
+        }
+
+        return $this->createApiResponse($data);
     }
 
     /**
@@ -463,10 +474,59 @@ class DanovePriznanieController extends BaseController
         $zmenene = $repository->findZmeneneByHlavny($id);
         $povodne = $repository->findPovodneByHlavny($id);
 
-        return $this->createApiResponse([
-            'zmenene' => $zmenene,
-            'povodne' => $povodne
-        ]);
+        $data = [];
+
+        foreach ($zmenene as $zmeneny) {
+            $data['zmenene'][] = $this->createDokladVystupApiModel($zmeneny);
+        }
+
+        foreach ($povodne as $povodny) {
+            $data['povodne'][] = $this->createDokladVystupApiModel($povodny);
+        }
+
+        return $this->createApiResponse($data);
+    }
+
+    private function createDokladVstupApiModel(Vstup $vstup)
+    {
+        $model = new DokladApiModel();
+
+        $model->id = $vstup->getId();
+        $model->znak = $vstup->getZnak();
+        $model->doklad = $vstup->getDoklad();
+        $model->referencia = $vstup->getReferencia();
+        $model->obchodny_partner = $vstup->getObchodnyPartner();
+        $model->icdph = $vstup->getIcdph();
+        $model->druh_dokladu = $vstup->getDruhDokladu();
+        $model->datum_dokladu = $vstup->getDatumDokladu();
+        $model->datum_uctovania = $vstup->getDatumUctovania();
+        $model->suma_bez_dph = $vstup->getSumaBezDph();
+        $model->dph = $vstup->getDph();
+        $model->suma_s_dph = $vstup->getSumaSDph();
+        $model->zmenene = $vstup->getZmenene();
+
+        return $model;
+    }
+
+    private function createDokladVystupApiModel(Vystup $vystup)
+    {
+        $model = new DokladApiModel();
+
+        $model->id = $vystup->getId();
+        $model->znak = $vystup->getZnak();
+        $model->doklad = $vystup->getDoklad();
+        $model->referencia = $vystup->getReferencia();
+        $model->obchodny_partner = $vystup->getObchodnyPartner();
+        $model->icdph = $vystup->getIcdph();
+        $model->druh_dokladu = $vystup->getDruhDokladu();
+        $model->datum_dokladu = $vystup->getDatumDokladu();
+        $model->datum_uctovania = $vystup->getDatumUctovania();
+        $model->suma_bez_dph = $vystup->getSumaBezDph();
+        $model->dph = $vystup->getDph();
+        $model->suma_s_dph = $vystup->getSumaSDph();
+        $model->zmenene = $vystup->getZmenene();
+
+        return $model;
     }
 
     /**
