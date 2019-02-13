@@ -73,7 +73,7 @@ class VstupPovodne extends React.Component {
     )
 
     // const polozky = this.props.vstup.povodne // vstupna dph
-    const polozky = this.state.filtered // vstupna dph
+    let polozky = this.state.filtered // vstupna dph
 
     return (
       <div>
@@ -106,6 +106,7 @@ class VstupPovodne extends React.Component {
               <br/>
               { zn.map(
                 (z, idx) => {
+                  if (polozky === undefined) polozky = []
                   const items = polozky.filter(v => v.znak === z.znak)
                   return <ZnakDane key={idx}
                                    znak={z.znak}

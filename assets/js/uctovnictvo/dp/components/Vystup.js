@@ -66,7 +66,7 @@ class Vystup extends React.Component {
     let zn = this.props.zn.vystup
 
     // const polozky = this.props.vystup.zmenene // vystupna dph
-    const polozky = this.state.filtered // vystupna dph
+    let polozky = this.state.filtered // vystupna dph
 
     return (
       <div>
@@ -99,6 +99,7 @@ class Vystup extends React.Component {
               <br/>
               { zn.map(
                 (z, idx) => {
+                  if (polozky === undefined) polozky = []
                   const items = polozky.filter(v => v.znak === z.znak)
                   return <ZnakDane key={idx}
                                    znak={z.znak}
