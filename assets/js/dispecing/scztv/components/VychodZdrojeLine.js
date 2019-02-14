@@ -226,11 +226,11 @@ class VychodZdrojeLine extends React.Component {
 
     let ppc = [], tpv = [], slovnaft = [], vhj = [], teplota = []
 
-    this.props.zdroje.ppc.map( row => { ppc.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.tpv.map( row => { tpv.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.slovnaft.map( row => { slovnaft.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.vhj.map( row => { vhj.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.teplota.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.ppc_vykon_10min.map( row => { ppc.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.tpv_vykon_10min.map( row => { tpv.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.slovnaft_vykon_10min.map( row => { slovnaft.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.vhj_vykon_10min.map( row => { vhj.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.vonkajsia_teplota_10min.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(vhj, false)
     chart.series[1].setData(slovnaft, false)

@@ -10,7 +10,7 @@ export const REACT_BOOTSTRAP_TABLE = {
 
 export const REACT_HIGHCHARTS = {
     credits: {
-        text: 'Bratislavská Teplárenská, a.s. | TI portál',
+        text: 'Bratislavská teplárenská, a.s. | TI portál',
         href: '/tip-sf/web'
     }
 }

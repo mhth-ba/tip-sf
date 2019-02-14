@@ -5,6 +5,9 @@ import VychodVykon from './VychodVykon'
 import VychodZdrojeLine from './VychodZdrojeLine'
 import VychodZariadenia from './VychodZariadenia'
 import VychodZdrojeColumn from './VychodZdrojeColumn'
+import VychodZdrojeTeplota from './VychodZdrojeTeplota'
+import VychodZdrojeDiferencny from './VychodZdrojeDiferencny'
+import VychodZdrojePrietok from './VychodZdrojePrietok'
 import VychodOST from './VychodOST'
 
 class App extends React.Component {
@@ -38,6 +41,24 @@ class App extends React.Component {
         <Row>
           <Col>
             <VychodZdrojeColumn/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col>
+            <VychodZdrojeTeplota/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col>
+            <VychodZdrojeDiferencny/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col>
+            <VychodZdrojePrietok/>
           </Col>
         </Row>
         <br/>

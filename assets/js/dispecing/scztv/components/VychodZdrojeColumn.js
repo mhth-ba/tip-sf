@@ -208,12 +208,12 @@ class VychodZdrojeColumn extends React.Component {
     let teplota = [], termis_pocasie = [],
       ppc = [], tpv = [], slovnaft = [], vhj = [], termis_zdroje = []
 
-    this.props.zdroje.teplota_1h.map( row => { teplota.push([ row['hodina'], row['priemer'] ]) })
+    this.props.zdroje.vonkajsia_teplota_1h.map( row => { teplota.push([ row['hodina'], row['priemer'] ]) })
     this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.ppc_1h.map( row => { ppc.push([ row['hodina'], row['priemer'] ]) })
-    this.props.zdroje.tpv_1h.map( row => { tpv.push([ row['hodina'], row['priemer'] ]) })
-    this.props.zdroje.slovnaft_1h.map( row => { slovnaft.push([ row['hodina'], row['priemer'] ]) })
-    this.props.zdroje.vhj_1h.map( row => { vhj.push([ row['hodina'], row['priemer'] ]) })
+    this.props.zdroje.ppc_vykon_1h.map( row => { ppc.push([ row['hodina'], row['priemer'] ]) })
+    this.props.zdroje.tpv_vykon_1h.map( row => { tpv.push([ row['hodina'], row['priemer'] ]) })
+    this.props.zdroje.slovnaft_vykon_1h.map( row => { slovnaft.push([ row['hodina'], row['priemer'] ]) })
+    this.props.zdroje.vhj_vykon_1h.map( row => { vhj.push([ row['hodina'], row['priemer'] ]) })
     this.props.vykon.termis.map( row => { termis_zdroje.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(teplota, false)

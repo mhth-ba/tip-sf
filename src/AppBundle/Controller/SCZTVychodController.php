@@ -5,7 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Api\Dispecing\SCZT\VykonApiModel;
 use AppBundle\Api\Dispecing\SCZT\Zdroje1hApiModel;
 use AppBundle\Api\Dispecing\SCZT\ZdrojeApiModel;
+use AppBundle\Entity\Dispecing\SCZT\VychodDiferencnyTlak;
+use AppBundle\Entity\Dispecing\SCZT\VychodPrietok;
 use AppBundle\Entity\Dispecing\SCZT\VychodVykon;
+use AppBundle\Entity\Dispecing\SCZT\VychodVystupnaTeplota;
 use AppBundle\Entity\Dispecing\SCZT\VychodZdroje;
 use AppBundle\Entity\Dispecing\SCZT\VychodZdroje1h;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -133,41 +136,146 @@ class SCZTVychodController extends BaseController
         $dateFrom = $obdobie['from'];
         $dateTo = $obdobie['to'];
 
-        $repository = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Dispecing\SCZT\VychodZdroje');
+        $data = [];
 
-        $ppc = $repository->getPPC($dateTo, $dateFrom);
-        $tpv = $repository->getTpV($dateTo, $dateFrom);
-        $slovnaft = $repository->getSlovnaft($dateTo, $dateFrom);
-        $vhj = $repository->getVhJ($dateTo, $dateFrom);
-        $teplota = $repository->getTeplota($dateTo, $dateFrom);
-        $maxVykon = $repository->getMaxVykon($dateTo, $dateFrom);
+        $em = $this->getDoctrine()->getManager();
 
-        $ppc_models = [];
-        $tpv_models = [];
-        $slovnaft_models = [];
-        $vhj_models = [];
-        $teplota_models = [];
+        // 10 minutovy interval
+        $zdroje_vykon_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodZdroje');
+        $zdroje_teplota_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodVystupnaTeplota');
+        $zdroje_diferencny_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodDiferencnyTlak');
+        $zdroje_prietok_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodPrietok');
 
-        foreach ($ppc as $ppc_riadok) {
-            $ppc_models[] = $this->createZdrojeApiModel($ppc_riadok);
+        $ppc_vykon_10min = $zdroje_vykon_repository->getPPC($dateTo, $dateFrom);
+        $tpv_vykon_10min = $zdroje_vykon_repository->getTpV($dateTo, $dateFrom);
+        $slovnaft_vykon_10min = $zdroje_vykon_repository->getSlovnaft($dateTo, $dateFrom);
+        $vhj_vykon_10min = $zdroje_vykon_repository->getVhJ($dateTo, $dateFrom);
+        $vonkajsia_teplota_10min = $zdroje_vykon_repository->getTeplota($dateTo, $dateFrom);
+        $maxVykon = $zdroje_vykon_repository->getMaxVykon($dateTo, $dateFrom);
+        
+        $ppc_teplota_skutocnost_10min = $zdroje_teplota_repository->getPPCSkutocnost($dateTo, $dateFrom);
+        $ppc_teplota_predikcia_10min = $zdroje_teplota_repository->getPPCPredikcia($dateTo, $dateFrom);
+        $tpv_teplota_skutocnost_10min = $zdroje_teplota_repository->getTpVSkutocnost($dateTo, $dateFrom);
+        $tpv_teplota_predikcia_10min = $zdroje_teplota_repository->getTpVPredikcia($dateTo, $dateFrom);
+        $slovnaft_teplota_skutocnost_10min = $zdroje_teplota_repository->getSlovnaftSkutocnost($dateTo, $dateFrom);
+        $slovnaft_teplota_predikcia_10min = $zdroje_teplota_repository->getSlovnaftPredikcia($dateTo, $dateFrom);
+        $vhj_teplota_skutocnost_10min = $zdroje_teplota_repository->getVhJSkutocnost($dateTo, $dateFrom);
+        $vhj_teplota_predikcia_10min = $zdroje_teplota_repository->getVhJPredikcia($dateTo, $dateFrom);
+
+        $ppc_diferencny_skutocnost_10min = $zdroje_diferencny_repository->getPPCSkutocnost($dateTo, $dateFrom);
+        $ppc_diferencny_predikcia_10min = $zdroje_diferencny_repository->getPPCPredikcia($dateTo, $dateFrom);
+        $tpv_diferencny_skutocnost_10min = $zdroje_diferencny_repository->getTpVSkutocnost($dateTo, $dateFrom);
+        $tpv_diferencny_predikcia_10min = $zdroje_diferencny_repository->getTpVPredikcia($dateTo, $dateFrom);
+        $slovnaft_diferencny_skutocnost_10min = $zdroje_diferencny_repository->getSlovnaftSkutocnost($dateTo, $dateFrom);
+        $slovnaft_diferencny_predikcia_10min = $zdroje_diferencny_repository->getSlovnaftPredikcia($dateTo, $dateFrom);
+        $vhj_diferencny_skutocnost_10min = $zdroje_diferencny_repository->getVhJSkutocnost($dateTo, $dateFrom);
+        $vhj_diferencny_predikcia_10min = $zdroje_diferencny_repository->getVhJPredikcia($dateTo, $dateFrom);
+
+        $ppc_prietok_skutocnost_10min = $zdroje_prietok_repository->getPPCSkutocnost($dateTo, $dateFrom);
+        $ppc_prietok_predikcia_10min = $zdroje_prietok_repository->getPPCPredikcia($dateTo, $dateFrom);
+        $tpv_prietok_skutocnost_10min = $zdroje_prietok_repository->getTpVSkutocnost($dateTo, $dateFrom);
+        $tpv_prietok_predikcia_10min = $zdroje_prietok_repository->getTpVPredikcia($dateTo, $dateFrom);
+        $slovnaft_prietok_skutocnost_10min = $zdroje_prietok_repository->getSlovnaftSkutocnost($dateTo, $dateFrom);
+        $slovnaft_prietok_predikcia_10min = $zdroje_prietok_repository->getSlovnaftPredikcia($dateTo, $dateFrom);
+        $vhj_prietok_skutocnost_10min = $zdroje_prietok_repository->getVhJSkutocnost($dateTo, $dateFrom);
+        $vhj_prietok_predikcia_10min = $zdroje_prietok_repository->getVhJPredikcia($dateTo, $dateFrom);
+
+        foreach ($ppc_vykon_10min as $item) {
+            $data['ppc_vykon_10min'][] = $this->createZdrojeApiModel($item);
+        }
+        foreach ($tpv_vykon_10min as $item) {
+            $data['tpv_vykon_10min'][] = $this->createZdrojeApiModel($item);
+        }
+        foreach ($slovnaft_vykon_10min as $item) {
+            $data['slovnaft_vykon_10min'][] = $this->createZdrojeApiModel($item);
+        }
+        foreach ($vhj_vykon_10min as $item) {
+            $data['vhj_vykon_10min'][] = $this->createZdrojeApiModel($item);
+        }
+        foreach ($vonkajsia_teplota_10min as $item) {
+            $data['vonkajsia_teplota_10min'][] = $this->createZdrojeApiModel($item);
         }
 
-        foreach ($tpv as $tpv_riadok) {
-            $tpv_models[] = $this->createZdrojeApiModel($tpv_riadok);
+        // tv = teplota vystupna (zo zdroja), dt = diferencny tlak (na zdroji), p = prietok (zo zdroja)
+        // sk = skutocnost, pr = predikcia termis
+        // 10min = 10 minutovy interval, 1h = 1 hodinovy interval
+        foreach ($ppc_teplota_skutocnost_10min as $item) {
+            $data['ppc_tv_sk_10min'][] = $this->createZdrojeTeplotaApiModel($item);
         }
-        foreach ($slovnaft as $slovnaft_riadok) {
-            $slovnaft_models[] = $this->createZdrojeApiModel($slovnaft_riadok);
+        foreach ($ppc_teplota_predikcia_10min as $item) {
+            $data['ppc_tv_pr_10min'][] = $this->createZdrojeTeplotaApiModel($item);
         }
-        foreach ($vhj as $vhj_riadok) {
-            $vhj_models[] = $this->createZdrojeApiModel($vhj_riadok);
+        foreach ($tpv_teplota_skutocnost_10min as $item) {
+            $data['tpv_tv_sk_10min'][] = $this->createZdrojeTeplotaApiModel($item);
         }
-        foreach ($teplota as $teplota_riadok) {
-            $teplota_models[] = $this->createZdrojeApiModel($teplota_riadok);
+        foreach ($tpv_teplota_predikcia_10min as $item) {
+            $data['tpv_tv_pr_10min'][] = $this->createZdrojeTeplotaApiModel($item);
+        }
+        foreach ($slovnaft_teplota_skutocnost_10min as $item) {
+            $data['slovnaft_tv_sk_10min'][] = $this->createZdrojeTeplotaApiModel($item);
+        }
+        foreach ($slovnaft_teplota_predikcia_10min as $item) {
+            $data['slovnaft_tv_pr_10min'][] = $this->createZdrojeTeplotaApiModel($item);
+        }
+        foreach ($vhj_teplota_skutocnost_10min as $item) {
+            $data['vhj_tv_sk_10min'][] = $this->createZdrojeTeplotaApiModel($item);
+        }
+        foreach ($vhj_teplota_predikcia_10min as $item) {
+            $data['vhj_tv_pr_10min'][] = $this->createZdrojeTeplotaApiModel($item);
         }
 
-        $zdroje_1h = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Dispecing\SCZT\VychodZdroje1h');
+        foreach ($ppc_diferencny_skutocnost_10min as $item) {
+            $data['ppc_dt_sk_10min'][] = $this->createZdrojeDiferencnyApiModel($item);
+        }
+        foreach ($ppc_diferencny_predikcia_10min as $item) {
+            $data['ppc_dt_pr_10min'][] = $this->createZdrojeDiferencnyApiModel($item);
+        }
+        foreach ($tpv_diferencny_skutocnost_10min as $item) {
+            $data['tpv_dt_sk_10min'][] = $this->createZdrojeDiferencnyApiModel($item);
+        }
+        foreach ($tpv_diferencny_predikcia_10min as $item) {
+            $data['tpv_dt_pr_10min'][] = $this->createZdrojeDiferencnyApiModel($item);
+        }
+        foreach ($slovnaft_diferencny_skutocnost_10min as $item) {
+            $data['slovnaft_dt_sk_10min'][] = $this->createZdrojeDiferencnyApiModel($item);
+        }
+        foreach ($slovnaft_diferencny_predikcia_10min as $item) {
+            $data['slovnaft_dt_pr_10min'][] = $this->createZdrojeDiferencnyApiModel($item);
+        }
+        foreach ($vhj_diferencny_skutocnost_10min as $item) {
+            $data['vhj_dt_sk_10min'][] = $this->createZdrojeDiferencnyApiModel($item);
+        }
+        foreach ($vhj_diferencny_predikcia_10min as $item) {
+            $data['vhj_dt_pr_10min'][] = $this->createZdrojeDiferencnyApiModel($item);
+        }
+
+        foreach ($ppc_prietok_skutocnost_10min as $item) {
+            $data['ppc_p_sk_10min'][] = $this->createZdrojePrietokApiModel($item);
+        }
+        foreach ($ppc_prietok_predikcia_10min as $item) {
+            $data['ppc_p_pr_10min'][] = $this->createZdrojePrietokApiModel($item);
+        }
+        foreach ($tpv_prietok_skutocnost_10min as $item) {
+            $data['tpv_p_sk_10min'][] = $this->createZdrojePrietokApiModel($item);
+        }
+        foreach ($tpv_prietok_predikcia_10min as $item) {
+            $data['tpv_p_pr_10min'][] = $this->createZdrojePrietokApiModel($item);
+        }
+        foreach ($slovnaft_prietok_skutocnost_10min as $item) {
+            $data['slovnaft_p_sk_10min'][] = $this->createZdrojePrietokApiModel($item);
+        }
+        foreach ($slovnaft_prietok_predikcia_10min as $item) {
+            $data['slovnaft_p_pr_10min'][] = $this->createZdrojePrietokApiModel($item);
+        }
+        foreach ($vhj_prietok_skutocnost_10min as $item) {
+            $data['vhj_p_sk_10min'][] = $this->createZdrojePrietokApiModel($item);
+        }
+        foreach ($vhj_prietok_predikcia_10min as $item) {
+            $data['vhj_p_pr_10min'][] = $this->createZdrojePrietokApiModel($item);
+        }
+
+        // 1 hodinovy interval
+        $zdroje_1h = $em->getRepository('AppBundle:Dispecing\SCZT\VychodZdroje1h');
         
         $ppc_1h = $zdroje_1h->getPPC($dateTo, $dateFrom);
         $tpv_1h = $zdroje_1h->getTpV($dateTo, $dateFrom);
@@ -175,46 +283,43 @@ class SCZTVychodController extends BaseController
         $vhj_1h = $zdroje_1h->getVhJ($dateTo, $dateFrom);
         $teplota_1h = $zdroje_1h->getTeplota($dateTo, $dateFrom);
         
-        $ppc_1h_models = [];
-        $tpv_1h_models = [];
-        $slovnaft_1h_models = [];
-        $vhj_1h_models = [];
-        $teplota_1h_models = [];
-
-        foreach ($ppc_1h as $ppc_1h_riadok) {
-            $ppc_1h_models[] = $this->createZdroje1hApiModel($ppc_1h_riadok);
+        foreach ($ppc_1h as $item) {
+            $data['ppc_vykon_1h'][] = $this->createZdroje1hApiModel($item);
+        }
+        foreach ($tpv_1h as $item) {
+            $data['tpv_vykon_1h'][] = $this->createZdroje1hApiModel($item);
+        }
+        foreach ($slovnaft_1h as $item) {
+            $data['slovnaft_vykon_1h'][] = $this->createZdroje1hApiModel($item);
+        }
+        foreach ($vhj_1h as $item) {
+            $data['vhj_vykon_1h'][] = $this->createZdroje1hApiModel($item);
+        }
+        foreach ($teplota_1h as $item) {
+            $data['vonkajsia_teplota_1h'][] = $this->createZdroje1hApiModel($item);
         }
 
-        foreach ($tpv_1h as $tpv_1h_riadok) {
-            $tpv_1h_models[] = $this->createZdroje1hApiModel($tpv_1h_riadok);
-        }
+        $data['max'][] = $maxVykon[0];
 
-        foreach ($slovnaft_1h as $slovnaft_1h_riadok) {
-            $slovnaft_1h_models[] = $this->createZdroje1hApiModel($slovnaft_1h_riadok);
-        }
+        return $this->createApiResponse($data);
 
-        foreach ($vhj_1h as $vhj_1h_riadok) {
-            $vhj_1h_models[] = $this->createZdroje1hApiModel($vhj_1h_riadok);
-        }
-
-        foreach ($teplota_1h as $teplota_1h_riadok) {
-            $teplota_1h_models[] = $this->createZdroje1hApiModel($teplota_1h_riadok);
-        }
-
-        return $this->createApiResponse([
-            'ppc' => $ppc_models,
-            'tpv' => $tpv_models,
-            'slovnaft' => $slovnaft_models,
-            'vhj' => $vhj_models,
-            'teplota' => $teplota_models,
+        /*return $this->createApiResponse([
+            'tpv_10min' => $tpv_10min_models,
+            'slovnaft_10min' => $slovnaft_10min_models,
+            'vhj_10min' => $vhj_10min_models,
+            'teplota_10min' => $teplota_10min_models,
             'max' => $maxVykon[0],
-            
+
+            // tv = teplota vystupna
+            // sk = skutocnost, pr = predikcia termis
+            'ppc_tv_sk_10min' => $ppc_teplota_skutocnost_10min_models,
+
             'ppc_1h' => $ppc_1h_models,
             'tpv_1h' => $tpv_1h_models,
             'slovnaft_1h' => $slovnaft_1h_models,
             'vhj_1h' => $vhj_1h_models,
             'teplota_1h' => $teplota_1h_models
-        ]);
+        ]);*/
     }
 
     private function createZdrojeApiModel(VychodZdroje $vychodZdroje)
@@ -224,6 +329,36 @@ class SCZTVychodController extends BaseController
         $model->datum = $vychodZdroje->getDatum() * 1000;
         $model->hodnota = $vychodZdroje->getHodnota();
 
+        return $model;
+    }
+
+    private function createZdrojeTeplotaApiModel(VychodVystupnaTeplota $vychodVystupnaTeplota)
+    {
+        $model = new ZdrojeApiModel();
+
+        $model->datum = $vychodVystupnaTeplota->getDatum() * 1000;
+        $model->hodnota = $vychodVystupnaTeplota->getHodnota();
+
+        return $model;
+    }
+
+    private function createZdrojeDiferencnyApiModel(VychodDiferencnyTlak $vychodDiferencnyTlak)
+    {
+        $model = new ZdrojeApiModel();
+        
+        $model->datum = $vychodDiferencnyTlak->getDatum() * 1000;
+        $model->hodnota = $vychodDiferencnyTlak->getHodnota();
+        
+        return $model;
+    }
+
+    private function createZdrojePrietokApiModel(VychodPrietok $vychodPrietok)
+    {
+        $model = new ZdrojeApiModel();
+        
+        $model->datum = $vychodPrietok->getDatum() * 1000;
+        $model->hodnota = $vychodPrietok->getHodnota();
+        
         return $model;
     }
 
