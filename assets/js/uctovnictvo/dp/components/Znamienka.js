@@ -140,7 +140,7 @@ class Znamienka extends React.Component {
                   </tr>
                   <tr>
                     <td className="text-center">DA</td>
-                    <td>DI, DJ, DK</td>
+                    <td>DI, DJ, DK, ST</td>
                     <td className="text-center">343870</td>
                     <td>Bez zmeny znamienka</td>
                     <td className="text-center">343871</td>
@@ -152,7 +152,8 @@ class Znamienka extends React.Component {
                     <td className="text-center">343870</td>
                     <td>Bez zmeny znamienka</td>
                     <td className="text-center">343871</td>
-                    <td className="font-weight-bold text-danger">Zmena znamienka</td>
+                    {/*<td className="font-weight-bold text-danger">Zmena znamienka</td>*/}
+                    <td>Bez zmeny znamienka</td>
                   </tr>
                   <tr>
                     <td className="text-center">XG</td>
