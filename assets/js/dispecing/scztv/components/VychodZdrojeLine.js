@@ -221,7 +221,7 @@ class VychodZdrojeLine extends React.Component {
     super(props)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const chart = this.refs['chart_vykon_zdroje_line'].getChart()
 
     let ppc = [], tpv = [], slovnaft = [], vhj = [], teplota = []

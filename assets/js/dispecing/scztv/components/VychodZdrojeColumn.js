@@ -202,7 +202,7 @@ class VychodZdrojeColumn extends React.Component {
     super(props)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const chart = this.refs['chart_vykon_zdroje_column'].getChart()
 
     let teplota = [], termis_pocasie = [],

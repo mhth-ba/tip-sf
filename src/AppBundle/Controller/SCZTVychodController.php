@@ -302,24 +302,6 @@ class SCZTVychodController extends BaseController
         $data['max'][] = $maxVykon[0];
 
         return $this->createApiResponse($data);
-
-        /*return $this->createApiResponse([
-            'tpv_10min' => $tpv_10min_models,
-            'slovnaft_10min' => $slovnaft_10min_models,
-            'vhj_10min' => $vhj_10min_models,
-            'teplota_10min' => $teplota_10min_models,
-            'max' => $maxVykon[0],
-
-            // tv = teplota vystupna
-            // sk = skutocnost, pr = predikcia termis
-            'ppc_tv_sk_10min' => $ppc_teplota_skutocnost_10min_models,
-
-            'ppc_1h' => $ppc_1h_models,
-            'tpv_1h' => $tpv_1h_models,
-            'slovnaft_1h' => $slovnaft_1h_models,
-            'vhj_1h' => $vhj_1h_models,
-            'teplota_1h' => $teplota_1h_models
-        ]);*/
     }
 
     private function createZdrojeApiModel(VychodZdroje $vychodZdroje)
