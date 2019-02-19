@@ -13,6 +13,8 @@ import vstup from './vstup'
 import vystup from './vystup'
 import sumarizacia from './sumarizacia'
 
+import {reducer as notifications} from 'react-notification-system-redux'
+
 export default combineReducers({
   userinterface,
 
@@ -25,5 +27,7 @@ export default combineReducers({
   znakydane,
   vstup,
   vystup,
-  sumarizacia
+  sumarizacia,
+
+  notifications
 })

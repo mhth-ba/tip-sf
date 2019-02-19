@@ -41,6 +41,9 @@ class Hlavny extends React.Component {
     this.props.updateHlavnyRequest(data)
   }
 
+  /**
+   * Druh daňového priznania (riadne, opravné, dodatočné)
+   */
   handleDruh(e) {
     const data = {
       druh: e.target.value,
@@ -50,6 +53,9 @@ class Hlavny extends React.Component {
     this.props.updateHlavnyRequest(data)
   }
 
+  /**
+   * ID daňového priznania v predchádzajúcom zdaňovacom období
+   */
   handlePredchadzajuci(e) {
     const data = {
       predchadzajuci: e.target.value,
@@ -59,6 +65,9 @@ class Hlavny extends React.Component {
     this.props.updateHlavnyRequest(data)
   }
 
+  /**
+   * Dátum podania daňového priznania
+   */
   handlePodane(e) {
     let podane
 

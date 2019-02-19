@@ -26,6 +26,7 @@ const initState = {
   poznamka: null,
 
   loading: false,
+  creating: false,
   updating: false,
   error: null,
   initialized: false // identifikácia prvého načítania
@@ -40,6 +41,13 @@ export default (state = initState, action) => {
       return {...state, loading: false, initialized: true, ...action.data}
     case TYPES.LOAD_MAIN_ENTRY_ERROR:
       return {...state, loading: false, error: action.data}
+
+    case TYPES.CREATE_HLAVNY_REQUEST:
+      return {...state, creating: true}
+    case TYPES.CREATE_HLAVNY_SUCCESS:
+      return {...state, creating: false}
+    case TYPES.CREATE_HLAVNY_ERROR:
+      return {...state, error: action.data, creating: false}
 
     case TYPES.UPDATE_HLAVNY_REQUEST:
       return {...state, updating: true}

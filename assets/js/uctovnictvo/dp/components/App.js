@@ -1,9 +1,11 @@
 import React from 'react'
 import { Row, Col } from 'reactstrap'
+import Notification from '../../../components/Notification'
 
 import VyberPolozky from './VyberPolozky'
 import Nastroje from './Nastroje'
 
+import VytvoritHlavny from './VytvoritHlavny'
 import Import from './Import'
 import Prilohy from './Prilohy'
 import Aktivita from './Aktivita'
@@ -24,11 +26,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Notification/>
         <Row>
           <Col md={7}>
             <VyberPolozky/>
             <br/>
             <Nastroje
+              vytvorit={<VytvoritHlavny/>}
               import={<Import/>}
               prilohy={<Prilohy/>}
               aktivita={<Aktivita/>}

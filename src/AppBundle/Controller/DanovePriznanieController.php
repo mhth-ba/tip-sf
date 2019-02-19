@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Api\Uctovnictvo\DP\DokladApiModel;
 use AppBundle\Api\Uctovnictvo\DP\HlavnyApiModel;
+use AppBundle\Doctrine\Types\DateTime;
 use AppBundle\Entity\Uctovnictvo\DP\Hlavny;
 use AppBundle\Entity\Uctovnictvo\DP\Upload;
 use AppBundle\Entity\Uctovnictvo\DP\Vstup;
@@ -555,6 +556,39 @@ class DanovePriznanieController extends BaseController
             'sucasny' => $sumarizacia_s,
             'predchadzajuci' => $sumarizacia_p
         ]);
+    }
+
+    /**
+     * @Route("uct/dp/hlavny", name="dp_hlavny_create", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function createHlavnyAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $druh = $em->getRepository('AppBundle:Uctovnictvo\DP\Druh')
+            ->find( $data['druh'] );
+        $obdobie = new \DateTime($data['obdobie']);
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find( $this->getUser()->getId() );
+
+        $novy = new Hlavny();
+
+        $novy->setDruh($druh);
+        $novy->setObdobie($obdobie);
+        $novy->setVytvoril($user);
+        $novy->setPoznamka("Poznámky ...");
+
+        $em->persist($novy);
+        $em->flush();
+
+        return $this->createApiResponse($novy);
     }
 
     /**

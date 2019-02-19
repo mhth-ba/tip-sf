@@ -63,8 +63,14 @@ services:
     AppBundle\Entity\RIS\ServisneHlasenia:
         public: true
 
-    AppBundle\Entity\Kontroling\SCT\CenaTepla:
+    AppBundle\Entity\Efektivnost\DPP\DennyPlanPrevadzky:
+        public: true
+
+    AppBundle\Entity\Kontroling\SCT\Hlavny:
         public: true
 
     AppBundle\Entity\Dispecing\VCO\Vychladenie:
+        public: true
+
+    AppBundle\Entity\Uctovnictvo\DP\Hlavny:
         public: true

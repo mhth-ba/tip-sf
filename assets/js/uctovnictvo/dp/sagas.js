@@ -13,6 +13,8 @@ import {
   fetchVystup,
   fetchSumarizacia,
 
+  createHlavny,
+
   updateHlavny,
 
   processUploadedFile
@@ -30,6 +32,8 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_SUMARIZACIA_REQUEST, fetchSumarizacia),
 
     takeEvery(TYPES.UPDATE_HLAVNY_REQUEST, updateHlavny),
+
+    takeLatest(TYPES.CREATE_HLAVNY_REQUEST, createHlavny),
 
     takeLatest(TYPES.PROCESS_UPLOADED_FILE_REQUEST, processUploadedFile)
   ])

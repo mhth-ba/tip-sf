@@ -8,10 +8,10 @@ class Nastroje extends React.Component {
     super(props)
 
     this.state = {
-      collapseVytvorit: false,
+      collapseVytvorit: true,
       collapseImport: false,
       collapsePrilohy: false,
-      collapseAktivita: true
+      collapseAktivita: false
     }
 
     this.collapseVytvorit = this.collapseVytvorit.bind(this)
@@ -64,7 +64,7 @@ class Nastroje extends React.Component {
     return (
       <div>
         <div>
-          <Button color={'success'} onClick={this.collapseVytvorit} disabled>
+          <Button color={'success'} onClick={this.collapseVytvorit}>
             <FontAwesome name={'plus-circle'} />
             &nbsp;&nbsp;
             Vytvoriť nový záznam
@@ -97,7 +97,7 @@ class Nastroje extends React.Component {
 
         <div>
           <Collapse isOpen={this.state.collapseVytvorit}>
-            <span>Vytvoriť...</span>
+            {this.props.vytvorit}
           </Collapse>
           <Collapse isOpen={this.state.collapseImport}>
             {this.props.import}

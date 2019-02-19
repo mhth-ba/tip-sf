@@ -54,6 +54,11 @@ export const processUploadedFileRequest = (data) => ({
   data
 })
 
+export const createHlavnyRequest = (data) => ({
+  type: TYPES.CREATE_HLAVNY_REQUEST,
+  data
+})
+
 export const updateHlavnyRequest = (data) => ({
   type: TYPES.UPDATE_HLAVNY_REQUEST,
   data
@@ -227,6 +232,42 @@ export function* processUploadedFile(action) {
       title: 'Spracovanie neúspešné',
       message: `Počas spracovania nastala chyba. Skúste chvíľu počkať
                 a nahrať súbor znovu neskôr alebo kontaktujte vývojára.`,
+      autoDismiss: 12
+    }))
+
+    console.error(e)
+  }
+}
+
+export function* createHlavny(action) {
+  const url = Routing.generate('dp_hlavny_create')
+  const data = action.data
+
+  try {
+    yield put(Notifications.info({
+      message: 'Prebieha tvorba hlavného záznamu'
+    }))
+
+    const hlavny = yield call(Api.post, url, data)
+
+    yield put({type: TYPES.CREATE_HLAVNY_SUCCESS, data: hlavny})
+
+    yield put(Notifications.success({
+      title: 'Vytváranie hlavného záznamu dokončené',
+      message: 'Nový hlavný záznam sa podarilo úspešne vytvoriť'
+    }))
+
+    yield put(fetchVyberPolozkyRequest())
+    yield put(loadMainEntryRequest(hlavny))
+
+  } catch (e) {
+
+    yield put({type: TYPES.CREATE_HLAVNY_ERROR, data: e})
+
+    yield put(Notifications.error({
+      title: 'Vytváranie hlavného záznamu neúspešné',
+      message: `Počas vytvárania hlavného záznamu nastala neočakávaná chyba. Skúste program zavrieť,
+                znovu otvoriť a vytvoriť hlavný záznam znovu. V prípade potreby kontaktuje vývojára.`,
       autoDismiss: 12
     }))
 
