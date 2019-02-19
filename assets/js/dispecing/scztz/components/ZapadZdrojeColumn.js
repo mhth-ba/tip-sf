@@ -28,7 +28,7 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Výkon jednotlivých zdrojov v SCZT západ'
+    text: 'Výkon jednotlivých zdrojov | SCZT západ'
   },
   subtitle: {
     text: 'Hodinový priemer z 10 minútových intervalov'

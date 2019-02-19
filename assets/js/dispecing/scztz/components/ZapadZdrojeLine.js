@@ -67,7 +67,7 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Priebeh výkonu jednotlivých zdrojov v SCZT západ'
+    text: 'Priebeh výkonu jednotlivých zdrojov | SCZT západ'
   },
   subtitle: {
     text: 'Vzorkovanie 10 minút'

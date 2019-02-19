@@ -32,7 +32,10 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Porovnanie predikcie a skutočného výkonu OST v SCZT východ'
+    text: 'Výkon OST | SCZT východ'
+  },
+  subtitle: {
+    text: 'Predikcia / Skutočnosť'
   },
   legend: {
     useHTML: true,

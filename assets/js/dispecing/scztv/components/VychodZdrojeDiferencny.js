@@ -36,7 +36,10 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Porovnanie predikcie a skutočnosti diferenčného tlaku na zdrojoch v SCZT východ'
+    text: 'Diferenčný tlak na zdrojoch | SCZT východ'
+  },
+  subtitle: {
+    text: 'Predikcia / Skutočnosť'
   },
   legend: {
     useHTML: true,
@@ -131,7 +134,7 @@ const chart = {
   series: [{
     name: 'VhJ (P)',
     color: '#b095bb',
-    dashStyle: 'LongDash',
+    dashStyle: 'ShortDash',
     type: 'spline',
     yAxis: 0,
     tooltip: { valueSuffix: ' MPa' },
@@ -160,7 +163,7 @@ const chart = {
   }, {
     name: 'Slovnaft (P)',
     color: '#91bb96',
-    dashStyle: 'LongDash',
+    dashStyle: 'ShortDash',
     type: 'spline',
     yAxis: 0,
     tooltip: { valueSuffix: ' MPa' },
@@ -189,7 +192,7 @@ const chart = {
   }, {
     name: 'TpV (P)',
     color: '#86bccc',
-    dashStyle: 'LongDash',
+    dashStyle: 'ShortDash',
     type: 'spline',
     yAxis: 0,
     tooltip: { valueSuffix: ' MPa' },
@@ -218,7 +221,7 @@ const chart = {
   }, {
     name: 'PPC (P)',
     color: '#aa937c',
-    dashStyle: 'LongDash',
+    dashStyle: 'ShortDash',
     type: 'spline',
     yAxis: 0,
     tooltip: { valueSuffix: ' MPa' },

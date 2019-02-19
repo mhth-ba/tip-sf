@@ -36,7 +36,10 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Porovnanie predikcie a skutočnosti prietoku zo zdrojov v SCZT východ'
+    text: 'Prietok zo zdrojov | SCZT východ'
+  },
+  subtitle: {
+    text: 'Predikcia / Skutočnosť'
   },
   legend: {
     useHTML: true,
@@ -131,7 +134,7 @@ const chart = {
   series: [{
     name: 'VhJ (P)',
     color: '#b095bb',
-    dashStyle: 'LongDash',
+    dashStyle: 'ShortDash',
     type: 'spline',
     yAxis: 0,
     tooltip: { valueSuffix: ' t/h' },
@@ -160,7 +163,7 @@ const chart = {
   }, {
     name: 'Slovnaft (P)',
     color: '#91bb96',
-    dashStyle: 'LongDash',
+    dashStyle: 'ShortDash',
     type: 'spline',
     yAxis: 0,
     tooltip: { valueSuffix: ' t/h' },
@@ -189,7 +192,7 @@ const chart = {
   }, {
     name: 'TpV (P)',
     color: '#86bccc',
-    dashStyle: 'LongDash',
+    dashStyle: 'ShortDash',
     type: 'spline',
     yAxis: 0,
     tooltip: { valueSuffix: ' t/h' },
@@ -218,7 +221,7 @@ const chart = {
   }, {
     name: 'PPC (P)',
     color: '#aa937c',
-    dashStyle: 'LongDash',
+    dashStyle: 'ShortDash',
     type: 'spline',
     yAxis: 0,
     tooltip: { valueSuffix: ' t/h' },

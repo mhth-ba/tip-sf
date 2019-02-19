@@ -36,7 +36,10 @@ const chart = {
     scale: 2
   },
   title: {
-    text: 'Porovnanie plánovaného a skutočného výkonu zdrojov a OST v SCZT východ'
+    text: 'Výkon zdrojov a OST | SCZT východ'
+  },
+  subtitle: {
+    text: 'Plán / Termis / Skutočnosť'
   },
   legend: {
     useHTML: true,
