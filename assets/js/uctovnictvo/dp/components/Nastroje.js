@@ -8,10 +8,10 @@ class Nastroje extends React.Component {
     super(props)
 
     this.state = {
-      collapseVytvorit: true,
+      collapseVytvorit: false,
       collapseImport: false,
       collapsePrilohy: false,
-      collapseAktivita: false
+      collapseAktivita: true
     }
 
     this.collapseVytvorit = this.collapseVytvorit.bind(this)

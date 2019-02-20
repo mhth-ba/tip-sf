@@ -292,7 +292,7 @@ class Sumarizacia extends React.Component {
                   <td>{''}</td>
                   <td>{''}</td>
                   <td>1G</td>
-                  <td>ID, OO, ST</td>
+                  <td>ID, OO, OT, ST</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
