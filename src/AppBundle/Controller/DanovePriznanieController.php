@@ -8,7 +8,9 @@ use AppBundle\Doctrine\Types\DateTime;
 use AppBundle\Entity\Uctovnictvo\DP\Hlavny;
 use AppBundle\Entity\Uctovnictvo\DP\Upload;
 use AppBundle\Entity\Uctovnictvo\DP\Vstup;
+use AppBundle\Entity\Uctovnictvo\DP\Vstup_Z;
 use AppBundle\Entity\Uctovnictvo\DP\Vystup;
+use AppBundle\Entity\Uctovnictvo\DP\Vystup_Z;
 use AppBundle\Form\Type\Uctovnictvo\DP\HlavnyType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -115,7 +117,7 @@ class DanovePriznanieController extends BaseController
                 break;
         }
 
-        return $this->createApiResponse($data);
+        return $this->createApiResponse($upload);
     }
 
     /**
@@ -443,7 +445,7 @@ class DanovePriznanieController extends BaseController
     public function getVstupAction($id)
     {
         $repository = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\Vstup');
+            ->getRepository('AppBundle:Uctovnictvo\DP\Vstup_Z');
 
         $zmenene = $repository->findZmeneneByHlavny($id);
         $povodne = $repository->findPovodneByHlavny($id);
@@ -452,11 +454,11 @@ class DanovePriznanieController extends BaseController
 
 
         foreach ($zmenene as $zmeneny) {
-            $data['zmenene'][] = $this->createDokladVstupApiModel($zmeneny);
+            $data['zmenene'][] = $this->createDokladVstupZApiModel($zmeneny);
         }
 
         foreach ($povodne as $povodny) {
-            $data['povodne'][] = $this->createDokladVstupApiModel($povodny);
+            $data['povodne'][] = $this->createDokladVstupZApiModel($povodny);
         }
 
         return $this->createApiResponse($data);
@@ -470,7 +472,7 @@ class DanovePriznanieController extends BaseController
     public function getVystupAction($id)
     {
         $repository = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\Vystup');
+            ->getRepository('AppBundle:Uctovnictvo\DP\Vystup_Z');
 
         $zmenene = $repository->findZmeneneByHlavny($id);
         $povodne = $repository->findPovodneByHlavny($id);
@@ -478,54 +480,58 @@ class DanovePriznanieController extends BaseController
         $data = [];
 
         foreach ($zmenene as $zmeneny) {
-            $data['zmenene'][] = $this->createDokladVystupApiModel($zmeneny);
+            $data['zmenene'][] = $this->createDokladVystupZApiModel($zmeneny);
         }
 
         foreach ($povodne as $povodny) {
-            $data['povodne'][] = $this->createDokladVystupApiModel($povodny);
+            $data['povodne'][] = $this->createDokladVystupZApiModel($povodny);
         }
 
         return $this->createApiResponse($data);
     }
 
-    private function createDokladVstupApiModel(Vstup $vstup)
+    // VIEW
+    private function createDokladVstupZApiModel(Vstup_Z $vstup_z)
     {
         $model = new DokladApiModel();
 
-        $model->id = $vstup->getId();
-        $model->znak = $vstup->getZnak();
-        $model->doklad = $vstup->getDoklad();
-        $model->referencia = $vstup->getReferencia();
-        $model->obchodny_partner = $vstup->getObchodnyPartner();
-        $model->icdph = $vstup->getIcdph();
-        $model->druh_dokladu = $vstup->getDruhDokladu();
-        $model->datum_dokladu = $vstup->getDatumDokladu();
-        $model->datum_uctovania = $vstup->getDatumUctovania();
-        $model->suma_bez_dph = $vstup->getSumaBezDph();
-        $model->dph = $vstup->getDph();
-        $model->suma_s_dph = $vstup->getSumaSDph();
-        $model->zmenene = $vstup->getZmenene();
+        $model->id = $vstup_z->getId();
+        $model->znak = $vstup_z->getZnak();
+        $model->doklad = $vstup_z->getDoklad();
+        $model->referencia = $vstup_z->getReferencia();
+        $model->obchodny_partner = $vstup_z->getObchodnyPartner();
+        $model->icdph = $vstup_z->getIcdph();
+        $model->druh_dokladu = $vstup_z->getDruhDokladu();
+        $model->datum_dokladu = $vstup_z->getDatumDokladu();
+        $model->datum_uctovania = $vstup_z->getDatumUctovania();
+        $model->suma_bez_dph = $vstup_z->getSumaBezDph();
+        $model->dph = $vstup_z->getDph();
+        $model->suma_s_dph = $vstup_z->getSumaSDph();
+        $model->zmenene = $vstup_z->getZmenene();
+        $model->tag = $vstup_z->getTag();
 
         return $model;
     }
 
-    private function createDokladVystupApiModel(Vystup $vystup)
+    // VIEW
+    private function createDokladVystupZApiModel(Vystup_Z $vystup_z)
     {
         $model = new DokladApiModel();
 
-        $model->id = $vystup->getId();
-        $model->znak = $vystup->getZnak();
-        $model->doklad = $vystup->getDoklad();
-        $model->referencia = $vystup->getReferencia();
-        $model->obchodny_partner = $vystup->getObchodnyPartner();
-        $model->icdph = $vystup->getIcdph();
-        $model->druh_dokladu = $vystup->getDruhDokladu();
-        $model->datum_dokladu = $vystup->getDatumDokladu();
-        $model->datum_uctovania = $vystup->getDatumUctovania();
-        $model->suma_bez_dph = $vystup->getSumaBezDph();
-        $model->dph = $vystup->getDph();
-        $model->suma_s_dph = $vystup->getSumaSDph();
-        $model->zmenene = $vystup->getZmenene();
+        $model->id = $vystup_z->getId();
+        $model->znak = $vystup_z->getZnak();
+        $model->doklad = $vystup_z->getDoklad();
+        $model->referencia = $vystup_z->getReferencia();
+        $model->obchodny_partner = $vystup_z->getObchodnyPartner();
+        $model->icdph = $vystup_z->getIcdph();
+        $model->druh_dokladu = $vystup_z->getDruhDokladu();
+        $model->datum_dokladu = $vystup_z->getDatumDokladu();
+        $model->datum_uctovania = $vystup_z->getDatumUctovania();
+        $model->suma_bez_dph = $vystup_z->getSumaBezDph();
+        $model->dph = $vystup_z->getDph();
+        $model->suma_s_dph = $vystup_z->getSumaSDph();
+        $model->zmenene = $vystup_z->getZmenene();
+        $model->tag = $vystup_z->getTag();
 
         return $model;
     }
@@ -589,6 +595,101 @@ class DanovePriznanieController extends BaseController
         $em->flush();
 
         return $this->createApiResponse($novy);
+    }
+
+    /**
+     * @Route("uct/dp/doklad", name="dp_doklad_create", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function createDokladAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $vstup_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Vstup_Z');
+        $vystup_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Vystup_Z');
+
+        $hlavny = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
+            ->find( $data['hlavny'] );
+        $znak = $data['znak'];
+        $druh = $data['druh'];
+        $referencia = $data['referencia'];
+        $datumDokladu = new \DateTime($data['datumDokladu']);
+        $datumUctovania = new \DateTime($data['datumUctovania']);
+        $sumaBezDph = $data['sumaBezDph'];
+        $dph = $data['dph'];
+        $sumaSDph = $data['sumaSDph'];
+
+        switch ($data['zaradenie']) {
+            case 1:
+                $doklad = new Vstup();
+
+                $doklad->setHlavny($hlavny);
+                $doklad->setZnak($znak);
+                $doklad->setDruhDokladu($druh);
+                $doklad->setReferencia($referencia);
+                $doklad->setDatumDokladu($datumDokladu);
+                $doklad->setDatumUctovania($datumUctovania);
+                $doklad->setSumaBezDPH($sumaBezDph);
+                $doklad->setDPH($dph);
+                $doklad->setSumaSDPH($sumaSDph);
+
+                $em->persist($doklad);
+                $em->flush();
+
+                $id = $doklad->getId();
+                $this->logCreateActivity($id, 'AppBundle:Uctovnictvo\DP\Vstup');
+
+                $zmenene = $vstup_repo->findZmeneneById("99" . $id);
+                $povodne = $vstup_repo->findPovodneById($id);
+
+                $response['zmenene'] = $this->createDokladVstupZApiModel($zmenene[0]);
+                $response['povodne'] = $this->createDokladVstupZApiModel($povodne[0]);
+
+                break;
+            case 2:
+                $doklad = new Vystup();
+
+                $doklad->setHlavny($hlavny);
+                $doklad->setZnak($znak);
+                $doklad->setDruhDokladu($druh);
+                $doklad->setReferencia($referencia);
+                $doklad->setDatumDokladu($datumDokladu);
+                $doklad->setDatumUctovania($datumUctovania);
+                $doklad->setSumaBezDPH($sumaBezDph);
+                $doklad->setDPH($dph);
+                $doklad->setSumaSDPH($sumaSDph);
+
+                $em->persist($doklad);
+                $em->flush();
+
+                $id = $doklad->getId();
+                $this->logCreateActivity($id, 'AppBundle:Uctovnictvo\DP\Vystup');
+
+                $zmenene = $vystup_repo->findZmeneneById("99" . $id);
+                $povodne = $vystup_repo->findPovodneById($id);
+
+                $response['zmenene'] = $this->createDokladVystupZApiModel($zmenene[0]);
+                $response['povodne'] = $this->createDokladVystupZApiModel($povodne[0]);
+
+                break;
+            default:
+                $doklad = null;
+                $response = null;
+                break;
+        }
+
+        if ($doklad !== null) {
+            $em->persist($doklad);
+            $em->flush();
+        }
+
+        return $this->createApiResponse($response);
     }
 
     /**
@@ -658,7 +759,8 @@ class DanovePriznanieController extends BaseController
         $r8 = $this->checkArray($sum->findR7_8($id), 'd');
         $r9 = $this->checkArray($sum->findR9_10($id), 'z');
         $r10 = $this->checkArray($sum->findR9_10($id), 'd');
-        $r12 = 0;
+        $r11 = $this->checkArray($sum->findR11_12($id), 'z');
+        $r12 = $this->checkArray($sum->findR11_12($id), 'd');
         $r14 = 0;
         $r15 = $this->checkArray($sum->findR15($id), 'z');
         $r18 = 0;
@@ -670,6 +772,12 @@ class DanovePriznanieController extends BaseController
         $r26 = $this->checkArray($sum->findR26_27($id), 'z');
         $r27 = $this->checkArray($sum->findR26_27($id), 'd');
         $r28 = $this->checkArray($sum->findR28($id), 'd');
+        $r29 = 0;
+        $r30 = 0;
+        $r31 = null;
+        $r32 = null;
+        $r33 = null;
+        $r34 = 0;
 
         $filename =  'DPH form.391.xml';
 
@@ -731,7 +839,7 @@ class DanovePriznanieController extends BaseController
             ."<r08>$r8</r08>\r\n"
             ."<r09>$r9</r09>\r\n"
             ."<r10>$r10</r10>\r\n"
-            ."<r11></r11>\r\n"
+            ."<r11>$r11</r11>\r\n"
             ."<r12>$r12</r12>\r\n"
             ."<r13></r13>\r\n"
             ."<r14>$r14</r14>\r\n"

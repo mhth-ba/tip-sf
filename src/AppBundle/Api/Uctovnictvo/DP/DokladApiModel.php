@@ -31,4 +31,6 @@ class DokladApiModel extends DefaultApiModel
     public $suma_s_dph;
 
     public $zmenene;
+
+    public $tag;
 }

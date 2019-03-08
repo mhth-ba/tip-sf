@@ -59,6 +59,17 @@ class SumarizaciaRepository extends EntityRepository
             ->getArrayResult();
     }
 
+    public function findR11_12($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.hlavny = :id')
+            ->andWhere('s.riadok = :r')
+            ->setParameter('id', $id)
+            ->setParameter('r', "11_12")
+            ->getQuery()
+            ->getArrayResult();
+    }
+
     public function findR15($id)
     {
         return $this->createQueryBuilder('s')

@@ -11,6 +11,11 @@ export const toggleTab = (tab) => ({
   tab
 })
 
+export const toggleFilter = (filter) => ({
+  type: TYPES.TOGGLE_FILTER,
+  filter
+})
+
 export const fetchVyberPolozkyRequest = () => ({
   type: TYPES.FETCH_VYBER_POLOZKY_REQUEST
 })
@@ -56,6 +61,11 @@ export const processUploadedFileRequest = (data) => ({
 
 export const createHlavnyRequest = (data) => ({
   type: TYPES.CREATE_HLAVNY_REQUEST,
+  data
+})
+
+export const createDokladRequest = (data) => ({
+  type: TYPES.CREATE_DOKLAD_REQUEST,
   data
 })
 
@@ -117,7 +127,7 @@ export function* loadMainEntry(action) {
 
     yield put(fetchAktivitaRequest(id))
     yield put(fetchMoznostiRequest(id))
-    yield put(fetchZnakyDaneRequest())
+    //yield put(fetchZnakyDaneRequest())
     yield put(fetchVstupRequest(id))
     yield put(fetchVystupRequest(id))
     yield put(fetchSumarizaciaRequest(id))
@@ -207,20 +217,16 @@ export function* processUploadedFile(action) {
   const data = action.data
 
   try {
-    yield put(Notifications.info({
-      message: 'Prebieha spracovanie súboru'
-    }))
-
     const udaje = yield call(Api.post, url, data)
 
     yield put({type: TYPES.PROCESS_UPLOADED_FILE_SUCCESS, data: udaje})
 
-    yield put(Notifications.success({
-      title: 'Spracovanie dokončené',
-      message: 'Údaje zo súboru boli úspešne uložené do databázy'
-    }))
-
     if (data.uploadtype !== 3) {
+      yield put(Notifications.success({
+        title: 'Spracovanie súboru dokončené',
+        message: 'Údaje zo súboru boli úspešne uložené do databázy'
+      }))
+
       yield put(fetchVyberPolozkyRequest())
       yield put(loadMainEntryRequest(data))
     }
@@ -229,7 +235,7 @@ export function* processUploadedFile(action) {
     yield put({type: TYPES.PROCESS_UPLOADED_FILE_ERROR, data: e})
 
     yield put(Notifications.error({
-      title: 'Spracovanie neúspešné',
+      title: 'Spracovanie súboru neúspešné',
       message: `Počas spracovania nastala chyba. Skúste chvíľu počkať
                 a nahrať súbor znovu neskôr alebo kontaktujte vývojára.`,
       autoDismiss: 12
@@ -270,6 +276,29 @@ export function* createHlavny(action) {
                 znovu otvoriť a vytvoriť hlavný záznam znovu. V prípade potreby kontaktuje vývojára.`,
       autoDismiss: 12
     }))
+
+    console.error(e)
+  }
+}
+
+export function* createDoklad(action) {
+  const url = Routing.generate('dp_doklad_create')
+  const data = action.data
+
+  try {
+    const doklad = yield call(Api.post, url, data)
+
+    console.log(data)
+    console.log(doklad)
+
+    if (data.zaradenie === 1) {
+      yield put({type: TYPES.CREATE_DOKLAD_VSTUP_SUCCESS, data: doklad})
+    } else if (data.zaradenie === 2) {
+      yield put({type: TYPES.CREATE_DOKLAD_VYSTUP_SUCCESS, data: doklad})
+    }
+
+  } catch (e) {
+    yield put({type: TYPES.CREATE_DOKLAD_ERROR, data: e})
 
     console.error(e)
   }

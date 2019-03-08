@@ -162,6 +162,43 @@ class BaseController extends Controller
     }
 
     /**
+     * Writes log about created entry in SQL database
+     *
+     * @param $id
+     * @param $className Fully-qualified classname without a leading backslash
+     */
+    protected function logCreateActivity($id, $className)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entry = $em->getRepository($className)->find($id);
+
+        if (!$entry) {
+            throw $this->createNotFoundException(sprintf(
+                'Záznam s id %s sa nenašiel',
+                $id
+            ));
+        }
+
+        $metadata = $em->getClassMetadata($className);
+
+        $log = new ActivityLog();
+
+        $log->setSchema($metadata->getSchemaName());
+        $log->setTable($metadata->getTableName());
+        $log->setRow($id);
+        $log->setValue('CREATE ENTRY');
+
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+        $log->setUser($user);
+
+        $em->persist($log);
+        $em->flush();
+    }
+
+    /**
      * Writes log about updated entry in SQL database
      *
      * @param $metadata \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory

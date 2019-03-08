@@ -56,6 +56,15 @@ export default (state = initState, action) => {
     case TYPES.UPDATE_HLAVNY_ERROR:
       return {...state, error: action.data, updating: false}
 
+    case TYPES.PROCESS_UPLOADED_FILE_SUCCESS:
+      if (action.data.upload.id === 3) {
+        return {...state, upload: {
+            ...state.upload,
+            prilohy: [...state.upload.prilohy, action.data]
+          }
+        }
+      } else return state
+
     default:
       return state
   }

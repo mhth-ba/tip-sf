@@ -16,6 +16,17 @@ const eurFormatter = ( value ) => (
   <Suma v={value} />
 )
 
+const rowColor = ( row, idx ) => {
+  switch (row.tag) {
+    case 2:
+      return 'bg-yellow'
+    case 3:
+      return 'bg-lime'
+    case 4:
+      return 'bg-azure'
+  }
+}
+
 class PolozkyVystup extends React.Component {
   constructor(props) {
     super(props)
@@ -41,6 +52,7 @@ class PolozkyVystup extends React.Component {
     return (
       <BootstrapTable version={'4'}
                       data={p}
+                      trClassName={rowColor}
                       options={options}
                       bordered={false}
                       striped
@@ -62,6 +74,9 @@ class PolozkyVystup extends React.Component {
         {/*<TableHeaderColumn width={'110px'}>
           IČDPH
         </TableHeaderColumn>*/}
+        <TableHeaderColumn dataField={'znak'} width={'60px'}>
+          Znak
+        </TableHeaderColumn>
         <TableHeaderColumn dataField={'druh_dokladu'} width={'60px'} dataSort>
           Druh
         </TableHeaderColumn>

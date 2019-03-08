@@ -4,9 +4,9 @@ import { Row, Col, Card, CardHeader, CardBody, CardFooter, Input, Collapse, Butt
 import FontAwesome from 'react-fontawesome'
 
 import ZnakDane from './polozky/ZnakDane'
-import PolozkyVstup from './polozky/PolozkyVstup'
+import PolozkyVystup from './polozky/PolozkyVystup'
 
-class Vstup extends React.Component {
+class VystupZmenene extends React.Component {
   constructor(props) {
     super(props)
 
@@ -37,10 +37,11 @@ class Vstup extends React.Component {
     }, 300)
   }
 
+  // vyhľadávanie dokladu alebo referencie medzi všetkými dokladmi
   handleFilter(val) {
 
     const regexp = new RegExp(val, 'i')
-    const filtered = this.props.vstup.zmenene.filter(
+    const filtered = this.props.vystup.zmenene.filter(
       (v) => {
         return String (v.doklad).search(regexp) > -1
           || String (v.referencia).search(regexp) > -1
@@ -53,9 +54,9 @@ class Vstup extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.vstup.zmenene !== this.props.vstup.zmenene) {
+    if (prevProps.vystup.zmenene !== this.props.vystup.zmenene) {
       this.setState({
-        filtered: this.props.vstup.zmenene
+        filtered: this.props.vystup.zmenene
       })
     }
   }
@@ -63,24 +64,18 @@ class Vstup extends React.Component {
   render() {
 
     const init = this.props.hlavny.initialized
-    let zn = this.props.zn.vstup
+    const filter = this.props.ui.filter
+    let zn = this.props.zn.vystup
 
-    // nezobrazovat polozky pri znakoch dane: D3, D4 a D5
-    zn = zn.filter(item =>
-      item.znak !== 'D3'
-      && item.znak !== 'D4'
-      && item.znak !== 'D5'
-    )
-
-    // const polozky = this.props.vstup.zmenene // vstupna dph
-    let polozky = this.state.filtered // vstupna dph
+    // let polozky = this.props.vystup.zmenene // vystupna dph
+    let polozky = this.state.filtered // vystupna dph
 
     return (
       <div>
         { init === true &&
         <Card>
           <CardHeader className="bg-primary text-white">
-            Vstupná DPH
+            Výstupná DPH
             <span className="pull-right">
               <Button onClick={this.collapse} color={'light'} size={'sm'}>
               { !this.state.collapse ?
@@ -100,21 +95,26 @@ class Vstup extends React.Component {
                 <Col md={1}><strong>Sadzba</strong></Col>
                 <Col md={1}><strong>Účet hlavnej knihy</strong></Col>
                 <Col md={1}><strong>Základ dane</strong></Col>
-                <Col md={1}><strong>Vstupná DPH</strong></Col>
+                <Col md={1}><strong>Výstupná DPH</strong></Col>
                 <Col md={1}><strong>Suma s DPH</strong></Col>
               </Row>
               <br/>
               { zn.map(
                 (z, idx) => {
                   if (polozky === undefined) polozky = []
-                  const items = polozky.filter(v => v.znak === z.znak)
+                  let items = polozky.filter(v => v.znak === z.znak)
+
+                  if (filter > 1) {
+                    items = items.filter(item => item.tag === Number(filter))
+                  }
+
                   return <ZnakDane key={idx}
                                    znak={z.znak}
                                    popis={z.popis}
                                    sadzba={z.sadzba}
                                    ucet_hk={z.ucet_hk}
                                    items={ items }
-                                   polozky={ <PolozkyVstup p={items} /> }
+                                   polozky={ <PolozkyVystup p={items} /> }
                   />
                 }
               )}
@@ -137,7 +137,8 @@ class Vstup extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   hlavny: state.hlavny,
   zn: state.znakydane,
-  vstup: state.vstup
+  vystup: state.vystup,
+  ui: state.userinterface
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -147,4 +148,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Vstup)
+)(VystupZmenene)

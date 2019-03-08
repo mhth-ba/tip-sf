@@ -126,17 +126,12 @@ class Znamienka extends React.Component {
                     <td className="font-weight-bold text-danger">Zmena znamienka</td>
                   </tr>
                   <tr>
-                    <td rowSpan={2} className="text-center align-middle">3V</td>
+                    <td className="text-center align-middle">3V</td>
                     <td>DI, DJ, DK, ID, PP, ST</td>
-                    <td rowSpan={2} className="text-center align-middle">343431</td>
-                    <td>Bez zmeny znamienka DI, DJ, DK, ID, PP</td>
-                    <td rowSpan={2} className="text-center align-middle">343181</td>
+                    <td className="text-center align-middle">343431</td>
+                    <td>Bez zmeny znamienka</td>
+                    <td className="text-center align-middle">343181</td>
                     <td className="font-weight-bold text-danger">Zmena znamienka DI, DJ, DK, ID, PP, ST</td>
-                  </tr>
-                  <tr>
-                    <td>DM, DN, DO, ST</td>
-                    <td className="font-weight-bold text-danger">Zmena znamienka DN, DM, DO, ST</td>
-                    <td>Bez zmeny znamienka DM, DN, DO</td>
                   </tr>
                   <tr>
                     <td className="text-center">DA</td>
@@ -170,6 +165,62 @@ class Znamienka extends React.Component {
                     <td className="font-weight-bold text-danger">Zmena znamienka</td>
                     <td>{''}</td>
                     <td>{''}</td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">XA</td>
+                    <td>DI, DJ, DK, ST</td>
+                    <td className="text-center">343761</td>
+                    <td>Bez zmeny znamienka</td>
+                    <td className="text-center">343161</td>
+                    <td className="font-weight-bold text-danger">Zmena znamienka</td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">XB</td>
+                    <td>DI, DJ, DK, ST</td>
+                    <td className="text-center">343771</td>
+                    <td>Bez zmeny znamienka</td>
+                    <td className="text-center">343161</td>
+                    <td className="font-weight-bold text-danger">Zmena znamienka</td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">XE</td>
+                    <td>DI, DJ, DK, ST</td>
+                    <td className="text-center">343740</td>
+                    <td>Bez zmeny znamienka</td>
+                    <td className="text-center">343180</td>
+                    <td className="font-weight-bold text-danger">Zmena znamienka</td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">XF</td>
+                    <td>DI, DJ, DK, ST</td>
+                    <td className="text-center">343290</td>
+                    <td>Bez zmeny znamienka</td>
+                    <td className="text-center">343180</td>
+                    <td className="font-weight-bold text-danger">Zmena znamienka</td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">XX</td>
+                    <td>DI, DJ, DK, ST</td>
+                    <td className="text-center">343741</td>
+                    <td>Bez zmeny znamienka</td>
+                    <td className="text-center">343151</td>
+                    <td className="font-weight-bold text-danger">Zmena znamienka</td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">XY</td>
+                    <td>DI, DJ, DK, ST</td>
+                    <td className="text-center">343751</td>
+                    <td>Bez zmeny znamienka</td>
+                    <td className="text-center">343151</td>
+                    <td className="font-weight-bold text-danger">Zmena znamienka</td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">V3</td>
+                    <td>DM, DN, DO, PP, ST</td>
+                    <td className="text-center">343431</td>
+                    <td className="font-weight-bold text-danger">Zmena znamienka DM, DN, DO, ST</td>
+                    <td className="text-center">343181</td>
+                    <td>Bez zmeny znamienka</td>
                   </tr>
                   </tbody>
                 </Table>

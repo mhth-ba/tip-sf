@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Uctovnictvo\DP\VystupRepository")
- * @ORM\Table(name="DP_Vystup_Z", schema="Uctovnictvo")
+ * @ORM\Table(name="DP_Vystup", schema="Uctovnictvo")
  */
 class Vystup extends BaseEntity
 {
@@ -79,9 +79,14 @@ class Vystup extends BaseEntity
     private $sumaSDPH;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
      */
-    private $zmenene;
+    private $vytvoril;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
+     */
+    private $upravil;
 
     public function getId()
     {
@@ -93,9 +98,19 @@ class Vystup extends BaseEntity
         return $this->hlavny;
     }
 
+    public function setHlavny($hlavny)
+    {
+        $this->hlavny = $hlavny;
+    }
+
     public function getZnak()
     {
         return $this->znak;
+    }
+
+    public function setZnak($znak)
+    {
+        $this->znak = $znak;
     }
 
     public function getDoklad()
@@ -103,9 +118,19 @@ class Vystup extends BaseEntity
         return $this->doklad;
     }
 
+    public function setDoklad($doklad)
+    {
+        $this->doklad = $doklad;
+    }
+
     public function getReferencia()
     {
         return $this->referencia;
+    }
+
+    public function setReferencia($referencia)
+    {
+        $this->referencia = $referencia;
     }
 
     public function getObchodnyPartner()
@@ -113,9 +138,19 @@ class Vystup extends BaseEntity
         return $this->obchodnyPartner;
     }
 
+    public function setObchodnyPartner($obchodnyPartner)
+    {
+        $this->obchodnyPartner = $obchodnyPartner;
+    }
+
     public function getIcdph()
     {
         return $this->icdph;
+    }
+
+    public function setIcdph($icdph)
+    {
+        $this->icdph = $icdph;
     }
 
     public function getDruhDokladu()
@@ -123,9 +158,19 @@ class Vystup extends BaseEntity
         return $this->druhDokladu;
     }
 
+    public function setDruhDokladu($druhDokladu)
+    {
+        $this->druhDokladu = $druhDokladu;
+    }
+
     public function getDatumDokladu()
     {
         return $this->getTimestampWithOffset($this->datumDokladu);
+    }
+
+    public function setDatumDokladu($datumDokladu)
+    {
+        $this->datumDokladu = $datumDokladu;
     }
 
     public function getDatumUctovania()
@@ -133,9 +178,19 @@ class Vystup extends BaseEntity
         return $this->getTimestampWithOffset($this->datumUctovania);
     }
 
+    public function setDatumUctovania($datumUctovania)
+    {
+        $this->datumUctovania = $datumUctovania;
+    }
+
     public function getSumaBezDph()
     {
         return $this->sumaBezDPH;
+    }
+
+    public function setSumaBezDPH($sumaBezDPH)
+    {
+        $this->sumaBezDPH = $sumaBezDPH;
     }
 
     public function getDph()
@@ -143,13 +198,38 @@ class Vystup extends BaseEntity
         return $this->DPH;
     }
 
+    public function setDPH($DPH)
+    {
+        $this->DPH = $DPH;
+    }
+
     public function getSumaSDph()
     {
         return $this->sumaSDPH;
     }
 
-    public function getZmenene()
+    public function setSumaSDPH($sumaSDPH)
     {
-        return $this->zmenene;
+        $this->sumaSDPH = $sumaSDPH;
+    }
+
+    public function getVytvoril()
+    {
+        return $this->vytvoril;
+    }
+
+    public function setVytvoril($vytvoril)
+    {
+        $this->vytvoril = $vytvoril;
+    }
+
+    public function getUpravil()
+    {
+        return $this->upravil;
+    }
+
+    public function setUpravil($upravil)
+    {
+        $this->upravil = $upravil;
     }
 }

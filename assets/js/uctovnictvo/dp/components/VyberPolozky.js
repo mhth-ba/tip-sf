@@ -8,7 +8,12 @@ import {
 import { dateYearMonth } from '../../../utils/format'
 import FontAwesome from 'react-fontawesome'
 
-import { fetchVyberPolozkyRequest, fetchAktivitaRequest, loadMainEntryRequest } from '../actions'
+import {
+  fetchVyberPolozkyRequest,
+  fetchZnakyDaneRequest,
+  fetchAktivitaRequest,
+  loadMainEntryRequest
+} from '../actions'
 
 class VyberPolozky extends React.Component {
   constructor(props) {
@@ -40,8 +45,12 @@ class VyberPolozky extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchZoznam()
-    this.props.fetchAktivita()
+
+    if (!this.props.hlavny.initialized) {
+      this.props.fetchZoznam()
+      this.props.fetchAktivita()
+      this.props.fetchZnakyDane()
+    }
   }
 
   render() {
@@ -115,6 +124,7 @@ const mapStateToProps = ( state, ownProps ) => ({
 
 const mapDispatchToProps = ( dispatch, ownProps ) => ({
   fetchZoznam: () => dispatch(fetchVyberPolozkyRequest()),
+  fetchZnakyDane: () => dispatch(fetchZnakyDaneRequest()),
   fetchAktivita: (e) => dispatch(fetchAktivitaRequest(e)),
   load: (e) => dispatch(loadMainEntryRequest(e))
 })

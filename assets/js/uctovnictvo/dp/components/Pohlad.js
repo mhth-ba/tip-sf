@@ -2,23 +2,30 @@ import React from 'react'
 import {
   TabContent, TabPane, Nav, NavItem, NavLink,
   Card, CardHeader, CardBody, CardImg, CardTitle, CardText,
-  Button, Row, Col, Table
+  Button, Row, Col, Table,
+  Form, FormGroup, Label, Input,
+  UncontrolledTooltip
 } from 'reactstrap'
 import FontAwesome from 'react-fontawesome'
 import classnames from 'classnames'
 import {connect} from 'react-redux'
 
-import { toggleTab } from '../actions'
+import { toggleTab, toggleFilter } from '../actions'
 
 class Pohlad extends React.Component {
   constructor(props) {
     super(props)
 
     this.toggleTab = this.toggleTab.bind(this)
+    this.toggleFilter = this.toggleFilter.bind(this)
   }
 
   toggleTab(tab) {
     this.props.toggleTab(tab)
+  }
+
+  toggleFilter(e) {
+    this.props.toggleFilter(e.target.value)
   }
 
   render() {
@@ -30,7 +37,7 @@ class Pohlad extends React.Component {
         { init &&
           <div>
 
-            <Card style={{ width: '190px' }}>
+            <Card style={{ width: '740px' }}>
               <CardBody>
                 <Nav pills className="card-header-tabs">
                   <NavItem>
@@ -62,6 +69,50 @@ class Pohlad extends React.Component {
                     </NavLink>
                   </NavItem>
                 </Nav>
+
+                <br/><br/>
+
+                <Form inline onChange={this.toggleFilter}>
+                  <FormGroup>
+                    <FormGroup check>
+                      <Label check>
+                        <Input type={'radio'} name={'filter'} value={1} defaultChecked />&nbsp;
+                        <span>Všetky doklady</span>
+                        &nbsp;&nbsp;
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check>
+                      <Label check>
+                        <Input type={'radio'} name={'filter'} value={2} />&nbsp;
+                        <span className={'bg-yellow legend'} id="filter-2">Import - zmenený doklad</span>
+                        <UncontrolledTooltip placement={'bottom'} target="filter-2">
+                          Doklady, ktoré sú importované z excelu a dodatočne zmenené
+                        </UncontrolledTooltip>
+                        &nbsp;&nbsp;
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check>
+                      <Label check>
+                        <Input type={'radio'} name={'filter'} value={3} />&nbsp;
+                        <span className={'bg-lime legend'} id="filter-3">Používateľ - pridaný doklad</span>
+                        <UncontrolledTooltip placement={'bottom'} target="filter-3">
+                          Doklady, ktoré pridal používateľ v aplikácií
+                        </UncontrolledTooltip>
+                        &nbsp;&nbsp;
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check>
+                      <Label check>
+                        <Input type={'radio'} name={'filter'} value={4} />&nbsp;
+                        <span className={'bg-azure legend'} id="filter-4">Používateľ - zmenený doklad</span>
+                        <UncontrolledTooltip placement={'bottom'} target="filter-4">
+                          Doklady, ktoré pridal používateľ a dodatočne boli ešte zmenené
+                        </UncontrolledTooltip>
+                        &nbsp;&nbsp;
+                      </Label>
+                    </FormGroup>
+                  </FormGroup>
+                </Form>
               </CardBody>
             </Card>
 
@@ -102,7 +153,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   // load: (e) => dispatch(loadMainEntry(e))
-  toggleTab: (e) => dispatch(toggleTab(e))
+  toggleTab: (e) => dispatch(toggleTab(e)),
+  toggleFilter: (e) => dispatch(toggleFilter(e))
 })
 
 export default connect(

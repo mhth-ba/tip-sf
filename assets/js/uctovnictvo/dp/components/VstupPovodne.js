@@ -37,6 +37,7 @@ class VstupPovodne extends React.Component {
     }, 300)
   }
 
+  // vyhľadávanie dokladu alebo referencie medzi všetkými dokladmi
   handleFilter(val) {
 
     const regexp = new RegExp(val, 'i')
@@ -63,6 +64,7 @@ class VstupPovodne extends React.Component {
   render() {
 
     const init = this.props.hlavny.initialized
+    const filter = this.props.ui.filter
     let zn = this.props.zn.vstup
 
     // nezobrazovat polozky pri znakoch dane: D3, D4 a D5
@@ -72,7 +74,7 @@ class VstupPovodne extends React.Component {
       && item.znak !== 'D5'
     )
 
-    // const polozky = this.props.vstup.povodne // vstupna dph
+    // let polozky = this.props.vstup.povodne // vstupna dph
     let polozky = this.state.filtered // vstupna dph
 
     return (
@@ -83,11 +85,11 @@ class VstupPovodne extends React.Component {
             Vstupná DPH
             <span className="pull-right">
               <Button onClick={this.collapse} color={'light'} size={'sm'}>
-                { !this.state.collapse ?
-                  <FontAwesome name={'plus-square'}/>
-                  :
-                  <FontAwesome name={'minus-square'}/>
-                }
+              { !this.state.collapse ?
+                <FontAwesome name={'plus-square'}/>
+                :
+                <FontAwesome name={'minus-square'}/>
+              }
               </Button>
             </span>
           </CardHeader>
@@ -107,7 +109,12 @@ class VstupPovodne extends React.Component {
               { zn.map(
                 (z, idx) => {
                   if (polozky === undefined) polozky = []
-                  const items = polozky.filter(v => v.znak === z.znak)
+                  let items = polozky.filter(v => v.znak === z.znak)
+
+                  if (filter > 1) {
+                    items = items.filter(item => item.tag === Number(filter))
+                  }
+
                   return <ZnakDane key={idx}
                                    znak={z.znak}
                                    popis={z.popis}
@@ -137,7 +144,8 @@ class VstupPovodne extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   hlavny: state.hlavny,
   zn: state.znakydane,
-  vstup: state.vstup
+  vstup: state.vstup,
+  ui: state.userinterface
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

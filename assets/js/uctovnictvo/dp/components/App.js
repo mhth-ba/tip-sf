@@ -6,6 +6,7 @@ import VyberPolozky from './VyberPolozky'
 import Nastroje from './Nastroje'
 
 import VytvoritHlavny from './VytvoritHlavny'
+import PridatDoklad from './PridatDoklad'
 import Import from './Import'
 import Prilohy from './Prilohy'
 import Aktivita from './Aktivita'
@@ -13,8 +14,8 @@ import Aktivita from './Aktivita'
 import Hlavny from './Hlavny'
 
 import Pohlad from './Pohlad'
-import Vstup from './Vstup'
-import Vystup from './Vystup'
+import VstupZmenene from './VstupZmenene'
+import VystupZmenene from './VystupZmenene'
 import VstupPovodne from './VstupPovodne'
 import VystupPovodne from './VystupPovodne'
 
@@ -33,6 +34,7 @@ class App extends React.Component {
             <br/>
             <Nastroje
               vytvorit={<VytvoritHlavny/>}
+              doklad={<PridatDoklad/>}
               import={<Import/>}
               prilohy={<Prilohy/>}
               aktivita={<Aktivita/>}
@@ -46,8 +48,8 @@ class App extends React.Component {
         <Row>
           <Col>
             <Pohlad
-              vstup_zmenene={<Vstup/>}
-              vystup_zmenene={<Vystup/>}
+              vstup_zmenene={<VstupZmenene/>}
+              vystup_zmenene={<VystupZmenene/>}
               vstup_povodne={<VstupPovodne/>}
               vystup_povodne={<VystupPovodne/>}
             />
