@@ -132,7 +132,7 @@ class VytvoritHlavny extends React.Component {
     const datumDokladu = this.state.datumDokladu.format('YYYY-MM-DD')
     const datumUctovania = this.state.datumUctovania.format('YYYY-MM-DD')
     const sumaBezDph = this.state.sumaBezDph
-    const dph = Number( this.state.dph.replace(',','.') ).toFixed(2)
+    const dph = Number( String(this.state.dph).replace(',','.') ).toFixed(2)
     const sumaSDph = this.state.sumaSDph
 
     const data = {

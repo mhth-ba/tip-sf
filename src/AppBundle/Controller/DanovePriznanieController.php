@@ -611,6 +611,10 @@ class DanovePriznanieController extends BaseController
             throw new BadRequestHttpException('Invalid JSON');
         }
 
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+
         $vstup_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Vstup_Z');
         $vystup_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Vystup_Z');
 
@@ -638,6 +642,7 @@ class DanovePriznanieController extends BaseController
                 $doklad->setSumaBezDPH($sumaBezDph);
                 $doklad->setDPH($dph);
                 $doklad->setSumaSDPH($sumaSDph);
+                $doklad->setVytvoril($user);
 
                 $em->persist($doklad);
                 $em->flush();
@@ -664,6 +669,7 @@ class DanovePriznanieController extends BaseController
                 $doklad->setSumaBezDPH($sumaBezDph);
                 $doklad->setDPH($dph);
                 $doklad->setSumaSDPH($sumaSDph);
+                $doklad->setVytvoril($user);
 
                 $em->persist($doklad);
                 $em->flush();
