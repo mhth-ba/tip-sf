@@ -12,6 +12,8 @@ use AppBundle\Entity\Uctovnictvo\DP\Vstup_Z;
 use AppBundle\Entity\Uctovnictvo\DP\Vystup;
 use AppBundle\Entity\Uctovnictvo\DP\Vystup_Z;
 use AppBundle\Form\Type\Uctovnictvo\DP\HlavnyType;
+use AppBundle\Form\Type\Uctovnictvo\DP\VstupType;
+use AppBundle\Form\Type\Uctovnictvo\DP\VystupType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -730,6 +732,58 @@ class DanovePriznanieController extends BaseController
             $id,
             'AppBundle:Uctovnictvo\DP\Hlavny',
             HlavnyType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("uct/dp/doklad/vstup/{id}", name="dp_doklad_vstup_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function updateDokladVstupAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $doklad = $em->getRepository('AppBundle:Uctovnictvo\DP\Vstup')
+            ->find($id);
+
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+
+        $doklad->setUpravil($user);
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Uctovnictvo\DP\Vstup',
+            VstupType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("uct/dp/doklad/vystup/{id}", name="dp_doklad_vystup_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function updateDokladVystupAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $doklad = $em->getRepository('AppBundle:Uctovnictvo\DP\Vystup')
+            ->find($id);
+
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+
+        $doklad->setUpravil($user);
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Uctovnictvo\DP\Vystup',
+            VystupType::class,
             $request
         );
     }

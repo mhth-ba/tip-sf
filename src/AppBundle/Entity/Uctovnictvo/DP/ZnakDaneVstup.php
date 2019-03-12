@@ -36,6 +36,11 @@ class ZnakDaneVstup extends BaseEntity
      */
     private $orderID;
 
+    public function __toString()
+    {
+        return (string) $this->znak;
+    }
+
     public function getZnak()
     {
         return $this->znak;

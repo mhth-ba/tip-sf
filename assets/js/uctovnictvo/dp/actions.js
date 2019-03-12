@@ -74,6 +74,11 @@ export const updateHlavnyRequest = (data) => ({
   data
 })
 
+export const updateDokladRequest = (data) => ({
+  type: TYPES.UPDATE_DOKLAD_REQUEST,
+  data
+})
+
 export function* fetchVyberPolozky() {
   const url = Routing.generate('dp_hlavny_list')
 
@@ -288,9 +293,6 @@ export function* createDoklad(action) {
   try {
     const doklad = yield call(Api.post, url, data)
 
-    console.log(data)
-    console.log(doklad)
-
     if (data.zaradenie === 1) {
       yield put({type: TYPES.CREATE_DOKLAD_VSTUP_SUCCESS, data: doklad})
     } else if (data.zaradenie === 2) {
@@ -317,6 +319,37 @@ export function* updateHlavny(action) {
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_HLAVNY_ERROR, data: e})
+    console.error(e)
+  }
+}
+
+export function* updateDoklad(action) {
+  let url
+  let data = action.data
+  const id = data.id
+  const zaradenie = data.zaradenie
+
+  delete data.zaradenie
+
+  try {
+    let update
+
+    if (zaradenie === 1) {
+      url = Routing.generate('dp_doklad_vstup_update')
+      update = yield call(Api.patch, `${url}/${id}`, data)
+
+      yield put({type: TYPES.UPDATE_DOKLAD_VSTUP_SUCCESS, data: update})
+
+    } else if (zaradenie === 2) {
+      url = Routing.generate('dp_doklad_vystup_update')
+      update = yield call(Api.patch, `${url}/${id}`, data)
+
+      yield put({type: TYPES.UPDATE_DOKLAD_VYSTUP_SUCCESS, data: update})
+    }
+
+  } catch (e) {
+    yield put({type: TYPES.UPDATE_DOKLAD_ERROR, data: update})
+
     console.error(e)
   }
 }

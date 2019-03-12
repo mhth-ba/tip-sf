@@ -7,6 +7,7 @@ import { dateShort } from '../../../../utils/format'
 import Suma from '../helpers/Suma'
 import * as CONSTANTS from "../../../../constants"
 import * as CONFIGS from "../../../../configs"
+import {updateDokladRequest} from "../../actions"
 
 const dateTimeFormatter = ( cell, row ) => (
   dateShort(cell)
@@ -39,9 +40,23 @@ class PolozkyVstup extends React.Component {
   }
 
   handleUpdate(row, cellName, cellValue) {
-    console.log(row, cellName, cellValue)
+    // ak editujeme pohľad "zmenené", id týchto položiek sa začína číslom 99
+    // skutočné ID záznamu v databáze je však bez úvodných dvoch cifier 99, preto ich treba odstrániť
+    // v prípade, že editujeme pohľad "pôvodné", neupravujeme nič
+    if (String(row.id).substr(0, 2) === '99') {
+      row.id = Number(String(row.id).substr(2))
+    }
 
-    return false
+    const data = {
+      id: row.id,
+      key: cellName,
+      [cellName]: cellValue,
+      zaradenie: 1
+    }
+
+    this.props.update(data)
+
+    return true
   }
 
   render() {
@@ -65,7 +80,7 @@ class PolozkyVstup extends React.Component {
     return (
       <BootstrapTable version={'4'}
                       data={p}
-                      //cellEdit={cellEdit}
+                      cellEdit={cellEdit}
                       trClassName={rowColor}
                       options={options}
                       bordered={false}
@@ -126,6 +141,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   // load: (e) => dispatch(loadMainEntry(e))
+  update: (e) => dispatch(updateDokladRequest(e))
 })
 
 export default connect(

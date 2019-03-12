@@ -22,6 +22,14 @@ class ZnakDane extends React.Component {
     this.setState({ collapse: !this.state.collapse })
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.items.length !== this.props.items.length) {
+      if (this.props.items.length === 0) {
+        this.setState({ collapse: false })
+      }
+    }
+  }
+
   render() {
 
     const znak = this.props.znak

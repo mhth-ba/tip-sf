@@ -17,6 +17,7 @@ import {
   createDoklad,
 
   updateHlavny,
+  updateDoklad,
 
   processUploadedFile
 } from './actions'
@@ -33,6 +34,7 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_SUMARIZACIA_REQUEST, fetchSumarizacia),
 
     takeEvery(TYPES.UPDATE_HLAVNY_REQUEST, updateHlavny),
+    takeEvery(TYPES.UPDATE_DOKLAD_REQUEST, updateDoklad),
 
     takeLatest(TYPES.CREATE_HLAVNY_REQUEST, createHlavny),
     takeLatest(TYPES.CREATE_DOKLAD_REQUEST, createDoklad),
