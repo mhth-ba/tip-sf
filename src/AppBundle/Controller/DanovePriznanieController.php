@@ -214,7 +214,7 @@ class DanovePriznanieController extends BaseController
             "Vstupná DPH: Jednotl.položky",
             "Vstupná DPH: Súčet",
             28,
-            "\xFF\xFE\r\0\n"
+            "\xFF\xFE\r\0\n\0"
         );
     }
 
@@ -281,6 +281,13 @@ class DanovePriznanieController extends BaseController
 
         // zakoncenie suboru, aby MS SQL BULK INSERT vedel nacitat data
         $content .= "\0\n\0";
+
+        // pri procesovani vstupnej dph (druha cast predbezneho hlasenia)
+        // sa namiesto sekvencie FF FE 0D 00 0A 00 na zaciatku objavovalo o 00 navyse, cize FF FE 0D 00 0A 00 00
+        // co posunulo multi-byte kodovanie o 1 byte vedla a tym sa znemoznilo korektne nacitanie suboru
+        // fix je skontrolovat retazec na zaciatku vysledku po spracovani ci sa tam nachadza pokazeny retazec
+        // ak ano, opravi sa na spravny retazec replace funkciou nizsie
+        $content = str_replace("\xFF\xFE\r\0\n\0\0", "\xFF\xFE\r\0\n\0", $content);
 
         // zapisat vysledny obsah do suboru
         $handle = fopen($file_new, 'w');
