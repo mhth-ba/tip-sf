@@ -803,6 +803,12 @@ class DanovePriznanieController extends BaseController
     public function exportXML($id)
     {
         $em = $this->getDoctrine()->getManager();
+
+        $hlavny = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
+            ->find($id);
+        // id predchadzajuceho danoveho priznania
+        $id_p = $hlavny->getPredchadzajuci();
+
         $sum = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia');
 
         $icdph = 2020285245;
@@ -845,6 +851,81 @@ class DanovePriznanieController extends BaseController
         $r32 = null;
         $r33 = null;
         $r34 = 0;
+
+        // Daňová povinnosť alebo nadmerný odpočet
+        $x = $r19 - $r20 - $r21 + $r27 + $r28 - $r29 - $r30;
+
+        // ak x > 0 (daňová povinnosť), tak r31 = x a r32 prázdny
+        if ($x >= 0) {
+            $r31 = $x;
+            $r32 = '';
+            $r33 = '';
+            $r34 = $r31;
+        } // ak x < 0 (nadmerný odpočet), tak r32 = x a r31 = 0
+        else if ($x < 0) {
+            $r31 = 0;
+            $r32 = $x;
+            $r33 = '';
+        }
+
+        // ak v predchádzajúcom zdaňovacom období bol nadmerný odpočet
+        if ($id_p !== null) {
+
+            $r_2 = 0;
+            $r_4 = $this->checkArray($sum->findR3_4($id_p), 'd');
+            $r_6 = $this->checkArray($sum->findR5_6($id_p), 'd');
+            $r_8 = $this->checkArray($sum->findR7_8($id_p), 'd');
+            $r_10 = $this->checkArray($sum->findR9_10($id_p), 'd');
+            $r_12 = 0;
+            $r_14 = 0;
+            $r_18 = 0;
+            $r_20 = $this->checkArray($sum->findR20($id_p), 'd');
+            $r_21 = $this->checkArray($sum->findR21($id_p), 'd');
+            $r_27 = $this->checkArray($sum->findR26_27($id_p), 'd');
+            $r_28 = $this->checkArray($sum->findR28($id_p), 'd');
+            $r_29 = 0;
+            $r_30 = 0;
+
+            // DAŇ CELKOM (predchádzajúci)
+            $r_19 = $r_2 + $r_4 + $r_6 + $r_8 + $r_10 + $r_12 + $r_14 + $r_18;
+            $r_31 = null;
+            $r_32 = null;
+
+            // Daňová povinnosť alebo nadmerný odpočet ??
+            $y = $r_19 - $r_20 - $r_21 + $r_27 + $r_28 - $r_29 - $r_30;
+
+            // ak y > 0 (daňová povinnosť), tak r_31 = y a r_32 prázdny
+            if ($y >= 0) {
+                $r_31 = $y;
+            } // ak r_31 < 0 (nadmerný odpočet), tak r_32 = y a r_31 = 0
+            else if ($y < 0) {
+                $r_31 = 0;
+                $r_32 = $y;
+
+                // ak je nadmerný odpočet v predchádzajúcom období väčší ako
+                // daňová povinnosť v aktuálnom zdaňovacom období
+                if ($r_32 * (-1) > $r31) {
+                    $r_32 = $r31 * (-1);
+                }
+            }
+
+            // ak v predchádzajúcom daňovom priznaní je vyplnený r_32
+            // čiže ak v predchádzajúcom daňovom priznaní je nadmerný odpočet, čiže ZÁPORNÉ ČÍSLO a NIE KLADNÉ
+            if ($r_32 < 0) {
+                // a zároveň:
+
+                // 1. je vyplnený r31, tak v súčasnom hlavnom zázname
+                if ($r31 > 0) {
+                    $r33 = $r_32;
+                    $r34 = $r31 + $r33;
+                }
+
+                // 2. nie je vyplnený r_31, tak v súčasnom hlavnom zázname
+                if ($r31 === 0) {
+                    // r32 = r32 (??)
+                }
+            }
+        }
 
         $filename =  'DPH form.391.xml';
 
@@ -924,13 +1005,13 @@ class DanovePriznanieController extends BaseController
             ."<r26>$r26</r26>\r\n"
             ."<r27>$r27</r27>\r\n"
             ."<r28>$r28</r28>\r\n"
-            ."<r29></r29>\r\n"
-            ."<r30></r30>\r\n"
-            ."<r31></r31>\r\n"
+            ."<r29>$r29</r29>\r\n"
+            ."<r30>$r30</r30>\r\n"
+            ."<r31>$r31</r31>\r\n"
             ."<splneniePodmienok>0</splneniePodmienok>\r\n"
-            ."<r32></r32>\r\n"
-            ."<r33></r33>\r\n"
-            ."<r34></r34>\r\n"
+            ."<r32>$r32</r32>\r\n"
+            ."<r33>$r33</r33>\r\n"
+            ."<r34>$r34</r34>\r\n"
             ."<r35></r35>\r\n"
             ."<r36></r36>\r\n"
             ."<r37></r37>\r\n"
