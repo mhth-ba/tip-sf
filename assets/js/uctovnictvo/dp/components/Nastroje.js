@@ -37,6 +37,7 @@ class Nastroje extends React.Component {
       collapseVytvorit: false,
       collapseDoklad: !this.state.collapseDoklad,
       collapseImport: false,
+      collapsePrilohy: false,
       collapseAktivita: false
     })
   }
