@@ -8,7 +8,7 @@ class Znamienka extends React.Component {
     super(props)
 
     this.state = {
-      collapse: true
+      collapse: false
     }
 
     this.collapse = this.collapse.bind(this)
