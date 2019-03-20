@@ -45,7 +45,8 @@ class Sumarizacia extends React.Component {
     const r8 = this.findSuma_s('7_8', 'd')
     const r9 = this.findSuma_s('9_10', 'z')
     const r10 = this.findSuma_s('9_10', 'd')
-    const r12 = 0
+    const r11 = this.findSuma_s('11_12', 'z')
+    const r12 = this.findSuma_s('11_12', 'd')
     const r14 = 0
     const r15 = this.findSuma_s('15', 'z')
     const r18 = 0
@@ -97,28 +98,29 @@ class Sumarizacia extends React.Component {
       const r_29 = 0
       const r_30 = 0
 
-      // DAŃ CELKOM (predchadzajuci)
+      // DAŃ CELKOM (predchádzajúci)
       const r_19 = r_2 + r_4 + r_6 + r_8 + r_10 + r_12 + r_14 + r_18
       let r_31, r_32
 
       // Daňová povinnosť alebo nadmerný odpočet ??
       const y = r_19 - r_20 - r_21 + r_27 + r_28 - r_29 - r_30
 
-      // ak y > 0 (daňová povinnosť), tak r_31 = y a r_šľ prázdny
+      // ak y > 0 (daňová povinnosť), tak r_31 = y a r_32 prázdny
       if (y >= 0) {
         r_31 = y
-      } // ak r_31 < 0 (nadmerný odpočet), tak r_32 = y a r31 = 0
+      } // ak r_31 < 0 (nadmerný odpočet), tak r_32 = y a r_31 = 0
       else if (y < 0) {
         r_31 = 0
         r_32 = y
 
-        // ak je nadmerný odpočet väčší ako daňová povinnosť
+        // ak je nadmerný odpočet v predchádzajúcom období väčší ako
+        // daňová povinnosť v aktuálnom zdaňovacom období
         if (r_32 * (-1) > r31) {
           r_32 = r31 * (-1)
         }
       }
 
-      // ak v predchádzajúcom daňovom priznané je vyplnený r_32
+      // ak v predchádzajúcom daňovom priznaní je vyplnený r_32
       // čiže ak v predchádzajúcom daňovom priznaní je nadmerný odpočet, čiže ZÁPORNÉ ČÍSLO a NIE KLADNÉ
       if (r_32 < 0) {
         // a zároveň :
@@ -276,7 +278,7 @@ class Sumarizacia extends React.Component {
                     </span>
                   </td>
                   <td className="text-danger font-weight-bold">11</td>
-                  <td>{''}</td>
+                  <td className="text-right font-weight-bold"><Suma v={r11} /></td>
                   <td className="text-danger font-weight-bold">12</td>
                   <td className="text-right font-weight-bold"><Suma v={r12} /></td>
                   <td>343161</td>
