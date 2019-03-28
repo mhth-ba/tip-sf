@@ -28,6 +28,16 @@ let dateShort = (date, formatStr = 'Do MMMM YYYY') => {
   })
 }
 
+let dateSmall = (date, formatStr = 'DoMoYYYY') => {
+  const dateObject = new Date(date * 1000)
+
+  if (date === null) return null
+
+  return format(dateObject, formatStr, {
+    locale: require('date-fns/locale/sk')
+  })
+}
+
 let dateMonthYear = (date, formatStr = 'MMMM YYYY') => {
   const dateObject = new Date(date * 1000)
 
@@ -56,4 +66,4 @@ let number = (number, decimals = 0, type = 'text') => {
 //exports.default = dateTime
 //module.exports = exports['default']
 
-module.exports = { dateTime, date, dateShort, dateMonthYear, dateYearMonth, number }
+module.exports = { dateTime, date, dateShort, dateSmall, dateMonthYear, dateYearMonth, number }

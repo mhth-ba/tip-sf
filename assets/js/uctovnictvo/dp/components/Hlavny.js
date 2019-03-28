@@ -5,7 +5,7 @@ import {
   Card, CardHeader, CardBody, CardFooter, Table, Badge,
   UncontrolledTooltip, CardText, Input, Button, FormGroup, Form
 } from 'reactstrap'
-import {dateYearMonth, dateShort, dateTime} from '../../../utils/format'
+import {dateYearMonth, dateShort, dateSmall, dateTime} from '../../../utils/format'
 import FontAwesome from 'react-fontawesome'
 import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek2'
 import Routing from '../../../Components/Routing'
@@ -29,6 +29,7 @@ class Hlavny extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleDruh = this.handleDruh.bind(this)
     this.handlePredchadzajuci = this.handlePredchadzajuci.bind(this)
+    this.handlePosledny = this.handlePosledny.bind(this)
     this.handlePodane = this.handlePodane.bind(this)
   }
 
@@ -66,6 +67,18 @@ class Hlavny extends React.Component {
   }
 
   /**
+   * ID posledného podaného daňového priznania v rovnakom zdaňovacom období (prípad dodatočného priznania)
+   */
+  handlePosledny(e) {
+    const data = {
+      posledny: e.target.value,
+      id: this.props.hlavny.id
+    }
+
+    this.props.updateHlavnyRequest(data)
+  }
+
+  /**
    * Dátum podania daňového priznania
    */
   handlePodane(e) {
@@ -94,7 +107,7 @@ class Hlavny extends React.Component {
     const zmenene = hlavny.zmenene                 // dátum poslednej zmeny hlavného záznamu
     const druh = hlavny.druh                       // druh (riadne, opravné, dodatočné)
     const predchadzajuci = hlavny.predchadzajuci   // priznanie v predošlom zdaňovacom období
-    const riadne = hlavny.riadne                   // id riadneho daňového priznania
+    const posledny = hlavny.posledny               // posledné podané priznanie v rovnakom zdaňovacom období
     const obdobie = hlavny.obdobie                 // zdaňovacie obdobie
     const podane = hlavny.podane                   // dátum podania daňového priznania
 
@@ -137,7 +150,9 @@ class Hlavny extends React.Component {
                   <td>{ dateYearMonth(obdobie) }</td>
                 </tr>
                 <tr>
-                  <th>Priznanie v predchádzajúcom období<br/><span className="small">V prípade nadmerného odpočtu</span></th>
+                  <th>Priznanie v predchádzajúcom období<br/>
+                    <span className="small">Odpočítanie nadmerného odpočtu od vlastnej daňovej povinnosti</span>
+                  </th>
                   <td>
                     <Input type={'select'} disabled={hlavny.updating}
                            value={predchadzajuci ? predchadzajuci : ''}
@@ -146,16 +161,30 @@ class Hlavny extends React.Component {
                       { moznosti.predchadzajuci && moznosti.predchadzajuci.map(
                         (polozka, x) =>
                           <option key={x} value={polozka.id}>
-                            [{polozka.id}] {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh}
+                            {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh}
                           </option>
                       ) }
                     </Input>
                   </td>
                 </tr>
-                { druh.id !== 1 &&
+                { druh.id === 3 &&
                   <tr>
-                    <th>Riadne priznanie</th>
-                    <td></td>
+                    <th>Posledné podané priznanie<br/>
+                      <span className="small">Prepojenie kvôli riadkom 37 a 38</span>
+                    </th>
+                    <td>
+                      <Input type={'select'} disabled={hlavny.updating}
+                             value={posledny ? posledny : ''}
+                             onChange={ this.handlePosledny }>
+                        <option value="">-</option>
+                        { moznosti.suvisiace && moznosti.suvisiace.map(
+                          (polozka, x) =>
+                            <option key={x} value={polozka.id}>
+                              {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh} | Podané {dateSmall(polozka.podane)}
+                            </option>
+                        ) }
+                      </Input>
+                    </td>
                   </tr>
                 }
                 <tr>

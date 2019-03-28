@@ -88,6 +88,11 @@ class Vstup extends BaseEntity
      */
     private $upravil;
 
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
+     */
+    private $vymazal;
+
     public function getId()
     {
         return $this->id;
@@ -231,5 +236,15 @@ class Vstup extends BaseEntity
     public function setUpravil($upravil)
     {
         $this->upravil = $upravil;
+    }
+
+    public function getVymazal()
+    {
+        return $this->vymazal;
+    }
+
+    public function setVymazal($vymazal)
+    {
+        $this->vymazal = $vymazal;
     }
 }

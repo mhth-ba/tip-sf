@@ -34,6 +34,12 @@ function updateObjectInArray(array, action, zmenene) {
     })
 }
 
+function removeObjectFromArray(array, action) {
+  const index = array.findIndex(x => x.id === action.id)
+
+  return array.filter( (item, ix) => ix !== index )
+}
+
 export default (state = initState, action) => {
   switch (action.type) {
 
@@ -57,6 +63,12 @@ export default (state = initState, action) => {
       return {...state,
         zmenene: updateObjectInArray(state.zmenene, action, 1),
         povodne: updateObjectInArray(state.zmenene, action, 0)
+      }
+
+    case TYPES.DELETE_DOKLAD_VSTUP_SUCCESS:
+      return {...state,
+        zmenene: removeObjectFromArray(state.zmenene, action),
+        povodne: removeObjectFromArray(state.povodne, action)
       }
 
     default:

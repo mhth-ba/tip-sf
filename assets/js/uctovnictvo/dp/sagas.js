@@ -12,12 +12,15 @@ import {
   fetchVstup,
   fetchVystup,
   fetchSumarizacia,
+  fetchRiadky,
 
   createHlavny,
   createDoklad,
 
   updateHlavny,
   updateDoklad,
+
+  deleteDoklad,
 
   processUploadedFile
 } from './actions'
@@ -32,12 +35,15 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_VSTUP_REQUEST, fetchVstup),
     takeLatest(TYPES.FETCH_VYSTUP_REQUEST, fetchVystup),
     takeLatest(TYPES.FETCH_SUMARIZACIA_REQUEST, fetchSumarizacia),
+    takeLatest(TYPES.FETCH_RIADKY_REQUEST, fetchRiadky),
+
+    takeLatest(TYPES.CREATE_HLAVNY_REQUEST, createHlavny),
+    takeLatest(TYPES.CREATE_DOKLAD_REQUEST, createDoklad),
 
     takeEvery(TYPES.UPDATE_HLAVNY_REQUEST, updateHlavny),
     takeEvery(TYPES.UPDATE_DOKLAD_REQUEST, updateDoklad),
 
-    takeLatest(TYPES.CREATE_HLAVNY_REQUEST, createHlavny),
-    takeLatest(TYPES.CREATE_DOKLAD_REQUEST, createDoklad),
+    takeEvery(TYPES.DELETE_DOKLAD_REQUEST, deleteDoklad),
 
     takeLatest(TYPES.PROCESS_UPLOADED_FILE_REQUEST, processUploadedFile)
   ])

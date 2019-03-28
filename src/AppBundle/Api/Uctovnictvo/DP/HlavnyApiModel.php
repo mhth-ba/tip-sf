@@ -16,7 +16,7 @@ class HlavnyApiModel extends DefaultApiModel
 
     public $predchadzajuci;
 
-    public $riadne;
+    public $posledny;
 
     public $obdobie;
 

@@ -73,7 +73,7 @@ class VyberPolozky extends React.Component {
                   { vyberpolozky.polozky.map(
                     (polozka, ix) =>
                       <option key={ix} value={polozka.id}>
-                        {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh} [{polozka.id}]
+                        {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh}
                       </option>
                   )}
                 </Input>

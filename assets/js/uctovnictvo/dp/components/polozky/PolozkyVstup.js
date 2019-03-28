@@ -1,13 +1,17 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+import { Button } from 'reactstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import { dateShort } from '../../../../utils/format'
+
+import Swal from 'sweetalert2'
+import withReactComponent from 'sweetalert2-react-content'
 
 import Suma from '../helpers/Suma'
 import * as CONSTANTS from "../../../../constants"
 import * as CONFIGS from "../../../../configs"
-import {updateDokladRequest} from "../../actions"
+import {updateDokladRequest, deleteDokladRequest} from "../../actions"
 
 const dateTimeFormatter = ( cell, row ) => (
   dateShort(cell)
@@ -33,10 +37,38 @@ class PolozkyVstup extends React.Component {
     super(props)
 
     this.handleUpdate = this.handleUpdate.bind(this)
+
+    this.druhFormatter = this.druhFormatter.bind(this)
+    this.buttonFormatter = this.buttonFormatter.bind(this)
   }
 
   onSizePerPageList(sizePerPage) {
     localStorage.setItem(CONSTANTS.CACHE_UCT_DP_PAGES, sizePerPage);
+  }
+
+  druhFormatter( cell, row ) {
+
+    const druh = [{
+      znak: 'XG',
+      druh: ['DI', 'DJ', 'DK', 'PP', 'DM', 'DN', 'DO', 'DR', 'DS', 'DT', 'ST']
+    }, {
+      znak: 'XH',
+      druh: ['DI', 'DJ', 'DK', 'PP', 'DM', 'DN', 'DO', 'DR', 'DS', 'DT', 'ST']
+    }, {
+      znak: 'V3',
+      druh: ['DM', 'DN', 'DO', 'PP', 'ST']
+    }]
+
+    let index = druh.findIndex( x => x.znak === row.znak && x.druh.includes(cell) )
+
+    return index !== -1 ?
+      <span style={{ backgroundColor: 'yellow' }}>{cell}</span>
+      :
+      cell
+  }
+
+  buttonFormatter( cell, row ) {
+    return <Button onClick={this.handleDelete.bind(this, cell, row)} size={'sm'}>X</Button>
   }
 
   handleUpdate(row, cellName, cellValue) {
@@ -51,12 +83,46 @@ class PolozkyVstup extends React.Component {
       id: row.id,
       key: cellName,
       [cellName]: cellValue,
-      zaradenie: 1
+      zaradenie: 1,
+      hlavny: this.props.hlavny.id
     }
 
     this.props.update(data)
 
     return true
+  }
+
+  handleDelete(cell, row, e) {
+
+    const suma = row.suma_s_dph
+
+    const swal = withReactComponent(Swal)
+
+    swal.fire({
+      title: `<p>Vymazať doklad?</p>`,
+      text: `Doklad so sumou ${suma} € s DPH sa odstráni z databázy`,
+      type: 'question',
+      showCancelButton: true,
+      cancelButtonText: 'Zrušiť'
+    }).then( result => {
+      if (result.value) {
+
+        // ak editujeme pohľad "zmenené", id týchto položiek sa začína číslom 99
+        // skutočné ID záznamu v databáze je však bez úvodných dvoch cifier 99, preto ich treba odstrániť
+        // v prípade, že editujeme pohľad "pôvodné", neupravujeme nič
+        if (String(row.id).substr(0, 2) === '99') {
+          row.id = Number(String(row.id).substr(2))
+        }
+
+        const data = {
+          id: row.id,
+          zaradenie: 1,
+          hlavny: this.props.hlavny.id
+        }
+
+        this.props.remove(data)
+      }
+    })
   }
 
   render() {
@@ -106,7 +172,8 @@ class PolozkyVstup extends React.Component {
         <TableHeaderColumn dataField={'znak'} width={'60px'}>
           Znak
         </TableHeaderColumn>
-        <TableHeaderColumn dataField={'druh_dokladu'} width={'60px'} dataSort editable={false}>
+        <TableHeaderColumn dataField={'druh_dokladu'} width={'60px'}
+                           dataFormat={this.druhFormatter} dataSort editable={false}>
           Druh
         </TableHeaderColumn>
         <TableHeaderColumn dataField={'datum_dokladu'} width={'120px'}
@@ -129,6 +196,9 @@ class PolozkyVstup extends React.Component {
                            dataFormat={eurFormatter} dataAlign={'right'} dataSort editable={false}>
           Suma s DPH
         </TableHeaderColumn>
+        <TableHeaderColumn dataField={'button'} width={'30px'}
+                           dataFormat={this.buttonFormatter} editable={false} >
+        </TableHeaderColumn>
       </BootstrapTable>
     )
   }
@@ -136,12 +206,13 @@ class PolozkyVstup extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   // zoznam: state.zoznam,
-  // hlavny: state.hlavny
+  hlavny: state.hlavny
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   // load: (e) => dispatch(loadMainEntry(e))
-  update: (e) => dispatch(updateDokladRequest(e))
+  update: (e) => dispatch(updateDokladRequest(e)),
+  remove: (e) => dispatch(deleteDokladRequest(e))
 })
 
 export default connect(

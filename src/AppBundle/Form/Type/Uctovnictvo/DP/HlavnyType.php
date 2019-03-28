@@ -20,6 +20,7 @@ class HlavnyType extends AbstractType
                 'class' => 'AppBundle\Entity\Uctovnictvo\DP\Druh'
             ])
             ->add('predchadzajuci', NumberType::class)
+            ->add('posledny', NumberType::class)
             /*->add('podane', DateType::class, [
                 'widget' => 'single_text',
                 'input' => 'string',

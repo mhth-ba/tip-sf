@@ -54,6 +54,11 @@ export const fetchSumarizaciaRequest = (id) => ({
   id
 })
 
+export const fetchRiadkyRequest = (id) => ({
+  type: TYPES.FETCH_RIADKY_REQUEST,
+  id
+})
+
 export const processUploadedFileRequest = (data) => ({
   type: TYPES.PROCESS_UPLOADED_FILE_REQUEST,
   data
@@ -76,6 +81,11 @@ export const updateHlavnyRequest = (data) => ({
 
 export const updateDokladRequest = (data) => ({
   type: TYPES.UPDATE_DOKLAD_REQUEST,
+  data
+})
+
+export const deleteDokladRequest = (data) => ({
+  type: TYPES.DELETE_DOKLAD_REQUEST,
   data
 })
 
@@ -135,7 +145,8 @@ export function* loadMainEntry(action) {
     //yield put(fetchZnakyDaneRequest())
     yield put(fetchVstupRequest(id))
     yield put(fetchVystupRequest(id))
-    yield put(fetchSumarizaciaRequest(id))
+    //yield put(fetchSumarizaciaRequest(id))
+    yield put(fetchRiadkyRequest(id))
 
   } catch (e) {
     yield put({type: TYPES.LOAD_MAIN_ENTRY_ERROR, data: e})
@@ -217,6 +228,21 @@ export function* fetchSumarizacia(action) {
   }
 }
 
+export function* fetchRiadky(action) {
+  const url = Routing.generate('dp_riadky_get')
+  const id = action.id
+
+  try {
+    const udaje = yield call(Api.fetch, `${url}/${id}`)
+
+    yield put({type: TYPES.FETCH_RIADKY_SUCCESS, data: udaje})
+
+  } catch (e) {
+    yield put({type: TYPES.FETCH_RIADKY_ERROR, data: e})
+    console.error(e)
+  }
+}
+
 export function* processUploadedFile(action) {
   const url = Routing.generate('dp_upload')
   const data = action.data
@@ -233,6 +259,7 @@ export function* processUploadedFile(action) {
       }))
 
       yield put(fetchVyberPolozkyRequest())
+      yield put(fetchAktivitaRequest())
       yield put(loadMainEntryRequest(data))
     }
 
@@ -299,6 +326,8 @@ export function* createDoklad(action) {
       yield put({type: TYPES.CREATE_DOKLAD_VYSTUP_SUCCESS, data: doklad})
     }
 
+    yield put(fetchRiadkyRequest(data.hlavny))
+
   } catch (e) {
     yield put({type: TYPES.CREATE_DOKLAD_ERROR, data: e})
 
@@ -316,6 +345,7 @@ export function* updateHlavny(action) {
 
     yield put({type: TYPES.UPDATE_HLAVNY_SUCCESS, data: update})
     yield put(fetchVyberPolozkyRequest())
+    yield put(fetchRiadkyRequest(id))
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_HLAVNY_ERROR, data: e})
@@ -328,8 +358,10 @@ export function* updateDoklad(action) {
   let data = action.data
   const id = data.id
   const zaradenie = data.zaradenie
+  const hlavny = data.hlavny
 
   delete data.zaradenie
+  delete data.hlavny
 
   try {
     let update
@@ -347,9 +379,39 @@ export function* updateDoklad(action) {
       yield put({type: TYPES.UPDATE_DOKLAD_VYSTUP_SUCCESS, data: update})
     }
 
+    yield put(fetchRiadkyRequest(hlavny))
+
   } catch (e) {
-    yield put({type: TYPES.UPDATE_DOKLAD_ERROR, data: update})
+    yield put({type: TYPES.UPDATE_DOKLAD_ERROR, data: e})
 
     console.error(e)
+  }
+}
+
+export function* deleteDoklad(action) {
+  let url
+  let data = action.data
+  const id = data.id
+  const zaradenie = data.zaradenie
+  const hlavny = data.hlavny
+
+  try {
+    if (zaradenie === 1) {
+      url = Routing.generate('dp_doklad_vstup_delete')
+      yield call(Api.delete, `${url}/${id}`)
+
+      yield put({type: TYPES.DELETE_DOKLAD_VSTUP_SUCCESS, id: id})
+
+    } else if (zaradenie === 2) {
+      url = Routing.generate('dp_doklad_vystup_delete')
+      yield call(Api.delete, `${url}/${id}`)
+
+      yield put({type: TYPES.DELETE_DOKLAD_VYSTUP_SUCCESS, id: id})
+    }
+
+    yield put(fetchRiadkyRequest(hlavny))
+
+  } catch (e) {
+    yield put({type: TYPES.DELETE_DOKLAD_ERROR, data: e})
   }
 }

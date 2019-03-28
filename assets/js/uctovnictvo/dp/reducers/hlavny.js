@@ -6,7 +6,7 @@ const initState = {
   zmenene: null, // dátum a čas zmeny hlavného záznamu
   druh: null,    // druh priznania (riadne, opravné, dodatočné)
   predchadzajuci: null, // priznanie v predošlom období na zohľadnenie nadmerného odpočtu
-  riadne: null,  // v prípade opravného/dodatočného - ID riadneho priznania
+  posledny: null,  // v prípade dodatočného ID posledného podaného priznania
   obdobie: null, // zdaňovacie obdobie
   podane: null,  // dátum podania daňového priznania
 

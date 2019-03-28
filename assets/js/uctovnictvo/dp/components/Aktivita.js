@@ -19,7 +19,7 @@ const userFormatter = ( userObject ) => {
 const mainEntryFormatter = ( mainEntryObject ) => {
   const main = mainEntryObject
 
-  return `[${main.id}] ${dateYearMonth(main.obdobie)} - ${main.druh.druh}`
+  return `${dateYearMonth(main.obdobie)} - ${main.druh.druh}`
 }
 
 const fileFormatter = ( filename, object ) => {
@@ -125,6 +125,35 @@ class Aktivita extends React.Component {
               </BootstrapTable>
 
               <br/><br/>
+
+              <h5>Vytvorené, zmenené a vymazané doklady</h5>
+              <BootstrapTable version={'4'}
+                              data={udaje_vsetky}
+                              options={options}
+                              bordered={false}
+                              striped
+                              condensed
+                              pagination
+              >
+                <TableHeaderColumn dataField={'id'} isKey hidden>ID</TableHeaderColumn>
+                <TableHeaderColumn dataField={'vytvorene'} width={'30px'}
+                                   dataFormat={dateTimeFormatter} dataSort>
+                  Dátum
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField={'pouzivatel'} width={'20px'}
+                                   dataFormat={userFormatter} dataSort>
+                  Používateľ
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField={'hlavny'} width={'25px'}
+                                   dataFormat={mainEntryFormatter} dataSort>
+                  Hlavný záznam
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField={'tabulka'} width={'20px'} dataSort>Tabuľka</TableHeaderColumn>
+                <TableHeaderColumn dataField={'stlpec'} width={'15px'} dataSort>Stĺpec</TableHeaderColumn>
+                <TableHeaderColumn dataField={'hodnota'} width={'30px'} dataSort>Hodnota</TableHeaderColumn>
+              </BootstrapTable>
+
+              <br/>
             </TabPane>
             <TabPane tabId={'2'}>
               <p>Prehľad zadaných hodnôt a uploadov súborov k aktuálne otvorenému záznamu daňového priznania.</p>
@@ -162,6 +191,35 @@ class Aktivita extends React.Component {
                   </BootstrapTable>
 
                   <br/><br/>
+
+                  <h5>Vytvorené, zmenené a vymazané doklady</h5>
+                  <BootstrapTable version={'4'}
+                                  data={udaje_hlavny}
+                                  options={options}
+                                  bordered={false}
+                                  striped
+                                  condensed
+                                  pagination
+                  >
+                    <TableHeaderColumn dataField={'id'} isKey hidden>ID</TableHeaderColumn>
+                    <TableHeaderColumn dataField={'vytvorene'} width={'30px'}
+                                       dataFormat={dateTimeFormatter} dataSort>
+                      Dátum
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField={'pouzivatel'} width={'20px'}
+                                       dataFormat={userFormatter} dataSort>
+                      Používateľ
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField={'hlavny'} width={'25px'}
+                                       dataFormat={mainEntryFormatter} dataSort>
+                      Hlavný záznam
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField={'tabulka'} width={'20px'} dataSort>Tabuľka</TableHeaderColumn>
+                    <TableHeaderColumn dataField={'stlpec'} width={'15px'} dataSort>Stĺpec</TableHeaderColumn>
+                    <TableHeaderColumn dataField={'hodnota'} width={'30px'} dataSort>Hodnota</TableHeaderColumn>
+                  </BootstrapTable>
+
+                  <br/>
                 </div>
               }
             </TabPane>

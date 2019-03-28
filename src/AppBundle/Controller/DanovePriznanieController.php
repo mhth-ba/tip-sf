@@ -325,9 +325,12 @@ class DanovePriznanieController extends BaseController
         $upload = $em->getRepository('AppBundle:Uctovnictvo\DP\Upload')
             ->findActivityAll();
 
+        $udaje = $em->getRepository('AppBundle:Uctovnictvo\DP\AktivitaDoklady')
+            ->findUserActivityAll();
+
         return $this->createApiResponse([
             'upload_vsetky' => $upload,
-            'udaje_vsetky' => null
+            'udaje_vsetky' => $udaje
         ]);
     }
 
@@ -343,9 +346,12 @@ class DanovePriznanieController extends BaseController
         $upload = $em->getRepository('AppBundle:Uctovnictvo\DP\Upload')
             ->findActivityByHlavny($id);
 
+        $udaje = $em->getRepository('AppBundle:Uctovnictvo\DP\AktivitaDoklady')
+            ->findUserActivityByHlavny($id);
+
         return $this->createApiResponse([
             'upload_hlavny' => $upload,
-            'udaje_hlavny' => null
+            'udaje_hlavny' => $udaje
         ]);
     }
 
@@ -377,7 +383,7 @@ class DanovePriznanieController extends BaseController
         $model->zmenene = $hlavny->getZmenene();
         $model->druh = $hlavny->getDruh();
         $model->predchadzajuci = $hlavny->getPredchadzajuci();
-        $model->riadne = $hlavny->getRiadneId();
+        $model->posledny = $hlavny->getPosledny();
         $model->obdobie = $hlavny->getObdobie();
         $model->podane = $hlavny->getPodane();
         $model->vytvoril = $hlavny->getVytvoril();
@@ -411,8 +417,15 @@ class DanovePriznanieController extends BaseController
 
         $predchadzajuce = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
             ->getPredchadzajuce($id);
+        
+        $suvisiace = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
+            ->getSuvisiace($id);
 
-        $moznosti = [];
+        $moznosti = [
+            'druh' => array(),
+            'predchadzajuci' => array(),
+            'suvisiace' => array()
+        ];
 
         foreach ($druhy as $druh) {
             $moznosti['druh'][] = $druh;
@@ -420,6 +433,10 @@ class DanovePriznanieController extends BaseController
 
         foreach ($predchadzajuce as $predchadzajuci) {
             $moznosti['predchadzajuci'][] = $predchadzajuci;
+        }
+
+        foreach ($suvisiace as $suvisiaci) {
+            $moznosti['suvisiace'][] = $suvisiaci;
         }
 
         return $this->createApiResponse($moznosti);
@@ -459,7 +476,10 @@ class DanovePriznanieController extends BaseController
         $zmenene = $repository->findZmeneneByHlavny($id);
         $povodne = $repository->findPovodneByHlavny($id);
 
-        $data = [];
+        $data = [
+            'zmenene' => array(),
+            'povodne' => array()
+        ];
 
 
         foreach ($zmenene as $zmeneny) {
@@ -486,7 +506,10 @@ class DanovePriznanieController extends BaseController
         $zmenene = $repository->findZmeneneByHlavny($id);
         $povodne = $repository->findPovodneByHlavny($id);
 
-        $data = [];
+        $data = [
+            'zmenene' => array(),
+            'povodne' => array()
+        ];
 
         foreach ($zmenene as $zmeneny) {
             $data['zmenene'][] = $this->createDokladVystupZApiModel($zmeneny);
@@ -556,10 +579,14 @@ class DanovePriznanieController extends BaseController
 
         $sumarizacia_s = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
             ->findByHlavny($id);
-        $sumarizacia_p = null;
+        $sumarizacia_p = null; // predchadzajuci (nadmerny odpocet)
+        $sumarizacia_w = null; // posledny podany (dodatocne priznanie)
 
         $predchadzajuci = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
             ->findPredchadzajuci($id);
+
+        $posledny = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
+            ->findPosledny($id);
 
         if ($predchadzajuci !== null) {
             $id_p = $predchadzajuci['predchadzajuci'];
@@ -567,9 +594,52 @@ class DanovePriznanieController extends BaseController
                 ->findByHlavny($id_p);
         }
 
+        if ($posledny !== null) {
+            $id_w = $posledny['posledny'];
+            $sumarizacia_w = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
+                ->findByHlavny($id_w);
+        }
+
         return $this->createApiResponse([
             'sucasny' => $sumarizacia_s,
-            'predchadzajuci' => $sumarizacia_p
+            'predchadzajuci' => $sumarizacia_p,
+            'posledny' => $sumarizacia_w
+        ]);
+    }
+
+    /**
+     * @Route("uct/dp/riadky/{id}", name="dp_riadky_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function getRiadkyAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $riadky_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Riadky');
+        $hlavny_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny');
+
+        $riadky_s = $riadky_repo->findByHlavny($id); // riadky dane - sucasny
+        $riadky_p = null; // predchadzajuci (nadmerny odpocet)
+        $riadky_w = null; // posledny podany (dodatocne priznanie)
+
+        $predchadzajuci = $hlavny_repo->findPredchadzajuci($id);
+        $posledny = $hlavny_repo->findPosledny($id);
+
+        if ($predchadzajuci !== null) {
+            $id_p = $predchadzajuci['predchadzajuci'];
+            $riadky_p = $riadky_repo->findByHlavny($id_p);
+        }
+
+        if ($posledny !== null) {
+            $id_w = $posledny['posledny'];
+            $riadky_w = $riadky_repo->findByHlavny($id_w);
+        }
+
+        return $this->createApiResponse([
+            'sucasny' => $riadky_s,
+            'predchadzajuci' => $riadky_p,
+            'posledny' => $riadky_w
         ]);
     }
 
@@ -796,6 +866,32 @@ class DanovePriznanieController extends BaseController
     }
 
     /**
+     * @Route("uct/dp/doklad/vstup/{id}", name="dp_doklad_vstup_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function deleteDokladVstupAction($id, Request $request)
+    {
+        return $this->markAsDeleted(
+            $id,
+            'AppBundle:Uctovnictvo\DP\Vstup'
+        );
+    }
+
+    /**
+     * @Route("uct/dp/doklad/vystup/{id}", name="dp_doklad_vystup_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function deleteDokladVystupAction($id, Request $request)
+    {
+        return $this->markAsDeleted(
+            $id,
+            'AppBundle:Uctovnictvo\DP\Vystup'
+        );
+    }
+
+    /**
      * @Route("uct/dp/xml/{id}", name="dp_export", options={"expose"=true})
      * @Method("GET")
      * @Security("has_role('ROLE_DP_UCT')")
@@ -808,6 +904,9 @@ class DanovePriznanieController extends BaseController
             ->find($id);
         // id predchadzajuceho danoveho priznania
         $id_p = $hlavny->getPredchadzajuci();
+        
+        // id posledneho podaneho danoveho priznania (v pripade dodatocneho)
+        $id_w = $hlavny->getPosledny();
 
         $sum = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia');
 
@@ -851,6 +950,8 @@ class DanovePriznanieController extends BaseController
         $r32 = null;
         $r33 = null;
         $r34 = 0;
+        $r37 = null;
+        $r38 = null;
 
         // Daňová povinnosť alebo nadmerný odpočet
         $x = $r19 - $r20 - $r21 + $r27 + $r28 - $r29 - $r30;
@@ -924,6 +1025,41 @@ class DanovePriznanieController extends BaseController
                 if ($r31 === 0) {
                     // r32 = r32 (??)
                 }
+            }
+        }
+
+        // posledné podané daňové priznanie (prípad dodatočného)
+        if ($id_w !== null) {
+
+            $r__2 = 0;
+            $r__4 = $this->checkArray($sum->findR3_4($id_w), 'd');
+            $r__6 = $this->checkArray($sum->findR5_6($id_w), 'd');
+            $r__8 = $this->checkArray($sum->findR7_8($id_w), 'd');
+            $r__10 = $this->checkArray($sum->findR9_10($id_w), 'd');
+            $r__12 = 0;
+            $r__14 = 0;
+            $r__18 = 0;
+            $r__20 = $this->checkArray($sum->findR20($id_w), 'd');
+            $r__21 = $this->checkArray($sum->findR21($id_w), 'd');
+            $r__27 = $this->checkArray($sum->findR26_27($id_w), 'd');
+            $r__28 = $this->checkArray($sum->findR28($id_w), 'd');
+            $r__29 = 0;
+            $r__30 = 0;
+
+            // DAŇ CELKOM (posledné podané)
+            $r__19 = $r__2 + $r__4 + $r__6 + $r__8 + $r__10 + $r__12 + $r__14 + $r__18;
+            $r__31 = null;
+            $r__32 = null;
+
+            // Daňová povinnosť alebo nadmerný odpočet ?? (posledné podané)
+            $w = $r__19 - $r__20 - $r__21 + $r__27 + $r__28 - $r__29 - $r__30;
+
+            // ak w > 0 (daňová povinnosť), tak r__31 = w a r__32 prázdny
+            if ($w >= 0) {
+                $r__31 = $w;
+
+                $r37 = $r31 - $r__31;
+                $r38 = $r37;
             }
         }
 
@@ -1009,13 +1145,13 @@ class DanovePriznanieController extends BaseController
             ."<r30>$r30</r30>\r\n"
             ."<r31>$r31</r31>\r\n"
             ."<splneniePodmienok>0</splneniePodmienok>\r\n"
-            ."<r32>$r32</r32>\r\n"
-            ."<r33>$r33</r33>\r\n"
+            ."<r32>".abs($r32)."</r32>\r\n"
+            ."<r33>".abs($r33)."</r33>\r\n"
             ."<r34>$r34</r34>\r\n"
             ."<r35></r35>\r\n"
             ."<r36></r36>\r\n"
-            ."<r37></r37>\r\n"
-            ."<r38></r38>\r\n"
+            ."<r37>$r37</r37>\r\n"
+            ."<r38>$r38</r38>\r\n"
             ."</telo>\r\n"
             ."</dokument>";
 

@@ -217,7 +217,7 @@ class Znamienka extends React.Component {
                     <td className="text-center">V3</td>
                     <td>DM, DN, DO, PP, ST</td>
                     <td className="text-center">343431</td>
-                    <td>Bez zmeny znamienka</td>
+                    <td className="font-weight-bold text-danger">Zmena znamienka</td>
                     <td className="text-center">343181</td>
                     <td className="font-weight-bold text-danger">Zmena znamienka</td>
                   </tr>

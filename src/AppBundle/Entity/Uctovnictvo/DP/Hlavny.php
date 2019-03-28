@@ -39,9 +39,9 @@ class Hlavny extends BaseEntity
     private $predchadzajuci;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="Posledny_ID")
      */
-    private $riadne_id;
+    private $posledny;
 
     /**
      *@ORM\Column(type="date")
@@ -84,12 +84,12 @@ class Hlavny extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getZmenene()
     {
-        return $this->getTimestampWithOffset($this->zmenene);
+        return $this->getTimestampWithoutOffset($this->zmenene);
     }
 
     public function setZmenene($zmenene)
@@ -117,14 +117,14 @@ class Hlavny extends BaseEntity
         $this->predchadzajuci = $predchadzajuci;
     }
 
-    public function getRiadneId()
+    public function getPosledny()
     {
-        return $this->riadne_id;
+        return $this->posledny;
     }
 
-    public function setRiadneId($riadne_id)
+    public function setPosledny($posledny)
     {
-        $this->riadne_id = $riadne_id;
+        $this->posledny = $posledny;
     }
 
     public function getObdobie()

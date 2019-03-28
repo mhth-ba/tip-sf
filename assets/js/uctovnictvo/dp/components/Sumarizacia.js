@@ -9,26 +9,27 @@ class Sumarizacia extends React.Component {
     super(props)
   }
 
-  findSuma_s(riadok, stlpec) {
-    const polozky = this.props.sumarizacia.polozky_s
-
-    return this.findSuma(riadok, stlpec, polozky)
-  }
-  
-  findSuma_p(riadok, stlpec) {
-    const polozky = this.props.sumarizacia.polozky_p
-    return this.findSuma(riadok, stlpec, polozky)
+  // S: sucasne danove priznanie
+  findSuma_s(riadok) {
+    const polozky = this.props.riadky.polozky_s
+    return this.findSuma(riadok, polozky)
   }
 
-  findSuma(riadok, stlpec, polozky) {
-    const item = polozky.find( x => x['riadok'] == riadok )
+  // P: predchadzajuce danove priznanie (pripad nadmerneho odpoctu)
+  findSuma_p(riadok) {
+    const polozky = this.props.riadky.polozky_p
+    return this.findSuma(riadok, polozky)
+  }
 
-    switch (stlpec) {
-      case 'z': stlpec = 'zaklad'; break;
-      case 'd': stlpec = 'dan'; break;
-    }
+  // W: posledne podane danove priznanie k tomuto zdanovaciemu obdobiu (pripad dodatocneho priznania)
+  findSuma_w(riadok) {
+    const polozky = this.props.riadky.polozky_w
+    return this.findSuma(riadok, polozky)
+  }
 
-    return item === undefined ? 0 : item[stlpec]
+  findSuma(riadok, polozky) {
+    const item = polozky.find( x => x['riadok'] === riadok )
+    return item === undefined ? 0 : item['suma']
   }
 
   render() {
@@ -37,35 +38,38 @@ class Sumarizacia extends React.Component {
     const hlavny = this.props.hlavny
 
     const r2 = 0;
-    const r3 = this.findSuma_s('3_4', 'z')
-    const r4 = this.findSuma_s('3_4', 'd')
-    const r5 = this.findSuma_s('5_6', 'z')
-    const r6 = this.findSuma_s('5_6', 'd')
-    const r7 = this.findSuma_s('7_8', 'z')
-    const r8 = this.findSuma_s('7_8', 'd')
-    const r9 = this.findSuma_s('9_10', 'z')
-    const r10 = this.findSuma_s('9_10', 'd')
-    const r11 = this.findSuma_s('11_12', 'z')
-    const r12 = this.findSuma_s('11_12', 'd')
+    const r3 = this.findSuma_s(3)
+    const r4 = this.findSuma_s(4)
+    const r5 = this.findSuma_s(5)
+    const r6 = this.findSuma_s(6)
+    const r7 = this.findSuma_s(7)
+    const r8 = this.findSuma_s(8)
+    const r9 = this.findSuma_s(9)
+    const r10 = this.findSuma_s(10)
+    const r11 = this.findSuma_s(11)
+    const r12 = this.findSuma_s(12)
     const r14 = 0
-    const r15 = this.findSuma_s('15', 'z')
+    const r15 = this.findSuma_s(15)
     const r18 = 0
     // DAŃ CELKOM
-    const r19 = r2 + r4 + r6 + r8 + r10 +r12 + r14 + r18
-    const r20 = this.findSuma_s('20', 'd')
-    const r21 = this.findSuma_s('21', 'd')
-    const r22 = this.findSuma_s('22', 'd')
-    const r23 = this.findSuma_s('23', 'd')
-    const r26 = this.findSuma_s('26_27', 'z')
-    const r27 = this.findSuma_s('26_27', 'd')
-    const r28 = this.findSuma_s('28', 'd')
+    const r19 = this.findSuma_s(19) // r2 + r4 + r6 + r8 + r10 +r12 + r14 + r18
+    const r20 = this.findSuma_s(20)
+    const r21 = this.findSuma_s(21)
+    const r22 = this.findSuma_s(22)
+    const r23 = this.findSuma_s(23)
+    const r26 = this.findSuma_s(26)
+    const r27 = this.findSuma_s(27)
+    const r28 = this.findSuma_s(28)
     const r29 = 0
     const r30 = 0
     let r31, r32, r33
     let r34 = 0
+    let r37, r38
+
+    let x, y, w
 
     // Daňová povinnosť alebo nadmerný odpočet
-    const x = r19 - r20 - r21 + r27 + r28 - r29 - r30
+    x = r19 - r20 - r21 + r27 + r28 - r29 - r30
 
     // ak x > 0 (daňová povinnosť), tak r31 = x a r32 prázdny
     if (x >= 0) {
@@ -84,26 +88,25 @@ class Sumarizacia extends React.Component {
     if (hlavny.predchadzajuci !== null) {
 
       const r_2 = 0;
-      const r_4 = this.findSuma_p('3_4', 'd')
-      const r_6 = this.findSuma_p('5_6', 'd')
-      const r_8 = this.findSuma_p('7_8', 'd')
-      const r_10 = this.findSuma_p('9_10', 'd')
+      const r_4 = this.findSuma_p(4)
+      const r_6 = this.findSuma_p(6)
+      const r_8 = this.findSuma_p(8)
+      const r_10 = this.findSuma_p(10)
       const r_12 = 0
       const r_14 = 0
       const r_18 = 0
-      const r_20 = this.findSuma_p('20', 'd')
-      const r_21 = this.findSuma_p('21', 'd')
-      const r_27 = this.findSuma_p('26_27', 'd')
-      const r_28 = this.findSuma_p('28', 'd')
+      // DAŃ CELKOM (predchádzajúci)
+      const r_19 = this.findSuma_p(19) // r_2 + r_4 + r_6 + r_8 + r_10 + r_12 + r_14 + r_18
+      const r_20 = this.findSuma_p(20)
+      const r_21 = this.findSuma_p(21)
+      const r_27 = this.findSuma_p(27)
+      const r_28 = this.findSuma_p(28)
       const r_29 = 0
       const r_30 = 0
-
-      // DAŃ CELKOM (predchádzajúci)
-      const r_19 = r_2 + r_4 + r_6 + r_8 + r_10 + r_12 + r_14 + r_18
       let r_31, r_32
 
       // Daňová povinnosť alebo nadmerný odpočet ??
-      const y = r_19 - r_20 - r_21 + r_27 + r_28 - r_29 - r_30
+      y = r_19 - r_20 - r_21 + r_27 + r_28 - r_29 - r_30
 
       // ak y > 0 (daňová povinnosť), tak r_31 = y a r_32 prázdny
       if (y >= 0) {
@@ -123,19 +126,50 @@ class Sumarizacia extends React.Component {
       // ak v predchádzajúcom daňovom priznaní je vyplnený r_32
       // čiže ak v predchádzajúcom daňovom priznaní je nadmerný odpočet, čiže ZÁPORNÉ ČÍSLO a NIE KLADNÉ
       if (r_32 < 0) {
-        // a zároveň :
+        // a zároveň platí, že :
 
-        // 1. je vyplnený r31, tak v súčasnom hlavnom zázname
+        // 1. je vyplnený r31 ( čiže v súčasnom daňovom priznaní vznikla daňová povinnosť )
+        // tak v súčasnom hlavnom zázname
         if (r31 > 0) {
           r33 = r_32
           r34 = r31 + r33
         }
 
-        // 2. nie je vyplnený r_31, tak v súčasnom hlavnom zázname
+        // 2. nie je vyplnený r31 ( čiže v súčasnom daňovom priznaní vznikol nadmerný odpočet )
+        // tak v súčasnom hlavnom zázname
         if (r31 === 0) {
            // r32 = r32 (??)
         }
       }
+    }
+
+    // Dodatočné daňové priznanie
+    if (hlavny.posledny !== null) {
+
+      // x = vysledok danoveho priznania sucasneho (prave teraz vypocitavaneho)
+      // y = vysledok danoveho priznania v predchadzajucom zdanovacom obdobi (predosly mesiac)
+      // w = vysledok danoveho priznania posledneho podaneho za toto zdanovacie obdobie (v pripade dodatocneho)
+
+      const r__19 = this.findSuma_w(19)
+      const r__20 = this.findSuma_w(20)
+      const r__21 = this.findSuma_w(21)
+      const r__27 = this.findSuma_w(27)
+      const r__28 = this.findSuma_w(28)
+      const r__29 = 0
+      const r__30 = 0
+      let r__31, r__32
+
+      // Daňová povinnosť alebo nadmerný odpočet ?? (posledné podané v tomto zdaňovacom období)
+      w = r__19 - r__20 - r__21 + r__27 + r__28 - r__29 - r__30
+
+      // ak w > 0 (daňová povinnosť), tak r__31 = w a r__32 prázdny
+      if (w >= 0) {
+        r__31 = w
+        r__32 = ''
+        r37 = r31 - r__31
+        r38 = r37
+      }
+
     }
 
     return (
@@ -734,14 +768,14 @@ class Sumarizacia extends React.Component {
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">37</td>
-                  <td></td>
+                  <td className="align-middle text-right font-weight-bold"><Suma v={r37} /></td>
                 </tr>
                 <tr>
                   <td>Údaje dodat. daň. priznania - Daň na úhradu (+ /-)</td>
                   <td>×</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">38</td>
-                  <td></td>
+                  <td className="align-middle text-right font-weight-bold"><Suma v={r38} /></td>
                 </tr>
                 </tbody>
               </Table>
@@ -755,7 +789,8 @@ class Sumarizacia extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   hlavny: state.hlavny,
-  sumarizacia: state.sumarizacia
+  sumarizacia: state.sumarizacia,
+  riadky: state.riadky
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
