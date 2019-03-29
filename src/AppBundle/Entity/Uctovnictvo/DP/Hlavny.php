@@ -51,6 +51,11 @@ class Hlavny extends BaseEntity
     /**
      * @ORM\Column(type="date")
      */
+    private $zistene;
+
+    /**
+     * @ORM\Column(type="date")
+     */
     private $podane;
 
     /**
@@ -135,6 +140,16 @@ class Hlavny extends BaseEntity
     public function setObdobie($obdobie)
     {
         $this->obdobie = $obdobie;
+    }
+
+    public function getZistene()
+    {
+        return $this->getTimestampWithOffset($this->zistene);
+    }
+
+    public function setZistene($zistene)
+    {
+        $this->zistene = $zistene;
     }
 
     public function getPodane()

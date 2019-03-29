@@ -14,8 +14,6 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment'
 moment.locale('sk')
 
-import { fetchMoznostiRequest } from '../actions'
-
 const RIEConfig = {
   classEditing: 'form-control',
   classInvalid: 'is-invalid',
@@ -30,6 +28,7 @@ class Hlavny extends React.Component {
     this.handleDruh = this.handleDruh.bind(this)
     this.handlePredchadzajuci = this.handlePredchadzajuci.bind(this)
     this.handlePosledny = this.handlePosledny.bind(this)
+    this.handleZistene = this.handleZistene.bind(this)
     this.handlePodane = this.handlePodane.bind(this)
   }
 
@@ -79,6 +78,24 @@ class Hlavny extends React.Component {
   }
 
   /**
+   * Dátum zistenia skutočnosti na podanie dodatočného daňového priznania
+   */
+  handleZistene(e) {
+    let zistene
+
+    // jediný spôsob, ako zistiť, či chceme dátum zmeniť alebo vymazať
+    zistene = typeof e.isValid === 'function' ? e.format('YYYY-MM-DD') : null
+    // e.unix()
+
+    const data = {
+      zistene,
+      id: this.props.hlavny.id
+    }
+
+    this.props.updateHlavnyRequest(data)
+  }
+
+  /**
    * Dátum podania daňového priznania
    */
   handlePodane(e) {
@@ -109,6 +126,7 @@ class Hlavny extends React.Component {
     const predchadzajuci = hlavny.predchadzajuci   // priznanie v predošlom zdaňovacom období
     const posledny = hlavny.posledny               // posledné podané priznanie v rovnakom zdaňovacom období
     const obdobie = hlavny.obdobie                 // zdaňovacie obdobie
+    const zistene = hlavny.zistene                 // dátum zistenia skutočnosti na podanie dodatočného
     const podane = hlavny.podane                   // dátum podania daňového priznania
 
     const vytvoril = hlavny.vytvoril
@@ -134,7 +152,6 @@ class Hlavny extends React.Component {
                 </tr>
                 <tr>
                   <th>Druh</th>
-                  {/*<td>{ druh ? druh.druh : null }</td>*/}
                   <td>
                     <Input type={'select'} disabled={hlavny.updating}
                            value={druh.id}
@@ -149,25 +166,50 @@ class Hlavny extends React.Component {
                   <th>Zdaňovacie obdobie</th>
                   <td>{ dateYearMonth(obdobie) }</td>
                 </tr>
-                <tr>
-                  <th>Priznanie v predchádzajúcom období<br/>
-                    <span className="small">Odpočítanie nadmerného odpočtu od vlastnej daňovej povinnosti</span>
-                  </th>
-                  <td>
-                    <Input type={'select'} disabled={hlavny.updating}
-                           value={predchadzajuci ? predchadzajuci : ''}
-                           onChange={ this.handlePredchadzajuci }>
-                      <option value="">-</option>
-                      { moznosti.predchadzajuci && moznosti.predchadzajuci.map(
-                        (polozka, x) =>
-                          <option key={x} value={polozka.id}>
-                            {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh}
-                          </option>
-                      ) }
-                    </Input>
-                  </td>
-                </tr>
-                { druh.id === 3 &&
+                { druh.id !== 3 && // iba v prípade riadneho a lebo opravného daňového priznania
+                  <tr>
+                    <th>Priznanie v predchádzajúcom období<br/>
+                      <span className="small">Odpočítanie nadmerného odpočtu od vlastnej daňovej povinnosti</span>
+                    </th>
+                    <td>
+                      <Input type={'select'} disabled={hlavny.updating}
+                             value={predchadzajuci ? predchadzajuci : ''}
+                             onChange={this.handlePredchadzajuci}>
+                        <option value="">-</option>
+                        {moznosti.predchadzajuci && moznosti.predchadzajuci.map(
+                          (polozka, x) =>
+                            <option key={x} value={polozka.id}>
+                              {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh}
+                            </option>
+                        )}
+                      </Input>
+                    </td>
+                  </tr>
+                }
+                { druh.id === 3 && // iba ak ide o dodatočné daňové priznanie
+                  <tr>
+                    <th>Dátum zistenia skutočnosti<br/>
+                      <span className="small">Na podanie dodatočného daňového priznania</span>
+                    </th>
+                    <td>
+                      <Form inline>
+                        <FormGroup>
+                          <DatePicker
+                            selected={zistene ? moment(zistene * 1000) : null}
+                            onChange={this.handleZistene}
+                            disabled={updating}
+                            className="form-control datum"
+                          />
+                          &nbsp;
+                          <Button size={'sm'} onClick={this.handleZistene} disabled={updating}>
+                            <FontAwesome name={'times'}/>
+                          </Button>
+                        </FormGroup>
+                      </Form>
+                    </td>
+                  </tr>
+                }
+                { druh.id === 3 && // iba ak ide o dodatočné daňové priznanie
                   <tr>
                     <th>Posledné podané priznanie<br/>
                       <span className="small">Prepojenie kvôli riadkom 37 a 38</span>
@@ -276,7 +318,6 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchMoznosti: (e) => dispatch(fetchMoznostiRequest(e)),
   updateHlavnyRequest: (e) => dispatch(updateHlavnyRequest(e))
 })
 

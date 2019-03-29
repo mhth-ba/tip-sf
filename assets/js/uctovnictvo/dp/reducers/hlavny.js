@@ -8,6 +8,7 @@ const initState = {
   predchadzajuci: null, // priznanie v predošlom období na zohľadnenie nadmerného odpočtu
   posledny: null,  // v prípade dodatočného ID posledného podaného priznania
   obdobie: null, // zdaňovacie obdobie
+  zistene: null, // dátum zistenia skutočnosti na podanie dodatočného daňového priznania
   podane: null,  // dátum podania daňového priznania
 
   vytvoril: {

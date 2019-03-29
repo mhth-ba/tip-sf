@@ -7,7 +7,8 @@ use Doctrine\ORM\Query\ResultSetMapping;
 
 class HlavnyRepository extends EntityRepository
 {
-    public function getZoznam()
+    // hlavné záznamy
+    public function getPolozky()
     {
         return $this->createQueryBuilder('h')
             ->addOrderBy('h.obdobie', 'desc')
@@ -17,8 +18,8 @@ class HlavnyRepository extends EntityRepository
             ->execute();
     }
 
-    // NADMERNY ODPOCET
-    // predchadzajuce zdanovacie obdobie
+    // NADMERNÝ ODPOČET
+    // predchádzajúce zdaňovacie obdobie
     public function getPredchadzajuce($id)
     {
         $rsm = new ResultSetMapping();
@@ -44,8 +45,8 @@ class HlavnyRepository extends EntityRepository
         return $query->getResult();
     }
 
-    // DODATOCNE priznanie
-    // rovnake zdanovacie obdobie
+    // DODATOČNÉ priznanie
+    // rovnaké zdaňovacie obdobie
     public function getSuvisiace($id)
     {
         $rsm = new ResultSetMapping();

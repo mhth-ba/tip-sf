@@ -5,7 +5,7 @@ import {
   Input, InputGroup, InputGroupAddon, InputGroupText,
   Button
 } from 'reactstrap'
-import { dateYearMonth } from '../../../utils/format'
+import { dateYearMonth, dateSmall } from '../../../utils/format'
 import FontAwesome from 'react-fontawesome'
 
 import {
@@ -57,6 +57,9 @@ class VyberPolozky extends React.Component {
     const vyberpolozky = this.props.vyberpolozky
     const hlavny = this.props.hlavny
 
+    // select distinct "obdobie" (t.j. rok/mesiac) from array "polozky"
+    const obdobia = [...new Set(vyberpolozky.polozky.map( x => x.obdobie ))]
+
     return (
       <div>
         <Card style={{ width: '430px' }}>
@@ -68,14 +71,22 @@ class VyberPolozky extends React.Component {
                   <InputGroupText>Obdobie</InputGroupText>
                 </InputGroupAddon>
                 <Input type={'select'} onChange={ this.handleChange } disabled={hlavny.loading} >
+
                   { vyberpolozky.loading && <option>- Načítavanie položiek -</option> }
                   <option value={'-'}>- Vyberte položku -</option>
-                  { vyberpolozky.polozky.map(
-                    (polozka, ix) =>
-                      <option key={ix} value={polozka.id}>
-                        {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh}
-                      </option>
+
+                  { obdobia.map(
+                    (obdobie, ix) =>
+                      <optgroup key={ix} label={dateYearMonth(obdobie)}>
+                        { vyberpolozky.polozky.filter( x => x.obdobie === obdobie ).map(
+                          (polozka, idx) =>
+                            <option key={idx} value={polozka.id}>
+                              {polozka.druh.druh} { polozka.podane && dateSmall(polozka.podane) }
+                            </option>
+                        )}
+                      </optgroup>
                   )}
+
                 </Input>
                 {/*{ vyberpolozky.loading &&
               <InputGroupAddon addonType={'append'}>

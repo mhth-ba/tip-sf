@@ -306,11 +306,12 @@ class DanovePriznanieController extends BaseController
      */
     public function getZoznamAction()
     {
-        $zoznam = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
-            ->getZoznam();
+        $em = $this->getDoctrine()->getManager();
+        $hlavny_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny');
 
-        return $this->createApiResponse($zoznam);
+        $polozky = $hlavny_repo->getPolozky();
+
+        return $this->createApiResponse($polozky);
     }
 
     /**
@@ -385,6 +386,7 @@ class DanovePriznanieController extends BaseController
         $model->predchadzajuci = $hlavny->getPredchadzajuci();
         $model->posledny = $hlavny->getPosledny();
         $model->obdobie = $hlavny->getObdobie();
+        $model->zistene = $hlavny->getZistene();
         $model->podane = $hlavny->getPodane();
         $model->vytvoril = $hlavny->getVytvoril();
         $model->upravil = $hlavny->getUpravil();
@@ -796,12 +798,24 @@ class DanovePriznanieController extends BaseController
         $hlavny->setUpravil($upravil);
         $hlavny->setZmenene(new \DateTime());
 
+        // Datetime data handling
         $data = json_decode($request->getContent(), true);
+
+        // Dátum podania daňového priznania
         if (array_key_exists('podane', $data)) {
             if ($data['podane'] !== null) {
                 $hlavny->setPodane(new \DateTime($data['podane']));
             } else {
                 $hlavny->setPodane(null);
+            }
+        }
+
+        // Dátum zistenia skutočnosti na podanie dodatočného daňového priznania
+        if (array_key_exists('zistene', $data)) {
+            if ($data['zistene'] !== null) {
+                $hlavny->setZistene(new \DateTime($data['zistene']));
+            } else {
+                $hlavny->setZistene(null);
             }
         }
 
@@ -910,17 +924,49 @@ class DanovePriznanieController extends BaseController
 
         $sum = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia');
 
+        // druh danoveho priznania (riadne, opravne, dodatocne)
+        $rdp = 0;
+        $odp = 0;
+        $ddp = 0;
+        switch ($hlavny->getDruh()->getId()) {
+            case 1:
+                $rdp = 1;
+                $odp = 0;
+                $ddp = 0;
+                break;
+            case 2:
+                $rdp = 0;
+                $odp = 1;
+                $ddp = 0;
+                break;
+            case 3:
+                $rdp = 0;
+                $odp = 0;
+                $ddp = 1;
+                break;
+        }
+
+        $obdobie = \DateTime::createFromFormat('U', $hlavny->getObdobie());
+        $datumZistenia = \DateTime::createFromFormat('U', $hlavny->getZistene());
+
+        $mesiac = $obdobie->format('m');
+        $rok = $obdobie->format('Y');
+
         $icdph = 2020285245;
         $urad = 'pre vybrané daňové subjekty';
         $nazov = 'Bratislavská teplárenská, a.s.';
         $ulica = 'Turbínová';
         $cislo = 3;
         $psc = 82905;
-        $obec = 'Bratislava';
-        $telefon = '025737184';
+        $obec = 'Bratislava - Nové Mesto';
+        $telefon = '0257372184';
         $email = 'dejovaa@batas.sk';
 
-        $datum = date('d.m.Y');
+        // dátum zistenia skutočnosti na podanie dodatočného daňového priznania
+        $datumZistenia = $datumZistenia->format('d.m.Y');
+
+        // dávam dnešný, ale mohol by byť dátum "podania daňového priznania"
+        $datumVyhlasenia = date('d.m.Y');
 
         $r2 = 0;
         $r3 = $this->checkArray($sum->findR3_4($id), 'z');
@@ -1076,10 +1122,10 @@ class DanovePriznanieController extends BaseController
             ."<danovyUrad>$urad</danovyUrad>\r\n"
             ."<nevzniklaPov>0</nevzniklaPov>\r\n"
             ."<typDP>\r\n"
-            ."<rdp>1</rdp>\r\n"
-            ."<odp>0</odp>\r\n"
-            ."<ddp>0</ddp>\r\n"
-            ."<datumZisteniaDdp></datumZisteniaDdp>\r\n"
+            ."<rdp>$rdp</rdp>\r\n"
+            ."<odp>$odp</odp>\r\n"
+            ."<ddp>$ddp</ddp>\r\n"
+            ."<datumZisteniaDdp>$datumZistenia</datumZisteniaDdp>\r\n"
             ."</typDP>\r\n"
             ."<osoba>\r\n"
             ."<platitel>1</platitel>\r\n"
@@ -1090,9 +1136,9 @@ class DanovePriznanieController extends BaseController
             ."<zastupca69aa>0</zastupca69aa>\r\n"
             ."</osoba>\r\n"
             ."<zdanObd>\r\n"
-            ."<mesiac></mesiac>\r\n"
+            ."<mesiac>$mesiac</mesiac>\r\n"
             ."<stvrtrok></stvrtrok>\r\n"
-            ."<rok></rok>\r\n"
+            ."<rok>$rok</rok>\r\n"
             ."</zdanObd>\r\n"
             ."<meno>\r\n"
             ."<riadok>$nazov</riadok>\r\n"
@@ -1110,7 +1156,7 @@ class DanovePriznanieController extends BaseController
             ."<telefon></telefon>\r\n"
             ."<email></email>\r\n"
             ."</opravnenaOsoba>\r\n"
-            ."<datumVyhlasenia>$datum</datumVyhlasenia>\r\n"
+            ."<datumVyhlasenia>$datumVyhlasenia</datumVyhlasenia>\r\n"
             ."</hlavicka>\r\n"
             ."<telo>\r\n"
             ."<r01></r01>\r\n"

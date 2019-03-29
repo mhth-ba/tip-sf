@@ -20,6 +20,8 @@ class HlavnyApiModel extends DefaultApiModel
 
     public $obdobie;
 
+    public $zistene;
+
     public $podane;
 
     public $vytvoril;
