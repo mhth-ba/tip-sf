@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Api\Uctovnictvo\DP\DokladApiModel;
 use AppBundle\Api\Uctovnictvo\DP\HlavnyApiModel;
+use AppBundle\Api\Uctovnictvo\DP\RiadkyApiModel;
 use AppBundle\Doctrine\Types\DateTime;
 use AppBundle\Entity\Uctovnictvo\DP\Hlavny;
 use AppBundle\Entity\Uctovnictvo\DP\Upload;
@@ -571,78 +572,36 @@ class DanovePriznanieController extends BaseController
     }
 
     /**
-     * @Route("uct/dp/sumarizacia/{id}", name="dp_sumarizacia_get", options={"expose"=true})
-     * @Method("GET")
-     * @Security("has_role('ROLE_DP_UCT')")
-     */
-    public function getSumarizaciaAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $sumarizacia_s = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
-            ->findByHlavny($id);
-        $sumarizacia_p = null; // predchadzajuci (nadmerny odpocet)
-        $sumarizacia_w = null; // posledny podany (dodatocne priznanie)
-
-        $predchadzajuci = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
-            ->findPredchadzajuci($id);
-
-        $posledny = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
-            ->findPosledny($id);
-
-        if ($predchadzajuci !== null) {
-            $id_p = $predchadzajuci['predchadzajuci'];
-            $sumarizacia_p = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
-                ->findByHlavny($id_p);
-        }
-
-        if ($posledny !== null) {
-            $id_w = $posledny['posledny'];
-            $sumarizacia_w = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia')
-                ->findByHlavny($id_w);
-        }
-
-        return $this->createApiResponse([
-            'sucasny' => $sumarizacia_s,
-            'predchadzajuci' => $sumarizacia_p,
-            'posledny' => $sumarizacia_w
-        ]);
-    }
-
-    /**
      * @Route("uct/dp/riadky/{id}", name="dp_riadky_get", options={"expose"=true})
      * @Method("GET")
      * @Security("has_role('ROLE_DP_UCT')")
      */
     public function getRiadkyAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $sql = "EXECUTE [Uctovnictvo].[DP_Vysledok] @ID = ?";
+        $sqlParams = array($id);
+        $conn = $this->getDoctrine()->getConnection();
+        $polozky = $conn->execProcedureWithResultSet($sql, $sqlParams);
 
-        $riadky_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Riadky');
-        $hlavny_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny');
-
-        $riadky_s = $riadky_repo->findByHlavny($id); // riadky dane - sucasny
-        $riadky_p = null; // predchadzajuci (nadmerny odpocet)
-        $riadky_w = null; // posledny podany (dodatocne priznanie)
-
-        $predchadzajuci = $hlavny_repo->findPredchadzajuci($id);
-        $posledny = $hlavny_repo->findPosledny($id);
-
-        if ($predchadzajuci !== null) {
-            $id_p = $predchadzajuci['predchadzajuci'];
-            $riadky_p = $riadky_repo->findByHlavny($id_p);
-        }
-
-        if ($posledny !== null) {
-            $id_w = $posledny['posledny'];
-            $riadky_w = $riadky_repo->findByHlavny($id_w);
+        $riadky = [];
+        foreach ($polozky[0] as $riadok) {
+            $riadky[] = $this->createRiadkyApiModel($riadok);
         }
 
         return $this->createApiResponse([
-            'sucasny' => $riadky_s,
-            'predchadzajuci' => $riadky_p,
-            'posledny' => $riadky_w
+            'riadky' => $riadky,
         ]);
+    }
+
+    private function createRiadkyApiModel($riadok)
+    {
+        $model = new RiadkyApiModel();
+
+        $model->id = $riadok['ID'];
+        $model->riadok = $riadok['Riadok'];
+        $model->suma = $riadok['Suma'];
+
+        return $model;
     }
 
     /**
@@ -916,13 +875,6 @@ class DanovePriznanieController extends BaseController
 
         $hlavny = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
             ->find($id);
-        // id predchadzajuceho danoveho priznania
-        $id_p = $hlavny->getPredchadzajuci();
-        
-        // id posledneho podaneho danoveho priznania (v pripade dodatocneho)
-        $id_w = $hlavny->getPosledny();
-
-        $sum = $em->getRepository('AppBundle:Uctovnictvo\DP\Sumarizacia');
 
         // druh danoveho priznania (riadne, opravne, dodatocne)
         $rdp = 0;
@@ -963,151 +915,48 @@ class DanovePriznanieController extends BaseController
         $email = 'dejovaa@batas.sk';
 
         // dátum zistenia skutočnosti na podanie dodatočného daňového priznania
-        $datumZistenia = $datumZistenia->format('d.m.Y');
+        if ($datumZistenia) {
+            $datumZistenia = $datumZistenia->format('d.m.Y');
+        }
 
         // dávam dnešný, ale mohol by byť dátum "podania daňového priznania"
         $datumVyhlasenia = date('d.m.Y');
 
-        $r2 = 0;
-        $r3 = $this->checkArray($sum->findR3_4($id), 'z');
-        $r4 = $this->checkArray($sum->findR3_4($id), 'd');
-        $r5 = $this->checkArray($sum->findR5_6($id), 'z');
-        $r6 = $this->checkArray($sum->findR5_6($id), 'd');
-        $r7 = $this->checkArray($sum->findR7_8($id), 'z');
-        $r8 = $this->checkArray($sum->findR7_8($id), 'd');
-        $r9 = $this->checkArray($sum->findR9_10($id), 'z');
-        $r10 = $this->checkArray($sum->findR9_10($id), 'd');
-        $r11 = $this->checkArray($sum->findR11_12($id), 'z');
-        $r12 = $this->checkArray($sum->findR11_12($id), 'd');
-        $r14 = 0;
-        $r15 = $this->checkArray($sum->findR15($id), 'z');
-        $r18 = 0;
-        $r19 = $r2 + $r4 + $r6 + $r8 + $r10 + $r12 + $r14 + $r18;
-        $r20 = $this->checkArray($sum->findR20($id), 'd');
-        $r21 = $this->checkArray($sum->findR21($id), 'd');
-        $r22 = $this->checkArray($sum->findR22($id), 'd');
-        $r23 = $this->checkArray($sum->findR23($id), 'd');
-        $r26 = $this->checkArray($sum->findR26_27($id), 'z');
-        $r27 = $this->checkArray($sum->findR26_27($id), 'd');
-        $r28 = $this->checkArray($sum->findR28($id), 'd');
-        $r29 = 0;
-        $r30 = 0;
-        $r31 = null;
-        $r32 = null;
-        $r33 = null;
-        $r34 = 0;
-        $r37 = null;
-        $r38 = null;
+        $sql = "EXECUTE [Uctovnictvo].[DP_Vysledok] @ID = ?";
+        $sqlParams = array($id);
+        $conn = $this->getDoctrine()->getConnection();
+        $polozky = $conn->execProcedureWithResultSet($sql, $sqlParams);
 
-        // Daňová povinnosť alebo nadmerný odpočet
-        $x = $r19 - $r20 - $r21 + $r27 + $r28 - $r29 - $r30;
-
-        // ak x > 0 (daňová povinnosť), tak r31 = x a r32 prázdny
-        if ($x >= 0) {
-            $r31 = $x;
-            $r32 = '';
-            $r33 = '';
-            $r34 = $r31;
-        } // ak x < 0 (nadmerný odpočet), tak r32 = x a r31 = 0
-        else if ($x < 0) {
-            $r31 = 0;
-            $r32 = $x;
-            $r33 = '';
+        $riadky = [];
+        foreach ($polozky[0] as $riadok) {
+            $riadky[] = $this->createRiadkyApiModel($riadok);
         }
 
-        // ak v predchádzajúcom zdaňovacom období bol nadmerný odpočet
-        if ($id_p !== null) {
-
-            $r_2 = 0;
-            $r_4 = $this->checkArray($sum->findR3_4($id_p), 'd');
-            $r_6 = $this->checkArray($sum->findR5_6($id_p), 'd');
-            $r_8 = $this->checkArray($sum->findR7_8($id_p), 'd');
-            $r_10 = $this->checkArray($sum->findR9_10($id_p), 'd');
-            $r_12 = 0;
-            $r_14 = 0;
-            $r_18 = 0;
-            $r_20 = $this->checkArray($sum->findR20($id_p), 'd');
-            $r_21 = $this->checkArray($sum->findR21($id_p), 'd');
-            $r_27 = $this->checkArray($sum->findR26_27($id_p), 'd');
-            $r_28 = $this->checkArray($sum->findR28($id_p), 'd');
-            $r_29 = 0;
-            $r_30 = 0;
-
-            // DAŇ CELKOM (predchádzajúci)
-            $r_19 = $r_2 + $r_4 + $r_6 + $r_8 + $r_10 + $r_12 + $r_14 + $r_18;
-            $r_31 = null;
-            $r_32 = null;
-
-            // Daňová povinnosť alebo nadmerný odpočet ??
-            $y = $r_19 - $r_20 - $r_21 + $r_27 + $r_28 - $r_29 - $r_30;
-
-            // ak y > 0 (daňová povinnosť), tak r_31 = y a r_32 prázdny
-            if ($y >= 0) {
-                $r_31 = $y;
-            } // ak r_31 < 0 (nadmerný odpočet), tak r_32 = y a r_31 = 0
-            else if ($y < 0) {
-                $r_31 = 0;
-                $r_32 = $y;
-
-                // ak je nadmerný odpočet v predchádzajúcom období väčší ako
-                // daňová povinnosť v aktuálnom zdaňovacom období
-                if ($r_32 * (-1) > $r31) {
-                    $r_32 = $r31 * (-1);
-                }
-            }
-
-            // ak v predchádzajúcom daňovom priznaní je vyplnený r_32
-            // čiže ak v predchádzajúcom daňovom priznaní je nadmerný odpočet, čiže ZÁPORNÉ ČÍSLO a NIE KLADNÉ
-            if ($r_32 < 0) {
-                // a zároveň:
-
-                // 1. je vyplnený r31, tak v súčasnom hlavnom zázname
-                if ($r31 > 0) {
-                    $r33 = $r_32;
-                    $r34 = $r31 + $r33;
-                }
-
-                // 2. nie je vyplnený r_31, tak v súčasnom hlavnom zázname
-                if ($r31 === 0) {
-                    // r32 = r32 (??)
-                }
-            }
-        }
-
-        // posledné podané daňové priznanie (prípad dodatočného)
-        if ($id_w !== null) {
-
-            $r__2 = 0;
-            $r__4 = $this->checkArray($sum->findR3_4($id_w), 'd');
-            $r__6 = $this->checkArray($sum->findR5_6($id_w), 'd');
-            $r__8 = $this->checkArray($sum->findR7_8($id_w), 'd');
-            $r__10 = $this->checkArray($sum->findR9_10($id_w), 'd');
-            $r__12 = 0;
-            $r__14 = 0;
-            $r__18 = 0;
-            $r__20 = $this->checkArray($sum->findR20($id_w), 'd');
-            $r__21 = $this->checkArray($sum->findR21($id_w), 'd');
-            $r__27 = $this->checkArray($sum->findR26_27($id_w), 'd');
-            $r__28 = $this->checkArray($sum->findR28($id_w), 'd');
-            $r__29 = 0;
-            $r__30 = 0;
-
-            // DAŇ CELKOM (posledné podané)
-            $r__19 = $r__2 + $r__4 + $r__6 + $r__8 + $r__10 + $r__12 + $r__14 + $r__18;
-            $r__31 = null;
-            $r__32 = null;
-
-            // Daňová povinnosť alebo nadmerný odpočet ?? (posledné podané)
-            $w = $r__19 - $r__20 - $r__21 + $r__27 + $r__28 - $r__29 - $r__30;
-
-            // ak w > 0 (daňová povinnosť), tak r__31 = w a r__32 prázdny
-            if ($w >= 0) {
-                $r__31 = $w;
-
-                $r37 = $r31 - $r__31;
-                $r38 = $r37;
-            }
-        }
+        $r3 = $this->checkArray($riadky,3);
+        $r4 = $this->checkArray($riadky,4);
+        $r5 = $this->checkArray($riadky,5);
+        $r6 = $this->checkArray($riadky,6);
+        $r7 = $this->checkArray($riadky,7);
+        $r8 = $this->checkArray($riadky,8);
+        $r9 = $this->checkArray($riadky,9);
+        $r10 = $this->checkArray($riadky,10);
+        $r11 = $this->checkArray($riadky,11);
+        $r12 = $this->checkArray($riadky,12);
+        $r15 = $this->checkArray($riadky,15);
+        $r19 = $this->checkArray($riadky,19);
+        $r20 = $this->checkArray($riadky,20);
+        $r21 = $this->checkArray($riadky,21);
+        $r22 = $this->checkArray($riadky,22);
+        $r23 = $this->checkArray($riadky,23);
+        $r26 = $this->checkArray($riadky,26);
+        $r27 = $this->checkArray($riadky,27);
+        $r28 = $this->checkArray($riadky,28);
+        $r31 = $this->checkArray($riadky,31);
+        $r32 = $this->checkArray($riadky,32);
+        $r33 = $this->checkArray($riadky,33);
+        $r34 = $this->checkArray($riadky,34);
+        $r37 = $this->checkArray($riadky,37);
+        $r38 = $this->checkArray($riadky,38);
 
         $filename =  'DPH form.391.xml';
 
@@ -1160,7 +1009,7 @@ class DanovePriznanieController extends BaseController
             ."</hlavicka>\r\n"
             ."<telo>\r\n"
             ."<r01></r01>\r\n"
-            ."<r02>$r2</r02>\r\n"
+            ."<r02></r02>\r\n"
             ."<r03>$r3</r03>\r\n"
             ."<r04>$r4</r04>\r\n"
             ."<r05>$r5</r05>\r\n"
@@ -1172,11 +1021,11 @@ class DanovePriznanieController extends BaseController
             ."<r11>$r11</r11>\r\n"
             ."<r12>$r12</r12>\r\n"
             ."<r13></r13>\r\n"
-            ."<r14>$r14</r14>\r\n"
+            ."<r14></r14>\r\n"
             ."<r15>$r15</r15>\r\n"
             ."<r16></r16>\r\n"
             ."<r17></r17>\r\n"
-            ."<r18>$r18</r18>\r\n"
+            ."<r18></r18>\r\n"
             ."<r19>$r19</r19>\r\n"
             ."<r20>$r20</r20>\r\n"
             ."<r21>$r21</r21>\r\n"
@@ -1187,8 +1036,8 @@ class DanovePriznanieController extends BaseController
             ."<r26>$r26</r26>\r\n"
             ."<r27>$r27</r27>\r\n"
             ."<r28>$r28</r28>\r\n"
-            ."<r29>$r29</r29>\r\n"
-            ."<r30>$r30</r30>\r\n"
+            ."<r29></r29>\r\n"
+            ."<r30></r30>\r\n"
             ."<r31>$r31</r31>\r\n"
             ."<splneniePodmienok>0</splneniePodmienok>\r\n"
             ."<r32>".abs($r32)."</r32>\r\n"
@@ -1213,13 +1062,15 @@ class DanovePriznanieController extends BaseController
         return $response;
     }
 
-    private function checkArray($array, $stlpec)
+    private function checkArray($data, $riadok)
     {
-        switch ($stlpec) {
-            case 'z': $stlpec = 'zaklad'; break;
-            case 'd': $stlpec = 'dan'; break;
-        }
+        $search = array_filter(
+            $data,
+            function ($e) use ($riadok) {
+                return $e->riadok == $riadok;
+            }
+        );
 
-        return array_key_exists(0, $array) ? $array[0][$stlpec] : 0;
+        return current($search)->suma;
     }
 }

@@ -11,7 +11,6 @@ import hlavny from './hlavny'
 import znakydane from './znakydane'
 import vstup from './vstup'
 import vystup from './vystup'
-import sumarizacia from './sumarizacia'
 import riadky from './riadky'
 
 import pridatdoklad from './pridatdoklad'
@@ -30,7 +29,6 @@ export default combineReducers({
   znakydane,
   vstup,
   vystup,
-  sumarizacia,
   riadky,
 
   pridatdoklad,

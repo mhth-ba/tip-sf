@@ -11,7 +11,6 @@ import {
   fetchZnakyDane,
   fetchVstup,
   fetchVystup,
-  fetchSumarizacia,
   fetchRiadky,
 
   createHlavny,
@@ -34,7 +33,6 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_ZNAKY_DANE_REQUEST, fetchZnakyDane),
     takeLatest(TYPES.FETCH_VSTUP_REQUEST, fetchVstup),
     takeLatest(TYPES.FETCH_VYSTUP_REQUEST, fetchVystup),
-    takeLatest(TYPES.FETCH_SUMARIZACIA_REQUEST, fetchSumarizacia),
     takeLatest(TYPES.FETCH_RIADKY_REQUEST, fetchRiadky),
 
     takeLatest(TYPES.CREATE_HLAVNY_REQUEST, createHlavny),

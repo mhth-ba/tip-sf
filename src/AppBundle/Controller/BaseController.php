@@ -131,6 +131,42 @@ class BaseController extends Controller
     }
 
     /**
+     * Marks entry as deleted in SQL database on column Vymazal_ID
+     *
+     * @param $id
+     * @param string $className Fully-qualified classname without a leading backslash
+     *
+     * @return JsonResponse \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    protected function markAsDeleted($id, $className)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entry = $em->getRepository($className)->find($id);
+
+        if (!$entry) {
+            throw $this->createNotFoundException(sprintf(
+                'Záznam s id %s sa nenašiel',
+                $id
+            ));
+        }
+
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+
+        $entry->setVymazal($user);
+
+        $em->persist($entry);
+        $em->flush();
+
+        $metadata = $em->getClassMetadata($className);
+        $this->logMarkAsDeletedActivity($metadata, $id);
+
+        return $this->createApiResponse(null, 204);
+    }
+
+    /**
      * Performs delete of entry in SQL database
      *
      * @param $id
@@ -223,6 +259,26 @@ class BaseController extends Controller
                 $log->setValue($val);
             }
         }
+
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+        $log->setUser($user);
+
+        $em->persist($log);
+        $em->flush();
+    }
+
+    protected function logMarkAsDeletedActivity($metadata, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $log = new ActivityLog();
+
+        $log->setSchema($metadata->getSchemaName());
+        $log->setTable($metadata->getTableName());
+        $log->setRow($id);
+        $log->setValue('MARK DELETED ENTRY');
 
         $userId = $this->getUser()->getId();
         $user = $em->getRepository('AppBundle:App\User')

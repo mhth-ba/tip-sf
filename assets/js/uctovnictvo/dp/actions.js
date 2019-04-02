@@ -49,11 +49,6 @@ export const fetchVystupRequest = (id) => ({
   id
 })
 
-export const fetchSumarizaciaRequest = (id) => ({
-  type: TYPES.FETCH_SUMARIZACIA_REQUEST,
-  id
-})
-
 export const fetchRiadkyRequest = (id) => ({
   type: TYPES.FETCH_RIADKY_REQUEST,
   id
@@ -142,10 +137,8 @@ export function* loadMainEntry(action) {
 
     yield put(fetchAktivitaRequest(id))
     yield put(fetchMoznostiRequest(id))
-    //yield put(fetchZnakyDaneRequest())
     yield put(fetchVstupRequest(id))
     yield put(fetchVystupRequest(id))
-    //yield put(fetchSumarizaciaRequest(id))
     yield put(fetchRiadkyRequest(id))
 
   } catch (e) {
@@ -209,21 +202,6 @@ export function* fetchVystup(action) {
 
   } catch (e) {
     yield put({type: TYPES.FETCH_VYSTUP_ERROR, data: e})
-    console.error(e)
-  }
-}
-
-export function* fetchSumarizacia(action) {
-  const url = Routing.generate('dp_sumarizacia_get')
-  const id = action.id
-
-  try {
-    const udaje = yield call(Api.fetch, `${url}/${id}`)
-
-    yield put({type: TYPES.FETCH_SUMARIZACIA_SUCCESS, data: udaje})
-
-  } catch (e) {
-    yield put({type: TYPES.FETCH_SUMARIZACIA_ERROR, data: e})
     console.error(e)
   }
 }

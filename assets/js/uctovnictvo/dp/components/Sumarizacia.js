@@ -9,168 +9,46 @@ class Sumarizacia extends React.Component {
     super(props)
   }
 
-  // S: sucasne danove priznanie
-  findSuma_s(riadok) {
-    const polozky = this.props.riadky.polozky_s
-    return this.findSuma(riadok, polozky)
-  }
-
-  // P: predchadzajuce danove priznanie (pripad nadmerneho odpoctu)
-  findSuma_p(riadok) {
-    const polozky = this.props.riadky.polozky_p
-    return this.findSuma(riadok, polozky)
-  }
-
-  // W: posledne podane danove priznanie k tomuto zdanovaciemu obdobiu (pripad dodatocneho priznania)
-  findSuma_w(riadok) {
-    const polozky = this.props.riadky.polozky_w
-    return this.findSuma(riadok, polozky)
-  }
-
-  findSuma(riadok, polozky) {
+  findSuma(riadok) {
+    const polozky = this.props.riadky.riadky
     const item = polozky.find( x => x['riadok'] === riadok )
-    return item === undefined ? 0 : item['suma']
+
+    if (item === undefined || item['suma'] === null) {
+      return 0
+    } else {
+      return item['suma']
+    }
   }
 
   render() {
 
     const init = this.props.hlavny.initialized
-    const hlavny = this.props.hlavny
 
-    const r2 = 0;
-    const r3 = this.findSuma_s(3)
-    const r4 = this.findSuma_s(4)
-    const r5 = this.findSuma_s(5)
-    const r6 = this.findSuma_s(6)
-    const r7 = this.findSuma_s(7)
-    const r8 = this.findSuma_s(8)
-    const r9 = this.findSuma_s(9)
-    const r10 = this.findSuma_s(10)
-    const r11 = this.findSuma_s(11)
-    const r12 = this.findSuma_s(12)
-    const r14 = 0
-    const r15 = this.findSuma_s(15)
-    const r18 = 0
-    // DAŃ CELKOM
-    const r19 = this.findSuma_s(19) // r2 + r4 + r6 + r8 + r10 +r12 + r14 + r18
-    const r20 = this.findSuma_s(20)
-    const r21 = this.findSuma_s(21)
-    const r22 = this.findSuma_s(22)
-    const r23 = this.findSuma_s(23)
-    const r26 = this.findSuma_s(26)
-    const r27 = this.findSuma_s(27)
-    const r28 = this.findSuma_s(28)
-    const r29 = 0
-    const r30 = 0
-    let r31, r32, r33
-    let r34 = 0
-    let r37, r38
-
-    let x, y, w
-
-    // Daňová povinnosť alebo nadmerný odpočet
-    x = r19 - r20 - r21 + r27 + r28 - r29 - r30
-
-    // ak x > 0 (daňová povinnosť), tak r31 = x a r32 prázdny
-    if (x >= 0) {
-      r31 = x
-      r32 = ''
-      r33 = ''
-      r34 = r31
-    } // ak x < 0 (nadmerný odpočet), tak r32 = x a r31 = 0
-    else if (x < 0) {
-      r31 = 0
-      r32 = x
-      r33 = ''
-    }
-
-    // ak v predchádzajúcom zdaňovacom období bol nadmerný odpočet
-    if (hlavny.predchadzajuci !== null) {
-
-      const r_2 = 0;
-      const r_4 = this.findSuma_p(4)
-      const r_6 = this.findSuma_p(6)
-      const r_8 = this.findSuma_p(8)
-      const r_10 = this.findSuma_p(10)
-      const r_12 = 0
-      const r_14 = 0
-      const r_18 = 0
-      // DAŃ CELKOM (predchádzajúci)
-      const r_19 = this.findSuma_p(19) // r_2 + r_4 + r_6 + r_8 + r_10 + r_12 + r_14 + r_18
-      const r_20 = this.findSuma_p(20)
-      const r_21 = this.findSuma_p(21)
-      const r_27 = this.findSuma_p(27)
-      const r_28 = this.findSuma_p(28)
-      const r_29 = 0
-      const r_30 = 0
-      let r_31, r_32
-
-      // Daňová povinnosť alebo nadmerný odpočet ??
-      y = r_19 - r_20 - r_21 + r_27 + r_28 - r_29 - r_30
-
-      // ak y > 0 (daňová povinnosť), tak r_31 = y a r_32 prázdny
-      if (y >= 0) {
-        r_31 = y
-      } // ak r_31 < 0 (nadmerný odpočet), tak r_32 = y a r_31 = 0
-      else if (y < 0) {
-        r_31 = 0
-        r_32 = y
-
-        // ak je nadmerný odpočet v predchádzajúcom období väčší ako
-        // daňová povinnosť v aktuálnom zdaňovacom období
-        if (r_32 * (-1) > r31) {
-          r_32 = r31 * (-1)
-        }
-      }
-
-      // ak v predchádzajúcom daňovom priznaní je vyplnený r_32
-      // čiže ak v predchádzajúcom daňovom priznaní je nadmerný odpočet, čiže ZÁPORNÉ ČÍSLO a NIE KLADNÉ
-      if (r_32 < 0) {
-        // a zároveň platí, že :
-
-        // 1. je vyplnený r31 ( čiže v súčasnom daňovom priznaní vznikla daňová povinnosť )
-        // tak v súčasnom hlavnom zázname
-        if (r31 > 0) {
-          r33 = r_32
-          r34 = r31 + r33
-        }
-
-        // 2. nie je vyplnený r31 ( čiže v súčasnom daňovom priznaní vznikol nadmerný odpočet )
-        // tak v súčasnom hlavnom zázname
-        if (r31 === 0) {
-           // r32 = r32 (??)
-        }
-      }
-    }
-
-    // Dodatočné daňové priznanie
-    if (hlavny.posledny !== null) {
-
-      // x = vysledok danoveho priznania sucasneho (prave teraz vypocitavaneho)
-      // y = vysledok danoveho priznania v predchadzajucom zdanovacom obdobi (predosly mesiac)
-      // w = vysledok danoveho priznania posledneho podaneho za toto zdanovacie obdobie (v pripade dodatocneho)
-
-      const r__19 = this.findSuma_w(19)
-      const r__20 = this.findSuma_w(20)
-      const r__21 = this.findSuma_w(21)
-      const r__27 = this.findSuma_w(27)
-      const r__28 = this.findSuma_w(28)
-      const r__29 = 0
-      const r__30 = 0
-      let r__31, r__32
-
-      // Daňová povinnosť alebo nadmerný odpočet ?? (posledné podané v tomto zdaňovacom období)
-      w = r__19 - r__20 - r__21 + r__27 + r__28 - r__29 - r__30
-
-      // ak w > 0 (daňová povinnosť), tak r__31 = w a r__32 prázdny
-      if (w >= 0) {
-        r__31 = w
-        r__32 = ''
-        r37 = r31 - r__31
-        r38 = r37
-      }
-
-    }
+    const r3 = this.findSuma(3)
+    const r4 = this.findSuma(4)
+    const r5 = this.findSuma(5)
+    const r6 = this.findSuma(6)
+    const r7 = this.findSuma(7)
+    const r8 = this.findSuma(8)
+    const r9 = this.findSuma(9)
+    const r10 = this.findSuma(10)
+    const r11 = this.findSuma(11)
+    const r12 = this.findSuma(12)
+    const r15 = this.findSuma(15)
+    const r19 = this.findSuma(19)
+    const r20 = this.findSuma(20)
+    const r21 = this.findSuma(21)
+    const r22 = this.findSuma(22)
+    const r23 = this.findSuma(23)
+    const r26 = this.findSuma(26)
+    const r27 = this.findSuma(27)
+    const r28 = this.findSuma(28)
+    const r31 = this.findSuma(31)
+    const r32 = this.findSuma(32)
+    const r33 = this.findSuma(33)
+    const r34 = this.findSuma(34)
+    const r37 = this.findSuma(37)
+    const r38 = this.findSuma(38)
 
     return (
       <div>
@@ -180,7 +58,7 @@ class Sumarizacia extends React.Component {
               Sumarizácia a popis tlačiva
             </CardHeader>
             <CardBody>
-              <Table bordered>
+              <Table bordered size={'sm'}>
                 <thead>
                 <tr>
                   <th>Popis položky</th>
@@ -328,7 +206,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-danger font-weight-bold">13</td>
                   <td>{''}</td>
                   <td className="text-danger font-weight-bold">14</td>
-                  <td className="text-right font-weight-bold"><Suma v={r14} /></td>
+                  <td className="text-right font-weight-bold"></td>
                 </tr>
                 <tr>
                   <td>
@@ -340,8 +218,7 @@ class Sumarizacia extends React.Component {
                   </td>
                   <td className="text-danger font-weight-bold">15</td>
                   <td className="text-right font-weight-bold"><Suma v={r15} /></td>
-                  <td>×</td>
-                  <td>{''}</td>
+                  <td colSpan={2}></td>
                   <td>{''}</td>
                   <td>1G</td>
                   <td>ID, OO, OD, OT, ST</td>
@@ -354,8 +231,6 @@ class Sumarizacia extends React.Component {
                   </td>
                   <td className="text-danger font-weight-bold">16</td>
                   <td>{''}</td>
-                  <td>×</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
@@ -364,41 +239,33 @@ class Sumarizacia extends React.Component {
                   </td>
                   <td className="text-danger font-weight-bold">17</td>
                   <td>{''}</td>
-                  <td>×</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
-                  <td>
+                  <td colSpan={3}>
                     Daňová povinnosť pri zrušení registrácie podľa § 81 <br/>
                     <span className="text-primary">
                       (suma dane prislúchajúca k zostatkovej cene majetku a zásob pri zrušení registrácie platiteľa DPH)
                     </span>
                   </td>
-                  <td>×</td>
-                  <td>{''}</td>
                   <td className="text-danger font-weight-bold">18</td>
-                  <td className="text-right font-weight-bold"><Suma v={r18} /></td>
+                  <td className="text-right font-weight-bold"></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
-                  <td>
+                  <td colSpan={3}>
                     <strong>Daň celkom</strong> <br/>
                     <span className="text-primary">(súčet riadku 2, 4, 6, 8, 10, 12, 14 a 18)</span>
                   </td>
-                  <td>×</td>
-                  <td>{''}</td>
                   <td className="text-danger font-weight-bold">19</td>
                   <td className="text-right font-weight-bold"><Suma v={r19} /></td>
                 </tr>
                 <tr>
-                  <td rowSpan={5} className="align-middle">
+                  <td rowSpan={5} colSpan={3} className="align-middle">
                     <strong>Odpočítanie dane celkom</strong> - 10% sadzba DPH <br/>
                     <span className="text-primary">
                       (tuzemsko, samozdanenie, vysporiadanie koeficientu, úprava odpočítanej DPH pri zmene
                       rozsahu použitia investič. majetku)
                     </span>
                   </td>
-                  <td rowSpan={5} className="align-middle">×</td>
-                  <td rowSpan={5} className="align-middle">{''}</td>
                   <td rowSpan={5} className="align-middle text-danger font-weight-bold">20</td>
                   <td rowSpan={5} className="align-middle text-right font-weight-bold"><Suma v={r20} /></td>
                   <td>343310</td>
@@ -431,15 +298,13 @@ class Sumarizacia extends React.Component {
                   <td>Vstup</td>
                 </tr>
                 <tr>
-                  <td rowSpan={11} className="align-middle">
+                  <td rowSpan={11} colSpan={3} className="align-middle">
                     <strong>Odpočítanie dane celkom</strong> - 20% sadzba DPH <br/>
                     <span className="text-primary">
                       (tuzemsko, samozdanenie, vysporiadanie koeficientu, úprava odpočítanej DPH pri zmene
                       rozsahu použitia investič. majetku)
                     </span>
                   </td>
-                  <td rowSpan={11} className="align-middle">×</td>
-                  <td rowSpan={11} className="align-middle">{''}</td>
                   <td rowSpan={11} className="align-middle text-danger font-weight-bold">21</td>
                   <td rowSpan={11} className="align-middle text-right font-weight-bold"><Suma v={r21} /></td>
                   <td>343431</td>
@@ -508,12 +373,10 @@ class Sumarizacia extends React.Component {
                   <td>Vstup</td>
                 </tr>
                 <tr>
-                  <td rowSpan={3} className="align-middle">
+                  <td rowSpan={3} colSpan={3} className="align-middle">
                     z toho § 51 ods.1 písm.a ) - 10% sadzba DPH <br/>
                     <span className="text-primary">(tuzemsko)</span>
                   </td>
-                  <td rowSpan={3} className="align-middle">×</td>
-                  <td rowSpan={3} className="align-middle">{''}</td>
                   <td rowSpan={3} className="align-middle text-danger font-weight-bold">22</td>
                   <td rowSpan={3} className="align-middle text-right font-weight-bold"><Suma v={r22} /></td>
                   <td>343310</td>
@@ -534,12 +397,10 @@ class Sumarizacia extends React.Component {
                   <td>Vstup</td>
                 </tr>
                 <tr>
-                  <td rowSpan={6} className="align-middle">
+                  <td rowSpan={6} colSpan={3} className="align-middle">
                     z toho § 51 ods.1 písm.a ) - 20% sadzba DPH <br/>
                     <span className="text-primary">(tuzemsko)</span>
                   </td>
-                  <td rowSpan={6} className="align-middle">×</td>
-                  <td rowSpan={6} className="align-middle">{''}</td>
                   <td rowSpan={6} className="align-middle text-danger font-weight-bold">23</td>
                   <td rowSpan={6} className="align-middle text-right font-weight-bold"><Suma v={r23} /></td>
                   <td>343431</td>
@@ -578,22 +439,18 @@ class Sumarizacia extends React.Component {
                   <td>Vstup</td>
                 </tr>
                 <tr>
-                  <td>
+                  <td colSpan={3}>
                     z toho § 51 ods.1 písm.d) - 10% sadzba DPH<br/>
                     <span className="text-primary">(DPH zaplatená v tuzemsku pri dovoze tovaru)</span>
                   </td>
-                  <td>×</td>
-                  <td>{''}</td>
                   <td className="text-danger font-weight-bold">24</td>
                   <td></td>
                 </tr>
                 <tr>
-                  <td>
+                  <td colSpan={3}>
                     z toho § 51 ods.1 písm.d) - 20% sadzba DPH<br/>
                     <span className="text-primary">(DPH zaplatená v tuzemsku pri dovoze tovaru)</span>
                   </td>
-                  <td>×</td>
-                  <td>{''}</td>
                   <td className="text-danger font-weight-bold">25</td>
                   <td></td>
                 </tr>
@@ -630,12 +487,10 @@ class Sumarizacia extends React.Component {
                   <td>Výstup</td>
                 </tr>
                 <tr>
-                  <td rowSpan={6} className="align-middle">
+                  <td rowSpan={6} colSpan={3} className="align-middle">
                     Oprava odpočítanej dane - § 53 <br/>
                     <span className="text-primary">(D, Ť na vstupe)</span>
                   </td>
-                  <td rowSpan={6} className="align-middle">×</td>
-                  <td rowSpan={6} className="align-middle">{''}</td>
                   <td rowSpan={6} className="align-middle text-danger font-weight-bold">28</td>
                   <td rowSpan={6} className="align-middle text-right font-weight-bold"><Suma v={r28} /></td>
                   <td>343441</td>
@@ -674,63 +529,51 @@ class Sumarizacia extends React.Component {
                   <td>Vstup</td>
                 </tr>
                 <tr>
-                  <td>
+                  <td colSpan={3}>
                     Odpočítanie dane pri registrácii - § 55 <br/>
                     <span className="text-primary">(odpočet DPH z tovarov a služieb nadobudnutých pred registráciou)</span>
                   </td>
-                  <td>×</td>
-                  <td>{''}</td>
                   <td className="text-danger font-weight-bold">29</td>
                   <td></td>
                 </tr>
                 <tr>
-                  <td>Vrátenie dane cestujúcim pri vývoze tovaru - § 60</td>
-                  <td>×</td>
-                  <td>{''}</td>
+                  <td colSpan={3}>Vrátenie dane cestujúcim pri vývoze tovaru - § 60</td>
                   <td className="text-danger font-weight-bold">30</td>
                   <td></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
-                  <td>
+                  <td colSpan={3}>
                     <strong>Vlastná daňová povinnosť</strong> <br/>
                     <span className="text-primary">(kladný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span><br/>
                     <span className="text-primary">(r. 19 - r. 20 - r. 21 + r. 27 + r. 28 - r. 29 - r. 30)</span>
                   </td>
-                  <td className="align-middle">×</td>
-                  <td>{''}</td>
                   <td className="align-middle text-danger font-weight-bold">31</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r31} /></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
-                  <td>
+                  <td colSpan={3}>
                     <strong>Nadmerný odpočet</strong> <br/>
                     <span className="text-primary">(záporný rozdiel medzi výstupnou DPH a odpočitateľnou DPH)</span><br/>
                     <span className="text-primary">(r. 19 - r. 20 - r. 21 + r. 27 + r. 28 - r. 29 - r. 30)</span>
                   </td>
-                  <td className="align-middle">×</td>
-                  <td>{''}</td>
                   <td className="align-middle text-danger font-weight-bold">32</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r32} /></td>
                 </tr>
                 <tr>
-                  <td>
+                  <td colSpan={3}>
                     Nadmerný odpočet odpočítaný od daňovej povinnosti <br/>
                     <span className="text-primary">
                       (NO za predchádzajúce zdaň. obd., ktorý sa odpočítava z daň. povinnosti v r. 32)
                     </span>
                   </td>
-                  <td className="align-middle">×</td>
-                  <td>{''}</td>
                   <td className="align-middle text-danger font-weight-bold">33</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r33} /></td>
                 </tr>
                 <tr style={{ backgroundColor: '#feffe5' }}>
-                  <td>
+                  <td colSpan={3}>
                     <strong>Vlastná daňová povinnosť na úhradu</strong> <br/>
                     <span className="text-primary">(r. 31 - r. 33)</span>
                   </td>
-                  <td className="align-middle">×</td>
-                  <td>{''}</td>
                   <td className="align-middle text-danger font-weight-bold">34</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r34} /></td>
                 </tr>
@@ -744,36 +587,28 @@ class Sumarizacia extends React.Component {
                   </td>
                   <td className="align-middle text-danger font-weight-bold">35</td>
                   <td></td>
-                  <td className="align-middle">×</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
                   <td>
                     Dodanie tovaru prvým odberateľom <br/>
                     <span className="text-primary">
-                      (základ dane za tovary dodané v prvým odberateľom druhému odberateľovi v čl. štáte
+                      (základ dane za tovary dodané prvým odberateľom druhému odberateľovi v čl. štáte
                       druhého odberateľa pri trojstrannom obchode)
                     </span>
                   </td>
                   <td className="align-middle text-danger font-weight-bold">36</td>
                   <td></td>
-                  <td className="align-middle">×</td>
-                  <td>{''}</td>
                 </tr>
                 <tr>
-                  <td>
+                  <td colSpan={3}>
                     Údaje dodat. daň. priznania - Rozdiel oproti poslednej známej vlastnej daň. povinnosti
                     alebo nadmer. odpočtu
                   </td>
-                  <td>×</td>
-                  <td>{''}</td>
                   <td className="text-danger font-weight-bold">37</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r37} /></td>
                 </tr>
                 <tr>
-                  <td>Údaje dodat. daň. priznania - Daň na úhradu (+ /-)</td>
-                  <td>×</td>
-                  <td>{''}</td>
+                  <td colSpan={3}>Údaje dodat. daň. priznania - Daň na úhradu (+ /-)</td>
                   <td className="text-danger font-weight-bold">38</td>
                   <td className="align-middle text-right font-weight-bold"><Suma v={r38} /></td>
                 </tr>
