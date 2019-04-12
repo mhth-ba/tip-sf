@@ -58,7 +58,7 @@ class Sumarizacia extends React.Component {
               Sumarizácia a popis tlačiva
             </CardHeader>
             <CardBody>
-              <Table bordered size={'sm'}>
+              <Table bordered hover size={'sm'}>
                 <thead>
                 <tr>
                   <th>Popis položky</th>
@@ -102,19 +102,19 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={3} className="align-middle text-right font-weight-bold"><Suma v={r4} /></td>
                   <td>343121</td>
                   <td>3B</td>
-                  <td>OB, OY, ST</td>
+                  <td>OB, OY, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
                   <td>343191</td>
                   <td>3D</td>
-                  <td>OO, OZ, ID, ST</td>
+                  <td>OO, OZ, ID, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
                   <td>343181</td>
                   <td>3V</td>
-                  <td>DI, DJ, DK, PP, ST</td>
+                  <td>DI, DJ, DK, PP, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -128,7 +128,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-right font-weight-bold"><Suma v={r6} /></td>
                   <td>343180</td>
                   <td>LK, KL</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -142,7 +142,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-right font-weight-bold"><Suma v={r8} /></td>
                   <td>343151</td>
                   <td>XS, XP</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -160,25 +160,25 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={4} className="align-middle text-right font-weight-bold"><Suma v={r10} /></td>
                   <td>343161</td>
                   <td>XU, XL</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
                   <td>343871</td>
                   <td>DA</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
                   <td>343151</td>
                   <td>XX, XY</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
                   <td>343180</td>
                   <td>XE, XF</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -195,7 +195,7 @@ class Sumarizacia extends React.Component {
                   <td className="text-right font-weight-bold"><Suma v={r12} /></td>
                   <td>343161</td>
                   <td>XA, XB</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -221,7 +221,7 @@ class Sumarizacia extends React.Component {
                   <td colSpan={2}></td>
                   <td>{''}</td>
                   <td>1G</td>
-                  <td>ID, OO, OD, OT, ST</td>
+                  <td>ID, OO, OD, OT, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -270,31 +270,31 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={5} className="align-middle text-right font-weight-bold"><Suma v={r20} /></td>
                   <td>343310</td>
                   <td>HD</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343340</td>
                   <td>HK</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343740</td>
                   <td>LK, XE</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343290</td>
                   <td>KL, XF</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>{''}</td>
                   <td>KF, KP</td>
-                  <td>ID, ST</td>
+                  <td>ID, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
@@ -309,67 +309,67 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={11} className="align-middle text-right font-weight-bold"><Suma v={r21} /></td>
                   <td>343431</td>
                   <td>3V</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343870</td>
                   <td>DA</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343761</td>
                   <td>XU, XA</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343771</td>
                   <td>XL, XB</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343431</td>
                   <td>XK</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343411</td>
                   <td>XD</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343741</td>
                   <td>XS, XY</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343751</td>
                   <td>XP, XX</td>
-                  <td>DI, DJ, DK, ST</td>
+                  <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343250</td>
                   <td>QD, QK</td>
-                  <td>{''}</td>
+                  <td>RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343431</td>
                   <td>KX</td>
-                  <td>ID, ST</td>
+                  <td>ID, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>{''}</td>
                   <td>KF, KP</td>
-                  <td>{''}</td>
+                  <td>RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
@@ -381,19 +381,19 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={3} className="align-middle text-right font-weight-bold"><Suma v={r22} /></td>
                   <td>343310</td>
                   <td>HD</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343340</td>
                   <td>HK</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>{''}</td>
                   <td>KF, KP</td>
-                  <td>ID, ST</td>
+                  <td>ID, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
@@ -405,37 +405,37 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={6} className="align-middle text-right font-weight-bold"><Suma v={r23} /></td>
                   <td>343431</td>
                   <td>XK</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343411</td>
                   <td>XD</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343431</td>
                   <td>3V</td>
-                  <td>DI, DJ, DK, DV, PP, ST</td>
+                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343250</td>
                   <td>QD, QK</td>
-                  <td>{''}</td>
+                  <td>RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343431</td>
                   <td>KX</td>
-                  <td>ID, ST</td>
+                  <td>ID, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>{''}</td>
                   <td>KF, KP</td>
-                  <td>{''}</td>
+                  <td>RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
@@ -465,25 +465,25 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={4} className="align-middle text-right font-weight-bold"><Suma v={r27} /></td>
                   <td>343121</td>
                   <td>3H</td>
-                  <td>OB, MF, OT, OD, ST</td>
+                  <td>OB, MF, OT, OD, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
                   <td>343191</td>
                   <td>3K</td>
-                  <td>OT, OD, ST</td>
+                  <td>OT, OD, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
                   <td>343871</td>
                   <td>DR</td>
-                  <td>DM, DN, DO, DR, DS, DT, ST</td>
+                  <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
                   <td>343181</td>
                   <td>V3</td>
-                  <td>PP, DI, DJ, DK, DM, DN, DO, DR, DS, DT, ST</td>
+                  <td>PP, DI, DJ, DK, DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Výstup</td>
                 </tr>
                 <tr>
@@ -495,37 +495,37 @@ class Sumarizacia extends React.Component {
                   <td rowSpan={6} className="align-middle text-right font-weight-bold"><Suma v={r28} /></td>
                   <td>343441</td>
                   <td>XG</td>
-                  <td>DM, DN, DO, DR, DS, DT, DJ, ST</td>
+                  <td>DM, DN, DO, DR, DS, DT, DJ, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343451</td>
                   <td>XH</td>
-                  <td>DM, DN, DO, DR, DS, DT, ST</td>
+                  <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343270</td>
                   <td>DF</td>
-                  <td>DM, DN, DO, DR, DS, DT, ST</td>
+                  <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343280</td>
                   <td>DC</td>
-                  <td>DM, DN, DO, DR, DS, DT, ST</td>
+                  <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343870</td>
                   <td>DR</td>
-                  <td>DM, DN, DO, DR, DS, DT, ST</td>
+                  <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>
                   <td>343431</td>
                   <td>V3</td>
-                  <td>PP, DI, DJ, DK, DM, DN, DO, DR, DS, DT, ST</td>
+                  <td>PP, DI, DJ, DK, DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
                 </tr>
                 <tr>

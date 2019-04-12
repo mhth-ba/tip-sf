@@ -9,6 +9,7 @@ import {
   loadMainEntry,
   fetchMoznosti,
   fetchZnakyDane,
+  fetchDruhyDokladu,
   fetchVstup,
   fetchVystup,
   fetchRiadky,
@@ -31,12 +32,13 @@ function* mySaga() {
     takeLatest(TYPES.LOAD_MAIN_ENTRY_REQUEST, loadMainEntry),
     takeLatest(TYPES.FETCH_MOZNOSTI_REQUEST, fetchMoznosti),
     takeLatest(TYPES.FETCH_ZNAKY_DANE_REQUEST, fetchZnakyDane),
+    takeLatest(TYPES.FETCH_DRUHY_DOKLADU_REQUEST, fetchDruhyDokladu),
     takeLatest(TYPES.FETCH_VSTUP_REQUEST, fetchVstup),
     takeLatest(TYPES.FETCH_VYSTUP_REQUEST, fetchVystup),
     takeLatest(TYPES.FETCH_RIADKY_REQUEST, fetchRiadky),
 
     takeLatest(TYPES.CREATE_HLAVNY_REQUEST, createHlavny),
-    takeLatest(TYPES.CREATE_DOKLAD_REQUEST, createDoklad),
+    takeEvery(TYPES.CREATE_DOKLAD_REQUEST, createDoklad),
 
     takeEvery(TYPES.UPDATE_HLAVNY_REQUEST, updateHlavny),
     takeEvery(TYPES.UPDATE_DOKLAD_REQUEST, updateDoklad),

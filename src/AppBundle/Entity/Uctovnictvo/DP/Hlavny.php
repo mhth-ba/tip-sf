@@ -29,7 +29,7 @@ class Hlavny extends BaseEntity
     private $zmenene;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Uctovnictvo\DP\Druh")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Uctovnictvo\DP\DruhPriznania")
      */
     private $druh;
 

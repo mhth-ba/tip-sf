@@ -142,16 +142,21 @@ class Hlavny extends React.Component {
       <div>
         { init &&
           <Card>
-            <CardHeader className="text-white bg-secondary">Karta hlavných údajov</CardHeader>
+            <CardHeader className="text-white bg-secondary">
+              Karta hlavných údajov
+              <span className="pull-right">ID: {id}</span>
+            </CardHeader>
             <CardBody>
               <Table>
                 <tbody>
-                <tr>
-                  <th>ID</th>
-                  <td>{ id }</td>
+                <tr className="bg-yellow">
+                  <th>Zdaňovacie obdobie</th>
+                  <td>
+                    <span className="text-primary font-weight-bold">{ dateYearMonth(obdobie) }</span>
+                  </td>
                 </tr>
                 <tr>
-                  <th>Druh</th>
+                  <th>Druh priznania</th>
                   <td>
                     <Input type={'select'} disabled={hlavny.updating}
                            value={druh.id}
@@ -161,10 +166,6 @@ class Hlavny extends React.Component {
                       ) }
                     </Input>
                   </td>
-                </tr>
-                <tr>
-                  <th>Zdaňovacie obdobie</th>
-                  <td>{ dateYearMonth(obdobie) }</td>
                 </tr>
                 { druh.id !== 3 && // iba v prípade riadneho a lebo opravného daňového priznania
                   <tr>
@@ -179,7 +180,7 @@ class Hlavny extends React.Component {
                         {moznosti.predchadzajuci && moznosti.predchadzajuci.map(
                           (polozka, x) =>
                             <option key={x} value={polozka.id}>
-                              {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh}
+                              {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh} | Podané {dateSmall(polozka.podane)}
                             </option>
                         )}
                       </Input>

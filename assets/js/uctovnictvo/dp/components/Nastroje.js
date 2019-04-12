@@ -12,7 +12,8 @@ class Nastroje extends React.Component {
       collapseDoklad: false,
       collapseImport: false,
       collapsePrilohy: false,
-      collapseAktivita: true
+      collapseAktivita: false,
+      collapseNacitat: true
     }
 
     this.collapseVytvorit = this.collapseVytvorit.bind(this)
@@ -20,6 +21,7 @@ class Nastroje extends React.Component {
     this.collapseImport = this.collapseImport.bind(this)
     this.collapsePrilohy = this.collapsePrilohy.bind(this)
     this.collapseAktivita = this.collapseAktivita.bind(this)
+    this.collapseNacitat = this.collapseNacitat.bind(this)
   }
 
   collapseVytvorit() {
@@ -28,7 +30,8 @@ class Nastroje extends React.Component {
       collapseDoklad: false,
       collapseImport: false,
       collapsePrilohy: false,
-      collapseAktivita: false
+      collapseAktivita: false,
+      collapseNacitat: false
     })
   }
 
@@ -38,7 +41,8 @@ class Nastroje extends React.Component {
       collapseDoklad: !this.state.collapseDoklad,
       collapseImport: false,
       collapsePrilohy: false,
-      collapseAktivita: false
+      collapseAktivita: false,
+      collapseNacitat: false
     })
   }
 
@@ -48,7 +52,8 @@ class Nastroje extends React.Component {
       collapseDoklad: false,
       collapseImport: !this.state.collapseImport,
       collapsePrilohy: false,
-      collapseAktivita: false
+      collapseAktivita: false,
+      collapseNacitat: false
     })
   }
 
@@ -58,7 +63,8 @@ class Nastroje extends React.Component {
       collapseDoklad: false,
       collapseImport: false,
       collapsePrilohy: !this.state.collapsePrilohy,
-      collapseAktivita: false
+      collapseAktivita: false,
+      collapseNacitat: false
     })
   }
 
@@ -68,7 +74,19 @@ class Nastroje extends React.Component {
       collapseDoklad: false,
       collapseImport: false,
       collapsePrilohy: false,
-      collapseAktivita: !this.state.collapseAktivita
+      collapseAktivita: !this.state.collapseAktivita,
+      collapseNacitat: false
+    })
+  }
+
+  collapseNacitat() {
+    this.setState({
+      collapseVytvorit: false,
+      collapseDoklad: false,
+      collapseImport: false,
+      collapsePrilohy: false,
+      collapseAktivita: false,
+      collapseNacitat: !this.state.collapseNacitat
     })
   }
 
@@ -83,12 +101,12 @@ class Nastroje extends React.Component {
           <Button color={'success'} onClick={this.collapseVytvorit}>
             <FontAwesome name={'plus-circle'} />
             &nbsp;&nbsp;
-            Vytvoriť nový záznam
+            Vytvoriť daňové priznanie
           </Button>
           &nbsp;
           { init &&
             <span>
-              <Button color={'success'} onClick={this.collapseDoklad}>
+              <Button color={'primary'} onClick={this.collapseDoklad}>
                 <FontAwesome name={'plus-circle'} />
                 &nbsp;&nbsp;
                 Pridať doklad
@@ -113,6 +131,12 @@ class Nastroje extends React.Component {
             &nbsp;&nbsp;
             Aktivita
           </Button>
+          &nbsp;
+          <Button color={'secondary'} onClick={this.collapseNacitat}>
+            <FontAwesome name={'folder-o'} />
+            &nbsp;&nbsp;
+            Načítať
+          </Button>
         </div>
 
         <br/>
@@ -132,6 +156,9 @@ class Nastroje extends React.Component {
           </Collapse>
           <Collapse isOpen={this.state.collapseAktivita}>
             {this.props.aktivita}
+          </Collapse>
+          <Collapse isOpen={this.state.collapseNacitat}>
+            {this.props.nacitat}
           </Collapse>
         </div>
       </div>

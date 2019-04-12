@@ -30,14 +30,13 @@ class App extends React.Component {
         <Notification/>
         <Row>
           <Col md={7}>
-            <VyberPolozky/>
-            <br/>
             <Nastroje
               vytvorit={<VytvoritHlavny/>}
               doklad={<PridatDoklad/>}
               import={<Import/>}
               prilohy={<Prilohy/>}
               aktivita={<Aktivita/>}
+              nacitat={<VyberPolozky/>}
             />
           </Col>
           <Col md={5}>

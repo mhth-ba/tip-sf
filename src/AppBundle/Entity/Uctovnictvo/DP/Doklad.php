@@ -6,10 +6,10 @@ use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Uctovnictvo\DP\DruhRepository")
- * @ORM\Table(name="_RefDruh", schema="Uctovnictvo")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Uctovnictvo\DP\DokladRepository")
+ * @ORM\Table(name="_RefDoklad", schema="Uctovnictvo")
  */
-class Druh extends BaseEntity
+class Doklad extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -22,6 +22,11 @@ class Druh extends BaseEntity
      */
     private $druh;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $popis;
+
     public function getId()
     {
         return $this->id;
@@ -30,5 +35,10 @@ class Druh extends BaseEntity
     public function getDruh()
     {
         return $this->druh;
+    }
+
+    public function getPopis()
+    {
+        return $this->popis;
     }
 }

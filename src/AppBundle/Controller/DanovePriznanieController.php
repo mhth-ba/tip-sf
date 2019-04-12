@@ -415,7 +415,7 @@ class DanovePriznanieController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $druhy = $em->getRepository('AppBundle:Uctovnictvo\DP\Druh')
+        $druhy = $em->getRepository('AppBundle:Uctovnictvo\DP\DruhPriznania')
             ->getDruhy();
 
         $predchadzajuce = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
@@ -463,6 +463,60 @@ class DanovePriznanieController extends BaseController
         return $this->createApiResponse([
             'vstup' => $vstup,
             'vystup' => $vystup
+        ]);
+    }
+
+    /**
+     * @Route("uct/dp/druhy-dokladu", name="dp_druhy-dokladu_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_DP_UCT')")
+     */
+    public function getDruhyDokladuAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $druh_dokladu_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\DruhDokladu');
+        $popis_dokladu_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Doklad');
+
+        $znaky = $druh_dokladu_repo->getZnaky();
+        $druhy = $druh_dokladu_repo->getDruhy();
+        $popisy = $popis_dokladu_repo->getPopisyDokladov();
+
+        $zoznam = [];
+
+        foreach ($znaky as $znak) {
+
+            $zn = $znak['znak'];
+
+            // _RefDruhDokladu
+            $result_dd = array_filter(
+                $druhy,
+                function ($e) use ($zn) {
+                    return $zn == $e->getZnak();
+                }
+            );
+
+            // _RefDoklad
+            foreach ($result_dd as $res) {
+
+                $druh = $res->getDruh();
+
+                $popis = array_reduce(
+                    $popisy,
+                    function ($carry, $item) use ($druh) {
+                        return $item->getDruh() == $druh ? $item : $carry;
+                    }
+                );
+
+                $zoznam[$zn][] = [
+                    'druh' => $druh,
+                    'popis' => $popis->getPopis()
+                ];
+            }
+        }
+
+        return $this->createApiResponse([
+            'zoznam' => $zoznam
         ]);
     }
 
@@ -618,7 +672,7 @@ class DanovePriznanieController extends BaseController
             throw new BadRequestHttpException('Invalid JSON');
         }
 
-        $druh = $em->getRepository('AppBundle:Uctovnictvo\DP\Druh')
+        $druh = $em->getRepository('AppBundle:Uctovnictvo\DP\DruhPriznania')
             ->find( $data['druh'] );
         $obdobie = new \DateTime($data['obdobie']);
         $user = $em->getRepository('AppBundle:App\User')
@@ -657,6 +711,8 @@ class DanovePriznanieController extends BaseController
 
         $vstup_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Vstup_Z');
         $vystup_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Vystup_Z');
+        $znamienka = $em->getRepository('AppBundle:Uctovnictvo\DP\ZmenaZnamienka')
+            ->findAll();
 
         $hlavny = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny')
             ->find( $data['hlavny'] );
@@ -665,11 +721,31 @@ class DanovePriznanieController extends BaseController
         $referencia = $data['referencia'];
         $datumDokladu = new \DateTime($data['datumDokladu']);
         $datumUctovania = new \DateTime($data['datumUctovania']);
-        $sumaBezDph = $data['sumaBezDph'];
-        $dph = $data['dph'];
-        $sumaSDph = $data['sumaSDph'];
 
-        switch ($data['zaradenie']) {
+        $zaradenie = $data['zaradenie'];
+
+        // Zmena znamienka podľa číselníka
+        $znamienko = array_reduce(
+            $znamienka,
+            function ($carry, $item) use($zaradenie, $znak, $druh) {
+                return
+                    ($item->getZaradenie() == $zaradenie
+                    && $item->getZnak() == $znak
+                    && $item->getDruh() == $druh) ? $item : $carry;
+            }
+        );
+
+        $znamienko = $znamienko == null ? 1 : -1;
+
+        /*if ($znamienko == null) {
+            $znamienko = 1;
+        } else $znamienko = -1;*/
+
+        $sumaBezDph = $data['sumaBezDph'] * ($znamienko);
+        $dph = $data['dph'] * ($znamienko);
+        $sumaSDph = $data['sumaSDph'] * ($znamienko);
+
+        switch ($zaradenie) {
             case 1:
                 $doklad = new Vstup();
 
@@ -912,7 +988,6 @@ class DanovePriznanieController extends BaseController
         $psc = 82905;
         $obec = 'Bratislava - Nové Mesto';
         $telefon = '0257372184';
-        $email = 'dejovaa@batas.sk';
 
         // dátum zistenia skutočnosti na podanie dodatočného daňového priznania
         if ($datumZistenia) {
@@ -998,7 +1073,7 @@ class DanovePriznanieController extends BaseController
             ."<psc>$psc</psc>\r\n"
             ."<obec>$obec</obec>\r\n"
             ."<telefon>$telefon</telefon>\r\n"
-            ."<email>$email</email>\r\n"
+            ."<email></email>\r\n"
             ."</adresa>\r\n"
             ."<opravnenaOsoba>\r\n"
             ."<menoPriezvisko></menoPriezvisko>\r\n"

@@ -9,6 +9,7 @@ import moznosti from './moznosti'
 import upload from './import'
 import hlavny from './hlavny'
 import znakydane from './znakydane'
+import druhydokladu from './druhydokladu'
 import vstup from './vstup'
 import vystup from './vystup'
 import riadky from './riadky'
@@ -27,6 +28,7 @@ export default combineReducers({
   upload,
   hlavny,
   znakydane,
+  druhydokladu,
   vstup,
   vystup,
   riadky,

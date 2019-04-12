@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import {
-  Card, CardBody, CardFooter,
+  Card, CardHeader, CardBody, CardFooter,
   Form, FormGroup, Label, Input, Button
 } from 'reactstrap'
 import ReactLoading from 'react-loading'
@@ -98,6 +98,7 @@ class VytvoritHlavny extends React.Component {
           <ReactLoading type="spin" color="#51565d" delay={0} className="react-loader" />
         }
         <Card style={{ width: '500px' }}>
+          <CardHeader className="bg-success text-white">Vytvoriť daňové priznanie</CardHeader>
           <CardBody>
             <Form inline>
               <FormGroup>
@@ -143,7 +144,7 @@ class VytvoritHlavny extends React.Component {
             </Form>
           </CardBody>
           <CardFooter>
-            <Button color={'primary'} onClick={this.handleCreate} disabled={buttonDisabled}>Vytvoriť</Button>
+            <Button color={'success'} onClick={this.handleCreate} disabled={buttonDisabled}>Vytvoriť</Button>
           </CardFooter>
         </Card>
       </div>

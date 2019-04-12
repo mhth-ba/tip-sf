@@ -4,9 +4,9 @@ namespace AppBundle\Repository\Uctovnictvo\DP;
 
 use Doctrine\ORM\EntityRepository;
 
-class DruhRepository extends EntityRepository
+class DokladRepository extends EntityRepository
 {
-    public function getDruhy()
+    public function getPopisyDokladov()
     {
         return $this->createQueryBuilder('d')
             ->orderBy('d.id')

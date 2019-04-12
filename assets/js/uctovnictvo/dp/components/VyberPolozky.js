@@ -11,8 +11,9 @@ import FontAwesome from 'react-fontawesome'
 import {
   fetchVyberPolozkyRequest,
   fetchZnakyDaneRequest,
+  fetchDruhyDokladuRequest,
   fetchAktivitaRequest,
-  loadMainEntryRequest
+  loadMainEntryRequest,
 } from '../actions'
 
 class VyberPolozky extends React.Component {
@@ -50,6 +51,7 @@ class VyberPolozky extends React.Component {
       this.props.fetchZoznam()
       this.props.fetchAktivita()
       this.props.fetchZnakyDane()
+      this.props.fetchDruhyDokladu()
     }
   }
 
@@ -136,6 +138,7 @@ const mapStateToProps = ( state, ownProps ) => ({
 const mapDispatchToProps = ( dispatch, ownProps ) => ({
   fetchZoznam: () => dispatch(fetchVyberPolozkyRequest()),
   fetchZnakyDane: () => dispatch(fetchZnakyDaneRequest()),
+  fetchDruhyDokladu: () => dispatch(fetchDruhyDokladuRequest()),
   fetchAktivita: (e) => dispatch(fetchAktivitaRequest(e)),
   load: (e) => dispatch(loadMainEntryRequest(e))
 })

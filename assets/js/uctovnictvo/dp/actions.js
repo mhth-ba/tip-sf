@@ -39,6 +39,10 @@ export const fetchZnakyDaneRequest = () => ({
   type: TYPES.FETCH_ZNAKY_DANE_REQUEST
 })
 
+export const fetchDruhyDokladuRequest = () => ({
+  type: TYPES.FETCH_DRUHY_DOKLADU_REQUEST
+})
+
 export const fetchVstupRequest = (id) => ({
   type: TYPES.FETCH_VSTUP_REQUEST,
   id
@@ -157,6 +161,20 @@ export function* fetchZnakyDane() {
 
   } catch (e) {
     yield put({type: TYPES.FETCH_ZNAKY_DANE_ERROR, data: e})
+    console.error(e)
+  }
+}
+
+export function* fetchDruhyDokladu() {
+  const url = Routing.generate('dp_druhy-dokladu_get')
+
+  try {
+    const udaje = yield call(Api.fetch, url)
+
+    yield put({type: TYPES.FETCH_DRUHY_DOKLADU_SUCCESS, data: udaje})
+
+  } catch (e) {
+    yield put({type: TYPES.FETCH_DRUHY_DOKLADU_ERROR, data: e})
     console.error(e)
   }
 }
@@ -308,6 +326,14 @@ export function* createDoklad(action) {
 
   } catch (e) {
     yield put({type: TYPES.CREATE_DOKLAD_ERROR, data: e})
+
+    yield put(Notifications.error({
+      title: 'Vytvoriť doklad sa nepodarilo :(',
+      message: `Počas spracovania nastala chyba.
+                Ak sa jedná o samozdanenie, skontrolujte doklady na vstupe aj na výstupe.
+                Skúste pridať doklad ešte raz.`,
+      autoDismiss: 12
+    }))
 
     console.error(e)
   }
