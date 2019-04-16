@@ -26,12 +26,13 @@ class HlavnyRepository extends EntityRepository
         $rsm->addEntityResult('AppBundle:Uctovnictvo\DP\Hlavny', 'h');
         $rsm->addFieldResult('h', 'id', 'id');
         $rsm->addFieldResult('h', 'obdobie', 'obdobie');
+        $rsm->addFieldResult('h', 'podane', 'podane');
         $rsm->addJoinedEntityResult('AppBundle:Uctovnictvo\DP\DruhPriznania', 'd', 'h', 'druh');
         $rsm->addFieldResult('d', 'druh_id', 'id');
         $rsm->addFieldResult('d', 'druh', 'druh');
 
         $query = $this->_em->createNativeQuery(
-            'SELECT h.id, obdobie, d.ID druh_id, d.Druh druh
+            'SELECT h.id, obdobie, podane, d.ID druh_id, d.Druh druh
              FROM Uctovnictvo.DP_Hlavny h
              INNER JOIN Uctovnictvo._RefDruhPriznania d ON h.Druh_ID = d.ID
              WHERE Obdobie IN
