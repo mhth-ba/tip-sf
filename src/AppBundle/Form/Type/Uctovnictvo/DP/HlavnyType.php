@@ -17,7 +17,7 @@ class HlavnyType extends AbstractType
     {
         $builder
             ->add('druh', EntityType::class, [
-                'class' => 'AppBundle\Entity\Uctovnictvo\DP\Druh'
+                'class' => 'AppBundle\Entity\Uctovnictvo\DP\DruhPriznania'
             ])
             ->add('predchadzajuci', NumberType::class)
             ->add('posledny', NumberType::class)
