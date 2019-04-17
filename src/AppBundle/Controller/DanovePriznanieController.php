@@ -725,7 +725,7 @@ class DanovePriznanieController extends BaseController
         $zaradenie = $data['zaradenie'];
 
         // Zmena znamienka podľa číselníka iba na vstupe
-        if ($zaradenie === 1) {
+        if ($zaradenie === 1) { // VSTUPNÁ DPH
             $znamienko = array_reduce(
                 $znamienka,
                 function ($carry, $item) use($zaradenie, $znak, $druh) {
@@ -737,8 +737,15 @@ class DanovePriznanieController extends BaseController
             );
 
             $znamienko = $znamienko == null ? 1 : -1;
-        } else {
+
+        } else { // VÝSTUPNÁ DPH
             $znamienko = 1;
+
+            // Dobropisy | znak dane: V3, DR
+            if (($znak === 'V3') && in_array($druh, array('DM', 'DN', 'DO'))) {
+                dump($data);
+                $znamienko = -1;
+            }
         }
 
         /*if ($znamienko == null) {
