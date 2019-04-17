@@ -304,7 +304,7 @@ class Hlavny extends React.Component {
               }
             </CardBody>
             <CardFooter>
-              IČ DPH: SK2020285254
+              IČ DPH: SK2020285245
             </CardFooter>
           </Card>
         }
