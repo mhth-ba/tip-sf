@@ -743,7 +743,6 @@ class DanovePriznanieController extends BaseController
 
             // Dobropisy | znak dane: V3, DR
             if (($znak === 'V3') && in_array($druh, array('DM', 'DN', 'DO'))) {
-                dump($data);
                 $znamienko = -1;
             }
         }
