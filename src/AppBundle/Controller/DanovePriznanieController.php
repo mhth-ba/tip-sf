@@ -724,18 +724,22 @@ class DanovePriznanieController extends BaseController
 
         $zaradenie = $data['zaradenie'];
 
-        // Zmena znamienka podľa číselníka
-        $znamienko = array_reduce(
-            $znamienka,
-            function ($carry, $item) use($zaradenie, $znak, $druh) {
-                return
-                    ($item->getZaradenie() == $zaradenie
-                    && $item->getZnak() == $znak
-                    && $item->getDruh() == $druh) ? $item : $carry;
-            }
-        );
+        // Zmena znamienka podľa číselníka iba na vstupe
+        if ($zaradenie === 1) {
+            $znamienko = array_reduce(
+                $znamienka,
+                function ($carry, $item) use($zaradenie, $znak, $druh) {
+                    return
+                        ($item->getZaradenie() == $zaradenie
+                            && $item->getZnak() == $znak
+                            && $item->getDruh() == $druh) ? $item : $carry;
+                }
+            );
 
-        $znamienko = $znamienko == null ? 1 : -1;
+            $znamienko = $znamienko == null ? 1 : -1;
+        } else {
+            $znamienko = 1;
+        }
 
         /*if ($znamienko == null) {
             $znamienko = 1;
