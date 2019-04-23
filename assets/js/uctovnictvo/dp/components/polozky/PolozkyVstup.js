@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import { Button } from 'reactstrap'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-import { dateShort } from '../../../../utils/format'
+import { dateSmall } from '../../../../utils/format'
 
 import Swal from 'sweetalert2'
 import withReactComponent from 'sweetalert2-react-content'
@@ -14,7 +14,7 @@ import * as CONFIGS from "../../../../configs"
 import {updateDokladRequest, deleteDokladRequest} from "../../actions"
 
 const dateTimeFormatter = ( cell, row ) => (
-  dateShort(cell)
+  dateSmall(cell)
 )
 
 const eurFormatter = ( value ) => (
