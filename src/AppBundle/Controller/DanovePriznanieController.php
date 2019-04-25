@@ -719,6 +719,7 @@ class DanovePriznanieController extends BaseController
         $znak = $data['znak'];
         $druh = $data['druh'];
         $referencia = $data['referencia'];
+        $partner = $data['partner'];
         $datumDokladu = new \DateTime($data['datumDokladu']);
         $datumUctovania = new \DateTime($data['datumUctovania']);
 
@@ -763,6 +764,7 @@ class DanovePriznanieController extends BaseController
                 $doklad->setZnak($znak);
                 $doklad->setDruhDokladu($druh);
                 $doklad->setReferencia($referencia);
+                $doklad->setObchodnyPartner($partner);
                 $doklad->setDatumDokladu($datumDokladu);
                 $doklad->setDatumUctovania($datumUctovania);
                 $doklad->setSumaBezDPH($sumaBezDph);
@@ -790,6 +792,7 @@ class DanovePriznanieController extends BaseController
                 $doklad->setZnak($znak);
                 $doklad->setDruhDokladu($druh);
                 $doklad->setReferencia($referencia);
+                $doklad->setObchodnyPartner($partner);
                 $doklad->setDatumDokladu($datumDokladu);
                 $doklad->setDatumUctovania($datumUctovania);
                 $doklad->setSumaBezDPH($sumaBezDph);

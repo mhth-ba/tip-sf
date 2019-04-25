@@ -1,12 +1,24 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Card, CardHeader, CardBody, CardFooter, Table } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardFooter, Table, Button } from 'reactstrap'
+import FontAwesome from 'react-fontawesome'
 
 import Suma from './helpers/Suma'
 
 class Sumarizacia extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      pomocnik: false
+    }
+
+    this.pomocnik = this.pomocnik.bind(this)
+  }
+
+  pomocnik(e) {
+    e.preventDefault()
+    this.setState({ pomocnik: !this.state.pomocnik })
   }
 
   findSuma(riadok) {
@@ -50,24 +62,37 @@ class Sumarizacia extends React.Component {
     const r37 = this.findSuma(37)
     const r38 = this.findSuma(38)
 
+    const pomocnik = this.state.pomocnik
+
     return (
       <div>
         { init &&
           <Card>
             <CardHeader className="bg-primary text-white">
               Sumarizácia a popis tlačiva
+              <span className="pull-right">
+                <Button onClick={this.pomocnik} color={'light'} size={'sm'}>
+                  Pomocník
+                  &nbsp;&nbsp;
+                { !pomocnik ?
+                  <FontAwesome name={'eye'}/>
+                  :
+                  <FontAwesome name={'minus-square'}/>
+                }
+                </Button>
+              </span>
             </CardHeader>
             <CardBody>
               <Table bordered hover size={'sm'}>
                 <thead>
                 <tr>
-                  <th>Popis položky</th>
-                  <th className="text-center" style={{ minWidth: '150px' }}>Základ dane</th>
-                  <th className="text-center" style={{ minWidth: '150px' }}>DPH</th>
-                  <th>Účet HK</th>
-                  <th>Znak dane</th>
-                  <th>Druh dokladu</th>
-                  <th>Strana</th>
+                  <th style={{ width: '800px' }}>Popis položky</th>
+                  <th className="text-center" style={{ width: '150px' }}>Základ dane</th>
+                  <th className="text-center" style={{ width: '150px' }}>DPH</th>
+                  { pomocnik && <th>Účet HK</th> }
+                  { pomocnik && <th>Znak dane</th> }
+                  { pomocnik && <th>Druh dokladu</th> }
+                  { pomocnik && <th>Strana</th> }
                 </tr>
                 </thead>
                 <tbody>
@@ -81,37 +106,39 @@ class Sumarizacia extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td rowSpan={3} className="align-middle">
+                  <td rowSpan={ pomocnik ? 3 : 1} className="align-middle">
                     Dodanie tovaru a služby - § 8,9 - 20% sadzba DPH <br/>
                     <span className="text-primary">
                       (dodanie tovaru a služby v tuzemsku, fakturácia za teplo, elektrinu, vodu, nájom)
                     </span>
                   </td>
-                  <td rowSpan={3} className="align-middle">
+                  <td rowSpan={ pomocnik ? 3 : 1 } className="align-middle">
                     <span className="cislo-riadku">03</span>
                     <div className="suma"><Suma v={r3} /></div>
                   </td>
-                  <td rowSpan={3} className="align-middle">
+                  <td rowSpan={ pomocnik ? 3 : 1 } className="align-middle">
                     <span className="cislo-riadku">04</span>
                     <div className="suma"><Suma v={r4} /></div>
                   </td>
-                  <td>343121</td>
-                  <td>3B</td>
-                  <td>OB, OY, ST, RU</td>
-                  <td>Výstup</td>
+                  { pomocnik && <td>343121</td> }
+                  { pomocnik && <td>3B</td> }
+                  { pomocnik && <td>OB, OY, ST, RU</td> }
+                  { pomocnik && <td>Výstup</td> }
                 </tr>
+                { pomocnik &&
                 <tr>
                   <td>343191</td>
                   <td>3D</td>
                   <td>OO, ID, ST, RU</td>
                   <td>Výstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343181</td>
                   <td>3V</td>
                   <td>DI, DJ, DK, PP, ST, RU</td>
                   <td>Výstup</td>
-                </tr>
+                </tr> }
                 <tr>
                   <td>
                     Nadobudnutie tovaru v tuzemsku - § 11, 11a - 10% sadzba DPH <br/>
@@ -125,10 +152,10 @@ class Sumarizacia extends React.Component {
                     <span className="cislo-riadku">06</span>
                     <div className="suma"><Suma v={r6} /></div>
                   </td>
-                  <td>343180</td>
-                  <td>LK, KL</td>
-                  <td>DI, DJ, DK, ST, RU</td>
-                  <td>Výstup</td>
+                  { pomocnik && <td>343180</td> }
+                  { pomocnik && <td>LK, KL</td> }
+                  { pomocnik && <td>DI, DJ, DK, ST, RU</td> }
+                  { pomocnik && <td>Výstup</td> }
                 </tr>
                 <tr>
                   <td>
@@ -143,13 +170,13 @@ class Sumarizacia extends React.Component {
                     <span className="cislo-riadku">08</span>
                     <div className="suma"><Suma v={r8} /></div>
                   </td>
-                  <td>343151</td>
-                  <td>XS, XP</td>
-                  <td>DI, DJ, DK, ST, RU</td>
-                  <td>Výstup</td>
+                  { pomocnik && <td>343151</td> }
+                  { pomocnik && <td>XS, XP</td> }
+                  { pomocnik && <td>DI, DJ, DK, ST, RU</td> }
+                  { pomocnik && <td>Výstup</td> }
                 </tr>
                 <tr>
-                  <td rowSpan={4} className="align-middle">
+                  <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
                     Tovary a služby, pri ktorých platí príjemca DPH - § 69 ods 2 a 9 až 12 <br/>
                     <span className="text-primary">
                       (tovar od zahraničného dodávateľa  z EÚ alebo 3. štátu zo skladu v tuzemsku (napr. Alza), <br/>
@@ -157,37 +184,40 @@ class Sumarizacia extends React.Component {
                       tuzemské samozdanenie stavebných prác...)
                     </span>
                   </td>
-                  <td rowSpan={4} className="align-middle">
+                  <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
                     <span className="cislo-riadku">09</span>
                     <div className="suma"><Suma v={r9} /></div>
                   </td>
-                  <td rowSpan={4} className="align-middle">
+                  <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
                     <span className="cislo-riadku">10</span>
                     <div className="suma"><Suma v={r10} /></div>
                   </td>
-                  <td>343161</td>
-                  <td>XU, XL</td>
-                  <td>DI, DJ, DK, ST, RU</td>
-                  <td>Výstup</td>
+                  { pomocnik && <td>343161</td> }
+                  { pomocnik && <td>XU, XL</td> }
+                  { pomocnik && <td>DI, DJ, DK, ST, RU</td> }
+                  { pomocnik && <td>Výstup</td> }
                 </tr>
+                { pomocnik &&
                 <tr>
                   <td>343871</td>
                   <td>DA</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343151</td>
                   <td>XX, XY</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343180</td>
                   <td>XE, XF</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Výstup</td>
-                </tr>
+                </tr>}
                 <tr>
                   <td>
                     Služby, pri ktorých príjemca platí DPH - § 69 ods 3 <br/>
@@ -204,10 +234,10 @@ class Sumarizacia extends React.Component {
                     <span className="cislo-riadku">12</span>
                     <div className="suma"><Suma v={r12} /></div>
                   </td>
-                  <td>343161</td>
-                  <td>XA, XB</td>
-                  <td>DI, DJ, DK, ST, RU</td>
-                  <td>Výstup</td>
+                  { pomocnik && <td>343161</td> }
+                  { pomocnik && <td>XA, XB</td> }
+                  { pomocnik && <td>DI, DJ, DK, ST, RU</td> }
+                  { pomocnik && <td>Výstup</td> }
                 </tr>
                 <tr>
                   <td>
@@ -218,7 +248,7 @@ class Sumarizacia extends React.Component {
                     <span className="cislo-riadku">13</span>
                   </td>
                   <td>
-                    <span className="cislo-riadku">24</span>
+                    <span className="cislo-riadku">14</span>
                   </td>
                 </tr>
                 <tr>
@@ -234,10 +264,10 @@ class Sumarizacia extends React.Component {
                     <div className="suma"><Suma v={r15} /></div>
                   </td>
                   <td></td>
-                  <td></td>
-                  <td>1G</td>
-                  <td>ID, OO, OD, OT, ST, RU</td>
-                  <td>Výstup</td>
+                  { pomocnik && <td></td> }
+                  { pomocnik && <td>1G</td> }
+                  { pomocnik && <td>ID, OO, OD, OT, ST, RU</td> }
+                  { pomocnik && <td>Výstup</td> }
                 </tr>
                 <tr>
                   <td>
@@ -279,193 +309,214 @@ class Sumarizacia extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td rowSpan={5} colSpan={2} className="align-middle">
+                  <td rowSpan={ pomocnik ? 5 : 1 } colSpan={2} className="align-middle">
                     <strong>Odpočítanie dane celkom</strong> - 10% sadzba DPH <br/>
                     <span className="text-primary">
                       (tuzemsko, samozdanenie, vysporiadanie koeficientu, úprava odpočítanej DPH pri zmene
                       rozsahu použitia investič. majetku)
                     </span>
                   </td>
-                  <td rowSpan={5} className="align-middle">
+                  <td rowSpan={ pomocnik ? 5 : 1 } className="align-middle">
                     <span className="cislo-riadku">20</span>
                     <div className="suma"><Suma v={r20} /></div>
                   </td>
-                  <td>343310</td>
-                  <td>HD</td>
-                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
-                  <td>Vstup</td>
+                  { pomocnik && <td>343310</td> }
+                  { pomocnik && <td>HD</td> }
+                  { pomocnik && <td>DI, DJ, DK, DV, PP, ST, RU</td> }
+                  { pomocnik && <td>Vstup</td> }
                 </tr>
+                { pomocnik &&
                 <tr>
                   <td>343340</td>
                   <td>HK</td>
                   <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik && 
                 <tr>
                   <td>343740</td>
                   <td>LK, XE</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343290</td>
                   <td>KL, XF</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>{''}</td>
                   <td>KF, KP</td>
                   <td>ID, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
                 <tr>
-                  <td rowSpan={11} colSpan={2} className="align-middle">
+                  <td rowSpan={ pomocnik ? 11 : 1 } colSpan={2} className="align-middle">
                     <strong>Odpočítanie dane celkom</strong> - 20% sadzba DPH <br/>
                     <span className="text-primary">
                       (tuzemsko, samozdanenie, vysporiadanie koeficientu, úprava odpočítanej DPH pri zmene
                       rozsahu použitia investič. majetku)
                     </span>
                   </td>
-                  <td rowSpan={11} className="align-middle">
+                  <td rowSpan={ pomocnik ? 11 : 1} className="align-middle">
                     <span className="cislo-riadku">21</span>
                     <div className="suma"><Suma v={r21} /></div>
                   </td>
-                  <td>343431</td>
-                  <td>3V</td>
-                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
-                  <td>Vstup</td>
+                  { pomocnik && <td>343431</td> }
+                  { pomocnik && <td>3V</td> }
+                  { pomocnik && <td>DI, DJ, DK, DV, PP, ST, RU</td> }
+                  { pomocnik && <td>Vstup</td> }
                 </tr>
+                { pomocnik &&
                 <tr>
                   <td>343870</td>
                   <td>DA</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343761</td>
                   <td>XU, XA</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343771</td>
                   <td>XL, XB</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343431</td>
                   <td>XK</td>
                   <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343411</td>
                   <td>XD</td>
                   <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343741</td>
                   <td>XS, XY</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343751</td>
                   <td>XP, XX</td>
                   <td>DI, DJ, DK, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343250</td>
                   <td>QD, QK</td>
                   <td>RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343431</td>
                   <td>KX</td>
                   <td>ID, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
-                  <td>{''}</td>
+                  <td></td>
                   <td>KF, KP</td>
                   <td>RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
                 <tr>
-                  <td rowSpan={3} colSpan={2} className="align-middle">
+                  <td rowSpan={ pomocnik ? 3 : 1 } colSpan={2} className="align-middle">
                     z toho § 51 ods.1 písm.a ) - 10% sadzba DPH <br/>
                     <span className="text-primary">(tuzemsko)</span>
                   </td>
-                  <td rowSpan={3} className="align-middle">
+                  <td rowSpan={ pomocnik ? 3 : 1 } className="align-middle">
                     <span className="cislo-riadku">22</span>
                     <div className="suma"><Suma v={r22} /></div>
                   </td>
-                  <td>343310</td>
-                  <td>HD</td>
-                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
-                  <td>Vstup</td>
+                  { pomocnik && <td>343310</td> }
+                  { pomocnik && <td>HD</td> }
+                  { pomocnik && <td>DI, DJ, DK, DV, PP, ST, RU</td> }
+                  { pomocnik && <td>Vstup</td> }
                 </tr>
+                { pomocnik &&
                 <tr>
                   <td>343340</td>
                   <td>HK</td>
                   <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>{''}</td>
                   <td>KF, KP</td>
                   <td>ID, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
                 <tr>
-                  <td rowSpan={6} colSpan={2} className="align-middle">
+                  <td rowSpan={ pomocnik ? 6 : 1 } colSpan={2} className="align-middle">
                     z toho § 51 ods.1 písm.a ) - 20% sadzba DPH <br/>
                     <span className="text-primary">(tuzemsko)</span>
                   </td>
-                  <td rowSpan={6} className="align-middle">
+                  <td rowSpan={ pomocnik ? 6 : 1 } className="align-middle">
                     <span className="cislo-riadku">23</span>
                     <div className="suma"><Suma v={r23} /></div>
                   </td>
-                  <td>343431</td>
-                  <td>XK</td>
-                  <td>DI, DJ, DK, DV, PP, ST, RU</td>
-                  <td>Vstup</td>
+                  { pomocnik && <td>343431</td> }
+                  { pomocnik && <td>XK</td> }
+                  { pomocnik && <td>DI, DJ, DK, DV, PP, ST, RU</td> }
+                  { pomocnik && <td>Vstup</td> }
                 </tr>
+                { pomocnik &&
                 <tr>
                   <td>343411</td>
                   <td>XD</td>
                   <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343431</td>
                   <td>3V</td>
                   <td>DI, DJ, DK, DV, PP, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343250</td>
                   <td>QD, QK</td>
                   <td>RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343431</td>
                   <td>KX</td>
                   <td>ID, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
-                  <td>{''}</td>
+                  <td></td>
                   <td>KF, KP</td>
                   <td>RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
                 <tr>
                   <td colSpan={2}>
                     z toho § 51 ods.1 písm.d) - 10% sadzba DPH<br/>
@@ -485,85 +536,93 @@ class Sumarizacia extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td rowSpan={4} className="align-middle">
+                  <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
                     Rozdiel v ZD a DPH po oprave - § 25 ods. 1 a 3 <br/>
                     <span className="text-primary">(D, Ť na výstupe)</span>
                   </td>
-                  <td rowSpan={4} className="align-middle">
+                  <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
                     <span className="cislo-riadku">26</span>
                     <div className="suma"><Suma v={r26} /></div>
                   </td>
-                  <td rowSpan={4} className="align-middle">
+                  <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
                     <span className="cislo-riadku">27</span>
                     <div className="suma"><Suma v={r27} /></div>
                   </td>
-                  <td>343121</td>
-                  <td>3H</td>
-                  <td>OB, MF, OT, OD, ST, RU</td>
-                  <td>Výstup</td>
+                  { pomocnik && <td>343121</td> }
+                  { pomocnik && <td>3H</td> }
+                  { pomocnik && <td>OB, MF, OT, OD, ST, RU</td> }
+                  { pomocnik && <td>Výstup</td> }
                 </tr>
+                { pomocnik &&
                 <tr>
                   <td>343191</td>
                   <td>3K</td>
                   <td>OT, OD, ST, RU</td>
                   <td>Výstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343871</td>
                   <td>DR</td>
                   <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Výstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343181</td>
                   <td>V3</td>
                   <td>PP, DI, DJ, DK, DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Výstup</td>
-                </tr>
+                </tr> }
                 <tr>
-                  <td rowSpan={6} colSpan={2} className="align-middle">
+                  <td rowSpan={ pomocnik ? 6 : 1 } colSpan={2} className="align-middle">
                     Oprava odpočítanej dane - § 53 <br/>
                     <span className="text-primary">(D, Ť na vstupe)</span>
                   </td>
-                  <td rowSpan={6} className="align-middle">
+                  <td rowSpan={ pomocnik ? 6 : 1 } className="align-middle">
                     <span className="cislo-riadku">28</span>
                     <div className="suma"><Suma v={r28} /></div>
                   </td>
-                  <td>343441</td>
-                  <td>XG</td>
-                  <td>DM, DN, DO, DR, DS, DT, DJ, ST, RU</td>
-                  <td>Vstup</td>
+                  { pomocnik && <td>343441</td> }
+                  { pomocnik && <td>XG</td> }
+                  { pomocnik && <td>DM, DN, DO, DR, DS, DT, DJ, ST, RU</td> }
+                  { pomocnik && <td>Vstup</td> }
                 </tr>
+                { pomocnik &&
                 <tr>
                   <td>343451</td>
                   <td>XH</td>
                   <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343270</td>
                   <td>DF</td>
                   <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343280</td>
                   <td>DC</td>
                   <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343870</td>
                   <td>DR</td>
                   <td>DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
+                { pomocnik &&
                 <tr>
                   <td>343431</td>
                   <td>V3</td>
                   <td>PP, DI, DJ, DK, DM, DN, DO, DR, DS, DT, ST, RU</td>
                   <td>Vstup</td>
-                </tr>
+                </tr> }
                 <tr>
                   <td colSpan={2}>
                     Odpočítanie dane pri registrácii - § 55 <br/>

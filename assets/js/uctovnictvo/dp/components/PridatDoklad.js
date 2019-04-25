@@ -12,9 +12,6 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment'
 moment.locale('sk')
 
-import Swal from 'sweetalert2'
-import withReactComponent from 'sweetalert2-react-content'
-
 import {createDokladRequest} from '../actions'
 
 const DEFAULT_STATE = {
@@ -25,7 +22,8 @@ const DEFAULT_STATE = {
   samozdanenie: false,
   datumDokladu: null,
   datumUctovania: null,
-  referencia: null,
+  referencia: '',
+  partner: '',
 
   sumaBezDph_user: '',
   dph_user: '',
@@ -76,6 +74,7 @@ class VytvoritHlavny extends React.Component {
     this.handleDatumDokladu = this.handleDatumDokladu.bind(this)
     this.handleDatumUctovania = this.handleDatumUctovania.bind(this)
     this.handleReferencia = this.handleReferencia.bind(this)
+    this.handlePartner = this.handlePartner.bind(this)
     this.handleZakladDane = this.handleZakladDane.bind(this)
     this.handleDan = this.handleDan.bind(this)
 
@@ -238,6 +237,12 @@ class VytvoritHlavny extends React.Component {
     })
   }
 
+  handlePartner(e) {
+    this.setState({
+      partner: e.target.value
+    })
+  }
+
   handleZakladDane(e) {
     const value_user = e.target.value
     let value = Number(value_user.replace(',','.'))
@@ -313,6 +318,7 @@ class VytvoritHlavny extends React.Component {
     const znak = this.state.znak              // znak dane
     const druh = this.state.druh              // druh dokladu
     const referencia = this.state.referencia  // napr. číslo faktúry
+    const partner = this.state.partner        // názov obchodného partnera
     const datumDokladu = this.state.datumDokladu.format('YYYY-MM-DD')
     const datumUctovania = this.state.datumUctovania.format('YYYY-MM-DD')
     const sumaBezDph = this.state.sumaBezDph
@@ -327,6 +333,7 @@ class VytvoritHlavny extends React.Component {
       znak,
       druh,
       referencia,
+      partner,
       datumDokladu,
       datumUctovania,
       sumaBezDph,
@@ -515,7 +522,7 @@ class VytvoritHlavny extends React.Component {
                 &nbsp;&nbsp;
                 <Label for="novy-doklad-referencia">Referencia</Label>
                 &nbsp;&nbsp;
-                <Input type={'text'} id="novy-doklad-referencia" maxLength={50}
+                <Input type={'text'} id="novy-doklad-referencia" value={this.state.referencia} maxLength={50}
                        onChange={this.handleReferencia}
                 />
                 { (datum_dokladu_invalid || datum_uctovania_invalid) &&
@@ -524,6 +531,16 @@ class VytvoritHlavny extends React.Component {
                     Dátum dokladu a dátum účtovania sú povinné polia a musia byť zadané vo formáte DD.MM.RRRR
                   </div>
                 }
+              </FormGroup>
+            </Form>
+            <br/>
+            <Form inline>
+              <FormGroup>
+                <Label for="novy-doklad-partner">Obchodný partner</Label>
+                &nbsp;&nbsp;
+                <Input type={'text'} id="novy-doklad-partner" value={this.state.partner} maxLength={200}
+                       onChange={this.handlePartner}
+                />
               </FormGroup>
             </Form>
             <br/>
