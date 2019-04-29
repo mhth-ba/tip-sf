@@ -81,7 +81,7 @@ class VstupPovodne extends React.Component {
       <div>
         { init === true &&
         <Card>
-          <CardHeader className="bg-primary text-white">
+          <CardHeader className="bg-primary text-white sticky-top">
             Vstupná DPH
             <span className="pull-right">
               <Button onClick={this.collapse} color={'light'} size={'sm'}>
