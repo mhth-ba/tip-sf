@@ -10,7 +10,12 @@ class HlavnyRepository extends EntityRepository
     // hlavné záznamy
     public function getPolozky()
     {
+        $date = new \DateTime("2017-12-01");
+        $date = $date->format("Y-m-d");
+
         return $this->createQueryBuilder('h')
+            ->andWhere('h.obdobie > :date')
+            ->setParameter('date', $date)
             ->addOrderBy('h.obdobie', 'desc')
             ->addOrderBy('h.druh', 'asc')
             ->addOrderBy('h.id', 'asc')
