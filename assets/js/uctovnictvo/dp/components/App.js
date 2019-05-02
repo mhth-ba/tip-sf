@@ -55,18 +55,6 @@ class App extends React.Component {
           </Col>
         </Row>
         <br/>
-        {/*<Row>
-          <Col>
-            <Vstup/>
-          </Col>
-        </Row>
-        <br/>
-        <Row>
-          <Col>
-            <Vystup/>
-          </Col>
-        </Row>
-        <br/>*/}
         <Row>
           <Col>
             <Znamienka/>

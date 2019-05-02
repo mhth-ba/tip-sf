@@ -4,6 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter, Table, Button } from 'reactstra
 import FontAwesome from 'react-fontawesome'
 
 import Suma from './helpers/Suma'
+import {dateYearMonth} from "../../../utils/format";
 
 class Sumarizacia extends React.Component {
   constructor(props) {
@@ -68,9 +69,15 @@ class Sumarizacia extends React.Component {
       <div>
         { init &&
           <Card>
-            <CardHeader className="bg-primary text-white">
+            <CardHeader className="bg-primary text-white sticky-top">
               Sumarizácia a popis tlačiva
               <span className="pull-right">
+                <span>
+                { dateYearMonth(this.props.hlavny.obdobie) }
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  { this.props.hlavny.druh.druh }
+              </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
                 <Button onClick={this.pomocnik} color={'light'} size={'sm'}>
                   Pomocník
                   &nbsp;&nbsp;

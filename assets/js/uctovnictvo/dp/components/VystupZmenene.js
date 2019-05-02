@@ -5,6 +5,7 @@ import FontAwesome from 'react-fontawesome'
 
 import ZnakDane from './polozky/ZnakDane'
 import PolozkyVystup from './polozky/PolozkyVystup'
+import {dateYearMonth} from "../../../utils/format";
 
 class VystupZmenene extends React.Component {
   constructor(props) {
@@ -77,6 +78,12 @@ class VystupZmenene extends React.Component {
           <CardHeader className="bg-primary text-white sticky-top">
             Výstupná DPH
             <span className="pull-right">
+              <span>
+                { dateYearMonth(this.props.hlavny.obdobie) }
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                { this.props.hlavny.druh.druh }
+              </span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
               <Button onClick={this.collapse} color={'light'} size={'sm'}>
               { !this.state.collapse ?
                 <FontAwesome name={'plus-square'}/>
