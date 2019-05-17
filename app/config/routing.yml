@@ -55,6 +55,13 @@ sczt-zapad:
     defaults:
         _controller: AppBundle:SCZTZapad:index
 
+sczt-ost:
+    path: /disp/scztost
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:SCZTOST:index
+
 vychladenie-ost:
     path: /disp/vco
     options:

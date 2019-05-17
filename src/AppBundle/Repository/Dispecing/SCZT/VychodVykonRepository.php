@@ -141,4 +141,52 @@ class VychodVykonRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function getOSTVlastneVykon($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('vv')
+            ->andWhere('vv.kategoria = 131')
+            ->andWhere('vv.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('vv.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getOSTCudzieVykon($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('vv')
+            ->andWhere('vv.kategoria = 132')
+            ->andWhere('vv.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('vv.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getOSTVlastnePrenos($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('vv')
+            ->andWhere('vv.kategoria = 141')
+            ->andWhere('vv.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('vv.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getOSTCudziePrenos($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('vv')
+            ->andWhere('vv.kategoria = 142')
+            ->andWhere('vv.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('vv.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
 }
