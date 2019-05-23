@@ -65,7 +65,7 @@ const polozky = [
       url: Routing.generate('analyzy-notifikacie-merani'),
       nazov: 'Analýzy a notifikácie o meraní',
       color: 'primary',
-      size: 'sm'
+      size: 'md'
     }, {
       url: 'http://zeusprod-vi/tip/zone_smao_vyhladavanie-meradiel.php',
       nazov: 'Vyhľadávanie meradiel',
