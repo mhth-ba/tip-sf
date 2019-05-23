@@ -10,28 +10,30 @@ class Container extends React.Component {
   }
 
   powerFormatter(value) {
-    return value.toFixed(1).replace('.', ',') + ' kW'
+    return Number(value).toFixed(1).replace('.', ',') + ' kW'
   }
 
   flowFormatter(value) {
-    return value.toFixed(1).replace('.', ',') + ' m3/h'
+    return Number(value).toFixed(1).replace('.', ',') + ' m3/h'
   }
 
   temperatureFormatter(value) {
-    return value.toFixed(2).replace('.', ',') + ' °C'
+    return Number(value).toFixed(2).replace('.', ',') + ' °C'
   }
 
   render() {
 
     const polozky = this.props.polozky
-    const nazov = this.props.nazov
+    const farba = this.props.farba
     const kriteria = this.props.kriteria
+
+    const loading = this.props.analyzy.loading
 
     return (
       <Row>
         <Col md={9}>
           <Card style={{ height: '200px' }}>
-            <CardHeader className="text-white bg-primary">
+            <CardHeader className={polozky.length > 0 ? farba : 'bg-primary text-white'}>
               Dáta spĺňajúce podmienky kontroly
               <span className="pull-right">{polozky.length} meračov</span>
             </CardHeader>
@@ -78,6 +80,9 @@ class Container extends React.Component {
                 )}
                 </tbody>
               </Table>
+              { loading &&
+                <p className="text-center">Načítavanie údajov ...</p>
+              }
             </CardBody>
           </Card>
         </Col>
@@ -104,6 +109,7 @@ class Container extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   // zoznam: state.zoznam,
   // hlavny: state.hlavny
+  analyzy: state.analyzy
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -19,7 +19,8 @@ class Analyzy extends React.Component {
 
   render() {
 
-    const polozky = this.props.polozky
+    const polozky = this.props.analyzy.polozky
+    const loading = this.props.analyzy.loading
 
     const kat_1 = polozky.filter(v => v.kat === 1)
     const kat_2 = polozky.filter(v => v.kat === 2)
@@ -32,12 +33,13 @@ class Analyzy extends React.Component {
       <div>
 
         <h3>
-          <FontAwesome name={'exclamation-triangle'} />
+          <FontAwesome name={loading ? 'spinner' : 'exclamation-triangle'} spin={loading} />
           &nbsp;
           Porucha technológie
         </h3>
         <Container
           polozky={kat_1}
+          farba={'bg-warning text-white'}
           kriteria={[
             <span>&Delta;t &nbsp; &lt; &nbsp; 3 °C</span>,
             <span>Okamžitý výkon &nbsp; &gt; &nbsp; 5 kW</span>,
@@ -48,12 +50,13 @@ class Analyzy extends React.Component {
         <br/><br/>
 
         <h3>
-          <FontAwesome name={'cogs'} />
+          <FontAwesome name={loading ? 'spinner' : 'cogs'} spin={loading} />
           &nbsp;
           Porucha merača
         </h3>
         <Container
           polozky={kat_2}
+          farba={'bg-warning text-white'}
           kriteria={[
             <span>&Delta;t &nbsp; &gt; &nbsp; 5 °C</span>,
             <span>Okamžitý výkon &nbsp; = &nbsp; 0 kW</span>,
@@ -64,29 +67,31 @@ class Analyzy extends React.Component {
         <br/><br/>
 
         <h3>
-          <FontAwesome name={'exclamation-circle'} />
+          <FontAwesome name={loading ? 'spinner' : 'exclamation-circle'} spin={loading} />
           &nbsp;
           Porucha merania
         </h3>
         <Container
           polozky={kat_3}
+          farba={'bg-danger text-white'}
           kriteria={[
             <span>Výstupná teplota &nbsp; = &nbsp; 200 alebo 185 °C</span>,
-            <span>Okrem týchto čísiel miesta prístroja: 10005205, 10006196</span>,
+            <span>Okrem týchto čísiel miesta prístroja: 10005205, 10006196</span>
           ]}
         />
 
         <br/><br/>
 
         <h3>
-          <FontAwesome name={'snowflake-o'} />
+          <FontAwesome name={loading ? 'spinner' : 'snowflake-o'} spin={loading} />
           &nbsp;
           Nevychladenie média
         </h3>
         <Container
           polozky={kat_4}
+          farba={'bg-primary text-white'}
           kriteria={[
-            <span>Vratná teplota &nbsp; &gt; &nbsp; 65 °C</span>,
+            <span>&Delta;t &nbsp; &lt; &nbsp; 10 °C</span>,
             <span>Okamžitý výkon &nbsp; &gt; &nbsp; 5 kW</span>,
             <span>Okamžitý prietok &nbsp; &gt; &nbsp; 5 m<sup>3</sup>/h</span>
           ]}
@@ -95,30 +100,33 @@ class Analyzy extends React.Component {
         <br/><br/>
 
         <h3>
-          <FontAwesome name={'thermometer-3'} />
+          <FontAwesome name={loading ? 'spinner' : 'thermometer-3'} spin={loading} />
           &nbsp;
           Problém s teplomerom
         </h3>
         <Container
           polozky={kat_5}
+          farba={'bg-warning text-white'}
           kriteria={[
-            <span>Výstupná teplota &nbsp; &gt; &nbsp; 14 °C</span>,
-            <span>Okamžitý výkon &nbsp; &gt; &nbsp; 5 kW</span>,
-            <span>Okamžitý prietok &nbsp; &gt; &nbsp; 5 m<sup>3</sup>/h</span>
+            <span>Výstupná teplota &nbsp; &gt; &nbsp; 30 °C &nbsp; a &nbsp; Vratná teplota &nbsp; &lt; &nbsp; 30 °C</span>,
+            <span>Okamžitý výkon &nbsp; &gt; &nbsp; 0 kW</span>,
+            <span>Okamžitý prietok &nbsp; &gt; &nbsp; 0 m<sup>3</sup>/h</span>
           ]}
         />
 
         <br/><br/>
 
         <h3>
-          <FontAwesome name={'exchange'} />
+          <FontAwesome name={loading ? 'spinner' : 'exchange'} spin={loading} />
           &nbsp;
           Vymenené signály výstupnej a vratnej teploty
         </h3>
         <Container
           polozky={kat_6}
+          farba={'bg-danger text-white'}
           kriteria={[
             <span>Výstupná teplota &nbsp; &lt; &nbsp; Vratná teplota</span>,
+            <span>&Delta;t &nbsp; &lt; &nbsp; -5 °C</span>
           ]}
         />
       </div>
@@ -129,7 +137,7 @@ class Analyzy extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   // zoznam: state.zoznam,
   // hlavny: state.hlavny
-  polozky: state.analyzy.polozky
+  analyzy: state.analyzy
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
