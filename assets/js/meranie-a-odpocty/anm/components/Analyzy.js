@@ -72,7 +72,7 @@ class Analyzy extends React.Component {
           polozky={kat_3}
           kriteria={[
             <span>Výstupná teplota &nbsp; = &nbsp; 200 alebo 185 °C</span>,
-            <span>Okrem týchto čísiel miesta prístroja: 10005208, 10006196</span>,
+            <span>Okrem týchto čísiel miesta prístroja: 10005205, 10006196</span>,
           ]}
         />
 
