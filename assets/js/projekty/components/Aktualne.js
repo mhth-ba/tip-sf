@@ -42,7 +42,7 @@ class Aktualne extends React.Component {
               </h5>
           </Card>
           :
-          <ListGroup>
+          <ListGroup style={{ overflowY: 'scroll', maxHeight: '250px' }}>
             {/* OPERATIVNE ULOHY */}
             { ulohy
               .filter(x => x.stav.id === 1)
