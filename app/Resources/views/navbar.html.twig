@@ -1,5 +1,6 @@
 {% set url = app.request.pathInfo %}
-{% set meranie = url == '/smo/rm' %}
+{% set meranie = (url == '/smo/rm'
+    or url == '/smo/anm') %}
 {% set dispecing = (url == '/disp/scztv'
     or url == '/disp/scztz'
     or url == '/disp/scztost'
@@ -52,6 +53,7 @@
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_manualne-nahravanie.php">Odpočtový hárok</a>
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_vyhladavanie-meradiel.php">Vyhľadávanie meradiel</a>
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href={{ path('analyzy-notifikacie-merani') }}>Analýzy a notifikácie o meraní</a>
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_chybajuce-v-prosql.php">Chýbajúce meradlá v ProSQL</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_smao_kontroly-procop-vlastne-ost.php">Kontroly - ProCop (Vlastné OST)</a>
@@ -218,7 +220,7 @@
                             {% endif %}
                             {% if is_granted('ROLE_VIP') %}
                                 <div class="col-sm-12 col-md-6">
-                                    <a href="http://zeusprod-vi/tip/zone_admin_attendance.php" class="btn btn-sm btn-info btn-block mb-1">
+                                    <a href="http://zeusprod-vi/tip/zone_admin_kontroling.php" class="btn btn-sm btn-info btn-block mb-1">
                                         <i class="fa fa-id-card" aria-hidden="true"></i>
                                         Attendance
                                     </a>

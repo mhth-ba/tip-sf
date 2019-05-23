@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Analýzy a notifikácie o meraní' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>Analýzy a notifikácie o meraní</h1>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col">
+                <div id="analyzy-notifikacie-merani"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('build/anm.js') }}"></script>
+{% endblock %}

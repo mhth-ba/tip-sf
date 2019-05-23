@@ -24,6 +24,13 @@ hlasenia_pm:
     defaults:
         _controller: AppBundle:HlaseniaPM:show
 
+analyzy-notifikacie-merani:
+    path: /smo/anm
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:AnalyzyNotifikacieMerani:index
+
 report-meracov:
     path: /smo/rm
     options:
