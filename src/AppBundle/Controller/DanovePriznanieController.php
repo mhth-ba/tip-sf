@@ -310,13 +310,7 @@ class DanovePriznanieController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $hlavny_repo = $em->getRepository('AppBundle:Uctovnictvo\DP\Hlavny');
 
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_DP_SUPER')) {
-            $polozky = $hlavny_repo->getPolozkySuper();
-        } else {
-            $polozky = $hlavny_repo->getPolozky();
-        }
-
-        //$polozky = $hlavny_repo->getPolozky();
+        $polozky = $hlavny_repo->getPolozky();
 
         return $this->createApiResponse($polozky);
     }

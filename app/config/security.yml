@@ -39,4 +39,3 @@ security:
         ROLE_SCT:       [ROLE_SCT_ADMIN]
         ROLE_SCT_ADMIN: [ROLE_SCT_KONT]
         ROLE_SCT_KONT:  [ROLE_SCT_MNG]
-        ROLE_DP_SUPER:  [ROLE_DP_UCT]

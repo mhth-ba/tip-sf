@@ -23,22 +23,6 @@ class HlavnyRepository extends EntityRepository
             ->execute();
     }
 
-    // hlavné záznamy pre testovanie (super user)
-    public function getPolozkySuper()
-    {
-        $date = new \DateTime("2000-12-01");
-        $date = $date->format("Y-m-d");
-
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.obdobie > :date')
-            ->setParameter('date', $date)
-            ->addOrderBy('h.obdobie', 'desc')
-            ->addOrderBy('h.druh', 'asc')
-            ->addOrderBy('h.id', 'asc')
-            ->getQuery()
-            ->execute();
-    }
-
     // NADMERNÝ ODPOČET
     // predchádzajúce zdaňovacie obdobie
     public function getPredchadzajuce($id)
