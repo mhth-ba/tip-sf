@@ -100,6 +100,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <th>Znak dane</th> }
                   { pomocnik && <th>Druh dokladu</th> }
                   { pomocnik && <th>Strana</th> }
+                  { pomocnik && <th>Sekcia KV</th> }
                 </tr>
                 </thead>
                 <tbody>
@@ -131,6 +132,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>3B</td> }
                   { pomocnik && <td>OB, OY, ST, RU</td> }
                   { pomocnik && <td>Výstup</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={3}>A1, D2</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
@@ -163,6 +165,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>LK, KL</td> }
                   { pomocnik && <td>DI, DJ, DK, ST, RU</td> }
                   { pomocnik && <td>Výstup</td> }
+                  { pomocnik && <td>B1</td> }
                 </tr>
                 <tr>
                   <td>
@@ -181,6 +184,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>XS, XP</td> }
                   { pomocnik && <td>DI, DJ, DK, ST, RU</td> }
                   { pomocnik && <td>Výstup</td> }
+                  { pomocnik && <td>B1</td> }
                 </tr>
                 <tr>
                   <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
@@ -203,6 +207,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>XU, XL</td> }
                   { pomocnik && <td>DI, DJ, DK, ST, RU</td> }
                   { pomocnik && <td>Výstup</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={4}>B1</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
@@ -245,6 +250,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>XA, XB</td> }
                   { pomocnik && <td>DI, DJ, DK, ST, RU</td> }
                   { pomocnik && <td>Výstup</td> }
+                  { pomocnik && <td>B1</td> }
                 </tr>
                 <tr>
                   <td>
@@ -331,6 +337,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>HD</td> }
                   { pomocnik && <td>DI, DJ, DK, DV, PP, ST, RU</td> }
                   { pomocnik && <td>Vstup</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={5}>B1, B2, B31, B32</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
@@ -376,6 +383,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>3V</td> }
                   { pomocnik && <td>DI, DJ, DK, DV, PP, ST, RU</td> }
                   { pomocnik && <td>Vstup</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={11}>B1, B2, B31, B32</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
@@ -460,6 +468,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>HD</td> }
                   { pomocnik && <td>DI, DJ, DK, DV, PP, ST, RU</td> }
                   { pomocnik && <td>Vstup</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={3}>B2, B31, B32</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
@@ -488,6 +497,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>XK</td> }
                   { pomocnik && <td>DI, DJ, DK, DV, PP, ST, RU</td> }
                   { pomocnik && <td>Vstup</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={6}>B2, B31, B32</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
@@ -559,6 +569,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>3H</td> }
                   { pomocnik && <td>OB, MF, OT, OD, ST, RU</td> }
                   { pomocnik && <td>Výstup</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={4}>C1</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
@@ -594,6 +605,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>XG</td> }
                   { pomocnik && <td>DM, DN, DO, DR, DS, DT, DJ, ST, RU</td> }
                   { pomocnik && <td>Vstup</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={6}>C2</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
