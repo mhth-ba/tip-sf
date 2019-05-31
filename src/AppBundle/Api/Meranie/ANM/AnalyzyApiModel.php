@@ -48,5 +48,5 @@ class AnalyzyApiModel extends DefaultApiModel
 
     public $mj;
 
-    public $kat;
+    public $kategoria;
 }

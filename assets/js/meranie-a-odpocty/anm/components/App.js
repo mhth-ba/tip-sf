@@ -1,6 +1,9 @@
 import React from 'react'
 import { Row, Col } from 'reactstrap'
+
 import Analyzy from './Analyzy'
+import Vylucene from './Vylucene'
+import Prehlad from './Prehlad'
 
 class App extends React.Component {
   render() {
@@ -12,6 +15,17 @@ class App extends React.Component {
           </Col>
         </Row>
         <br/><br/>
+        <Row>
+          <Col>
+            <Vylucene/>
+          </Col>
+        </Row>
+        <br/>
+        <Row>
+          <Col>
+            <Prehlad/>
+          </Col>
+        </Row>
       </div>
     )
   }

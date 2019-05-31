@@ -120,7 +120,7 @@ class Analyzy extends BaseEntity
     /**
      * @ORM\Column(type="smallint")
      */
-    private $kat;
+    private $kategoria;
 
     public function getId()
     {
@@ -227,8 +227,8 @@ class Analyzy extends BaseEntity
         return $this->mj;
     }
 
-    public function getKat()
+    public function getKategoria()
     {
-        return $this->kat;
+        return $this->kategoria;
     }
 }
