@@ -62,9 +62,19 @@ class Vylucene_T extends BaseEntity
         return $this->id;
     }
 
+    public function getVytvoril()
+    {
+        return $this->vytvoril;
+    }
+
     public function setVytvoril($vytvoril)
     {
         $this->vytvoril = $vytvoril;
+    }
+
+    public function getMp()
+    {
+        return $this->mp;
     }
 
     public function setMp($mp)
@@ -72,14 +82,29 @@ class Vylucene_T extends BaseEntity
         $this->mp = $mp;
     }
 
+    public function getKategoria()
+    {
+        return $this->kategoria;
+    }
+
     public function setKategoria($kategoria)
     {
         $this->kategoria = $kategoria;
     }
 
+    public function getOdlozene()
+    {
+        return $this->odlozene;
+    }
+
     public function setOdlozene($odlozene)
     {
         $this->odlozene = $odlozene;
+    }
+
+    public function getPoznamka()
+    {
+        return $this->poznamka;
     }
 
     public function setPoznamka($poznamka)

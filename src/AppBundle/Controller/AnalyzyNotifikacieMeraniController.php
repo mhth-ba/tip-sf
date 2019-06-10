@@ -7,6 +7,7 @@ use AppBundle\Api\Meranie\ANM\VyluceneApiModel;
 use AppBundle\Entity\Meranie\ANM\Analyzy;
 use AppBundle\Entity\Meranie\ANM\Vylucene;
 use AppBundle\Entity\Meranie\ANM\Vylucene_T;
+use AppBundle\Form\Type\Meranie\ANM\VyluceneType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -49,7 +50,7 @@ class AnalyzyNotifikacieMeraniController extends BaseController
     {
         $analyzy = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Meranie\ANM\Analyzy')
-            ->findAll();
+            ->findAllOrderByOM();
 
         $data = [
             'analyzy' => array()
@@ -154,6 +155,35 @@ class AnalyzyNotifikacieMeraniController extends BaseController
         $response = $this->createVyluceneApiModel($vylucene);
 
         return $this->createApiResponse($response);
+    }
+
+    /**
+     * @Route("smo/anm/vylucene/{id}", name="anm_vylucene_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_ANM')")
+     */
+    public function updateVyluceneAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $vylucene = $em->getRepository('AppBundle:Meranie\ANM\Vylucene_T')
+            ->find($id);
+
+        // Datetime data handling
+        $data = json_decode($request->getContent(), true);
+
+        if (array_key_exists('odlozene', $data)) {
+            if ($data['odlozene'] !== null) {
+                $vylucene->setOdlozene(new \DateTime($data['odlozene']));
+            }
+        }
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Meranie\ANM\Vylucene_T',
+            VyluceneType::class,
+            $request
+        );
     }
 
     /**

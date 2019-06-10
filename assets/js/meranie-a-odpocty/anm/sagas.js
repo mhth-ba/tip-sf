@@ -10,6 +10,8 @@ import {
 
   createVylucene,
 
+  updateVylucene,
+
   deleteVylucene
 } from './actions'
 
@@ -21,6 +23,8 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_PREHLAD_REQUEST, fetchPrehlad),
 
     takeEvery(TYPES.CREATE_VYLUCENE_REQUEST, createVylucene),
+
+    takeEvery(TYPES.UPDATE_VYLUCENE_REQUEST, updateVylucene),
 
     takeEvery(TYPES.DELETE_VYLUCENE_REQUEST, deleteVylucene)
   ])

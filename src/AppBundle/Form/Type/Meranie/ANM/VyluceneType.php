@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Type\Meranie\ANM;
 
 use AppBundle\Entity\Meranie\ANM\Vylucene;
+use AppBundle\Entity\Meranie\ANM\Vylucene_T;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -15,9 +16,9 @@ class VyluceneType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('mp', NumberType::class)
-            ->add('kategoria', NumberType::class)
-            ->add('odlozene', DateType::class)
+            //->add('mp', NumberType::class)
+            //->add('kategoria', NumberType::class)
+            //->add('odlozene', DateType::class)
             ->add('poznamka', TextType::class)
             ;
     }
@@ -25,7 +26,7 @@ class VyluceneType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Vylucene::class,
+            'data_class' => Vylucene_T::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true
         ]);

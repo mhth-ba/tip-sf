@@ -28,6 +28,11 @@ export const createVyluceneRequest = (data) => ({
   data
 })
 
+export const updateVyluceneRequest = (data) => ({
+  type: TYPES.UPDATE_VYLUCENE_REQUEST,
+  data
+})
+
 export const deleteVyluceneRequest = (data) => ({
   type: TYPES.DELETE_VYLUCENE_REQUEST,
   data
@@ -113,6 +118,24 @@ export function* createVylucene(action) {
       autoDismiss: 12
     }))
 
+    console.error(e)
+  }
+}
+
+export function* updateVylucene(action) {
+  const url = Routing.generate('anm_vylucene_update')
+  const data = action.data
+  const id = data.id
+
+  try {
+    const update = yield call(Api.patch, `${url}/${id}`, data)
+
+    yield put({type: TYPES.UPDATE_VYLUCENE_SUCCESS, data: update})
+
+    yield put(fetchPrehladRequest())
+
+  } catch (e) {
+    yield put({type: TYPES.UPDATE_VYLUCENE_ERROR, data: e})
     console.error(e)
   }
 }

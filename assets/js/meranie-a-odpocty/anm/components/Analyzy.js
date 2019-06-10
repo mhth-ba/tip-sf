@@ -97,7 +97,7 @@ class Analyzy extends React.Component {
           kategoria={4}
           farba={'bg-primary text-white'}
           kriteria={[
-            <span>&Delta;t &nbsp; &lt; &nbsp; 10 °C</span>,
+            <span>3°C &nbsp; &lt; &nbsp; &Delta;t &nbsp; &lt; &nbsp; 10 °C</span>,
             <span>Okamžitý výkon &nbsp; &gt; &nbsp; 5 kW</span>,
             <span>Okamžitý prietok &nbsp; &gt; &nbsp; 5 m<sup>3</sup>/h</span>
           ]}
