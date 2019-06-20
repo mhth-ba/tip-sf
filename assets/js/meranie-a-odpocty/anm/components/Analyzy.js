@@ -150,8 +150,9 @@ class Analyzy extends React.Component {
           kategoria={7}
           farba={'bg-cyan text-white'}
           kriteria={[
-            <span>Okamžitý výkon je viac ako 6 hodín po sebe rovnaký</span>,
-            <span>Okamžitý prietok je viac ako 6 hodín po sebe rovnaký</span>,
+            <span>Okamžitý výkon je rovnaký</span>,
+            <span>Okamžitý prietok je rovnaký</span>,
+            <span>Trend &nbsp; &gt; &nbsp; 18 hodín</span>
           ]}
         />
 

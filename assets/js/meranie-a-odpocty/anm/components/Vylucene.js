@@ -322,8 +322,6 @@ class Vylucene extends React.Component {
                               filter={ filterFactory() }
               />
 
-              <br/><br/>
-
             </CardBody>
           </Card>
         }
