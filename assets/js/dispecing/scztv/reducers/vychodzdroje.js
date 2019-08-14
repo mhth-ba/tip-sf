@@ -6,6 +6,8 @@ const initState = { // Dispecing.SCZTV_Zdroje
   slovnaft_vykon_10min: [],
   vhj_vykon_10min: [],
   vonkajsia_teplota_10min: [],
+  ventil_tuv_10min: [],
+  ventil_uk_10min: [],
   max: 0,
 
   ppc_tv_sk_10min: [],

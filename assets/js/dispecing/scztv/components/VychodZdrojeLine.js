@@ -88,6 +88,14 @@ const chart = {
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
                         title="Vonkajšia teplota ako priemer z OST 644, 655 a 798"
                   >${this.name}</span>`
+        case 5:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Percento otvorenia ventilu TÚV priemer z OST 644, 655 a 798"
+                  >${this.name}</span>`
+        case 6:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Percento otvorenia ventilu ÚK priemer z OST 644, 655 a 798"
+                  >${this.name}</span>`
       }
     }
   },
@@ -130,6 +138,22 @@ const chart = {
       }
     },
     opposite: true
+  }, {
+    title: {
+      text: 'Percento otvorenia ventilu'
+    },
+    labels: {
+      formatter: function () {
+        return this.value + ' %'
+      },
+      style: {
+        color: '#ee2818',
+      }
+    },
+    opposite: true,
+    min: 0,
+    max: 100,
+    visible: false
   }],
   tooltip: {
     shared: true,
@@ -211,6 +235,26 @@ const chart = {
       enabled: false
     },
     data: []
+  }, {
+    name: 'Ventil TÚV',
+    color: '#ffa905',
+    type: 'spline',
+    yAxis: 2,
+    tooltip: { valueSuffix: ' %' },
+    marker: {
+      enabled: false
+    },
+    data: []
+  }, {
+    name: 'Ventil ÚK',
+    color: '#ee1515',
+    type: 'spline',
+    yAxis: 2,
+    tooltip: { valueSuffix: ' %' },
+    marker: {
+      enabled: false
+    },
+    data: []
   }]
 }
 
@@ -224,19 +268,23 @@ class VychodZdrojeLine extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const chart = this.refs['chart_vykon_zdroje_line'].getChart()
 
-    let ppc = [], tpv = [], slovnaft = [], vhj = [], teplota = []
+    let ppc = [], tpv = [], slovnaft = [], vhj = [], teplota = [], ventil_tuv = [], ventil_uk = []
 
     this.props.zdroje.ppc_vykon_10min.map( row => { ppc.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.tpv_vykon_10min.map( row => { tpv.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.slovnaft_vykon_10min.map( row => { slovnaft.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.vhj_vykon_10min.map( row => { vhj.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.vonkajsia_teplota_10min.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.ventil_tuv_10min.map( row => { ventil_tuv.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.ventil_uk_10min.map( row => { ventil_uk.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(vhj, false)
     chart.series[1].setData(slovnaft, false)
     chart.series[2].setData(tpv, false)
     chart.series[3].setData(ppc, false)
     chart.series[4].setData(teplota, false)
+    chart.series[5].setData(ventil_tuv, false)
+    chart.series[6].setData(ventil_uk, false)
 
     //chart.yAxis[0].setExtremes(0, this.props.zdroje.max['hodnota'])
 
