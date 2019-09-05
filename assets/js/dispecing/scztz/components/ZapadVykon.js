@@ -180,7 +180,6 @@ const chart = {
     /*marker: {
       enabled: false
     },*/
-    visible: false,
     data: []
   }, {
     name: 'Denný plán',
@@ -216,7 +215,6 @@ const chart = {
     yAxis: 1,
     tooltip: { valueSuffix: ' MW' },
     zIndex: 2,
-    visible: false,
     data: []
   }, {
     name: 'OST',
@@ -225,7 +223,6 @@ const chart = {
     yAxis: 1,
     tooltip: { valueSuffix: ' MW' },
     zIndex: 2,
-    visible: false,
     data: []
   }, {
     name: 'Komunikácia',
@@ -235,7 +232,6 @@ const chart = {
     lineWidth: 1,
     yAxis: 2,
     zIndex: 2,
-    visible: false,
     data: []
   }]
 }
@@ -260,22 +256,22 @@ class ZapadVykon extends React.Component {
       komunikacia = []
 
     this.props.vykon.teplota.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
-    //this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.plan.map( row => { plan.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.termis.map( row => { termis.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.zdroje.map( row => { zdroje.push([ row['datum'], row['hodnota'] ]) })
-    //this.props.vykon.termis_ost.map( row => { termis_ost.push([ row['datum'], row['hodnota'] ]) })
-    //this.props.vykon.ost.map( row => { ost.push([ row['datum'], parseFloat((row['hodnota'] / 1000).toFixed(4)) ]) })
-    //this.props.vykon.komunikacia.map( row => { komunikacia.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.termis_ost.map( row => { termis_ost.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.ost.map( row => { ost.push([ row['datum'], parseFloat((row['hodnota'] / 1000).toFixed(4)) ]) })
+    this.props.vykon.komunikacia.map( row => { komunikacia.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(teplota, false)
-    //chart.series[1].setData(termis_pocasie, false)
+    chart.series[1].setData(termis_pocasie, false)
     chart.series[2].setData(plan, false)
     chart.series[3].setData(termis, false)
     chart.series[4].setData(zdroje, false)
-    //chart.series[5].setData(termis_ost, false)
-    //chart.series[6].setData(ost, false)
-    //chart.series[7].setData(komunikacia, false)
+    chart.series[5].setData(termis_ost, false)
+    chart.series[6].setData(ost, false)
+    chart.series[7].setData(komunikacia, false)
 
     /*chart.yAxis[0].setExtremes(
       this.props.vykon.extremy_teplota['hodnota_min'],

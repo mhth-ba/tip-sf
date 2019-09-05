@@ -41,11 +41,11 @@ class SCZTZapadController extends BaseController
 
         $plan = $repository->getPlan($dateTo, $dateFrom);
         $termis = $repository->getTermis($dateTo, $dateFrom);
-        //$termis_ost = $repository->getTermisOST($dateTo, $dateFrom);
-        //$termis_pocasie = $repository->getTermisPocasie($dateTo, $dateFrom);
+        $termis_ost = $repository->getTermisOST($dateTo, $dateFrom);
+        $termis_pocasie = $repository->getTermisPocasie($dateTo, $dateFrom);
         $zdroje = $repository->getZdroje($dateTo, $dateFrom);
-        //$ost = $repository->getOST($dateTo, $dateFrom);
-        //$komunikacia = $repository->getPocetKomunikujucich($dateTo, $dateFrom);
+        $ost = $repository->getOST($dateTo, $dateFrom);
+        $komunikacia = $repository->getPocetKomunikujucich($dateTo, $dateFrom);
         $teplota = $repository->getTeplota($dateTo, $dateFrom);
         //$extremy_vykon = $repository->getExtremesVykon($dateTo, $dateFrom);
         //$extremy_teplota = $repository->getExtremesTeplota($dateTo, $dateFrom);
@@ -68,25 +68,25 @@ class SCZTZapadController extends BaseController
             $termis_models[] = $this->createVykonApiModel($termis_riadok);
         }
 
-        /*foreach ($termis_ost as $termis_ost_riadok) {
+        foreach ($termis_ost as $termis_ost_riadok) {
             $termis_ost_models[] = $this->createVykonApiModel($termis_ost_riadok);
-        }*/
+        }
 
-        /*foreach ($termis_pocasie as $termis_pocasie_riadok) {
+        foreach ($termis_pocasie as $termis_pocasie_riadok) {
             $termis_pocasie_models[] = $this->createVykonApiModel($termis_pocasie_riadok);
-        }*/
+        }
 
         foreach ($zdroje as $zdroje_riadok) {
             $zdroje_models[] = $this->createVykonApiModel($zdroje_riadok);
         }
 
-        /*foreach ($ost as $ost_riadok) {
+        foreach ($ost as $ost_riadok) {
             $ost_models[] = $this->createVykonApiModel($ost_riadok);
-        }*/
+        }
 
-        /*foreach ($komunikacia as $komunikacia_riadok) {
+        foreach ($komunikacia as $komunikacia_riadok) {
             $komunikacia_models[] = $this->createVykonApiModel($komunikacia_riadok);
-        }*/
+        }
 
         foreach ($teplota as $teplota_riadok) {
             $teplota_models[] = $this->createVykonApiModel($teplota_riadok);
@@ -95,11 +95,11 @@ class SCZTZapadController extends BaseController
         return $this->createApiResponse([
             'plan' => $plan_models,
             'termis' => $termis_models,
-            //'termis_ost' => $termis_ost_models,
-            //'termis_pocasie' => $termis_pocasie_models,
+            'termis_ost' => $termis_ost_models,
+            'termis_pocasie' => $termis_pocasie_models,
             'zdroje' => $zdroje_models,
-            //'ost' => $ost_models,
-            //'komunikacia' => $komunikacia_models,
+            'ost' => $ost_models,
+            'komunikacia' => $komunikacia_models,
             'teplota' => $teplota_models,
             //'extremy_vykon' => $extremy_vykon[0],
             //'extremy_teplota' => $extremy_teplota[0],
