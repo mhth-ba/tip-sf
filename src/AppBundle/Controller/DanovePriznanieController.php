@@ -1000,7 +1000,7 @@ class DanovePriznanieController extends BaseController
         $rok = $obdobie->format('Y');
 
         $icdph = 2020285245;
-        $urad = 'pre vybrané daňové subjekty';
+        $urad = 'Bratislava';
         $nazov = 'Bratislavská teplárenská, a.s.';
         $ulica = 'Turbínová';
         $cislo = 3;
