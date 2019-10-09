@@ -45,7 +45,7 @@ const polozky = [
       color: 'primary',
       size: 'md'
     }, {
-      url: 'http://zeusprod-vi/tip/zone_ee_denny-plan-prevadzky.php',
+      url: Routing.generate('denny-plan-prevadzky'),
       nazov: 'Denný plán prevádzky',
       color: 'secondary',
       size: 'sm'
