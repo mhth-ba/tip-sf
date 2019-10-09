@@ -63,7 +63,7 @@ services:
     AppBundle\Entity\RIS\ServisneHlasenia:
         public: true
 
-    AppBundle\Entity\Efektivnost\DPP\DennyPlanPrevadzky:
+    AppBundle\Entity\Efektivnost\DPP\Hlavny:
         public: true
 
     AppBundle\Entity\Kontroling\SCT\Hlavny:

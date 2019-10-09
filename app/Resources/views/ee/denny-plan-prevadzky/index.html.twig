@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Denný plán prevádzky' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/dpp.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>{{ title }}</h1>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col">
+                <div id="denny-plan-prevadzky"></div>
+            </div>
+        </div>
+
+        {#https://github.com/1up-lab/OneupUploaderBundle/issues/143#}
+        <div id="uploader-excel" data-endpoint="{{ oneup_uploader_endpoint('efektivnost') }}"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('build/dpp.js') }}"></script>
+{% endblock %}

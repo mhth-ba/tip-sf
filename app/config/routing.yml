@@ -45,6 +45,8 @@ ris-servisne-hlasenia:
 
 denny-plan-prevadzky:
     path: /ee/dpp
+    options:
+        expose: true
     defaults:
         _controller: AppBundle:DennyPlanPrevadzky:index
 
