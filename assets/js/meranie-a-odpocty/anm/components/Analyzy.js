@@ -134,7 +134,8 @@ class Analyzy extends React.Component {
           farba={'bg-yellowgreen text-white'}
           kriteria={[
             <span>Výstupná teplota &nbsp; &lt; &nbsp; Vratná teplota</span>,
-            <span>&Delta;t &nbsp; &lt; &nbsp; -5 °C</span>
+            <span>&Delta;t &nbsp; &lt; &nbsp; -5 °C</span>,
+            <span>Ignorovať medzi 23:00h a 5:00h</span>
           ]}
         />
 
@@ -152,7 +153,7 @@ class Analyzy extends React.Component {
           kriteria={[
             <span>Okamžitý výkon je rovnaký</span>,
             <span>Okamžitý prietok je rovnaký</span>,
-            <span>Trend &nbsp; &gt; &nbsp; 18 hodín</span>
+            <span>Trend &nbsp; &gt; &nbsp; 72 hodín</span>
           ]}
         />
 
