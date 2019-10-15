@@ -49,7 +49,7 @@ class Elektrina extends React.Component {
                 <CardTitle>Výroba elektrickej energie</CardTitle>
                 <CardSubtitle>Vlastné zdroje a podporné služby</CardSubtitle>
                 <br/>
-                <Table size="sm" className="dpp-nowrap">
+                <Table hover>
                   <thead>
                   <tr className="text-center">
                     <th></th>
