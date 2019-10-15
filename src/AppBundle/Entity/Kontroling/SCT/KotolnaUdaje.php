@@ -61,7 +61,12 @@ class KotolnaUdaje extends BaseEntity
     /**
      * @ORM\Column(type="decimal", scale=37, precision=10)
      */
-    private $kwh;
+    private $z_kwh;
+
+    /**
+     * @ORM\Column(type="decimal", scale=37, precision=10)
+     */
+    private $p_kwh;
 
     public function getId()
     {
@@ -70,7 +75,7 @@ class KotolnaUdaje extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getKotolna()
@@ -133,13 +138,23 @@ class KotolnaUdaje extends BaseEntity
         $this->pdm = $pdm;
     }
 
-    public function getKwh()
+    public function getZKwh()
     {
-        return $this->kwh;
+        return $this->z_kwh;
     }
 
-    public function setKwh($kwh)
+    public function setZKwh($z_kwh)
     {
-        $this->kwh = $kwh;
+        $this->z_kwh = $z_kwh;
+    }
+
+    public function getPKwh()
+    {
+        return $this->p_kwh;
+    }
+
+    public function setPKwh($p_kwh)
+    {
+        $this->p_kwh = $p_kwh;
     }
 }

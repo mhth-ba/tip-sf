@@ -1,51 +1,70 @@
 import React from 'react'
+
+import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap'
+
 import PropTypes from 'prop-types'
 import DropzoneComponent from 'react-dropzone-component'
 import Notifications from 'react-notification-system-redux'
 import { connect } from 'react-redux'
 import {
-    fetchSpravaRequest,
+    fetchVyberPolozkyRequest,
     loadMainEntryRequest,
     processUploadedFileRequest
-} from '../../../services/ActionsCenaTepla'
+} from '../actions'
 
 const componentConfig = {
-    iconFiletypes: ['.xls', '.xlsx'],
+    iconFiletypes: ['.xml'],
     showFiletypeIcon: true,
-    postUrl: $('#uploader-excel').data('endpoint')
+    postUrl: $('#uploader-excel').data('endpoint'),
+    maxFilesize: 1000 // MB
 }
 
 const config = {
-    dt: {
+    'dt': {
         config: componentConfig,
         djsConfig: {
             autoProcessQueue: true,
             dictDefaultMessage: `Excel súbor obsahujúci <u>dodané teplo</u> presuňte sem.<br/>
+                Karta musí mať názov <u>DT</u>.<br/>
                 Súbor musí spĺňať nižšie popísanú štruktúru:<br/><br/>
-                Prvý riadok je hlavička tabuľky. Musí mať <u>aspoň</u> tieto názvy stĺpcov:
-                ID | SCZT_V_kWh | SCZT_V_kW | SCZT_Z_kWh | SCZT_Z_kW<br/>
+                Stĺpce: ID | Názov | SCZT_V_kWh | SCZT_V_kW | SCZT_Z_kWh | SCZT_Z_kW<br/>
                 Stĺpec <u>ID</u> označuje zdroje nasledovne:
-                1 - TpV | 2 - VhJ | 3 - TpZ | 4 - PK | 5 - PPC | 6 - Slovnaft | 7 - Cogen West |
-                11 - Zdroj | 12 - Primár | 13 - OST | 14 - Sekundár<br/>
-                Karta musí mať názov <u>DT</u>`,
-            dictInvalidFileType: 'Nemôžete nahrať súbory tohto typu. Vyžaduje sa excel (.xls .xlsx)',
-            acceptedFiles: '.xls,.xlsx'
+                1 - TpV | 2 - VhJ | 3 - TpZ | 4 - Kotolne | 5 - PPC | 6 - Slovnaft | 7 - Cogen West |
+                11 - Zdroj | 12 - Primár | 13 - OST | 14 - Sekundár`,
+            dictInvalidFileType: 'Nemôžete nahrať súbory tohto typu. Vyžaduje sa excel súbor uložený vo formáte xml 2003 (.xml)',
+            acceptedFiles: '.xml'
         },
         eventHandlers: {
             //addedfile: (file) => console.log(file)
         }
     },
-    sn: {
+    'sn': {
         config: componentConfig,
         djsConfig: {
             autoProcessQueue: true,
-            dictDefaultMessage: `Excel súbor obsahujúci <u>skutočné náklady na teplo a elektrinu</u> presuňte sem.<br/>
-                Súbor musí spĺňať nižšie popísanú štruktuúru:<br/><br/>
-                Stĺpce: 2 - ID | 3 - Názov kalkulačnej položky<br/>
-                4 - TpV | 5 - TpZ | 6 - VhJ | 7 - PK | 8 - Primár | 9 - OST | 10 - Sekundár | 11 - Režijné náklady<br/>
-                Karta musí mať názov <u>SN</u>`,
-            dictInvalidFileType: 'Nemôžete nahrať súbory tohto typu. Vyžaduje sa excel (.xls .xlsx)',
-            acceptedFiles: '.xls,.xlsx'
+            dictDefaultMessage: `Excel súbor obsahujúci <u>spoločné náklady na teplo a elektrinu</u> presuňte sem.<br/>
+                Karta musí mať názov <u>DT</u>.<br/>
+                Súbor musí spĺňať nižšie popísanú štruktúru:<br/><br/>
+                Stĺpce: ID | Názov kalkulačnej položky<br/>
+                TpV V plnej výške | TpV Kľúčované | TpZ V plnej výške | TpZ Kľúčované | VhJ | PK | Primár | OST | Sekundár | Rěžijné náklady`,
+            dictInvalidFileType: 'Nemôžete nahrať súbory tohto typu. Vyžaduje sa excel súbor uložený vo formáte xml 2003 (.xml)',
+            acceptedFiles: '.xml'
+        },
+        eventHandlers: {
+            //addedfile: (file) => console.log(file)
+        }
+    },
+    'do': {
+        config: componentConfig,
+        djsConfig: {
+            autoProcessQueue: true,
+            dictDefaultMessage: `Excel súbor obsahujúci <u>daňové odpisy</u> presuňte sem.<br/>
+                      Karta musí mať názov <u>ODPISY</u>.<br/>
+                      Súbor musí spĺňať nižšie popísanú štruktúru:<br/><br/>
+                      Stĺpce: ID | Názov kalkulačnej položky<br/>
+                      TpV V plnej výške | TpV Kľúčované | TpZ V plnej výške | TpZ Kľúčované | VhJ | PK | Primár | OST | Sekundár | Rěžijné náklady`,
+            dictInvalidFileType: 'Nemôžete nahrať súbory tohto typu. Vyžaduje sa excel súbor uložený vo formáte xml 2003 (.xml)',
+            acceptedFiles: '.xml'
         },
         eventHandlers: {
             //addedfile: (file) => console.log(file)
@@ -92,7 +111,9 @@ class Vstupy extends React.Component {
 
         return (
             <div>
-                <DropzoneComponent
+              <Row>
+                <Col xl={4}>
+                  <DropzoneComponent
                     {...config.dt}
                     /*djsConfig={{...config.dt.djsConfig, params: {
                         hlavny: id,
@@ -100,19 +121,56 @@ class Vstupy extends React.Component {
                     }}}*/
                     // 2 = skutocna dodavka tepla
                     eventHandlers={{
-                        addedfile: (file) => this.handleAddedFile(file),
-                        complete: (file, uploadtype) => this.handleUpload(file, 2)
+                      addedfile: (file) => this.handleAddedFile(file),
+                      complete: (file, uploadtype) => this.handleUpload(file, 2)
                     }}
-                />
-                <br/>
-                <DropzoneComponent
+                  />
+                  <br/>
+                  <Card>
+                    <img src="../build/static/sct_dodane_teplo_priklad.png"
+                         className="card-img rounded"
+                         alt="Príklad požadovanej štruktúry"
+                         title="Príklad požadovanej štruktúry"
+                    />
+                  </Card>
+                </Col>
+                <Col xl={4}>
+                  <DropzoneComponent
                     {...config.sn}
-                    // 3 = skutocne naklady na teplo a elektrinu
+                    // 3 = spolocne naklady na teplo a elektrinu
                     eventHandlers={{
-                        addedfile: (file) => this.handleAddedFile(file),
-                        complete: (file, uploadtype) => this.handleUpload(file, 3)
+                      addedfile: (file) => this.handleAddedFile(file),
+                      complete: (file, uploadtype) => this.handleUpload(file, 3)
                     }}
-                />
+                  />
+                  <br/>
+                  <Card>
+                    <img src="../build/static/sct_spolocne_naklady_priklad.png"
+                         className="card-img rounded"
+                         alt="Príklad požadovanej štruktúry"
+                         title="Príklad požadovanej štruktúry"
+                    />
+                  </Card>
+                </Col>
+                <Col xl={4}>
+                  <DropzoneComponent
+                    {...config.do}
+                    // 4 = danove odpisy
+                    eventHandlers={{
+                      addedfile: (file) => this.handleAddedFile(file),
+                      complete: (file, uploadtype) => this.handleUpload(file, 4)
+                    }}
+                  />
+                  <br/>
+                  <Card>
+                    <img src="../build/static/sct_danove_odpisy_priklad.png"
+                         className="card-img rounded"
+                         alt="Príklad požadovanej štruktúry"
+                         title="Príklad požadovanej štruktúry"
+                    />
+                  </Card>
+                </Col>
+              </Row>
             </div>
         )
     }
@@ -122,10 +180,14 @@ Vstupy.contextTypes = {
     store: PropTypes.object
 }
 
+const mapStateToProps = ( state, ownProps ) => ({
+  hlavny: state.hlavny
+})
+
 export default connect(
-    (state) => ({ hlavny: state.hlavny }),
+    mapStateToProps,
     {
-        fetchSpravaRequest,
+        fetchVyberPolozkyRequest: fetchVyberPolozkyRequest,
         loadMainEntryRequest,
         processUploadedFileRequest
     }

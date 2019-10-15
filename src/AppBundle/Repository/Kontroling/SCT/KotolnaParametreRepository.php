@@ -15,4 +15,12 @@ class KotolnaParametreRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function findAllParametreOrderByHlavny()
+    {
+        return $this->createQueryBuilder('kp')
+            ->orderBy('kp.hlavny', 'desc')
+            ->getQuery()
+            ->execute();
+    }
 }

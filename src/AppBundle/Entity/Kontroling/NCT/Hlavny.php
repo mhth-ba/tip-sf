@@ -77,20 +77,20 @@ class Hlavny extends BaseEntity
         return $this->id;
     }
 
-    public function getDatum()
+    /*public function getDatum()
     {
         return $this->getTimestampWithOffset($this->datum);
-    }
+    }*/
 
-    public function getZmenene()
+    /*public function getZmenene()
     {
         return $this->getTimestampWithOffset($this->zmenene);
-    }
+    }*/
 
-    public function setZmenene($zmenene)
+    /*public function setZmenene($zmenene)
     {
         $this->zmenene = $zmenene;
-    }
+    }*/
 
     public function getStav()
     {
@@ -142,7 +142,7 @@ class Hlavny extends BaseEntity
         $this->vytvoril = $vytvoril;
     }
 
-    public function getUpravil()
+    /*public function getUpravil()
     {
         return $this->upravil;
     }
@@ -150,7 +150,7 @@ class Hlavny extends BaseEntity
     public function setUpravil($upravil)
     {
         $this->upravil = $upravil;
-    }
+    }*/
 
     public function getPoznamka()
     {

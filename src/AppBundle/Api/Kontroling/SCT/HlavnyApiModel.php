@@ -4,13 +4,17 @@ namespace AppBundle\Api\Kontroling\SCT;
 
 use AppBundle\Api\DefaultApiModel;
 
-class SkutocnaCenaTeplaApiModel extends DefaultApiModel
+class HlavnyApiModel extends DefaultApiModel
 {
     public $id;
 
     public $datum;
 
     public $zmenene;
+
+    public $nct_dodavka;
+
+    public $nct_cena;
 
     public $stav;
 

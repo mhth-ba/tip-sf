@@ -24,7 +24,7 @@ class Konstanty extends BaseEntity
     private $datum;
 
     /**
-     * @ORM\OneToOne(targetEntity="Hlavny")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Hlavny")
      */
     private $hlavny;
 

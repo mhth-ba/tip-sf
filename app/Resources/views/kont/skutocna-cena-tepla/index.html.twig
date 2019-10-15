@@ -1,18 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% set title='Skutočná cena tepla' %}
+{% set title = 'Skutočná cena tepla' %}
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/sct.css') }}">
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <h1>
-                    {{ title }}
-                </h1>
+                <h1>{{ title }}</h1>
             </div>
         </div>
 

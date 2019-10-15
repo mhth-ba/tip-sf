@@ -28,4 +28,14 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findUsers()
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.mail IS NOT NULL')
+            ->andWhere('u.office IS NOT NULL')
+            ->orderBy('u.fullname')
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -21,7 +21,10 @@ class HlavnyType extends AbstractType
             ->add('stav', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Kontroling\Stav'
             ))
-            ->add('nct', EntityType::class, array(
+            ->add('nct_dodavka', EntityType::class, array(
+                'class' => 'AppBundle\Entity\Kontroling\NCT\Hlavny'
+            ))
+            ->add('nct_cena', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Kontroling\NCT\Hlavny'
             ))
             ->add('poznamka', TextareaType::class);

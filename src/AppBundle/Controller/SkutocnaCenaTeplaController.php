@@ -9,10 +9,19 @@ use AppBundle\Api\Kontroling\SCT\HlavnyApiModel;
 use AppBundle\Api\Kontroling\SCT\KotolnaParametreApiModel;
 use AppBundle\Api\Kontroling\SCT\KotolnaPlatnostApiModel;
 use AppBundle\Api\Kontroling\SCT\KotolnaUdajeApiModel;
+use AppBundle\Api\Kontroling\SCT\NakupTeplaApiModel;
+use AppBundle\Api\Kontroling\SCT\NormativneMnozstvoApiModel;
+use AppBundle\Api\Kontroling\SCT\NormativneMnozstvoKotolneApiModel;
+use AppBundle\Api\Kontroling\SCT\OpravneneNakladyKotolneApiModel;
 use AppBundle\Api\Kontroling\SCT\PoznamkyApiModel;
+use AppBundle\Api\Kontroling\SCT\RegulovanaZlozkaApiModel;
+use AppBundle\Api\Kontroling\SCT\SkutocneNakladyApiModel;
+use AppBundle\Api\Kontroling\SCT\VypocetBuniekApiModel;
 use AppBundle\Api\Kontroling\SCT\VyrobaElektrinyApiModel;
 use AppBundle\Api\Kontroling\SCT\ZemnyPlynApiModel;
+use AppBundle\Api\Kontroling\SCT\ZemnyPlynKlucovanieApiModel;
 use AppBundle\Entity\App\ActivityLog;
+use AppBundle\Entity\App\Grant;
 use AppBundle\Entity\Kontroling\SCT\Hlavny;
 use AppBundle\Entity\Kontroling\SCT\DelenieNakladov;
 use AppBundle\Entity\Kontroling\SCT\DodaneTeplo;
@@ -21,17 +30,38 @@ use AppBundle\Entity\Kontroling\SCT\Kotolna;
 use AppBundle\Entity\Kontroling\SCT\KotolnaParametre;
 use AppBundle\Entity\Kontroling\SCT\KotolnaPlatnost;
 use AppBundle\Entity\Kontroling\SCT\KotolnaUdaje;
+use AppBundle\Entity\Kontroling\SCT\NakupTepla;
+use AppBundle\Entity\Kontroling\SCT\NormativneMnozstvo;
 use AppBundle\Entity\Kontroling\SCT\Poznamky;
+use AppBundle\Entity\Kontroling\SCT\RegulovanaZlozka;
+use AppBundle\Entity\Kontroling\SCT\SkutocneNaklady;
 use AppBundle\Entity\Kontroling\SCT\Upload;
 use AppBundle\Entity\Kontroling\SCT\VyrobaElektriny;
 use AppBundle\Entity\Kontroling\SCT\ZemnyPlyn;
+use AppBundle\Entity\Kontroling\SCT\ZemnyPlynKlucovanie;
+use AppBundle\Export\Kontroling\SCT\Priloha13;
+use AppBundle\Export\Kontroling\SCT\Priloha14;
+use AppBundle\Export\Kontroling\SCT\Priloha15;
+use AppBundle\Export\Kontroling\SCT\Priloha16;
+use AppBundle\Export\Kontroling\SCT\Priloha17;
+use AppBundle\Export\Kontroling\SCT\Priloha18;
+use AppBundle\Export\Kontroling\SCT\Priloha19;
+use AppBundle\Export\Kontroling\SCT\Priloha20;
+use AppBundle\Export\Kontroling\SCT\Priloha21;
+use AppBundle\Form\Type\GrantType;
 use AppBundle\Form\Type\Kontroling\SCT\HlavnyType;
 use AppBundle\Form\Type\Kontroling\SCT\DelenieNakladovType;
 use AppBundle\Form\Type\Kontroling\SCT\KonstantyType;
 use AppBundle\Form\Type\Kontroling\SCT\KotolnaParametreType;
 use AppBundle\Form\Type\Kontroling\SCT\KotolnaType;
 use AppBundle\Form\Type\Kontroling\SCT\KotolnaUdajeType;
+use AppBundle\Form\Type\Kontroling\SCT\NakupTeplaType;
+use AppBundle\Form\Type\Kontroling\SCT\NormativneMnozstvoType;
+use AppBundle\Form\Type\Kontroling\SCT\PoznamkyType;
+use AppBundle\Form\Type\Kontroling\SCT\RegulovanaZlozkaType;
+use AppBundle\Form\Type\Kontroling\SCT\SkutocneNakladyType;
 use AppBundle\Form\Type\Kontroling\SCT\VyrobaElektrinyType;
+use AppBundle\Form\Type\Kontroling\SCT\ZemnyPlynKlucovanieType;
 use AppBundle\Form\Type\Kontroling\SCT\ZemnyPlynType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,6 +69,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -103,25 +135,32 @@ class SkutocnaCenaTeplaController extends BaseController
         $dir = $this->get('kernel')->getProjectDir().'/web/uploads';
 
         switch ($uploadtype_id) {
-            case 2:
+            case 2: // dodavka tepla (skutocna)
                 $fs->copy(
                     $dir.'/kontroling/'.$filename,
-                    $dir.'/linked-servers/DT__1.xlsx'
+                    $dir.'/kontroling/DT.xml'
                 );
-                /*$this->getDoctrine()->getManager()
+                $this->getDoctrine()->getManager()
                     ->getRepository('AppBundle:Kontroling\SCT\Upload')
-                    ->uploadDodaneTeplo($hlavny_id);*/
-                sleep(8);
+                    ->uploadDodaneTeplo($hlavny_id);
                 break;
-            case 3:
+            case 3: // skutocne naklady (spolocne)
                 $fs->copy(
                     $dir.'/kontroling/'.$filename,
-                    $dir.'/linked-servers/SN__1.xlsx'
+                    $dir.'/kontroling/SN.xml'
                 );
-                /*$this->getDoctrine()->getManager()
+                $this->getDoctrine()->getManager()
                     ->getRepository('AppBundle:Kontroling\SCT\Upload')
-                    ->uploadSkutocneNaklady($hlavny_id);*/
-                sleep(8);
+                    ->uploadSkutocneNaklady($hlavny_id);
+                break;
+            case 4: // danove odpisy
+                $fs->copy(
+                    $dir.'/kontroling/'.$filename,
+                    $dir.'/kontroling/DO.xml'
+                );
+                $this->getDoctrine()->getManager()
+                    ->getRepository('AppBundle:Kontroling\SCT\Upload')
+                    ->uploadDanoveOdpisy($hlavny_id);
                 break;
         }
 
@@ -143,8 +182,74 @@ class SkutocnaCenaTeplaController extends BaseController
         $file = $upload->getSubor();
         $orig = $upload->getOriginal();
 
-        return $this->downloadFile($sub, $file, $orig);
+        return $this->downloadFile($sub, $file, $orig, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
     }
+
+    /**
+     * @Route("kont/sct/hlavny", name="sct_hlavny_post", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_SCT_KONT')")
+     */
+    public function createHlavnyAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Kontroling\SCT\Hlavny');
+
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $rok = $data['rok'];
+        $userId = $this->getUser()->getId();
+
+        $novy = $repository->createHlavny($rok, $userId);
+        $hlavnyId = $novy[0]->getId(); // ID noveho hlavneho zaznamu
+
+        $this->logCreateActivity($hlavnyId, 'AppBundle:Kontroling\SCT\Hlavny');
+
+        $hlavny = $repository->find($hlavnyId);
+
+        $apiModel = $this->createHlavnyApiModel($hlavny);
+
+        return $this->createApiResponse($apiModel);
+    }
+
+    /**
+     * @Route("kont/sct/pristupy", name="sct_pristup_post", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_SCT_ADMIN')")
+     */
+    public function createPristupAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $userId = $data['user'];
+        $roleId = $data['role'];
+
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+        $role = $em->getRepository('AppBundle:App\Role')
+            ->find($roleId);
+
+        $pristup = new Grant();
+
+        $pristup->setUsers($user);
+        $pristup->setRoles($role);
+
+        $em->persist($pristup);
+        $em->flush();
+
+        $this->logCreateActivity($pristup->getId(), 'AppBundle:App\Grant');
+
+        return $this->createApiResponse($pristup);
+    }
+
 
     /**
      * @Route("kont/sct/kotolne", name="sct_kotolne_post", options={"expose"=true})
@@ -195,6 +300,18 @@ class SkutocnaCenaTeplaController extends BaseController
         return $this->createApiResponse($models);
     }
 
+    // TODO kotolna platonst
+    public function modifyKotolnaPlatnostAction()
+    {
+        return;
+    }
+
+    // TODO kotolna primarny rozvod
+    public function modifyKotolnaPrimarAction()
+    {
+        return;
+    }
+
     /**
      * @Route("kont/sct/opravnenia", name="sct_opravnenia", options={"expose"=true})
      * @Method("GET")
@@ -216,9 +333,23 @@ class SkutocnaCenaTeplaController extends BaseController
     }
 
     /**
+     * @Route("kont/sct/pristupy", name="sct_pristupy_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getPristupy()
+    {
+        $grants = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:App\Grant')
+            ->findGrantedRolesSCT();
+
+        return $this->createApiResponse($grants);
+    }
+
+    /**
      * @Route("kont/sct/moznosti", name="sct_moznosti", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_KONT')")
+     * @Security("has_role('ROLE_SCT_MNG')")
      */
     public function getMoznostiAction()
     {
@@ -228,7 +359,13 @@ class SkutocnaCenaTeplaController extends BaseController
             ->getStavy();
 
         $prepojenia = $em->getRepository('AppBundle:Kontroling\NCT\Hlavny')
-            ->getVsetky();
+            ->findFinalne();
+
+        $pouzivatelia = $em->getRepository('AppBundle:App\User')
+            ->findUsers();
+
+        $role = $em->getRepository('AppBundle:App\Role')
+            ->findRolesSCT();
 
         $moznosti = [];
 
@@ -238,6 +375,14 @@ class SkutocnaCenaTeplaController extends BaseController
 
         foreach ($prepojenia as $nct) {
             $moznosti['prepojenie'][] = $nct;
+        }
+
+        foreach ($pouzivatelia as $pouzivatel) {
+            $moznosti['pouzivatelia'][] = $pouzivatel;
+        }
+
+        foreach ($role as $rola) {
+            $moznosti['role'][] = $rola;
         }
 
         return $this->createApiResponse($moznosti);
@@ -284,7 +429,8 @@ class SkutocnaCenaTeplaController extends BaseController
         $model->id = $id;
         $model->datum = $hlavny->getDatum();
         $model->zmenene = $hlavny->getZmenene();
-        $model->nct = $hlavny->getNct();
+        $model->nct_dodavka = $hlavny->getNctDodavka();
+        $model->nct_cena = $hlavny->getNctCena();
         $model->stav = $hlavny->getStav();
         $model->nazov = $hlavny->getNazov();
         $model->rok = $hlavny->getRok();
@@ -296,9 +442,11 @@ class SkutocnaCenaTeplaController extends BaseController
 
         $upload_dt = $upload->getLastUploadedDodaneTeplo($id);
         $upload_sn = $upload->getLastUploadedSkutocneNaklady($id);
+        $upload_do = $upload->getLastUploadedDanoveOdpisy($id);
 
         $model->upload['dt'] = $upload_dt; // dodane teplo
         $model->upload['sn'] = $upload_sn; // skutocne naklady
+        $model->upload['do'] = $upload_do; // danove odpisy
 
         $selfUrl = $this->generateUrl(
             'sct_hlavny_get',
@@ -497,7 +645,7 @@ class SkutocnaCenaTeplaController extends BaseController
             ->findKotolne();
 
         $parametre = $em->getRepository('AppBundle:Kontroling\SCT\KotolnaParametre')
-            ->findAll();
+            ->findAllParametreOrderByHlavny();
 
         $udaje = $em->getRepository('AppBundle:Kontroling\SCT\KotolnaUdaje')
             ->findUdajeByHlavny($id);
@@ -553,7 +701,8 @@ class SkutocnaCenaTeplaController extends BaseController
         $model->nbsd = $kotolnaUdaje->getNbsd();
         $model->sd = $kotolnaUdaje->getSd();
         $model->pdm = $kotolnaUdaje->getPdm();
-        $model->kwh = $kotolnaUdaje->getKwh();
+        $model->z_kwh = $kotolnaUdaje->getZKwh();
+        $model->p_kwh = $kotolnaUdaje->getPKwh();
 
         return $model;
     }
@@ -567,6 +716,7 @@ class SkutocnaCenaTeplaController extends BaseController
         $model->kotolna = $kotolnaPlatnost->getKotolna();
 //        $model->hlavny = $kotolnaPlatnost->getHlavny();
         $model->plati = $kotolnaPlatnost->getPlati();
+        $model->primar = $kotolnaPlatnost->getPrimar();
 
         return $model;
     }
@@ -642,6 +792,305 @@ class SkutocnaCenaTeplaController extends BaseController
     }
 
     /**
+     * @Route("kont/sct/zemny-plyn-klucovanie/{id}", name="sct_zemny-plyn-klucovanie_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getZemnyPlynKlucovanieAction($id)
+    {
+        $polozky = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\ZemnyPlynKlucovanie')
+            ->getFakturovaneNaklady($id);
+
+        $models = [];
+        foreach ($polozky as $zemnyPlynKlucovanie) {
+            $models[] = $this->createZemnyPlynKlucovanieApiModel($zemnyPlynKlucovanie);
+        }
+
+        return $this->createApiResponse($models);
+    }
+
+    private function createZemnyPlynKlucovanieApiModel(ZemnyPlynKlucovanie $zemnyPlynKlucovanie)
+    {
+        $model = new ZemnyPlynKlucovanieApiModel();
+
+        $model->id = $zemnyPlynKlucovanie->getId();
+        $model->datum = $zemnyPlynKlucovanie->getDatum();
+//        $model->hlavny = $zemnyPlynKlucovanie->getHlavny();
+        $model->polozka = $zemnyPlynKlucovanie->getPolozka();
+        $model->suma = $zemnyPlynKlucovanie->getSuma();
+
+        return $model;
+    }
+
+    /**
+     * @Route("kont/sct/normativne-mnozstvo/{id}", name="sct_normativne-mnozstvo_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getNormativneMnozstvoAction($id)
+    {
+        // vychod | juh | zapad
+        $repository = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\NormativneMnozstvo');
+
+        $vychod = $repository->getVychod($id);
+
+        $juh = $repository->getJuh($id);
+
+        $zapad = $repository->getZapad($id);
+
+            // Plynove kotolne
+            $sql = "EXECUTE [Kontroling].[SCT_NormativneMnozstvo_Kotolne_SP] @ID = ?";
+            $sqlParams = array($id);
+            $conn = $this->getDoctrine()->getConnection();
+            $polozky = $conn->execProcedureWithResultSet($sql, $sqlParams);
+
+
+        $data = [
+            'vychod' => array(),
+            'juh' => array(),
+            'zapad' => array(),
+            'kotolne' => array()
+        ];
+
+        foreach ($vychod as $tpv) {
+            $data['vychod'][] = $this->createNormativneMnozstvoApiModel($tpv);
+        }
+
+        foreach ($juh as $vhj) {
+            $data['juh'][] = $this->createNormativneMnozstvoApiModel($vhj);
+        }
+
+        foreach ($zapad as $tpz) {
+            $data['zapad'][] = $this->createNormativneMnozstvoApiModel($tpz);
+        }
+
+        foreach ($polozky[0] as $kotolna) {
+            $data['kotolne'][] = $this->createNormativneMnozstvoKotolneApiModel($kotolna);
+        }
+
+        return $this->createApiResponse($data);
+    }
+
+    private function createNormativneMnozstvoApiModel(NormativneMnozstvo $nm)
+    {
+        $model = new NormativneMnozstvoApiModel();
+
+        $model->id = $nm->getId();
+        $model->datum = $nm->getDatum();
+        $model->polozka = $nm->getPolozka();
+        $model->hodnota = $nm->getHodnota();
+        $model->ucinnost = $nm->getUcinnost();
+
+        return $model;
+    }
+
+    private function createNormativneMnozstvoKotolneApiModel($kotolna)
+    {
+        $model = new NormativneMnozstvoKotolneApiModel();
+
+        $model->id = $kotolna['ID'];
+        $model->primar = $kotolna['P'];
+        $model->kotolna = $kotolna['Nazov'];
+        $model->p_teplo = $kotolna['P_Teplo'];
+        $model->p_ucinnost = $kotolna['P_Ucinnost'];
+        $model->z_teplo = $kotolna['Z_Teplo'];
+        $model->z_ucinnost = $kotolna['Z_Ucinnost'];
+        $model->vzp = $kotolna['VZP'];
+        $model->pstv = $kotolna['PSTV'];
+        $model->nmzp_mwh = $kotolna['NMZP_MWh'];
+        $model->nmzp_m3 = $kotolna['NMZP_m3'];
+
+        return $model;
+    }
+
+    /**
+     * @Route("kont/sct/opravnene-naklady/{id}", name="sct_opravnene-naklady_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getOpravneneNakladyAction($id)
+    {
+        // Plynove kotolne
+        $sql = "EXECUTE [Kontroling].[SCT_OpravneneNaklady_Kotolne_SP] @ID = ?";
+        $sqlParams = array($id);
+        $conn = $this->getDoctrine()->getConnection();
+        $polozky = $conn->execProcedureWithResultSet($sql, $sqlParams);
+
+        $data = [
+            'kotolne' => array()
+        ];
+
+        foreach ($polozky[0] as $kotolna) {
+            $data['kotolne'][] = $this->createOpravneneNakladyKotolneApiModel($kotolna);
+        }
+
+        return $this->createApiResponse($data);
+    }
+
+    private function createOpravneneNakladyKotolneApiModel($kotolna)
+    {
+        $model = new OpravneneNakladyKotolneApiModel();
+
+        $model->id = $kotolna['ID'];
+        $model->kotolna = $kotolna['Nazov'];
+        $model->nmzp_mwh = $kotolna['NMZP_MWh'];
+        $model->jczp = $kotolna['JCZP'];
+        $model->nn = $kotolna['NN'];
+        $model->sfn = $kotolna['SFN'];
+        $model->pb = $kotolna['PB'];
+        $model->eon = $kotolna['EON'];
+
+        return $model;
+    }
+
+    /**
+     * @Route("kont/sct/nakup-tepla/{id}", name="sct_nakup-tepla_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getNakupTeplaAction($id)
+    {
+        $polozky = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\NakupTepla')
+            ->getNakladyNaNakupTepla($id);
+
+        $models = [];
+        foreach ($polozky as $nakupTepla) {
+            $models[] = $this->createNakupTeplaApiModel($nakupTepla);
+        }
+
+        return $this->createApiResponse($models);
+    }
+
+    private function createNakupTeplaApiModel(NakupTepla $nakupTepla)
+    {
+        $model = new NakupTeplaApiModel();
+
+        $model->id = $nakupTepla->getId();
+        $model->datum = $nakupTepla->getDatum();
+//        $model->hlavny = $nakupTepla->getHlavny();
+        $model->polozka = $nakupTepla->getPolozka();
+        $model->ppc = $nakupTepla->getPpc();
+        $model->slovnaft = $nakupTepla->getSlovnaft();
+        $model->cw = $nakupTepla->getCw();
+
+        return $model;
+    }
+
+    /**
+     * @Route("kont/sct/skutocne-naklady/{id}", name="sct_skutocne-naklady_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getSkutocneNakladyAction($id)
+    {
+        $polozky = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\SkutocneNaklady')
+            ->getSkutocneNaklady($id);
+
+        $models = [];
+        foreach ($polozky as $skutocneNaklady) {
+            $models[] = $this->createSkutocneNakladyApiModel($skutocneNaklady);
+        }
+
+        return $this->createApiResponse($models);
+    }
+
+    private function createSkutocneNakladyApiModel(SkutocneNaklady $skutocneNaklady)
+    {
+        $model = new SkutocneNakladyApiModel();
+
+        $model->id = $skutocneNaklady->getId();
+        $model->datum = $skutocneNaklady->getDatum();
+//        $model->hlavny = $skutocneNaklady->getHlavny();
+        $model->ucet = $skutocneNaklady->getUcet();
+        $model->polozka = $skutocneNaklady->getPolozka();
+        $model->tpv_p = $skutocneNaklady->getTpvP();
+        $model->tpv_k = $skutocneNaklady->getTpvK();
+        $model->tpz_p = $skutocneNaklady->getTpzP();
+        $model->tpz_k = $skutocneNaklady->getTpzK();
+        $model->vhj = $skutocneNaklady->getVhj();
+        $model->pk = $skutocneNaklady->getPk();
+        $model->primar = $skutocneNaklady->getPrimar();
+        $model->ost = $skutocneNaklady->getOst();
+        $model->sekundar = $skutocneNaklady->getSekundar();
+        $model->rezijne = $skutocneNaklady->getRezijne();
+        $model->spolu = $skutocneNaklady->getSpolu();
+
+        return $model;
+    }
+
+    /**
+     * @Route("kont/sct/regulovana-zlozka/{id}", name="sct_regulovana-zlozka_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getRegulovanaZlozkaAction($id)
+    {
+        $regulovanaZlozka = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\RegulovanaZlozka')
+            ->getRegulovanaZlozka($id);
+
+        $model = $this->createRegulovanaZlozkaApiModel($regulovanaZlozka);
+
+        return $this->createApiResponse($model);
+    }
+
+    private function createRegulovanaZlozkaApiModel(RegulovanaZlozka $regulovanaZlozka)
+    {
+        $model = new RegulovanaZlozkaApiModel();
+
+        $model->id = $regulovanaZlozka->getId();
+        $model->datum = $regulovanaZlozka->getDatum();
+//        $model->hlavny = $regulovanaZlozka->getHlavny();
+        $model->prikon = $regulovanaZlozka->getPrikon();
+        $model->doLimitu = $regulovanaZlozka->getDoLimitu();
+        $model->nadLimit = $regulovanaZlozka->getNadLimit();
+        $model->zaklad = $regulovanaZlozka->getZaklad();
+        $model->priplatok = $regulovanaZlozka->getPriplatok();
+        $model->kdkwnl = $regulovanaZlozka->getKdkwnl();
+        $model->rzfn = $regulovanaZlozka->getRzfn();
+        $model->pz = $regulovanaZlozka->getPz();
+        $model->rzfnapz = $regulovanaZlozka->getRzfnapz();
+
+        return $model;
+    }
+
+    /**
+     * @Route("kont/sct/vypocet-buniek/{id}", name="sct_vypocet-buniek_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getVypocetBuniekAction($id)
+    {
+        $sql = "EXECUTE [Kontroling].[SCT_VypocetBuniek] @ID = ?";
+        $sqlParams = array($id);
+        $conn = $this->getDoctrine()->getConnection();
+        $polozky = $conn->execProcedureWithResultSet($sql, $sqlParams);
+
+        $bunky = [];
+        foreach ($polozky[0] as $bunka) {
+            $bunky[] = $this->createVypocetBuniekApiModel($bunka);
+        }
+
+        return $this->createApiResponse([
+            'bunky' => $bunky,
+        ]);
+    }
+
+    private function createVypocetBuniekApiModel($riadok)
+    {
+        $model = new VypocetBuniekApiModel();
+
+        $model->id = $riadok['ID'];
+        $model->hodnota = $riadok['Hodnota'];
+
+        return $model;
+    }
+
+    /**
      * @Route("kont/sct/hlavny/{id}", name="sct_hlavny_update", options={"expose"=true})
      * @Method("PATCH")
      * @Security("has_role('ROLE_SCT_KONT')")
@@ -664,6 +1113,41 @@ class SkutocnaCenaTeplaController extends BaseController
             $id,
             'AppBundle:Kontroling\SCT\Hlavny',
             HlavnyType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/sct/pristup/{id}", name="sct_pristup_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_SCT_ADMIN')")
+     */
+    public function updatePristupAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $pristup = $em->getRepository('AppBundle:App\Grant')
+            ->find($id);
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:App\Grant',
+            GrantType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/sct/poznamky/{id}", name="sct_poznamky_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_SCT_KONT')")
+     */
+    public function updatePoznamkyAction($id, Request $request)
+    {
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Kontroling\SCT\Poznamky',
+            PoznamkyType::class,
             $request
         );
     }
@@ -774,6 +1258,95 @@ class SkutocnaCenaTeplaController extends BaseController
     }
 
     /**
+     * @Route("kont/sct/zemny-plyn-klucovanie/{id}", name="sct_zemny-plyn-klucovanie_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_SCT_KONT')")
+     */
+    public function updateZemnyPlynKlucovanieAction($id, Request $request)
+    {
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Kontroling\SCT\ZemnyPlynKlucovanie',
+            ZemnyPlynKlucovanieType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/sct/normativne-mnozstvo/{id}", name="sct_normativne-mnozstvo_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_SCT_KONT')")
+     */
+    public function updateNormativneMnozstvoAction($id, Request $request)
+    {
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Kontroling\SCT\NormativneMnozstvo',
+            NormativneMnozstvoType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/sct/nakup-tepla/{id}", name="sct_nakup-tepla_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_SCT_KONT')")
+     */
+    public function updateNakupTeplaAction($id, Request $request)
+    {
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Kontroling\SCT\NakupTepla',
+            NakupTeplaType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/sct/skutocne-naklady/{id}", name="sct_skutocne-naklady_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_SCT_KONT')")
+     */
+    public function updateSkutocneNakladyAction($id, Request $request)
+    {
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Kontroling\SCT\SkutocneNaklady',
+            SkutocneNakladyType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/sct/regulovana-zlozka/{id}", name="sct_regulovana-zlozka_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_SCT_KONT')")
+     */
+    public function updateRegulovanaZlozkaAction($id, Request $request)
+    {
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Kontroling\SCT\RegulovanaZlozka',
+            RegulovanaZlozkaType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/sct/pristup/{id}", name="sct_pristup_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_SCT_ADMIN')")
+     */
+    public function deletePristupAction($id, Request $request)
+    {
+        return $this->deleteFromDatabase(
+            $id,
+            'AppBundle:App\Grant',
+            $request
+        );
+    }
+
+    /**
      * @Route("kont/sct/kotolna/{id}", name="sct_kotolna_delete", options={"expose"=true})
      * @Method("DELETE")
      * @Security("has_role('ROLE_SCT_KONT')")
@@ -785,5 +1358,214 @@ class SkutocnaCenaTeplaController extends BaseController
             'AppBundle:Kontroling\SCT\Kotolna',
             $request
         );
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-13/{id}", name="sct_export-13", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha13($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha13();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 13 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-14/{id}", name="sct_export-14", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha14($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha14();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 14 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-15/{id}", name="sct_export-15", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha15($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha15();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 15 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-16/{id}", name="sct_export-16", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha16($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha16();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 16 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-17/{id}", name="sct_export-17", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha17($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha17();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 17 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-18/{id}", name="sct_export-18", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha18($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha18();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 18 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-19/{id}", name="sct_export-19", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha19($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha19();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 19 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-20/{id}", name="sct_export-20", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha20($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha20();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 20 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    /**
+     * @Route("kont/sct/export-priloha-21/{id}", name="sct_export-21", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function exportPriloha21($id)
+    {
+        $hlavny = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Hlavny')
+            ->find($id);
+
+        $rok = $hlavny->getRok();
+
+        $priloha = new Priloha21();
+        $priloha->setRok($rok);
+
+        $filename = "SCT Priloha 21 ($rok).xml";
+        $fileContent = $priloha->getContent();
+
+        return $this->exportTemplate($filename, $fileContent);
+    }
+
+    private function exportTemplate(string $filename, string $fileContent)
+    {
+        $response = new Response($fileContent);
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $filename
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+        return $response;
     }
 }

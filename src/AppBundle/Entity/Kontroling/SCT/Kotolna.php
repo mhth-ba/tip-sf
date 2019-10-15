@@ -47,7 +47,7 @@ class Kotolna extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getNazov()

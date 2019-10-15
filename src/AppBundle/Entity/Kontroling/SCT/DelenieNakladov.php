@@ -24,7 +24,7 @@ class DelenieNakladov extends BaseEntity
     private $datum;
 
     /**
-     * @ORM\OneToOne(targetEntity="Hlavny")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Hlavny")
      */
     private $hlavny;
 
@@ -50,7 +50,7 @@ class DelenieNakladov extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getHlavny()

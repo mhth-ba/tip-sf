@@ -43,7 +43,7 @@ class RoleRepository extends EntityRepository
     {
         return $this->createQueryBuilder('role')
             ->andWhere('role.role LIKE :role')
-            ->setParameter('role', 'ROLE_SCT%')
+            ->setParameter('role', 'ROLE_SCT_%')
             ->getQuery()
             ->getArrayResult();
     }

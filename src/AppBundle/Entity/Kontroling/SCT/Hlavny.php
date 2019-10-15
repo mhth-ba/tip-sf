@@ -8,6 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Kontroling\SCT\HlavnyRepository")
  * @ORM\Table(name="SCT_Hlavny", schema="Kontroling")
+ * @ORM\NamedNativeQueries({
+ *     @ORM\NamedNativeQuery(
+ *         name="SCT_Hlavny_Novy",
+ *         query="EXECUTE [Kontroling].[SCT_Hlavny_Novy] @Rok = :rok, @Vytvoril_ID = :user_id",
+ *         resultClass="AppBundle\Entity\Kontroling\SCT\Hlavny"
+ *     )
+ * })
  */
 class Hlavny extends BaseEntity
 {
@@ -31,7 +38,12 @@ class Hlavny extends BaseEntity
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\NCT\Hlavny")
      */
-    private $nct;
+    private $nct_dodavka;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\NCT\Hlavny")
+     */
+    private $nct_cena;
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\Stav")
@@ -79,12 +91,12 @@ class Hlavny extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getZmenene()
     {
-        return $this->getTimestampWithOffset($this->zmenene);
+        return $this->getTimestampWithoutOffset($this->zmenene);
     }
 
     public function setZmenene($zmenene)
@@ -92,14 +104,24 @@ class Hlavny extends BaseEntity
         $this->zmenene = $zmenene;
     }
 
-    public function getNct()
+    public function getNctDodavka()
     {
-        return $this->nct;
+        return $this->nct_dodavka;
     }
 
-    public function setNct($nct)
+    public function setNctDodavka($nct_dodavka)
     {
-        $this->nct = $nct;
+        $this->nct_dodavka = $nct_dodavka;
+    }
+
+    public function getNctCena()
+    {
+        return $this->nct_cena;
+    }
+
+    public function setNctCena($nct_cena)
+    {
+        $this->nct_cena = $nct_cena;
     }
 
     public function getStav()

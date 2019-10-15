@@ -18,6 +18,11 @@ use Doctrine\ORM\Mapping as ORM;
  *         name="Excel_SkutocneNaklady",
  *         query="EXECUTE [Kontroling].[Excel_SkutocneNaklady] @Hlavny_ID = :id",
  *         resultClass="AppBundle\Entity\Kontroling\SCT\SkutocneNaklady"
+ *     ),
+ *     @ORM\NamedNativeQuery(
+ *         name="Excel_DanoveOdpisy",
+ *         query="EXECUTE [Kontroling].[Excel_DanoveOdpisy] @Hlavny_ID = :id",
+ *         resultClass="AppBundle\Entity\Kontroling\SCT\SkutocneNaklady"
  *     )
  * })
  */
@@ -36,7 +41,7 @@ class Upload extends BaseEntity
     private $datum;
 
     /**
-     * @ORM\OneToOne(targetEntity="Hlavny")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Hlavny")
      */
     private $hlavny;
 
@@ -71,7 +76,7 @@ class Upload extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getHlavny()

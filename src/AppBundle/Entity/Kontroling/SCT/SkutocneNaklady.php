@@ -29,7 +29,7 @@ class SkutocneNaklady extends BaseEntity
     private $platne;
 
     /**
-     * @ORM\OneToOne(targetEntity="Hlavny")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Hlavny")
      */
     private $hlavny;
 
@@ -46,12 +46,22 @@ class SkutocneNaklady extends BaseEntity
     /**
      * @ORM\Column(type="decimal", precision=37, scale=10)
      */
-    private $tpv;
+    private $tpv_p;
 
     /**
      * @ORM\Column(type="decimal", precision=37, scale=10)
      */
-    private $tpz;
+    private $tpv_k;
+
+    /**
+     * @ORM\Column(type="decimal", precision=37, scale=10)
+     */
+    private $tpz_p;
+
+    /**
+     * @ORM\Column(type="decimal", precision=37, scale=10)
+     */
+    private $tpz_k;
 
     /**
      * @ORM\Column(type="decimal", precision=37, scale=10)
@@ -83,6 +93,11 @@ class SkutocneNaklady extends BaseEntity
      */
     private $rezijne;
 
+    /**
+     * @ORM\Column(type="decimal", precision=38, scale=10)
+     */
+    private $spolu;
+
 
     public function getId()
     {
@@ -91,7 +106,7 @@ class SkutocneNaklady extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getPlatne()
@@ -114,19 +129,54 @@ class SkutocneNaklady extends BaseEntity
         return $this->polozka;
     }
 
-    public function getTpv()
+    public function getTpvP()
     {
-        return $this->tpv;
+        return $this->tpv_p;
     }
 
-    public function getTpz()
+    public function setTpvP($tpv_p)
     {
-        return $this->tpz;
+        $this->tpv_p = $tpv_p;
+    }
+
+    public function getTpvK()
+    {
+        return $this->tpv_k;
+    }
+
+    public function setTpvK($tpv_k)
+    {
+        $this->tpv_k = $tpv_k;
+    }
+
+    public function getTpzP()
+    {
+        return $this->tpz_p;
+    }
+
+    public function setTpzP($tpz_p)
+    {
+        $this->tpz_p = $tpz_p;
+    }
+
+    public function getTpzK()
+    {
+        return $this->tpz_k;
+    }
+
+    public function setTpzK($tpz_k)
+    {
+        $this->tpz_k = $tpz_k;
     }
 
     public function getVhj()
     {
         return $this->vhj;
+    }
+
+    public function setVhj($vhj)
+    {
+        $this->vhj = $vhj;
     }
 
     public function getPk()
@@ -152,5 +202,15 @@ class SkutocneNaklady extends BaseEntity
     public function getRezijne()
     {
         return $this->rezijne;
+    }
+
+    public function setRezijne($rezijne)
+    {
+        $this->rezijne = $rezijne;
+    }
+
+    public function getSpolu()
+    {
+        return $this->spolu;
     }
 }

@@ -37,6 +37,11 @@ class KotolnaPlatnost
      */
     private $plati;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $primar;
+
     public function getId()
     {
         return $this->id;
@@ -65,5 +70,15 @@ class KotolnaPlatnost
     public function setPlati($plati)
     {
         $this->plati = $plati;
+    }
+
+    public function getPrimar()
+    {
+        return $this->primar;
+    }
+
+    public function setPrimar($primar)
+    {
+        $this->primar = $primar;
     }
 }

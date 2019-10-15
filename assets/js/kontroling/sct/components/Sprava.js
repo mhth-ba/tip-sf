@@ -1,303 +1,361 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
-    Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, CardFooter,
-    FormGroup, Label, Input, Table, Alert, Badge, UncontrolledTooltip } from 'reactstrap'
-import dateTime from '../../../utils/format'
-import FontAwesome from 'react-fontawesome'
-import Notifications from 'react-notification-system-redux'
-import { connect } from 'react-redux'
+import React from 'react'
+import {connect} from 'react-redux'
 import {
-    fetchOpravneniaRequest,
-    fetchSpravaRequest,
-    loadMainEntryRequest,
-    toggleHighlightEditable
-} from '../../../services/ActionsCenaTepla'
+  Button, Modal, ModalHeader, ModalBody, ModalFooter,
+  Card, CardImg, CardText, CardBody, CardTitle, CardFooter, CardHeader,
+  Form, FormGroup, Label, Input, Table, Badge, UncontrolledTooltip,
+  Nav, NavItem, NavLink, TabContent, TabPane,
+  Row, Col
+} from 'reactstrap'
+import FontAwesome from 'react-fontawesome'
+import classnames from 'classnames'
 
-const Polozka = ({id, nazov, rok, stav, vytvoril, datum, poznamka, upload}) => (
-    <option value={id}
-            data-nazov={nazov}
-            data-rok={rok}
-            data-stav={stav.stav}
-            data-vytvoril={vytvoril.fullname}
-            data-datum={ datum.timestamp }
-            data-poznamka={poznamka}
-            data-upload_dt={upload.dt && upload.dt.original}
-            data-upload_sn={upload.sn && upload.sn.original}
-    >({rok}) {nazov}</option>
-)
+import {
+  fetchPristupyRequest,
+  createPristupRequest,
+  updatePristupRequest,
+  deletePristupRequest
+} from '../actions'
 
-const NacitavanieOpravneni = () => (
-    <div className="small text-muted">
-        <em>Načítavajú sa oprávnenia</em>
-    </div>
-)
+class Sprava extends React.Component {
+  constructor(props) {
+    super(props)
 
-const NacitavaniePoloziek = () => (
-    <div className="small text-muted">
-        <em>Načítavajú sa položky ceny tepla</em>
-    </div>
-)
+    this.state = {
+      activeTab: '1',
 
-class Spravovat extends React.Component {
-    constructor (props) {
-        super (props)
-        this.state = {
-            modal: false,
-            validOption: false,
-            id: null,
-            nazov: null,
-            rok: null,
-            stav: null,
-            poznamka: null,
-            vytvoril: null,
-            datum: null,
-            excel_dt: null,
-            excel_sn: null
-        }
+      pristupGUI: false,
+      pouzivatel: '',
+      rola: '',
 
-        this.toggle = this.toggle.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleLoad = this.handleLoad.bind(this)
-        this.handleNotify = this.handleNotify.bind(this)
-        this.handleHighlightEditable = this.handleHighlightEditable.bind(this)
+      deleting_id: null
     }
 
-    toggle() {
-        this.setState({
-            modal: !this.state.modal
-        })
+    this.toggle = this.toggle.bind(this)
 
-        this.setState({
-            validOption: false,
-            id: null,
-            nazov: null,
-            rok: null,
-            stav: null,
-            poznamka: null,
-            vytvoril: null,
-            datum: null,
-            excel_dt: null,
-            excel_sn: null
-        })
+    this.togglePristupGUI = this.togglePristupGUI.bind(this)
+    this.handleSelectPouzivatel = this.handleSelectPouzivatel.bind(this)
+    this.handleSelectRola = this.handleSelectRola.bind(this)
+    this.handleCreatePristup = this.handleCreatePristup.bind(this)
+  }
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      })
+    }
+  }
+
+  togglePristupGUI() {
+    this.setState({
+      pristupGUI: !this.state.pristupGUI
+    })
+  }
+
+  handleSelectPouzivatel(e) {
+    this.setState({
+      pouzivatel: e.target.value
+    })
+  }
+
+  handleSelectRola(e) {
+    this.setState({
+      rola: e.target.value
+    })
+  }
+
+  handleCreatePristup() {
+
+    const data = {
+      user: this.state.pouzivatel,
+      role: this.state.rola
     }
 
-    handleChange(e) {
-        const option = e.target.options[e.target.selectedIndex]
+    this.props.createPristupRequest(data)
 
-        const nazov = option.getAttribute('data-nazov')
-        const rok = option.getAttribute('data-rok')
-        const stav = option.getAttribute('data-stav')
-        const poznamka = option.getAttribute('data-poznamka')
-        const vytvoril = option.getAttribute('data-vytvoril')
-        const datum = option.getAttribute('data-datum')
-        const excel_dt = option.getAttribute('data-upload_dt')
-        const excel_sn = option.getAttribute('data-upload_sn')
+    this.setState({
+      pristupGUI: false,
+      pouzivatel: '',
+      rola: '',
+      pristupVALID: false
+    })
+  }
 
-        this.setState({
-            validOption: e.target.value !== '',
-            id: e.target.value,
-            nazov,
-            rok,
-            stav,
-            poznamka,
-            vytvoril,
-            datum,
-            excel_dt,
-            excel_sn
-        })
+  handleUpdatePristup(id, e) {
+    const data = {
+      id,
+      roles: e.target.value
     }
 
-    handleLoad() {
-        const id = this.state.id
+    this.props.updatePristupRequest(data)
+  }
 
-        this.setState({
-            modal: !this.state.modal
-        })
+  handleDeletePristup(id, e) {
+    this.setState({
+      deleting_id: id
+    })
 
-        this.props.loadMainEntryRequest(id)
+    this.props.deletePristupRequest({id})
+  }
+
+  componentDidUpdate(prevProps, prevState, prevContext) {
+    if (prevProps.opravnenia !== this.props.opravnenia
+      || prevProps.moznosti !== this.props.moznosti) {
+
+      if (this.props.moznosti.initialized) {
+        this.props.fetchPristupyRequest()
+      }
     }
+  }
 
-    handleNotify() {
-        this.context.store.dispatch(
-            Notifications.info({
-                title: 'Hey, it\'s good to see ya!',
-                message: 'Now you can see how easy it is to use notifications in React!',
-                autoDismiss: 0,
-                action: {
-                    label: 'Click me!!',
-                    callback: () => console.log('clicked!')
-                }
-            })
-        )
-    }
+  render() {
 
-    handleHighlightEditable() {
-        this.props.toggleHighlightEditable(!this.props.sprava.highlightEditable)
-    }
+    const hlavny = this.props.hlavny
+    const opravnenia = this.props.opravnenia
+    const moznosti = this.props.moznosti
 
-    componentDidMount() {
-        this.props.fetchOpravneniaRequest()
-        this.props.fetchSpravaRequest()
-    }
+    const pristupy = this.props.pristupy
 
-    render() {
-        const opravnenia = this.props.opravnenia
-        const sprava = this.props.sprava
+    return (
+      <Card>
+        <CardHeader>
+          {/*Karta správy prístupov, prehľadu aktivity užívateľov, konfigurácie zdrojov*/}
+          <Nav tabs className="card-header-tabs">
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === '1' })}
+                onClick={() => { this.toggle('1') }}
+                href="#"
+              >
+                Prístupy
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === '2' })}
+                onClick={() => { this.toggle('2') }}
+                href="#"
+              >
+                Aktivita
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </CardHeader>
+        <CardBody>
+          <TabContent activeTab={ this.state.activeTab }>
+            <TabPane tabId={'1'}>
+              { pristupy.initialized ?
 
-        return (
-            <Card>
-                {/*<CardImg top src="../../build/static/tools.jpg" />*/}
-                <CardBody>
-                    <CardTitle>Nástroje na správu</CardTitle>
-                    {/*<CardSubtitle>Vytvoriť novú alebo načítať existujúcu položku</CardSubtitle>*/}
-                    <CardText>Po kliknutí na tlačidlo nižšie sa zobrazí dialógové okno s možnosťami</CardText>
-
-                    <Button color="primary" onClick={this.toggle} disabled={sprava.loading || !opravnenia.mng}>
-                        {sprava.loading && <FontAwesome name="spinner" spin />}{' '}
-                        Spravovať
-                    </Button>
-                    {' '}
-                    <Button color="flower" onClick={this.handleNotify}>
-                        Notify
-                    </Button>
-
-                    { sprava.loading && <NacitavaniePoloziek/> }
-                    { opravnenia.loading && <NacitavanieOpravneni/> }
-
-                    <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>Skutočná cena tepla</ModalHeader>
-                        <ModalBody>
-                            <Input type="select" onChange={ this.handleChange }>
-                                <option value="" disabled={ this.state.validOption }>- Vyberte položku -</option>
-                                { sprava.polozky.map(polozka => <Polozka key={polozka.id} {...polozka} />) }
-                            </Input>
+                opravnenia.admin ?
+                  <div>
+                    <p>Prideliť prístup, zmeniť úroveň prístupu pridelenú používateľovi, odobrať prístup.</p>
+                    <br/>
+                    <Row>
+                      <Col lg={12} xl={8}>
+                        { !pristupy.data.length &&
+                          <div className="text-muted font-italic">
+                            Na tomto mieste sa zobrazia pridelené oprávnenia akonáhle jedno vytvoríte.
                             <br/>
-                            {
-                                this.state.validOption &&
-                                <Card>
-                                    <CardBody>
-                                        <Table size="sm">
-                                            <tbody>
-                                            <tr>
-                                                <th>Názov</th>
-                                                <td>{ this.state.nazov }</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Rok</th>
-                                                <td>{ this.state.rok }</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Stav</th>
-                                                <td>{ this.state.stav }</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Excel<br/><span className="small">Dodané teplo</span></th>
-                                                <td className="align-middle">{ this.state.excel_dt ?
-                                                    <Badge color="success">{this.state.excel_dt}</Badge>
-                                                    :
-                                                    <span>
-                                                        <Badge color="danger" id="excel-nenahrany-dt-spr">Nenahraný</Badge>
-                                                        <UncontrolledTooltip placement="top" target="excel-nenahrany-dt-spr">
-                                                            Excel súbor s údajmi o dodanom teple zatiaľ nebol nahraný
-                                                        </UncontrolledTooltip>
-                                                    </span> }
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Excel<br/><span className="small">Skutočné náklady</span></th>
-                                                <td className="align-middle">{ this.state.excel_sn ?
-                                                    <Badge color="success">{this.state.excel_sn}</Badge>
-                                                    :
-                                                    <span>
-                                                        <Badge color="danger" id="excel-nenahrany-sn-spr">Nenahraný</Badge>
-                                                        <UncontrolledTooltip placement="top" target="excel-nenahrany-sn-spr">
-                                                            Excel súbor s údajmi skutočných nákladov zatiaľ nebol nahraný
-                                                        </UncontrolledTooltip>
-                                                    </span> }
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </Table>
-                                        <CardText style={{whiteSpace: 'pre-line'}}>
-                                            { this.state.poznamka }
-                                        </CardText>
-                                        <CardText className="small text-muted text-right">
-                                            Vytvoril užívateľ { this.state.vytvoril }
-                                            <br/>
-                                            { dateTime(this.state.datum) }
-                                        </CardText>
-                                    </CardBody>
-                                </Card>
-                            }
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="success" onClick={ this.toggle } disabled>
-                                <FontAwesome name="plus" />{' '}
-                                Vytvoriť
+                            Použite tlačidlo <strong>prideliť prístup</strong>.
+                          </div>
+                        }
+                        <Table hover style={{ maxWidth: '520px' }}>
+                          <tbody>
+                          { pristupy.data.map((p, ix) => (
+                            <tr key={ix}>
+                              <td className="text-left align-middle">
+                                <span>{p.users.fullname}</span>
+                              </td>
+                              <td className="text-right align-middle">
+                                <Input type={'select'} defaultValue={p.roles.id}
+                                       disabled={pristupy.updating || pristupy.deleting}
+                                       onChange={this.handleUpdatePristup.bind(this, p.id)}
+                                >
+                                  { moznosti.role.map((r, ix) => (
+                                    <option key={ix} value={r.id}>{r.name}</option>
+                                  )) }
+                                </Input>
+                              </td>
+                              <td className="text-center align-middle">
+                                <Button disabled={pristupy.updating || pristupy.deleting}
+                                        onClick={this.handleDeletePristup.bind(this, p.id)}
+                                >
+                                  { pristupy.deleting && this.state.deleting_id === p.id ?
+                                    <FontAwesome name={'spinner'} spin />
+                                    :
+                                    <span>X</span>
+                                  }
+                                </Button>
+                              </td>
+                            </tr>
+                          )) }
+                          </tbody>
+                        </Table>
+                      </Col>
+
+                      <Col lg={12} xl={4}>
+                        <Table size={'sm'}>
+                          <tbody>
+                          { moznosti.role.map((r, ix) => (
+                            <tr key={ix}>
+                              <td>{r.name}</td>
+                              <td className="text-muted font-italic">{r.description}</td>
+                            </tr>
+                          )) }
+                          </tbody>
+                        </Table>
+                      </Col>
+                    </Row>
+
+                    { !this.state.pristupGUI ?
+                      <div>
+                        <Button color={'success'}
+                                disabled={pristupy.creating || pristupy.updating || pristupy.deleting}
+                                onClick={ this.togglePristupGUI }
+                        >
+                          { pristupy.creating ?
+                            <FontAwesome name={'spinner'} spin />
+                            :
+                            <FontAwesome name={'plus'} />
+                          }
+                          &nbsp;
+                          Prideliť prístup
+                        </Button>
+                      </div>
+                      :
+                      <div>
+                        <hr/>
+                        <Form inline>
+                          <FormGroup>
+                            <Input type={'select'} disabled={pristupy.updating}
+                                   onChange={this.handleSelectPouzivatel} value={this.state.pouzivatel}
+                            >
+                              <option value="">- Používateľ -</option>
+                              { moznosti.pouzivatelia
+                                .filter(x => !pristupy.data.find(y => y.users.id === x.id))
+                                .map((p, ix) => (
+                                <option key={ix} value={p.id}>{p.fullname}</option>
+                              )) }
+                            </Input>
+                            &nbsp;
+                            <Input type={'select'} disabled={pristupy.updating}
+                                   onChange={this.handleSelectRola} value={this.state.rola}
+                            >
+                              <option value="">- Úroveň prístupu -</option>
+                              { moznosti.role.map((r, ix) => (
+                                <option key={ix} value={r.id}>{r.name}</option>
+                              )) }
+                            </Input>
+                            &nbsp;
+                            <Button color={'primary'}
+                                    disabled={pristupy.creating || (this.state.pouzivatel === '' || this.state.rola === '')}
+                                    onClick={this.handleCreatePristup}
+                            >
+                              { pristupy.creating ?
+                                <FontAwesome name={'spinner'} spin/>
+                                :
+                                <span>OK</span>
+                              }
                             </Button>
-                            <Button color="primary" onClick={ this.handleLoad } disabled={ !this.state.validOption }>
-                                <FontAwesome name="folder-open" />{' '}
-                                Načítať
-                            </Button>
-                            <Button color="secondary" onClick={ this.toggle }>Zrušiť</Button>
-                        </ModalFooter>
-                    </Modal>
-                </CardBody>
-                {
-                    opravnenia.kont &&
-                    <CardFooter>
-                        <FormGroup>
-                            <Label check>
-                                <Input type="checkbox"
-                                       checked={ sprava.highlightEditable }
-                                       onChange={ this.handleHighlightEditable }
-                                />{' '}
-                                Zvýrazniť upravovateľné položky
-                            </Label>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label check id="xb-historia">
-                                <Input type="checkbox"
-                                />{' '}
-                                História úprav
-                                <UncontrolledTooltip placement="bottom" target="xb-historia">
-                                    Zobrazenie zmenených hodnôt v minulosti
-                                </UncontrolledTooltip>
-                            </Label>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label check id="xb-vypocty">
-                                <Input type="checkbox"
-                                />{' '}
-                                Výpočty
-                                <UncontrolledTooltip placement="bottom" target="xb-vypocty">
-                                    Zobrazenie podrobného výpočtu hodnôt s preklikom na dané čísla
-                                </UncontrolledTooltip>
-                            </Label>
-                        </FormGroup>
-                    </CardFooter>
-                }
-            </Card>
-        )
-    }
+                            &nbsp;
+                            <Button disabled={pristupy.creating} onClick={this.togglePristupGUI}>Zrušiť</Button>
+                          </FormGroup>
+                        </Form>
+                      </div>
+                    }
+
+                  </div>
+
+                  :
+
+                  <div>
+                    <p>Pridelené úrovne prístupu používateľom tejto aplikácie</p>
+                    <br/>
+                    <Row>
+                      <Col lg={12} xl={8}>
+                        <Table hover style={{ maxWidth: '400px' }}>
+                          <thead>
+                          <tr>
+                            <th className="text-left">Používateľ</th>
+                            <th className="text-right">Úroveň prístupu</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          { pristupy.data.map((p, ix) => (
+                            <tr key={ix}>
+                              <td className="text-left">{p.users.fullname}</td>
+                              <td className="text-right">{p.roles.name}</td>
+                            </tr>
+                          )) }
+                          </tbody>
+                        </Table>
+                      </Col>
+
+                      <Col lg={12} xl={4}>
+                        <Table size={'sm'}>
+                          <tbody>
+                          { moznosti.role.map((r, ix) => (
+                            <tr key={ix}>
+                              <td>{r.name}</td>
+                              <td className="text-muted font-italic">{r.description}</td>
+                            </tr>
+                          )) }
+                          </tbody>
+                        </Table>
+                      </Col>
+                    </Row>
+                  </div>
+
+                :
+
+                <div>
+                  { pristupy.loading ?
+                    <FontAwesome name={'spinner'} size={'2x'} spin/>
+                    :
+                    <span>...</span>
+                  }
+                </div>
+              }
+            </TabPane>
+            <TabPane tabId={'2'}>
+              { hlavny.initialized ?
+                <div>
+                  Prehľad histórie zadaných hodnôt k aktuálne otvorenému záznamu ceny tepla...
+                  <br/><br/>
+                  Zobraziť prehľad zadaných hodnôt vo <u>všetkých</u> záznamoch ceny tepla ?
+                </div>
+                :
+                <div>
+                  Prehľad zadaných hodnôt užívateľmi vo všetkých záznamoch ceny tepla
+                </div>
+              }
+            </TabPane>
+          </TabContent>
+        </CardBody>
+      </Card>
+    )
+  }
 }
 
-Spravovat.contextTypes = {
-    store: PropTypes.object
-}
+const mapStateToProps = (state, ownProps) => ({
+  // zoznam: state.zoznam,
+  hlavny: state.hlavny,
+  opravnenia: state.opravnenia,
+  pristupy: state.pristupy,
+  moznosti: state.moznosti,
+  sprava: state.sprava
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  // load: (e) => dispatch(loadMainEntry(e))
+  fetchPristupyRequest: () => dispatch(fetchPristupyRequest()),
+  createPristupRequest: (e) => dispatch(createPristupRequest(e)),
+  updatePristupRequest: (e) => dispatch(updatePristupRequest(e)),
+  deletePristupRequest: (e) => dispatch(deletePristupRequest(e))
+})
 
 export default connect(
-    // mapStateToProps
-    (state) => ({
-        opravnenia: state.opravnenia,
-        sprava: state.sprava
-    }),
-    // mapDispatchToProps
-    {
-        fetchOpravneniaRequest,
-        fetchSpravaRequest,
-        loadMainEntryRequest,
-        toggleHighlightEditable
-    }
-)(Spravovat)
+  mapStateToProps,
+  mapDispatchToProps
+)(Sprava)

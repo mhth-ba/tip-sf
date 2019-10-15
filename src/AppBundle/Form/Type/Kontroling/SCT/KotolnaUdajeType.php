@@ -18,7 +18,8 @@ class KotolnaUdajeType extends AbstractType
             ->add('nbsd', NumberType::class)
             ->add('sd', NumberType::class)
             ->add('pdm', NumberType::class)
-            ->add('kwh', NumberType::class);
+            ->add('z_kwh', NumberType::class)
+            ->add('p_kwh', NumberType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

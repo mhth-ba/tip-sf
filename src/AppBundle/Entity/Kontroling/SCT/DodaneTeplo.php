@@ -29,7 +29,7 @@ class DodaneTeplo extends BaseEntity
     private $platne;
 
     /**
-     * @ORM\OneToOne(targetEntity="Hlavny")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Hlavny")
      */
     private $hlavny;
 
@@ -65,7 +65,7 @@ class DodaneTeplo extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getPlatne()
