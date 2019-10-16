@@ -44,14 +44,21 @@ class Vyplnit extends React.Component {
     const data = this.props['data'] // array of objects | e.g. [{ id: 5, key: 'januar' }, { id: 7, key: 'marec'}, ...]
     const column = this.props['column'] // string | e.g. 'fmso'
     const table = this.props['table']   // string | e.g. 'tpv'
+    const hlavny = this.props['hlavny'] // int | e.g. 1001
+    const bulk = this.props['bulk']     // boolean | info, ze sa jedna o hromadne vyplnenie
 
     data.map(
-      (d, x) => (
+      (d, ix) => (
         this.props.update({
           ...d,
           [column]: this.state.value
-        }, table)
+        }, table, hlavny, bulk)
       )
+    )
+
+    setTimeout(
+      () => this.props.fetch(hlavny),
+      3000
     )
   }
 

@@ -18,7 +18,7 @@ import Vstup from '../helpers/Vstup'
 import Vypocet from '../helpers/Vypocet'
 import Vyplnit from '../helpers/Vyplnit'
 
-import { updateZemnyPlynRequest } from '../../actions'
+import { fetchVypocetBuniekRequest, updateZemnyPlynRequest } from '../../actions'
 
 // Number format component
 let numFormat = {
@@ -128,6 +128,8 @@ class VyhrevnaJuh extends React.Component {
 
     const vstup = {
       table: 'vhj',
+      hlavny: this.props.hlavny.id,
+      bulk: false,
       dec: decimal,
       update: this.props.update
     }
@@ -148,6 +150,7 @@ class VyhrevnaJuh extends React.Component {
     const vyplnit = {
       table: 'vhj',
       hlavny: this.props.hlavny.id,
+      bulk: true,
       data: [
         { id: januar.id, key: 'januar' },
         { id: februar.id, key: 'februar' },
@@ -162,7 +165,8 @@ class VyhrevnaJuh extends React.Component {
         { id: november.id, key: 'november' },
         { id: december.id, key: 'december' }
       ],
-      update: this.props.update
+      update: this.props.update,
+      fetch: this.props.vypocet
     }
 
     return (
@@ -2448,7 +2452,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  update: (e, table) => dispatch(updateZemnyPlynRequest(e, table))
+  vypocet: (e) => dispatch(fetchVypocetBuniekRequest(e)),
+  update: (e, table, hlavny, bulk) => dispatch(updateZemnyPlynRequest(e, table, hlavny, bulk))
 })
 
 export default connect(

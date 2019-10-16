@@ -187,9 +187,9 @@ export const updateUdajKotolneRequest = (data, table, hlavny) => ({
   data, table, hlavny
 })
 
-export const updateZemnyPlynRequest = (data, table, hlavny) => ({
+export const updateZemnyPlynRequest = (data, table, hlavny, bulk) => ({
   type: TYPES.UPDATE_ZEMNY_PLYN_REQUEST,
-  data, table, hlavny
+  data, table, hlavny, bulk
 })
 
 export const updateZemnyPlynKlucovanieRequest = (data, table, hlavny) => ({
@@ -943,6 +943,7 @@ export function* updateZemnyPlyn(action) {
 
   const table = action.table
   const hlavny = action.hlavny
+  const bulk = action.bulk
 
   try {
     const update = yield call(Api.patch, `${url}/${id}`, data)
@@ -955,7 +956,9 @@ export function* updateZemnyPlyn(action) {
       table
     })
 
-    yield put(fetchVypocetBuniekRequest(hlavny))
+    if (!bulk) {
+      yield put(fetchVypocetBuniekRequest(hlavny))
+    }
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_ZEMNY_PLYN_ERROR, data: e})
