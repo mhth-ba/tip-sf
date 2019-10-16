@@ -184,7 +184,7 @@ class SpravaKotolni extends React.Component {
                 <span key={ix}>
                   <Button id={k.id} onClick={this.parametre} disabled={creating || deleting}
                           style={{ marginBottom: '3px' }}
-                          color={ platne.includes(k.id) ? 'secondary' : 'info' }
+                          color={ platne.includes(k.id) ? 'primary' : 'secondary' }
                   >
                     {k.nazov}
                   </Button>
