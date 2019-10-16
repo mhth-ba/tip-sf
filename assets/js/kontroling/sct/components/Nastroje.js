@@ -382,7 +382,6 @@ class Nastroje extends React.Component {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <Input type={'select'} id="novy-hlavny-obdobie-rok" onChange={this.handleRokCreate}>
                     <option value="">-- Rok --</option>
-                    <option value="2017">2017</option>
                     <option value="2018">2018</option>
                     <option value="2019">2019</option>
                     <option value="2020">2020</option>

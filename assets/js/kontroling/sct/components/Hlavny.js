@@ -134,7 +134,7 @@ class Hlavny extends React.Component {
                                isDisabled={!opravnenia.kont}
                                validate={this.validateRok}
                                editProps={{
-                                 min: 2000,
+                                 min: 2018,
                                  max: 2050
                                }}
                     />
