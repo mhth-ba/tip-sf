@@ -613,6 +613,7 @@ export function* processUploadedFile(action) {
       put(fetchVyberPolozkyRequest()),
       put(fetchHlavnyRequest(data.id)),
       put(fetchDodavkaTeplaRequest(data.id)),
+      put(fetchSkutocneNakladyRequest(data.id)),
       put(fetchVypocetBuniekRequest(data.id))
     ]
 
