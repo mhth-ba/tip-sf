@@ -736,7 +736,7 @@ export function* updateHlavny(action) {
   try {
     const update = yield call(Api.patch, `${url}/${id}`, data)
 
-    if (data.nct_dodavka) {
+    if (data.nct_dodavka || data.nct_cena) {
       yield put(fetchVypocetBuniekRequest(id))
     }
 
