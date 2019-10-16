@@ -585,7 +585,7 @@ class UzitocnaDodavkaTepla extends React.Component {
                        placement={'bottom'}
                        decimal={decimal}
                        unit={'kWh'}
-                       class={udt_spk_v_kwh}
+                       class={udt_spk_v_kwh + ' font-weight-bold'}
               />
               <Vypocet value={ spk.v_kw }
                        cisla={ <div>
@@ -621,7 +621,7 @@ class UzitocnaDodavkaTepla extends React.Component {
                        placement={'bottom'}
                        decimal={decimal}
                        unit={'kWh'}
-                       class={udt_spk_z_kwh}
+                       class={udt_spk_z_kwh + ' font-weight-bold'}
               />
               <Vypocet value={ spk.z_kw }
                        cisla={ <div>
@@ -657,7 +657,7 @@ class UzitocnaDodavkaTepla extends React.Component {
                        placement={'bottom'}
                        decimal={decimal}
                        unit={'kWh'}
-                       class={udt_spk_b_kwh}
+                       class={udt_spk_b_kwh + ' font-weight-bold'}
               />
               <Vypocet value={ spk.b_kw }
                        cisla={ <div>
