@@ -43,7 +43,7 @@ const config = {
         djsConfig: {
             autoProcessQueue: true,
             dictDefaultMessage: `Excel súbor obsahujúci <u>spoločné náklady na teplo a elektrinu</u> presuňte sem.<br/>
-                Karta musí mať názov <u>DT</u>.<br/>
+                Karta musí mať názov <u>SN</u>.<br/>
                 Súbor musí spĺňať nižšie popísanú štruktúru:<br/><br/>
                 Stĺpce: ID | Názov kalkulačnej položky<br/>
                 TpV V plnej výške | TpV Kľúčované | TpZ V plnej výške | TpZ Kľúčované | VhJ | PK | Primár | OST | Sekundár | Rěžijné náklady`,
