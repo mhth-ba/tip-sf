@@ -94,9 +94,8 @@ const polozky = [
     }, {
       url: Routing.generate('skutocna-cena-tepla'),
       nazov: 'Skutočná cena tepla',
-      color: 'info',
-      size: 'sm',
-      disabled: true
+      color: 'primary',
+      size: 'md'
     }]
   }, {
     title: 'Denníky prevádzky',
