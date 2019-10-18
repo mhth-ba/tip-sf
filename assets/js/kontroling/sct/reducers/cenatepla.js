@@ -159,7 +159,22 @@ const initState = {
   cpctkwh: 0,           // celkova priemerna cena tepla (€/kWh)
   cpctgj: 0,            // celkova priemerna cena tepla (€/GJ)
 
-  pzusct: {             // porovnanie zložiek ÚRSO schválenou cenou tepla
+  mpzsct: {             // medzirocne porovnanie zloziek skutocnej ceny tepla
+    vz: {
+      pr: 0,     // predchadzajuci rok
+      pzc: 0     // percento zmeny ceny
+    },
+    fz: {
+      pr: 0,
+      pzc: 0
+    },
+    cp: {
+      pr: 0,
+      pzc: 0
+    }
+  },
+
+  pzusct: {             // porovnanie zložiek s ÚRSO schválenou cenou tepla
     vz: {
       urso: 0,
       dobropis: 0
@@ -173,6 +188,8 @@ const initState = {
       dobropis: 0
     }
   },
+
+  vyvoj_ceny_graf: [],
 
   loading: false,
   error: null
@@ -339,6 +356,21 @@ export default (state = initState, action) => {
         cpctkwh: action.data['bunky'].find(x => x.id === 'CT_CPCT_KWH').hodnota,
         cpctgj: action.data['bunky'].find(x => x.id === 'CT_CPCT_GJ').hodnota,
 
+        mpzsct: {
+          vz: {
+            pr: action.data['bunky'].find(x => x.id === 'CT_MPZ_VZ_R1').hodnota,
+            pzc: action.data['bunky'].find(x => x.id === 'CT_MPZ_VZ_PZ').hodnota
+          },
+          fz: {
+            pr: action.data['bunky'].find(x => x.id === 'CT_MPZ_FZ_R1').hodnota,
+            pzc: action.data['bunky'].find(x => x.id === 'CT_MPZ_FZ_PZ').hodnota
+          },
+          cp: {
+            pr: action.data['bunky'].find(x => x.id === 'CT_MPZ_CP_R1').hodnota,
+            pzc: action.data['bunky'].find(x => x.id === 'CT_MPZ_CP_PZ').hodnota
+          },
+        },
+
         pzusct: {
           vz: {
             urso: action.data['bunky'].find(x => x.id === 'CT_PZUSCT_VZ_U').hodnota,
@@ -352,7 +384,9 @@ export default (state = initState, action) => {
             urso: action.data['bunky'].find(x => x.id === 'CT_PZUSCT_CP_U').hodnota,
             dobropis: action.data['bunky'].find(x => x.id === 'CT_PZUSCT_CP_D').hodnota
           }
-        }
+        },
+
+        vyvoj_ceny_graf: action.data['graf']
       }
 
     default:

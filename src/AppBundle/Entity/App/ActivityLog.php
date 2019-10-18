@@ -21,7 +21,7 @@ class ActivityLog extends BaseEntity
     /**
      * @ORM\Column(type="datetime", name="CreatedAt")
      */
-    private $createdAt;
+    private $datum;
 
     /**
      * @ORM\Column(type="string", length=50, name="SchemaName")
@@ -60,7 +60,7 @@ class ActivityLog extends BaseEntity
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->datum = new \DateTime();
     }
 
     public function getId()
@@ -68,9 +68,9 @@ class ActivityLog extends BaseEntity
         return $this->id;
     }
 
-    public function getCreatedAt()
+    public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->createdAt);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getSchema()

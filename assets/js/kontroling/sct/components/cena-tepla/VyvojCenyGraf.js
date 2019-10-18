@@ -40,7 +40,20 @@ class VyvojCenyGraf extends React.Component {
 
   render() {
 
+    const hlavny = this.props.hlavny
     const ct = this.props.ct
+    const ostatne_roky = ct.vyvoj_ceny_graf
+
+    let variabil = []
+    let fix = []
+
+    ostatne_roky.map( v => {
+      variabil.push({x: v['Rok'], y: v['Variabilna']})
+      fix.push({x: v['Rok'], y: v['Fixna']})
+    })
+
+    variabil.push({x: hlavny.rok, y: ct.vzct})
+    fix.push({x: hlavny.rok, y: Number((ct.fzct / 5300).toFixed(4))})
 
     // variabilna zlozka - historia
     const vz_2013 = { x: 2013, y: 0.0392 }
@@ -134,18 +147,18 @@ class VyvojCenyGraf extends React.Component {
                type: 'column',
                name: 'Variabilná zložka',
                color: this.state.colors[5],
-               data: [vz_2013, vz_2014, vz_2015, vz_2016, vz_2017, {
+               data: variabil /*[vz_2013, vz_2014, vz_2015, vz_2016, vz_2017, {
                  x: 2018,
-                 y: Number(ct.vzct.toFixed(4))
-               }]
+                 y: Number(ct.vzct)
+               }]*/
              }, {
                type: 'column',
                name: 'Fixná zložka',
                color: this.state.colors[0],
-               data: [fz_2013, fz_2014, fz_2015, fz_2016, fz_2017, {
+               data: fix /*[fz_2013, fz_2014, fz_2015, fz_2016, fz_2017, {
                  x: 2018,
-                 y: Number((Number(ct.fzct.toFixed(4)) / 5300).toFixed(4))
-               }]
+                 y: Number((Number(ct.fzct) / 5300).toFixed(4))
+               }]*/
              }]
            }} isPureConfig />
          </CardBody>
@@ -157,6 +170,7 @@ class VyvojCenyGraf extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   // zoznam: state.zoznam,
   // hlavny: state.hlavny
+  hlavny: state.hlavny,
 
   ct: state.cenatepla
 })

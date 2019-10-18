@@ -80,13 +80,17 @@ class ZhrnutiePorovnanie extends React.Component {
               <th><NumberFormat {...numF} value={ct.cpctkwh} /></th>
               <td className="text-left">€/kWh</td>
             </tr>
-            <UncontrolledTooltip target={'ctcpctkwh'}>Variabilná zložka<br/>+ ( Fixná zložka / 5300 )</UncontrolledTooltip>
+            <UncontrolledTooltip target={'ctcpctkwh'}>
+              Variabilná zložka<br/>+ ( Fixná zložka / 5300 )
+            </UncontrolledTooltip>
             <tr id={'ctcpctgj'}>
               <td className="text-left">Celková priemerná cena tepla</td>
               <th><NumberFormat {...numF} value={ct.cpctgj} /></th>
               <td className="text-left">€/GJ</td>
             </tr>
-            <UncontrolledTooltip target={'ctcpctgj'}>Priemerná cena v kWh / 0,0036</UncontrolledTooltip>
+            <UncontrolledTooltip target={'ctcpctgj'}>
+              Priemerná cena v kWh / 0,0036
+            </UncontrolledTooltip>
             </tbody>
           </Table>
         </CardBody>
@@ -95,38 +99,49 @@ class ZhrnutiePorovnanie extends React.Component {
       <br key={'break-1'} />
     ,
       <Card key={'sct-rok'}>
-        <CardHeader className="bg-secondary text-white">Medziročné porovnanie zložiek skutočnej ceny tepla na rok {hlavny.rok} a {hlavny.rok - 1}</CardHeader>
+        <CardHeader className="bg-secondary text-white">
+          Medziročné porovnanie zložiek skutočnej ceny tepla na rok {hlavny.rok} a {hlavny.rok - 1}
+        </CardHeader>
         <CardBody>
           <Table hover>
             <thead>
             <tr className="text-right">
               <th></th>
-              <th>Rok {hlavny.rok - 1}</th>
-              <th>Rok {hlavny.rok}</th>
-              <th>Percento zmeny ceny</th>
+              <th colSpan={2} className="text-center">Rok {hlavny.rok - 1}</th>
+              <th colSpan={2} className="text-center">Rok {hlavny.rok}</th>
+              <th id={'ctmpzsct'}>Percento zmeny ceny</th>
               <th></th>
+              <UncontrolledTooltip target={'ctmpzsct'}>
+                (Rok {hlavny.rok} / Rok {hlavny.rok - 1}) -1 × 100
+              </UncontrolledTooltip>
             </tr>
             </thead>
             <tbody className="text-right text-nowrap">
             <tr>
               <td className="text-left">Variabilná zložka ceny tepla</td>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
+              <td><NumberFormat {...numF} value={ct.mpzsct.vz.pr} /></td>
+              <td className="text-left">€/kWh</td>
+              <td><NumberFormat {...numF} value={ct.vzct} /></td>
+              <td className="text-left">€/kWh</td>
+              <th><NumberFormat {...numF} value={ct.mpzsct.vz.pzc} decimalScale={2} /></th>
               <td className="text-left">%</td>
             </tr>
             <tr>
               <td className="text-left">Fixná zložka ceny tepla</td>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
+              <td><NumberFormat {...numF} value={ct.mpzsct.fz.pr} /></td>
+              <td className="text-left">€/kW</td>
+              <td><NumberFormat {...numF} value={ct.fzct} /></td>
+              <td className="text-left">€/kW</td>
+              <th><NumberFormat {...numF} value={ct.mpzsct.fz.pzc} decimalScale={2} /></th>
               <td className="text-left">%</td>
             </tr>
             <tr>
               <td className="text-left">Celková priemerná cena tepla</td>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
+              <td><NumberFormat {...numF} value={ct.mpzsct.cp.pr} /></td>
+              <td className="text-left">€/kWh</td>
+              <td><NumberFormat {...numF} value={ct.cpctkwh} /></td>
+              <td className="text-left">€/kWh</td>
+              <th><NumberFormat {...numF} value={ct.mpzsct.cp.pzc} decimalScale={2} /></th>
               <td className="text-left">%</td>
             </tr>
             </tbody>
@@ -152,8 +167,11 @@ class ZhrnutiePorovnanie extends React.Component {
                   ÚRSO cena {hlavny.rok}
                 </th>
                 <th colSpan={2} className="text-center">Skutočná cena tepla {hlavny.rok}</th>
-                <th>Dobropis</th>
+                <th id={'ctpzusct'}>Dobropis</th>
                 <th></th>
+                <UncontrolledTooltip target={'ctpzusct'}>
+                  (ÚRSO cena - Skutočná cena tepla)<br/>/ ÚRSO cena × 100
+                </UncontrolledTooltip>
               </tr>
               </thead>
               <tbody className="text-right text-nowrap">

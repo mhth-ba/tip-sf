@@ -9,6 +9,7 @@ import VyrobaKotolne from './skutocna-dodavka-tepla/VyrobaKotolne'
 import VyrobaElektriny from './skutocna-dodavka-tepla/VyrobaElektriny'
 import DelenieNakladov from './skutocna-dodavka-tepla/DelenieNakladov'
 
+import UzitocnaDodavkaGraf from './skutocna-dodavka-tepla/UzitocnaDodavkaGraf'
 import VyrobaTeplaGraf from './skutocna-dodavka-tepla/VyrobaTeplaGraf'
 
 import Poznamky from './helpers/Poznamky'
@@ -50,14 +51,20 @@ class SkutocnaDodavkaTepla extends React.Component {
           </Table>
           <br/>*/}
         <Row>
-          <Col>
+          <Col xl={7}>
             <UzitocnaDodavkaTepla/>
+          </Col>
+          <Col xl={5}>
+            <UzitocnaDodavkaGraf/>
           </Col>
         </Row>
         <br/>
         <Row>
           <Col xl={6}>
             <PorovnanieSPlanom/>
+          </Col>
+          <Col>
+            <div>..........</div>
           </Col>
         </Row>
         <br/>
@@ -71,7 +78,7 @@ class SkutocnaDodavkaTepla extends React.Component {
         </Row>
         <br/>
         <Row>
-          <Col cl={3}>
+          <Col xl={3}>
             <VyrobaKotolne/>
           </Col>
           <Col xl={5}>

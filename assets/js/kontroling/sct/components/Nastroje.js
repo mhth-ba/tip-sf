@@ -418,7 +418,7 @@ class Nastroje extends React.Component {
 
           { hlavny.initialized &&
             <Form>
-              { opravnenia.kont &&
+              { (opravnenia.kont && hlavny.stav.id !== 1) &&
                 <FormGroup check>
                   <Label check id="xb-uprava">
                     <Input type="checkbox"

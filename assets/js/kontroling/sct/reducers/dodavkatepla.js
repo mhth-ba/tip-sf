@@ -129,6 +129,12 @@ export default (state = initState, action) => {
     case TYPES.FETCH_VYPOCET_BUNIEK_SUCCESS:
       return {...state,
 
+        pk: {
+          ...state.pk,
+          b_kwh: action.data['bunky'].find(x => x.id === 'SDT_UDT_PK_B_KWH').hodnota,
+          b_kw: action.data['bunky'].find(x => x.id === 'SDT_UDT_PK_B_KW').hodnota
+        },
+
         zdroj: {
           ...state.zdroj,
           b_kwh: action.data['bunky'].find(x => x.id === 'SDT_UDT_Z_B_KWH').hodnota,

@@ -9,7 +9,7 @@ import FontAwesome from 'react-fontawesome'
 import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek2'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import { updateHlavnyRequest } from '../actions'
+import { toggleHighlightEditable, updateHlavnyRequest } from '../actions'
 
 import Routing from '../../../Components/Routing'
 
@@ -41,9 +41,16 @@ class Hlavny extends React.Component {
   }
 
   handleStav(e) {
+
+    const stav = e.target.value
+
     const data = {
-      stav: e.target.value,
+      stav,
       id: this.props.hlavny.id
+    }
+
+    if (stav === '1') {
+      this.props.toggleHighlightEditable(false)
     }
 
     this.props.updateHlavnyRequest(data)
@@ -125,7 +132,7 @@ class Hlavny extends React.Component {
               <tr>
                 <th>Rok</th>
                 <td>
-                  { editovatelne ?
+                  {/*{ editovatelne ?
                     <RIENumber {...RIEConfig}
                                value={hlavny.rok}
                                change={this.handleChange}
@@ -141,7 +148,8 @@ class Hlavny extends React.Component {
                     :
                     hlavny.rok
                   }
-                  <FormFeedback>Musí byť v rozmedzí od 2018 do 2050</FormFeedback>
+                  <FormFeedback>Musí byť v rozmedzí od 2018 do 2050</FormFeedback>*/}
+                  { hlavny.rok }
                 </td>
               </tr>
               <tr>
@@ -279,7 +287,7 @@ class Hlavny extends React.Component {
               </tr>
               </tbody>
             </Table>
-            <CardText style={{whiteSpace: 'pre-line'}}>
+            <CardText style={{whiteSpace: 'pre-line', fontFamily: 'Comic Sans MS', textShadow: '#aaa 3px 3px 7px'}}>
               { editovatelne ?
                 <RIETextArea {...RIEConfig}
                              value={hlavny.poznamka}
@@ -323,5 +331,5 @@ export default connect(
     moznosti: state.moznosti,
     hlavny: state.hlavny
   }),
-  { updateHlavnyRequest }
+  { updateHlavnyRequest, toggleHighlightEditable }
 )(Hlavny)

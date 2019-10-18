@@ -1065,18 +1065,28 @@ class SkutocnaCenaTeplaController extends BaseController
      */
     public function getVypocetBuniekAction($id)
     {
-        $sql = "EXECUTE [Kontroling].[SCT_VypocetBuniek] @ID = ?";
+        $sql_vb = "EXECUTE [Kontroling].[SCT_VypocetBuniek_SP] @ID = ?";
+        $sql_vc = "EXECUTE [Kontroling].[SCT_VyvojCeny] @ID = ?";
+
         $sqlParams = array($id);
         $conn = $this->getDoctrine()->getConnection();
-        $polozky = $conn->execProcedureWithResultSet($sql, $sqlParams);
+
+        $polozky_vb = $conn->execProcedureWithResultSet($sql_vb, $sqlParams);
+        $polozky_vc = $conn->execProcedureWithResultSet($sql_vc, $sqlParams);
 
         $bunky = [];
-        foreach ($polozky[0] as $bunka) {
+        foreach ($polozky_vb[0] as $bunka) {
             $bunky[] = $this->createVypocetBuniekApiModel($bunka);
+        }
+
+        $graf = [];
+        foreach ($polozky_vc[0] as $cena) {
+            $graf[] = $cena;
         }
 
         return $this->createApiResponse([
             'bunky' => $bunky,
+            'graf' => $graf     // vyvoj ceny tepla BAT v priebehu rokov (graf)
         ]);
     }
 
@@ -1105,6 +1115,25 @@ class SkutocnaCenaTeplaController extends BaseController
         $userId = $this->getUser()->getId();
         $upravil = $em->getRepository('AppBundle:App\User')
             ->find($userId);
+
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        // zmena stavu na "dokončený"
+        //   -> uložiť vypočítané hodnoty natrvalo do tabuľky SCT_FinalnyVypocet
+        //   -> uložiť vypočítané zložky ceny tepla do tabuľky SCT_CenaTepla (variabil, fix, celkova)
+        if ($data['stav'] == 1) {
+            $sql_fv = "EXECUTE [Kontroling].[SCT_FinalnyVypocet_Ulozit] @ID = ?";
+            $sql_ct = "EXECUTE [Kontroling].[SCT_CenaTepla_Ulozit] @ID = ?";
+
+            $sqlParams = array($id);
+            $conn = $this->getDoctrine()->getConnection();
+
+            $conn->execProcedureWithResultSet($sql_fv, $sqlParams);
+            $conn->execProcedureWithResultSet($sql_ct, $sqlParams);
+        }
 
         $hlavny->setUpravil($upravil);
         $hlavny->setZmenene(new \DateTime());
