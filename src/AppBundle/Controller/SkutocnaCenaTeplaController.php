@@ -1124,15 +1124,17 @@ class SkutocnaCenaTeplaController extends BaseController
         // zmena stavu na "dokončený"
         //   -> uložiť vypočítané hodnoty natrvalo do tabuľky SCT_FinalnyVypocet
         //   -> uložiť vypočítané zložky ceny tepla do tabuľky SCT_CenaTepla (variabil, fix, celkova)
-        if ($data['stav'] == 1) {
-            $sql_fv = "EXECUTE [Kontroling].[SCT_FinalnyVypocet_Ulozit] @ID = ?";
-            $sql_ct = "EXECUTE [Kontroling].[SCT_CenaTepla_Ulozit] @ID = ?";
+        if (array_key_exists("stav", $data)) {
+            if ($data['stav'] == 1) {
+                $sql_fv = "EXECUTE [Kontroling].[SCT_FinalnyVypocet_Ulozit] @ID = ?";
+                $sql_ct = "EXECUTE [Kontroling].[SCT_CenaTepla_Ulozit] @ID = ?";
 
-            $sqlParams = array($id);
-            $conn = $this->getDoctrine()->getConnection();
+                $sqlParams = array($id);
+                $conn = $this->getDoctrine()->getConnection();
 
-            $conn->execProcedureWithResultSet($sql_fv, $sqlParams);
-            $conn->execProcedureWithResultSet($sql_ct, $sqlParams);
+                $conn->execProcedureWithResultSet($sql_fv, $sqlParams);
+                $conn->execProcedureWithResultSet($sql_ct, $sqlParams);
+            }
         }
 
         $hlavny->setUpravil($upravil);
