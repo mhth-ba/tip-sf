@@ -89,6 +89,7 @@ class KotolneGraf extends React.Component {
 
           chart.setSubtitle({ text: 'Spotreba zemného plynu' })
           chart.update({ tooltip: { valueSuffix: ' m3' }}, false)
+          chart.series[0].update({name: 'Spotreba'}, false)
           chart.series[0].setData(data, false)
           break
         }
@@ -102,6 +103,7 @@ class KotolneGraf extends React.Component {
 
           chart.setSubtitle({ text: 'Celkové náklady' })
           chart.update({ tooltip: { valueSuffix: ' €' }}, false)
+          chart.series[0].update({name: 'Náklady'}, false)
           chart.series[0].setData(data, false)
           break
         }
@@ -127,6 +129,7 @@ class KotolneGraf extends React.Component {
             colors: this.pieColors(),
             credits: { enabled: false },
             title: { text: 'Plynové kotolne' },
+            subtitle: { text: '...' },
             legend: {
               layout: 'vertical',
               align: 'left',
@@ -144,7 +147,7 @@ class KotolneGraf extends React.Component {
             },
             xAxis: {},
             yAxis: {},
-            tooltip: { valueDecimals: 0 },
+            tooltip: { valueSuffix: '', valueDecimals: 0 },
             plotOptions: {
               pie: {
                 allowPointSelect: true,
@@ -154,9 +157,19 @@ class KotolneGraf extends React.Component {
               }
             },
             series: [{
-              name: 'Podiel'
+              name: '...',
+              data: [{
+                name: 'Kotolňa A',
+                y: 1
+              }, {
+                name: 'Kotolňa B',
+                y: 2
+              }, {
+                name: 'Kotolňa C',
+                y: 3
+              }]
             }]
-          }} ref={'kotolne_chart'} neverReflow />
+          }} ref={'kotolne_chart'} />
         </CardBody>
         <CardFooter>
           <Form inline onChange={ this.view }>

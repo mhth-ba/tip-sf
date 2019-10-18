@@ -9,7 +9,6 @@ import {
 import Highcharts from 'highcharts'
 require('highcharts/highcharts-more')(Highcharts)
 import ReactHighcharts from 'react-highcharts'
-import {vyrobne, vyr_cena} from "../../selectors/zemny-plyn/zemnyplyn";
 
 class VyrobneGraf extends React.Component {
   constructor(props) {
@@ -252,16 +251,7 @@ const mapStateToProps = (state, ownProps) => ({
   // zoznam: state.zoznam,
   // hlavny: state.hlavny
 
-  plyn: {
-    ...vyrobne({
-      zp: {...state.zemnyplyn},
-      k: {...state.konstanty}
-    }),
-    ...vyr_cena({
-      zp: {...state.zemnyplyn},
-      k: {...state.konstanty}
-    })
-  }
+  plyn: state.zemnyplyn,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

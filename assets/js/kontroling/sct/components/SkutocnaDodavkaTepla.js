@@ -10,6 +10,7 @@ import VyrobaElektriny from './skutocna-dodavka-tepla/VyrobaElektriny'
 import DelenieNakladov from './skutocna-dodavka-tepla/DelenieNakladov'
 
 import UzitocnaDodavkaGraf from './skutocna-dodavka-tepla/UzitocnaDodavkaGraf'
+import PorovnanieSPlanomGraf from './skutocna-dodavka-tepla/PorovnanieSPlanomGraf'
 import VyrobaTeplaGraf from './skutocna-dodavka-tepla/VyrobaTeplaGraf'
 
 import Poznamky from './helpers/Poznamky'
@@ -51,20 +52,20 @@ class SkutocnaDodavkaTepla extends React.Component {
           </Table>
           <br/>*/}
         <Row>
-          <Col xl={7}>
+          <Col lg={12} xl={7}>
             <UzitocnaDodavkaTepla/>
           </Col>
-          <Col xl={5}>
+          <Col lg={12} xl={5}>
             <UzitocnaDodavkaGraf/>
           </Col>
         </Row>
         <br/>
         <Row>
-          <Col xl={6}>
+          <Col lg={12} xl={6}>
             <PorovnanieSPlanom/>
           </Col>
-          <Col>
-            <div>..........</div>
+          <Col lg={12} xl={6}>
+            <PorovnanieSPlanomGraf/>
           </Col>
         </Row>
         <br/>
@@ -78,10 +79,10 @@ class SkutocnaDodavkaTepla extends React.Component {
         </Row>
         <br/>
         <Row>
-          <Col xl={3}>
+          <Col lg={5} xl={3}>
             <VyrobaKotolne/>
           </Col>
-          <Col xl={5}>
+          <Col lg={7} xl={5}>
             <VyrobaElektriny/>
           </Col>
           <Col xl={4}>

@@ -142,7 +142,7 @@ class UzitocnaDodavkaTepla extends React.Component {
               <th rowSpan={2}>{''}</th>
               <th colSpan={2}>SCZT Východ</th>
               <th colSpan={2}>SCZT Západ</th>
-              <th colSpan={2}>BAT spolu</th>
+              <th colSpan={2}>BAT Spolu</th>
             </tr>
             <tr className="text-center">
               <th>kWh</th>

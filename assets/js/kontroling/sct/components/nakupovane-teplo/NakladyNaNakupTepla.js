@@ -62,14 +62,14 @@ class NakladyNaNakupTepla extends React.Component {
     }
 
     const {
-      dnt,
-      rp,
-      vzc,
-      fzc,
-      pjc,
-      vn,
-      fn,
-      nnts
+      dnt,      // dodavka nakupeneho tepla
+      rp,       // regulacny prikon
+      vzc,      // variabilna zlozka ceny
+      fzc,      // fixna zlozka ceny
+      pjc,      // priemerna jednotkova cena
+      vn,       // variabilne naklady
+      fn,       // fixne naklady
+      nnts      // naklady na nakupovane teplo spolu
     } = nt
 
     // class names pre bunky, ktore su pouzite v bublinach vypoctu - farebne oramovanie

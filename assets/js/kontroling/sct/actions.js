@@ -741,6 +741,13 @@ export function* updateHlavny(action) {
       yield put(fetchVypocetBuniekRequest(id))
     }
 
+    if (data.stav === '1') {
+      yield put(Notifications.success({
+        title: 'Ukladanie údajov',
+        message: `Uloženie vypočítaných údajov do databázy a zamknutie proti prepísaniu`
+      }))
+    }
+
     yield put({type: TYPES.UPDATE_HLAVNY_SUCCESS, data: update})
     yield put(fetchVyberPolozkyRequest())
 

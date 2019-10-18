@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import { Row, Col } from 'reactstrap'
 
 import NakladyNaNakupTepla from './nakupovane-teplo/NakladyNaNakupTepla'
+import NakupTeplaGraf from './nakupovane-teplo/NakupTeplaGraf'
 
 import Poznamky from './helpers/Poznamky'
 
@@ -20,8 +21,11 @@ class NakupovaneTeplo extends React.Component {
     return (
       <div>
         <Row>
-          <Col md={12} lg={12} xl={7}>
+          <Col lg={12} xl={7}>
             <NakladyNaNakupTepla/>
+          </Col>
+          <Col lg={12} xl={5}>
+            <NakupTeplaGraf/>
           </Col>
         </Row>
         <br/>

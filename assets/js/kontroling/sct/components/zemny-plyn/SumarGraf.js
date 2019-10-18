@@ -9,7 +9,7 @@ import {
 import Highcharts from 'highcharts'
 require('highcharts/highcharts-more')(Highcharts)
 import ReactHighcharts from 'react-highcharts'
-import { vyrobne, pk_spolu } from "../../selectors/zemny-plyn/zemnyplyn";
+import { pk_spolu } from '../../selectors/zemny-plyn/zemnyplyn'
 
 class SumarGraf extends React.Component {
   constructor(props) {
@@ -69,6 +69,7 @@ class SumarGraf extends React.Component {
         case 1: {
           chart.setTitle({ text: 'Celková spotreba zemného plynu BAT' })
           chart.update({ tooltip: { valueSuffix: ' m3' }}, false)
+          chart.series[0].update({name: 'Spotreba'}, false)
           chart.series[0].setData([{
             name: 'TpV',
             y: tpv.spolu.objem_m3
@@ -87,6 +88,7 @@ class SumarGraf extends React.Component {
         case 2: {
           chart.setTitle({ text: 'Celkové náklady BAT' })
           chart.update({ tooltip: { valueSuffix: ' €' }}, false)
+          chart.series[0].update({name: 'Náklady'}, false)
           chart.series[0].setData([{
             name: 'TpV',
             y: tpv.spolu.naklady
@@ -162,7 +164,7 @@ class SumarGraf extends React.Component {
                 name: 'Kotolne'
               }]
             }]
-          }} ref={'kotolne_chart'} neverReflow />
+          }} ref={'kotolne_chart'} />
         </CardBody>
         <CardFooter>
           <Form inline onChange={ this.view }>
@@ -189,12 +191,7 @@ class SumarGraf extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   // zoznam: state.zoznam,
   // hlavny: state.hlavny
-  vyrobne: {
-    ...vyrobne({
-      zp: {...state.zemnyplyn},
-      k: {...state.konstanty}
-    })
-  },
+  vyrobne: state.zemnyplyn,
   kotolne: pk_spolu(state.kotolne.udaje)
 })
 

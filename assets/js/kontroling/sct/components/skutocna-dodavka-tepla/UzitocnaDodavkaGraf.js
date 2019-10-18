@@ -9,7 +9,6 @@ import {
 import Highcharts from 'highcharts'
 require('highcharts/highcharts-more')(Highcharts)
 import ReactHighcharts from 'react-highcharts'
-import { vyrobne, pk_spolu } from "../../selectors/zemny-plyn/zemnyplyn";
 
 class UzitocnaDodavkaGraf extends React.Component {
   constructor(props) {
@@ -65,61 +64,72 @@ class UzitocnaDodavkaGraf extends React.Component {
         ost,        // OST
         sekundar,
         pk,         // plynove kotolne
-        straty
+        straty,
+
+        spk         // spolu vratane plynovych kotolni
       } = dodavkatepla
 
       switch (this.state.view) {
         case 1: {
           chart.setTitle({ text: 'Dodávka tepla SCZT Východ' })
-          chart.update({ tooltip: { valueSuffix: ' kWh' }}, false)
           chart.series[2].setData([{
             name: 'Zdroj',
+            color: this.state.colors[1],
             y: zdroj.v_kwh
           }, {
             name: 'Primár',
+            color: this.state.colors[4],
             y: primar.v_kwh
           },{
             name: 'OST',
+            color: this.state.colors[3],
             y: ost.v_kwh
           }, {
             name: 'Sekundár',
+            color: this.state.colors[5],
             y: sekundar.v_kwh
           }, {
             name: 'Plynové kotolne',
+            color: this.state.colors[9],
             y: pk.v_kwh
           }, {
             name: 'Straty',
+            color: this.state.colors[6],
             y: straty.v_kwh
-          }], false)
+          }].filter(x => x.y > 0), false)
           break
         }
         case 2: {
           chart.setTitle({ text: 'Dodávka tepla SCZT Západ' })
-          chart.update({ tooltip: { valueSuffix: ' kWh' }}, false)
           chart.series[2].setData([{
             name: 'Zdroj',
+            color: this.state.colors[1],
             y: zdroj.z_kwh
           }, {
             name: 'Primár',
+            color: this.state.colors[4],
             y: primar.z_kwh
           },{
             name: 'OST',
+            color: this.state.colors[3],
             y: ost.z_kwh
           }, {
             name: 'Sekundár',
+            color: this.state.colors[5],
             y: sekundar.z_kwh
           }, {
             name: 'Plynové kotolne',
+            color: this.state.colors[9],
             y: pk.z_kwh
           }, {
             name: 'Straty',
+            color: this.state.colors[6],
             y: straty.z_kwh
           }].filter(x => x.y > 0), false)
           break
         }
         case 3: {
-          chart.setTitle({ text: 'Dodávka tepla BAT spolu' })
-          chart.update({ tooltip: { valueSuffix: ' kWh' }}, false)
+          chart.setTitle({ text: 'Dodávka tepla BAT Spolu' })
           chart.series[2].setData([{
             name: 'Zdroj',
             color: this.state.colors[1],
@@ -159,7 +169,14 @@ class UzitocnaDodavkaGraf extends React.Component {
     const dodavkatepla = this.props.dodavkatepla
 
     const {
-      spk
+      zdroj,
+      primar,
+      ost,        // OST
+      sekundar,
+      pk,         // plynove kotolne
+      straty,
+
+      spk         // spolu vratane plynovych kotolni
     } = dodavkatepla
 
     return (
@@ -173,8 +190,8 @@ class UzitocnaDodavkaGraf extends React.Component {
             },
             colors: this.colors(),
             credits: { enabled: false },
-            title: { text: 'Dodávka tepla podľa stupňov sústavy' },
-            subtitle: { text: 'vrátane plynových kotolní a strát' },
+            title: { text: 'Dodávka tepla BAT spolu' },
+            subtitle: { text: 'Podľa stupňov sústavy' },
             legend: {
               layout: 'vertical',
               align: 'left',
@@ -248,25 +265,31 @@ class UzitocnaDodavkaGraf extends React.Component {
               name: 'Podiel',
               data: [{
                 name: 'Zdroj',
-                y: 0
+                color: this.state.colors[1],
+                y: zdroj.b_kwh
               }, {
-                name: 'Primárna sieť',
-                y: 0
+                name: 'Primár',
+                color: this.state.colors[4],
+                y: primar.b_kwh
               }, {
                 name: 'OST',
-                y: 0
+                color: this.state.colors[3],
+                y: ost.b_kwh
               }, {
-                name: 'Sekundárna sieť',
-                y: 0
+                name: 'Sekundár',
+                color: this.state.colors[5],
+                y: sekundar.b_kwh
               }, {
                 name: 'Plynové kotolne',
-                y: 0
+                color: this.state.colors[9],
+                y: pk.b_kwh
               }, {
                 name: 'Straty',
-                y: 0
+                color: this.state.colors[6],
+                y: straty.b_kwh
               }].filter(x => x.y > 0)
             }]
-          }} ref={'uzitocna_dodavka_tepla_chart'} neverReflow />
+          }} ref={'uzitocna_dodavka_tepla_chart'} isPureConfig />
         </CardBody>
         <CardFooter>
           <Form inline onChange={ this.view }>
@@ -287,7 +310,7 @@ class UzitocnaDodavkaGraf extends React.Component {
             <FormGroup check>
               <Label check>
                 <Input type={'radio'} name={'udt_graf_view'} value={3} defaultChecked />{' '}
-                BAT spolu
+                BAT Spolu
               </Label>
             </FormGroup>
           </Form>
@@ -301,15 +324,7 @@ const mapStateToProps = (state, ownProps) => ({
   // zoznam: state.zoznam,
   // hlavny: state.hlavny
   
-  dodavkatepla: state.dodavkatepla,
-  
-  vyrobne: {
-    ...vyrobne({
-      zp: {...state.zemnyplyn},
-      k: {...state.konstanty}
-    })
-  },
-  kotolne: pk_spolu(state.kotolne.udaje)
+  dodavkatepla: state.dodavkatepla
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
