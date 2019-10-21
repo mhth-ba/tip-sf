@@ -12,6 +12,8 @@ const initState = { // Dispecing.SCZTZ_Vykon
   //extremy_vykon: [],
   //extremy_teplota: [],
   extremy_komunikacia: [],
+  ventil_tuv: [],
+  ventil_uk: [],
 
   loading: false,
   error: null
@@ -33,7 +35,9 @@ export default (state = initState, action) => {
         teplota: action.data['teplota'],
         //extremy_vykon: action.data['extremy_vykon'],
         //extremy_teplota: action.data['extremy_teplota'],
-        //extremy_komunikacia: action.data['extremy_komunikacia']
+        //extremy_komunikacia: action.data['extremy_komunikacia'],
+        ventil_tuv: action.data['ventil_tuv'],
+        ventil_uk: action.data['ventil_uk']
       }
     case TYPES.FETCH_SCZT_ZAPAD_VYKON_ERROR:
       return {...state, loading: false, error: action.data}

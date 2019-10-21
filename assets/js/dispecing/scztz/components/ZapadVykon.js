@@ -73,6 +73,14 @@ const chart = {
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
                         title="Počet meradiel s platnými údajmi (v súčasnosti nerelevantné)"
                   >${this.name}</span>`
+        case 8:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Percento otvorenia ventilu TÚV priemer z OST 957, 974, 977 a 993"
+                  >${this.name}</span>`
+        case 9:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Percento otvorenia ventilu ÚK priemer z OST 957, 973, 974, 977, 993 a 999"
+                  >${this.name}</span>`
       }
     }
   },
@@ -121,6 +129,22 @@ const chart = {
       }
     },
     min: 0,
+    visible: false
+  }, {
+    title: {
+      text: 'Percento otvorenia ventilu'
+    },
+    labels: {
+      formatter: function () {
+        return this.value + ' %'
+      },
+      style: {
+        color: '#ee2818',
+      }
+    },
+    opposite: true,
+    min: 0,
+    max: 100,
     visible: false
   }],
   tooltip: {
@@ -233,6 +257,30 @@ const chart = {
     yAxis: 2,
     zIndex: 2,
     data: []
+  }, {
+    name: 'Ventil TÚV',
+    color: '#ffa905',
+    //dashStyle: 'ShortDot',
+    type: 'spline',
+    yAxis: 3,
+    tooltip: { valueSuffix: ' %' },
+    marker: {
+      enabled: true
+    },
+    visible: false,
+    data: []
+  }, {
+    name: 'Ventil ÚK',
+    color: '#ee1515',
+    //dashStyle: 'ShortDot',
+    type: 'spline',
+    yAxis: 3,
+    tooltip: { valueSuffix: ' %' },
+    marker: {
+      enabled: true
+    },
+    visible: false,
+    data: []
   }]
 }
 
@@ -253,7 +301,9 @@ class ZapadVykon extends React.Component {
       zdroje = [],
       termis_ost = [],
       ost = [],
-      komunikacia = []
+      komunikacia = [],
+      ventil_tuv = [],
+      ventil_uk = []
 
     this.props.vykon.teplota.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
@@ -263,6 +313,8 @@ class ZapadVykon extends React.Component {
     this.props.vykon.termis_ost.map( row => { termis_ost.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.ost.map( row => { ost.push([ row['datum'], parseFloat((row['hodnota'] / 1000).toFixed(4)) ]) })
     this.props.vykon.komunikacia.map( row => { komunikacia.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.ventil_tuv.map( row => { ventil_tuv.push([ row['datum'], row['hodnota'] ]) })
+    this.props.vykon.ventil_uk.map( row => { ventil_uk.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(teplota, false)
     chart.series[1].setData(termis_pocasie, false)
@@ -272,6 +324,8 @@ class ZapadVykon extends React.Component {
     chart.series[5].setData(termis_ost, false)
     chart.series[6].setData(ost, false)
     chart.series[7].setData(komunikacia, false)
+    chart.series[8].setData(ventil_tuv, false)
+    chart.series[9].setData(ventil_uk, false)
 
     /*chart.yAxis[0].setExtremes(
       this.props.vykon.extremy_teplota['hodnota_min'],

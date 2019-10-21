@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Api\Dispecing\SCZT\VykonApiModel;
 use AppBundle\Api\Dispecing\SCZT\Zdroje1hApiModel;
 use AppBundle\Api\Dispecing\SCZT\ZdrojeApiModel;
+use AppBundle\Entity\Dispecing\SCZT\ZapadOST;
 use AppBundle\Entity\Dispecing\SCZT\ZapadVykon;
 use AppBundle\Entity\Dispecing\SCZT\ZapadZdroje;
 use AppBundle\Entity\Dispecing\SCZT\ZapadZdroje1h;
@@ -38,6 +39,8 @@ class SCZTZapadController extends BaseController
 
         $repository = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Dispecing\SCZT\ZapadVykon');
+        $repository_ost = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Dispecing\SCZT\ZapadOST');
 
         $plan = $repository->getPlan($dateTo, $dateFrom);
         $termis = $repository->getTermis($dateTo, $dateFrom);
@@ -50,6 +53,8 @@ class SCZTZapadController extends BaseController
         //$extremy_vykon = $repository->getExtremesVykon($dateTo, $dateFrom);
         //$extremy_teplota = $repository->getExtremesTeplota($dateTo, $dateFrom);
         //$extremy_komunikacia = $repository->getExtremesKomunikacia($dateTo, $dateFrom);
+        $ventil_tuv_10min = $repository_ost->getVentilTUV($dateTo, $dateFrom);
+        $ventil_uk_10min = $repository_ost->getVentilUK($dateTo, $dateFrom);
 
         $plan_models = [];
         $termis_models = [];
@@ -59,6 +64,8 @@ class SCZTZapadController extends BaseController
         $ost_models = [];
         $komunikacia_models = [];
         $teplota_models = [];
+        $ventil_tuv_models = [];
+        $ventil_uk_models = [];
 
         foreach ($plan as $plan_riadok) {
             $plan_models[] = $this->createVykonApiModel($plan_riadok);
@@ -92,6 +99,14 @@ class SCZTZapadController extends BaseController
             $teplota_models[] = $this->createVykonApiModel($teplota_riadok);
         }
 
+        foreach ($ventil_tuv_10min as $ventil_tuv) {
+            $ventil_tuv_models[] = $this->createOSTApiModel($ventil_tuv);
+        }
+
+        foreach ($ventil_uk_10min as $ventil_uk) {
+            $ventil_uk_models[] = $this->createOSTApiModel($ventil_uk);
+        }
+
         return $this->createApiResponse([
             'plan' => $plan_models,
             'termis' => $termis_models,
@@ -103,7 +118,9 @@ class SCZTZapadController extends BaseController
             'teplota' => $teplota_models,
             //'extremy_vykon' => $extremy_vykon[0],
             //'extremy_teplota' => $extremy_teplota[0],
-            //'extremy_komunikacia' => $extremy_komunikacia[0]
+            //'extremy_komunikacia' => $extremy_komunikacia[0],
+            'ventil_tuv' => $ventil_tuv_models,
+            'ventil_uk' => $ventil_uk_models
         ]);
     }
 
@@ -117,11 +134,21 @@ class SCZTZapadController extends BaseController
         return $model;
     }
 
+    private function createOSTApiModel(ZapadOST $zapadOST)
+    {
+        $model = new VykonApiModel();
+
+        $model->datum = $zapadOST->getDatum() * 1000;
+        $model->hodnota = $zapadOST->getHodnota();
+
+        return $model;
+    }
+
     /**
      * @Route("disp/scztz/zdroje", name="sczt_zapad_zdroje_get", options={"expose"=true})
      * @Method("POST")
      */
-    public function getZapaddZdrojeAction(Request $request)
+    public function getZapadZdrojeAction(Request $request)
     {
         $data = json_decode($request->getContent(), true);
         if ($data === null) {
