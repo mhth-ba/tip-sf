@@ -43,6 +43,7 @@ class OpravneneNaklady extends React.Component {
 
   render() {
 
+    const hlavny = this.props.hlavny
     const konstanty = this.props.konstanty
     const on = this.props.on
     const pk = on.pk
@@ -370,7 +371,7 @@ class OpravneneNaklady extends React.Component {
             <tbody>
             <tr>
               <th>Koeficient palivového bonusu</th>
-              <Vstup id={kpb.id} val={kpb.hodnota} row={'jczpsopov'} col={'hodnota'} dec={3}
+              <Vstup id={kpb.id} val={kpb.hodnota} row={'kpb'} col={'hodnota'} dec={3} hlavny={hlavny.id}
                      update={this.props.update} class={pb_kpb} />
             </tr>
             </tbody>
@@ -395,7 +396,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  update: (e) => dispatch(updateKonstantyRequest(e))
+  update: (e, table, hlavny) => dispatch(updateKonstantyRequest(e, table, hlavny))
 })
 
 export default connect(

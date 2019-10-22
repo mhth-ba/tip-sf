@@ -2,9 +2,7 @@
 
 namespace AppBundle\Api\Kontroling\SCT;
 
-use AppBundle\Api\DefaultApiModel;
-
-class VypocetBuniekApiModel extends DefaultApiModel
+class VypocetBuniekApiModel
 {
     public $id;
 

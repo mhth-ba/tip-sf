@@ -82,6 +82,13 @@ class Konstanty extends React.Component {
       fzp_k_jczpsopdj
     } = vypocet
 
+    const vstup = {
+      hlavny: this.props.hlavny.id,
+      col: 'hodnota',
+      dec: decimal,
+      update: this.props.update
+    }
+
     return (
       <Card>
         <CardHeader className="bg-primary text-white">Konštanty</CardHeader>
@@ -100,30 +107,21 @@ class Konstanty extends React.Component {
             <tbody className="text-right">
             <tr>
               <th className="text-left">TpV</th>
-              <Vstup id={jczpsopov.id} val={jczpsopov.hodnota} row={'jczpsopov'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsopov} />
-              <Vstup id={jczpsoppv.id} val={jczpsoppv.hodnota} row={'jczpsoppv'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsoppv} />
-              <Vstup id={jczpsopdv.id} val={jczpsopdv.hodnota} row={'jczpsopdv'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsopdv} />
+              <Vstup {...vstup} id={jczpsopov.id} val={jczpsopov.hodnota} row={'jczpsopov'} class={fzp_k_jczpsopov} />
+              <Vstup {...vstup} id={jczpsoppv.id} val={jczpsoppv.hodnota} row={'jczpsoppv'} class={fzp_k_jczpsoppv} />
+              <Vstup {...vstup} id={jczpsopdv.id} val={jczpsopdv.hodnota} row={'jczpsopdv'} class={fzp_k_jczpsopdv} />
             </tr>
             <tr>
               <th className="text-left">TpZ</th>
-              <Vstup id={jczpsopoz.id} val={jczpsopoz.hodnota} row={'jczpsopoz'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsopoz} />
-              <Vstup id={jczpsoppz.id} val={jczpsoppz.hodnota} row={'jczpsoppz'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsoppz} />
-              <Vstup id={jczpsopdz.id} val={jczpsopdz.hodnota} row={'jczpsopdz'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsopdz} />
+              <Vstup {...vstup} id={jczpsopoz.id} val={jczpsopoz.hodnota} row={'jczpsopoz'} class={fzp_k_jczpsopoz} />
+              <Vstup {...vstup} id={jczpsoppz.id} val={jczpsoppz.hodnota} row={'jczpsoppz'} class={fzp_k_jczpsoppz} />
+              <Vstup {...vstup} id={jczpsopdz.id} val={jczpsopdz.hodnota} row={'jczpsopdz'} class={fzp_k_jczpsopdz} />
             </tr>
             <tr>
               <th className="text-left">VhJ</th>
-              <Vstup id={jczpsopoj.id} val={jczpsopoj.hodnota} row={'jczpsopoj'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsopoj} />
-              <Vstup id={jczpsoppj.id} val={jczpsoppj.hodnota} row={'jczpsoppj'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsoppj} />
-              <Vstup id={jczpsopdj.id} val={jczpsopdj.hodnota} row={'jczpsopdj'} col={'hodnota'} dec={decimal}
-                     update={this.props.update} class={fzp_k_jczpsopdj} />
+              <Vstup {...vstup} id={jczpsopoj.id} val={jczpsopoj.hodnota} row={'jczpsopoj'} class={fzp_k_jczpsopoj} />
+              <Vstup {...vstup} id={jczpsoppj.id} val={jczpsoppj.hodnota} row={'jczpsoppj'} class={fzp_k_jczpsoppj} />
+              <Vstup {...vstup} id={jczpsopdj.id} val={jczpsopdj.hodnota} row={'jczpsopdj'} class={fzp_k_jczpsopdj} />
             </tr>
             </tbody>
           </Table>
@@ -137,6 +135,7 @@ class Konstanty extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  hlavny: state.hlavny,
   nastroje: state.nastroje,
   vypocet: state.vypocet,
 
@@ -144,7 +143,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  update: (e) => dispatch(updateKonstantyRequest(e))
+  update: (e, table, hlavny) => dispatch(updateKonstantyRequest(e, table, hlavny))
 })
 
 export default connect(

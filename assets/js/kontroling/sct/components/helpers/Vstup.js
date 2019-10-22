@@ -20,7 +20,9 @@ class Vstup extends React.Component {
     this.formatNumber = this.formatNumber.bind(this)
   }
 
-  handleChange(id, key, table, hlavny, data) {
+  handleChange(id, col, key, table, hlavny, data) {
+    data[col] = data[col].replace(',', '.')
+
     data = {
       ...data,
       ...id,
@@ -61,7 +63,7 @@ class Vstup extends React.Component {
     const decimal = this.props['dec']
     const className = this.props['class']
 
-    let table
+    let table                             // e.g.  tpv (fakturovany zemny plyn - teplaren vychod)
 
     if (this.props['table'] === typeof undefined) {
       table = ''
@@ -70,7 +72,6 @@ class Vstup extends React.Component {
     }
 
     const hlavny = this.props['hlavny']   // e.g.  10 (id hlavneho zaznamu)
-    //const table = this.props['table']     // e.g.  tpv (fakturovany zemny plyn - teplaren vychod)
     const row = this.props['row']         // e.g.  veez (vyroba elektrickej energie na zdroji)
     const col = this.props['col']         // e.g.  tpz (teplaren zapad)
     const id = this.props['id']           // e.g.  45 (id, int, pk, not null)
@@ -82,7 +83,7 @@ class Vstup extends React.Component {
           editovatelne ?
           <RIENumber {...RIEConfig} propName={col} value={ value }
                      format={ this.formatNumber.bind( this, decimal ) }
-                     change={ this.handleChange.bind( this, { id }, row, table, hlavny ) }
+                     change={ this.handleChange.bind( this, { id }, col, row, table, hlavny ) }
           />
             :
           <NumberFormat {...numFormat} value={ value } />

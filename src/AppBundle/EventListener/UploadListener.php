@@ -2,11 +2,9 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Entity\Kontroling\SCT\Upload;
 use Doctrine\Common\Persistence\ObjectManager;
 use Oneup\UploaderBundle\Event\PostPersistEvent;
 use Oneup\UploaderBundle\Event\PreUploadEvent;
-use Symfony\Component\Filesystem\Filesystem;
 
 class UploadListener
 {

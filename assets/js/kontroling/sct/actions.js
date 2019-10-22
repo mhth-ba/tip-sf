@@ -157,9 +157,9 @@ export const updatePoznamkyRequest = (data) => ({
   data
 })
 
-export const updateKonstantyRequest = (data) => ({
+export const updateKonstantyRequest = (data, table, hlavny) => ({
   type: TYPES.UPDATE_KONSTANTY_REQUEST,
-  data
+  data, table, hlavny
 })
 
 export const updateVyrobaElektrinyRequest = (data, table, hlavny) => ({
@@ -804,6 +804,8 @@ export function* updateKonstanty(action) {
   const id = data.id
   const key = data.key
 
+  const hlavny = action.hlavny
+
   try {
     const update = yield call(Api.patch, `${url}/${id}`, data)
 
@@ -813,6 +815,8 @@ export function* updateKonstanty(action) {
         [key]: update
       }
     })
+
+    yield put(fetchVypocetBuniekRequest(hlavny))
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_KONSTANTY_ERROR, data: e})
