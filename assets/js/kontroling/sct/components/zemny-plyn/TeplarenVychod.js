@@ -4,11 +4,12 @@ import {connect} from 'react-redux'
 import {
   Table, Row, Col,
   Card, CardHeader, CardTitle, CardSubtitle, CardBody, CardFooter,
-  Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText,
+  Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText, Alert,
   Input, Button,
   UncontrolledTooltip
 } from 'reactstrap'
 import NumberFormat from 'react-number-format'
+import FontAwesome from 'react-fontawesome'
 
 import Jednotka from '../../../../components/Jednotka'
 import DecimalScale from '../helpers/DecimalScale'
@@ -2433,6 +2434,12 @@ class TeplarenVychod extends React.Component {
             </tr>
             </tbody>
           </Table>
+
+          <Alert color={'primary'} style={{ width: '500px' }}>
+            <FontAwesome name={'info-circle'} />&nbsp;
+            Doplniť spotrebnú daň z karty spoločných nákladov na teplo a elektrinu.
+          </Alert>
+
         </CardBody>
         <CardFooter>
           <DecimalScale id={'fzptpv'} />
