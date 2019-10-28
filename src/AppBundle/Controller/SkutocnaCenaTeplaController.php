@@ -82,7 +82,7 @@ class SkutocnaCenaTeplaController extends BaseController
             ->getRepository('AppBundle:App\Role')
             ->findRolesSCT();
 
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SCT_MNG')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SCT_VYR')) {
             return $this->render('access-denied.html.twig', [
                 'roles' => $roles
             ]);
@@ -254,7 +254,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/kotolne", name="sct_kotolne_post", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_KONT')")
      */
     public function createKotolnaAction(Request $request)
     {
@@ -300,7 +300,7 @@ class SkutocnaCenaTeplaController extends BaseController
         return $this->createApiResponse($models);
     }
 
-    // TODO kotolna platonst
+    // TODO kotolna platnost
     public function modifyKotolnaPlatnostAction()
     {
         return;
@@ -349,7 +349,6 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/moznosti", name="sct_moznosti", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
      */
     public function getMoznostiAction()
     {
@@ -391,7 +390,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/hlavny", name="sct_hlavny_list", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getZoznamAction()
     {
@@ -410,7 +409,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/hlavny/{id}", name="sct_hlavny_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getHlavnyAction(Hlavny $hlavny)
     {
@@ -498,7 +497,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/konstanty/{id}", name="sct_konstanty_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getKonstantyAction($id)
     {
@@ -530,7 +529,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/dodane-teplo/{id}", name="sct_dodane-teplo_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getDodaneTeploAction($id)
     {
@@ -571,7 +570,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/vyroba-elektriny/{id}", name="sct_vyroba-elektriny_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getVyrobaElektrinyAction($id)
     {
@@ -603,7 +602,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/delenie-nakladov/{id}", name="sct_delenie-nakladov_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getDelenieNakladovAction($id)
     {
@@ -635,7 +634,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/kotolne/{id}", name="sct_kotolne_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getKotolneAction($id)
     {
@@ -724,7 +723,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/zemny-plyn/{id}", name="sct_zemny-plyn_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getZemnyPlynAction($id)
     {
@@ -794,7 +793,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/zemny-plyn-klucovanie/{id}", name="sct_zemny-plyn-klucovanie_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getZemnyPlynKlucovanieAction($id)
     {
@@ -1061,7 +1060,7 @@ class SkutocnaCenaTeplaController extends BaseController
     /**
      * @Route("kont/sct/vypocet-buniek/{id}", name="sct_vypocet-buniek_get", options={"expose"=true})
      * @Method("GET")
-     * @Security("has_role('ROLE_SCT_MNG')")
+     * @Security("has_role('ROLE_SCT_VYR')")
      */
     public function getVypocetBuniekAction($id)
     {

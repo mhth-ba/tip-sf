@@ -103,7 +103,7 @@ class Sprava extends React.Component {
     if (prevProps.opravnenia !== this.props.opravnenia
       || prevProps.moznosti !== this.props.moznosti) {
 
-      if (this.props.moznosti.initialized) {
+      if (this.props.moznosti.initialized && this.props.opravnenia.mng) {
         this.props.fetchPristupyRequest()
       }
     }
@@ -152,7 +152,7 @@ class Sprava extends React.Component {
                     <p>Prideliť prístup, zmeniť úroveň prístupu pridelenú používateľovi, odobrať prístup.</p>
                     <br/>
                     <Row>
-                      <Col lg={12} xl={8}>
+                      <Col lg={12} xl={8} style={{ overflowY: 'auto', height: '250px' }}>
                         { !pristupy.data.length &&
                           <div className="text-muted font-italic">
                             Na tomto mieste sa zobrazia pridelené oprávnenia akonáhle jedno vytvoríte.
@@ -319,7 +319,8 @@ class Sprava extends React.Component {
               }
             </TabPane>
             <TabPane tabId={'2'}>
-              { hlavny.initialized ?
+            { opravnenia.mng ?
+              hlavny.initialized ?
                 <div>
                   Prehľad histórie zadaných hodnôt k aktuálne otvorenému záznamu ceny tepla...
                   <br/><br/>
@@ -329,7 +330,9 @@ class Sprava extends React.Component {
                 <div>
                   Prehľad zadaných hodnôt užívateľmi vo všetkých záznamoch ceny tepla
                 </div>
-              }
+              :
+              <span>...</span>
+            }
             </TabPane>
           </TabContent>
         </CardBody>

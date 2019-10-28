@@ -30,6 +30,7 @@ class Karty extends React.Component {
   render() {
 
     const vypocet_buniek = this.props.vb.loading
+    const opravnenia = this.props.opravnenia
 
     return (
       <div>
@@ -83,6 +84,7 @@ class Karty extends React.Component {
                     className={classnames({ active: this.state.activeTab === '3' })}
                     onClick={() => { this.toggle('3') }}
                     href="#"
+                    disabled={!opravnenia.mng}
                   >
                     {
                       (this.props.nm.loading || this.props.on.loading)
@@ -97,6 +99,7 @@ class Karty extends React.Component {
                     className={classnames({ active: this.state.activeTab === '4' })}
                     onClick={() => { this.toggle('4') }}
                     href="#"
+                    disabled={!opravnenia.mng}
                   >
                     {
                       (this.props.nt.loading)
@@ -111,6 +114,7 @@ class Karty extends React.Component {
                     className={classnames({ active: this.state.activeTab === '5' })}
                     onClick={() => { this.toggle('5') }}
                     href="#"
+                    disabled={!opravnenia.mng}
                   >
                     {
                       (this.props.sn.loading || this.props.rz.loading || this.props.ct.loading)
@@ -125,6 +129,7 @@ class Karty extends React.Component {
                     className={classnames({ active: this.state.activeTab === '6' })}
                     onClick={() => { this.toggle('6') }}
                     href="#"
+                    disabled={!opravnenia.mng}
                   >
                     {
                       (this.props.ct.loading)
@@ -134,20 +139,12 @@ class Karty extends React.Component {
                     Cena tepla
                   </NavLink>
                 </NavItem>
-                {/*<NavItem>
-                  <NavLink
-                    className={classnames({ active: this.state.activeTab === '7' })}
-                    onClick={() => { this.toggle('7') }}
-                    href="#"
-                  >
-                    Konštanty
-                  </NavLink>
-                </NavItem>*/}
                 <NavItem>
                   <NavLink
                     className={classnames({ active: this.state.activeTab === '8' })}
-                    onClick={() => { this.toggle('8') }}
+                    onClick={() => { this.toggle('7') }}
                     href="#"
+                    disabled={!opravnenia.mng}
                   >
                     {this.props.vstupy.loading && <FontAwesome name="spinner" spin />}{' '}
                     Vstupy
@@ -168,24 +165,31 @@ class Karty extends React.Component {
           <TabPane tabId="2">
             { this.props['FakturovanyZemnyPlyn'] }
           </TabPane>
-          <TabPane tabId="3">
-            { this.props['PalivovyBonus'] }
-          </TabPane>
-          <TabPane tabId="4">
-            { this.props['NakupovaneTeplo'] }
-          </TabPane>
-          <TabPane tabId="5">
-            { this.props['SpolocneNakladyNaTeploAElektrinu'] }
-          </TabPane>
-          <TabPane tabId="6">
-            { this.props['CenaTepla'] }
-          </TabPane>
-          {/*<TabPane tabId="7">
-            <p>Normované straty podľa overenia sústav</p>
-          </TabPane>*/}
-          <TabPane tabId="8">
-            { this.props['Vstupy'] }
-          </TabPane>
+          { opravnenia.mng &&
+            <TabPane tabId="3">
+              { this.props['PalivovyBonus'] }
+            </TabPane>
+          }
+          { opravnenia.mng &&
+            <TabPane tabId="4">
+              { this.props['NakupovaneTeplo'] }
+            </TabPane>
+          }
+          { opravnenia.mng &&
+            <TabPane tabId="5">
+              { this.props['SpolocneNakladyNaTeploAElektrinu'] }
+            </TabPane>
+          }
+          { opravnenia.mng &&
+            <TabPane tabId="6">
+              { this.props['CenaTepla'] }
+            </TabPane>
+          }
+          { opravnenia.mng &&
+            <TabPane tabId="7">
+              { this.props['Vstupy'] }
+            </TabPane>
+          }
         </TabContent> }
       </div>
     )
@@ -195,6 +199,8 @@ class Karty extends React.Component {
 export default connect(
   (state) => ({
     hlavny: state.hlavny,
+    opravnenia: state.opravnenia,
+
     teplo: state.dodavkatepla,
     elektrina: state.vyrobaelektriny,
     klucovanie: state.delenienakladov,

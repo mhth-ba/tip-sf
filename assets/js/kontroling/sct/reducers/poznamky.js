@@ -4,32 +4,32 @@ const initState = {
 
   sdt: {                // karta skutocna dodavka tepla
     id: null,
-    poznamka: null
+    poznamka: 'Poznámky ku karte ...'
   },
 
   fzp: {                // karta fakturovany zemny plyn
     id: null,
-    poznamka: null
+    poznamka: 'Poznámky ku karte ...'
   },
 
   pb: {                 // karta palivovy bonus
     id: null,
-    poznamka: null
+    poznamka: 'Poznámky ku karte ...'
   },
 
   nt: {                 // karta nakupovane teplo
     id: null,
-    poznamka: null
+    poznamka: 'Poznámky ku karte ...'
   },
 
   snte: {               // karta spolocne naklady na teplo a elektrinu
     id: null,
-    poznamka: null
+    poznamka: 'Poznámky ku karte ...'
   },
 
   ct: {                 // karta cena tepla
     id: null,
-    poznamka: null
+    poznamka: 'Poznámky ku karte ...'
   },
 
   loading: false,

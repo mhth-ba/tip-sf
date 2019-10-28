@@ -82,7 +82,6 @@ class SumarVyrobne extends React.Component {
 
   render() {
 
-    //const zp = this.props.plyn
     const zp = this.props.zp
     const vypocet = this.props.vypocet
 
@@ -112,7 +111,9 @@ class SumarVyrobne extends React.Component {
       november,
       december,
       spolu,
-      cena
+      cena,
+      vn,
+      fn
     } = zp.vyrobne
 
     // class names pre bunky, ktore su pouzite v bublinach vypoctu - farebne oramovanie
@@ -5400,50 +5401,111 @@ class SumarVyrobne extends React.Component {
             </tr>
 
             <tr className="text-right">
-              <th id={'vyr-pc'} className="text-left">Priemerná cena <Jednotka unit={'€'} /></th>
-              <UncontrolledTooltip target={'vyr-pc'}>Bez PDM</UncontrolledTooltip>
+              <th id={'vyr-pc'} className="text-left">Priemerná cena</th>
+              <UncontrolledTooltip target={'vyr-pc'}>Vrátane PDM</UncontrolledTooltip>
               <Vypocet value={ cena.objem_m3 }
                        unit={ <span>€/m<sup>3</sup></span> }
                        cisla={ <div>
                          <NumberFormat {...vypocetFormat} value={spolu.naklady} />
-                         &nbsp;-&nbsp;
-                         <NumberFormat {...vypocetFormat} value={spolu.pdm} />
                          <ZlomkovaCiara/>
                          <NumberFormat {...vypocetFormat} value={spolu.objem_m3} />
                        </div> }
                        popis={ <div>
                          <span className="polozka-1">Celkové náklady</span>
-                         &nbsp;-&nbsp;
-                         <span className="polozka-2">PDM</span>
                          <ZlomkovaCiara/>
-                         <span className="polozka-3">Objem zemného plynu v m<sup>3</sup></span>
+                         <span className="polozka-2">Objem zemného plynu v m<sup>3</sup></span>
                        </div> }
                        popoverId={'fzp_vyr_pc_m3_pop'}
-                       cellsId={['fzp_vyr_spo_ns', 'fzp_vyr_spo_pdm', 'fzp_vyr_spo_m3']}
+                       cellsId={['fzp_vyr_spo_ns', 'fzp_vyr_spo_m3']}
                        placement={'bottom'}
-                       decimal={3}
+                       decimal={4}
                        class={'font-weight-bold'}
               />
               <Vypocet value={ cena.objem_mwh }
                        unit={ '€/MWh' }
                        cisla={ <div>
                          <NumberFormat {...vypocetFormat} value={spolu.naklady} />
-                         &nbsp;-&nbsp;
-                         <NumberFormat {...vypocetFormat} value={spolu.pdm} />
                          <ZlomkovaCiara/>
                          <NumberFormat {...vypocetFormat} value={spolu.objem_mwh} />
                        </div> }
                        popis={ <div>
                          <span className="polozka-1">Celkové náklady</span>
-                         &nbsp;-&nbsp;
-                         <span className="polozka-2">PDM</span>
                          <ZlomkovaCiara/>
-                         <span className="polozka-3">Objem zemného plynu v MWh</span>
+                         <span className="polozka-2">Objem zemného plynu v MWh</span>
                        </div> }
                        popoverId={'fzp_vyr_pc_mwh_pop'}
-                       cellsId={['fzp_vyr_spo_ns', 'fzp_vyr_spo_pdm', 'fzp_vyr_spo_mwh']}
+                       cellsId={['fzp_vyr_spo_ns', 'fzp_vyr_spo_mwh']}
                        placement={'bottom'}
-                       decimal={3}
+                       decimal={4}
+                       class={'font-weight-bold'}
+              />
+            </tr>
+
+            <tr>
+              <td>{''}</td>
+              <td>{''}</td>
+            </tr>
+
+            <tr className="text-right">
+              <th className="text-left">Variabilné náklady <Jednotka unit={'€'} /></th>
+              <Vypocet value={ vn }
+                       unit={ '€' }
+                       cisla={ <div>
+                         <NumberFormat {...vypocetFormat} value={spolu.sopo} />
+                         &nbsp;+&nbsp;
+                         <NumberFormat {...vypocetFormat} value={spolu.sopp} />
+                         &nbsp;+&nbsp;
+                         <NumberFormat {...vypocetFormat} value={spolu.sopd} />
+                         &nbsp;+&nbsp;
+                         <NumberFormat {...vypocetFormat} value={spolu.dan_eur} />
+                         &nbsp;+&nbsp;
+                         <NumberFormat {...vypocetFormat} value={spolu.pdm} />
+                       </div> }
+                       popis={ <div>
+                         <span className="polozka-1">SOP<sub>o</sub></span>
+                         &nbsp;+&nbsp;
+                         <span className="polozka-2">SOP<sub>p</sub></span>
+                         &nbsp;+&nbsp;
+                         <span className="polozka-3">SOP<sub>d</sub></span>
+                         &nbsp;+&nbsp;
+                         <span className="polozka-4">Spotrebná daň</span>
+                         &nbsp;+&nbsp;
+                         <span className="polozka-5">PDM</span>
+                       </div> }
+                       popoverId={'fzp_vyr_vn_pop'}
+                       cellsId={['fzp_vyr_spo_sopo', 'fzp_vyr_spo_sopp', 'fzp_vyr_spo_sopd', 'fzp_vyr_spo_dan_e', 'fzp_vyr_spo_pdm']}
+                       placement={'right'}
+                       decimal={decimal}
+                       class={'font-weight-bold'}
+              />
+            </tr>
+
+            <tr className="text-right">
+              <th className="text-left">Fixné náklady <Jednotka unit={'€'} /></th>
+              <Vypocet value={ fn }
+                       unit={ '€' }
+                       cisla={ <div>
+                         <NumberFormat {...vypocetFormat} value={spolu.fmso} />
+                         &nbsp;+&nbsp;
+                         <NumberFormat {...vypocetFormat} value={spolu.fmsp} />
+                         &nbsp;+&nbsp;
+                         <NumberFormat {...vypocetFormat} value={spolu.fmsd} />
+                         &nbsp;+&nbsp;
+                         <NumberFormat {...vypocetFormat} value={spolu.vsd} />
+                       </div> }
+                       popis={ <div>
+                         <span className="polozka-1">FMS<sub>o</sub></span>
+                         &nbsp;+&nbsp;
+                         <span className="polozka-2">FMS<sub>p</sub></span>
+                         &nbsp;+&nbsp;
+                         <span className="polozka-3">FMS<sub>d</sub></span>
+                         &nbsp;+&nbsp;
+                         <span className="polozka-4">VS<sub>d</sub></span>
+                       </div> }
+                       popoverId={'fzp_vyr_fn_pop'}
+                       cellsId={['fzp_vyr_spo_fmso', 'fzp_vyr_spo_fmsp', 'fzp_vyr_spo_fmsd', 'fzp_vyr_spo_vsd']}
+                       placement={'right'}
+                       decimal={decimal}
                        class={'font-weight-bold'}
               />
             </tr>

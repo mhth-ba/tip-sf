@@ -11,6 +11,11 @@ export const toggleHighlightEditable = (toggle) => ({
   toggle
 })
 
+export const toggleHistoria = (toggle) => ({
+  type: TYPES.TOGGLE_HISTORIA,
+  toggle
+})
+
 export const toggleVypocty = (toggle) => ({
   type: TYPES.TOGGLE_VYPOCTY,
   toggle
@@ -289,36 +294,47 @@ export function* loadMainEntry(action) {
   const data = action.data
 
   const id = data.id
+  const roles = data.roles
 
   try {
     const udaje = yield call(Api.fetch, `${url}/${id}`)
 
     yield put({type: TYPES.LOAD_MAIN_ENTRY_SUCCESS, data: udaje})
 
-    yield [
-      put(fetchPoznamkyRequest(id)),
-      put(fetchKonstantySCTRequest(id)),
-      put(fetchDodavkaTeplaRequest(id)),
-      put(fetchVyrobaElektrinyRequest(id)),
-      put(fetchDelenieNakladovRequest(id)),
-      put(fetchKotolneRequest(id)),
-      put(fetchZemnyPlynRequest(id)),
-      put(fetchZemnyPlynKlucovanieRequest(id)),
-      put(fetchNormativneMnozstvoRequest(id)),
-      put(fetchOpravneneNakladyRequest(id)),
-      put(fetchNakupTeplaRequest(id)),
-      put(fetchSkutocneNakladyRequest(id)),
-      put(fetchRegulovanaZlozkaRequest(id)),
+    if (!roles.mng && roles.vyr) {
+      // pre vyrobarov nacitat iba prve dve karty a potrebne suvisiace udaje
+      yield [
+        put(fetchPoznamkyRequest(id)),
+        put(fetchKonstantySCTRequest(id)),
+        put(fetchDodavkaTeplaRequest(id)),
+        put(fetchVyrobaElektrinyRequest(id)),
+        put(fetchDelenieNakladovRequest(id)),
+        put(fetchKotolneRequest(id)),
+        put(fetchZemnyPlynRequest(id)),
+        put(fetchZemnyPlynKlucovanieRequest(id)),
 
-      put(fetchVypocetBuniekRequest(id))
-    ]
+        put(fetchVypocetBuniekRequest(id))
+      ]
+    } else if (roles.mng) {
+      // pre ostatnych nacitat vsetko
+      yield [
+        put(fetchPoznamkyRequest(id)),
+        put(fetchKonstantySCTRequest(id)),
+        put(fetchDodavkaTeplaRequest(id)),
+        put(fetchVyrobaElektrinyRequest(id)),
+        put(fetchDelenieNakladovRequest(id)),
+        put(fetchKotolneRequest(id)),
+        put(fetchZemnyPlynRequest(id)),
+        put(fetchZemnyPlynKlucovanieRequest(id)),
+        put(fetchNormativneMnozstvoRequest(id)),
+        put(fetchOpravneneNakladyRequest(id)),
+        put(fetchNakupTeplaRequest(id)),
+        put(fetchSkutocneNakladyRequest(id)),
+        put(fetchRegulovanaZlozkaRequest(id)),
 
-    // ak je nastavene prepojenie na NCT, nacitat suvisiace data
-    // pouzije sa ID hlavneho zaznamu pripojeneho NCT
-    /*if (nct_dodavka !== null) {
-      yield put(fetchPlanDodavkyTeplaRequest(nct_dodavka))
-      yield put(fetchKonstantyNCTRequest(nct_dodavka))
-    }*/
+        put(fetchVypocetBuniekRequest(id))
+      ]
+    }
 
     yield call(delay, 2000)
 

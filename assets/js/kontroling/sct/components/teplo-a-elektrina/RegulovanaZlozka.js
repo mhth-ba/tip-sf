@@ -103,15 +103,15 @@ class RegulovanaZlozka extends React.Component {
             </tr>
             <tr>
               <th className="text-nowrap text-left">Regulačný príkon</th>
-              <Vstup {...vstup} val={prikon} col={'prikon'} unit={'kW'} class={snte_rzfn_rp + ' font-weight-bold'} />
+              <Vstup {...vstup} val={prikon} col={'prikon'} unit={'kW'} dec={4} class={snte_rzfn_rp + ' font-weight-bold'} />
             </tr>
             <tr>
               <td className="text-nowrap text-left">RZFN do 21 000 kW</td>
-              <Vstup {...vstup} val={do_limitu} col={'do_limitu'} unit={'€'} class={snte_rzfn_dl} />
+              <Vstup {...vstup} val={do_limitu} col={'do_limitu'} dec={4} unit={'€'} class={snte_rzfn_dl} />
             </tr>
             <tr>
               <td className="text-nowrap text-left">RZFN nad 21 000 kW (konštanta)</td>
-              <Vstup {...vstup} val={nad_limit} col={'nad_limit'} unit={'€'} class={snte_rzfn_nl} />
+              <Vstup {...vstup} val={nad_limit} col={'nad_limit'} dec={4} unit={'€'} class={snte_rzfn_nl} />
             </tr>
             <tr>
               <td className="text-nowrap text-left">RZFN nad 21 000 kW</td>
@@ -165,11 +165,11 @@ class RegulovanaZlozka extends React.Component {
             </tr>
             <tr>
               <td className="text-nowrap text-left">Základná výška za 1 kW regulačného príkonu</td>
-              <Vstup {...vstup} val={zaklad} col={'zaklad'} unit={'€'} class={snte_rzfn_zaklad} />
+              <Vstup {...vstup} val={zaklad} col={'zaklad'} unit={'€'} dec={4} class={snte_rzfn_zaklad} />
             </tr>
             <tr>
               <td className="text-nowrap text-left">Príplatok</td>
-              <Vstup {...vstup} val={priplatok} col={'priplatok'} unit={'€'} class={snte_rzfn_priplatok} />
+              <Vstup {...vstup} val={priplatok} col={'priplatok'} unit={'€'} dec={4} class={snte_rzfn_priplatok} />
             </tr>
             <tr>
               <th className="text-nowrap text-left">Primeraný zisk</th>

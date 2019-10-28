@@ -30,7 +30,9 @@ const initState = { // Kontroling.SCT_ZemnyPlyn
     november: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
     december: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
     spolu: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
-    cena: { objem_m3: 0, objem_mwh: 0 } // priemerná cena
+    cena: { objem_m3: 0, objem_mwh: 0 }, // priemerná cena
+    vn: 0,  // variabilne naklady
+    fn: 0   // fixne naklady
   },
 
   tpz: {
@@ -47,7 +49,9 @@ const initState = { // Kontroling.SCT_ZemnyPlyn
     november: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
     december: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
     spolu: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
-    cena: { objem_m3: 0, objem_mwh: 0 } // priemerná cena
+    cena: { objem_m3: 0, objem_mwh: 0 }, // priemerná cena
+    vn: 0,  // variabilne naklady
+    fn: 0   // fixne naklady
   },
 
   vhj: {
@@ -64,7 +68,9 @@ const initState = { // Kontroling.SCT_ZemnyPlyn
     november: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
     december: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
     spolu: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
-    cena: { objem_m3: 0, objem_mwh: 0 } // priemerná cena
+    cena: { objem_m3: 0, objem_mwh: 0 }, // priemerná cena
+    vn: 0,  // variabilne naklady
+    fn: 0   // fixne naklady
   },
 
   vyrobne: {
@@ -81,7 +87,9 @@ const initState = { // Kontroling.SCT_ZemnyPlyn
     november: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
     december: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
     spolu: { objem_m3: 0, objem_mwh: 0, sopo: 0, fmso: 0, sopp: 0, fmsp: 0, sopd: 0, fmsd: 0, vsd: 0, dan_mwh: 0, dan_eur: 0, pdm: 0, naklady: 0 },
-    cena: { objem_m3: 0, objem_mwh: 0 } // priemerná cena
+    cena: { objem_m3: 0, objem_mwh: 0 }, // priemerná cena
+    vn: 0,  // variabilne naklady
+    fn: 0   // fixne naklady
   },
 
   loading: false,
@@ -253,7 +261,9 @@ export default (state = initState, action) => {
           cena: {
             objem_m3: action.data['bunky'].find(x => x.id === 'FZP_TPV_PC_EUR_M3').hodnota,
             objem_mwh: action.data['bunky'].find(x => x.id === 'FZP_TPV_PC_EUR_MWH').hodnota 
-          }
+          },
+          vn: action.data['bunky'].find(x => x.id === 'FZP_TPV_VN').hodnota,
+          fn: action.data['bunky'].find(x => x.id === 'FZP_TPV_FN').hodnota
         },
 
         tpz: {
@@ -360,7 +370,9 @@ export default (state = initState, action) => {
           cena: {
             objem_m3: action.data['bunky'].find(x => x.id === 'FZP_TPZ_PC_EUR_M3').hodnota,
             objem_mwh: action.data['bunky'].find(x => x.id === 'FZP_TPZ_PC_EUR_MWH').hodnota
-          }
+          },
+          vn: action.data['bunky'].find(x => x.id === 'FZP_TPZ_VN').hodnota,
+          fn: action.data['bunky'].find(x => x.id === 'FZP_TPZ_FN').hodnota
         },
 
         vhj: {
@@ -467,7 +479,9 @@ export default (state = initState, action) => {
           cena: {
             objem_m3: action.data['bunky'].find(x => x.id === 'FZP_VHJ_PC_EUR_M3').hodnota,
             objem_mwh: action.data['bunky'].find(x => x.id === 'FZP_VHJ_PC_EUR_MWH').hodnota
-          }
+          },
+          vn: action.data['bunky'].find(x => x.id === 'FZP_VHJ_VN').hodnota,
+          fn: action.data['bunky'].find(x => x.id === 'FZP_VHJ_FN').hodnota
         },
 
         vyrobne: {
@@ -669,7 +683,9 @@ export default (state = initState, action) => {
           cena: {
             objem_m3: action.data['bunky'].find(x => x.id === 'FZP_VYR_PC_EUR_M3').hodnota,
             objem_mwh: action.data['bunky'].find(x => x.id === 'FZP_VYR_PC_EUR_MWH').hodnota
-          }
+          },
+          vn: action.data['bunky'].find(x => x.id === 'FZP_VYR_VN').hodnota,
+          fn: action.data['bunky'].find(x => x.id === 'FZP_VYR_FN').hodnota
         }
       }
 

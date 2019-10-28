@@ -228,8 +228,10 @@ class UzitocnaDodavkaGraf extends React.Component {
               title: { enabled: false },
               labels: { enabled: false }
             },
-            //tooltip: { valueDecimals: 0, },
-            tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>' },
+            tooltip: {
+              valueDecimals: 0,
+              pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.y} kWh</b> ({point.percentage:.2f}%)<br/>'
+            },
             plotOptions: {
               pie: {
                 allowPointSelect: true,
@@ -242,7 +244,14 @@ class UzitocnaDodavkaGraf extends React.Component {
                 showInLegend: false
               },
               column: {
-                stacking: 'normal'
+                stacking: 'normal',
+                /*dataLabels: {
+                  enabled: true,
+                  inside: true,
+                  formatter() {
+                    return 'blablabla'
+                  }
+                }*/
               }
             },
             series: [{

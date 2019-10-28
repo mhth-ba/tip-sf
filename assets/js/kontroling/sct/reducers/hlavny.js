@@ -23,7 +23,7 @@ const initState = {
     nazov: '',
     rok: null
   },
-  poznamka: null,
+  poznamka: 'Poznámky k hlavnému záznamu...',
   vytvoril: {
     fullname: null // cele meno uzivatela
   },
@@ -40,7 +40,8 @@ const initState = {
   updating: false,
   error: null,
 
-  initialized: false // identifikacia prveho nacitania
+  initialized: false, // identifikacia prveho nacitania
+  all_data_loaded: false // pre potreby zakliknutia upravy hodnôt
 }
 
 export default (state = initState, action) => {
@@ -54,6 +55,9 @@ export default (state = initState, action) => {
 
     case TYPES.LOAD_MAIN_ENTRY_ERROR:
       return {...state, loading: false, error: action.data}
+
+    case TYPES.FETCH_VYPOCET_BUNIEK_SUCCESS:
+      return {...state, all_data_loaded: true}
 
     case TYPES.FETCH_HLAVNY_REQUEST:
       return {...state, loading: true}

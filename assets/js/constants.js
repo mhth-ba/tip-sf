@@ -1,6 +1,10 @@
 export const CACHE_DISP_VCO_PAGES = 'tipsf/disp/vco/table#1_rowsPerPage'
 export const CACHE_UCT_DP_PAGES = 'tipsf/uct/dp/table#1_rowsPerPage'
 
+export const CACHE_KONT_SCT_TOOLS_EDIT = 'tipsf/kont/sct#tools_edit'                 // checkbox upravovať hodnoty
+export const CACHE_KONT_SCT_TOOLS_HISTORY = 'tipsf/kont/sct#tools_history'           // checkbox história úprav
+export const CACHE_KONT_SCT_TOOLS_CALCULATIONS = 'tipsf/kont/sct#tools_calculations' // checkbox výpočty
+
 export const CACHE_KONT_SCT_DECIMAL_UDT = 'tipsf/kont/sct#ds_udt'   // udt = uzitocna dodavka tepla
 export const CACHE_KONT_SCT_DECIMAL_PP = 'tipsf/kont/sct#ds_pp'     // pp = porovnanie s planom
 export const CACHE_KONT_SCT_DECIMAL_VTPZ = 'tipsf/kont/sct#ds_vtpz' // vtpz = vyroba tepla podla zdrojov

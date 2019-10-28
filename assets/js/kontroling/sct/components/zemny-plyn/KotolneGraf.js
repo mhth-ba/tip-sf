@@ -23,7 +23,7 @@ class KotolneGraf extends React.Component {
   }
 
   pieColors() {
-    const color = Highcharts.getOptions().colors[3]
+    const color = Highcharts.getOptions().colors[9]
     let colors = [],
       //base = Highcharts.getOptions().colors[3],
       base = {
@@ -147,7 +147,11 @@ class KotolneGraf extends React.Component {
             },
             xAxis: {},
             yAxis: {},
-            tooltip: { valueSuffix: '', valueDecimals: 0 },
+            tooltip: {
+              //valueSuffix: '',
+              valueDecimals: 0,
+              pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.percentage:.2f}%</b><br/>'
+            },
             plotOptions: {
               pie: {
                 allowPointSelect: true,

@@ -27,6 +27,7 @@ class FakturovanyZemnyPlyn extends React.Component {
 
   render() {
 
+    const opravnenia = this.props.opravnenia
     const note = this.props.poznamky.fzp
 
     return (
@@ -88,7 +89,9 @@ class FakturovanyZemnyPlyn extends React.Component {
         <br/>
         <Row>
           <Col>
-            <Poznamky id={note.id} val={note.poznamka} row={'ct'} col={'poznamka'} update={this.props.update} />
+            { opravnenia.mng &&
+              <Poznamky id={note.id} val={note.poznamka} row={'ct'} col={'poznamka'} update={this.props.update} />
+            }
           </Col>
         </Row>
       </div>
@@ -97,9 +100,7 @@ class FakturovanyZemnyPlyn extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  // zoznam: state.zoznam,
-  // hlavny: state.hlavny
-
+  opravnenia: state.opravnenia,
   poznamky: state.poznamky
 })
 

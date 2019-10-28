@@ -680,6 +680,11 @@ class SkutocneNaklady extends React.Component {
             Uistite sa, že v skutočných spoločných nákladoch nie sú zahrnuté <strong>refakturované náklady</strong>.
           </Alert>
 
+          <Alert color={'warning'}>
+            <FontAwesome name={'exclamation-circle'} />&nbsp;
+            Odrátajte <strong>nájomné</strong> presahujúce limit stanovený vyhláškou.
+          </Alert>
+
         </CardBody>
         <CardFooter>
           <DecimalScale id={'sntesn'} />

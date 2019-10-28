@@ -39,6 +39,7 @@ class SkutocnaDodavkaTepla extends React.Component {
 
   render() {
 
+    const opravnenia = this.props.opravnenia
     const note = this.props.poznamky.sdt
 
     return (
@@ -92,7 +93,9 @@ class SkutocnaDodavkaTepla extends React.Component {
         <br/>
         <Row>
           <Col>
-            <Poznamky id={note.id} val={note.poznamka} row={'ct'} col={'poznamka'} update={this.props.update} />
+            { opravnenia.mng &&
+              <Poznamky id={note.id} val={note.poznamka} row={'ct'} col={'poznamka'} update={this.props.update} />
+            }
           </Col>
         </Row>
       </div>
@@ -101,6 +104,7 @@ class SkutocnaDodavkaTepla extends React.Component {
 }
 
 const mapStateToProps = ( state, ownProps ) => ({
+  opravnenia: state.opravnenia,
   poznamky: state.poznamky
 })
 

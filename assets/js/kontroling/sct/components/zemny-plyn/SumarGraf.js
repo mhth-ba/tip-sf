@@ -143,7 +143,10 @@ class SumarGraf extends React.Component {
             },
             xAxis: {},
             yAxis: {},
-            tooltip: { valueDecimals: 0, },
+            tooltip: {
+              valueDecimals: 0,
+              pointFormat: '<span style="color:{point.color}">●</span> {series.name}: <b>{point.percentage:.2f}%</b><br/>'
+            },
             plotOptions: {
               pie: {
                 allowPointSelect: true,

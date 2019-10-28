@@ -280,7 +280,7 @@ class SpravaKotolni extends React.Component {
             <UncontrolledTooltip target={'kotolna-back'}>Späť</UncontrolledTooltip>
             {' '}
             <Button color={'default'} id={'kotolna-delete'} onClick={ this.handleOdstranitKotolnu.bind(this, kotolna) }
-                    disabled={deleting}
+                    disabled={deleting || !opravnenia.kont}
             >
               { !deleting && <FontAwesome name={'trash-o'} /> }
               { deleting && <FontAwesome name={'spinner'} spin /> }
@@ -289,14 +289,14 @@ class SpravaKotolni extends React.Component {
             {' '}
             { plati ?
               <span>
-                <Button color={'default'} id={'kotolna-deactivate'}>
+                <Button color={'default'} id={'kotolna-deactivate'} disabled={!opravnenia.kont}>
                   <FontAwesome name={'check-square-o'} />
                 </Button>
                 <UncontrolledTooltip target={'kotolna-deactivate'}>Vyradiť kotolňu</UncontrolledTooltip>
               </span>
               :
               <span>
-                <Button color={'default'} id={'kotolna-activate'}>
+                <Button color={'default'} id={'kotolna-activate'} disabled={!opravnenia.kont}>
                   <FontAwesome name={'square-o'} />
                 </Button>
                 <UncontrolledTooltip target={'kotolna-activate'}>Zaradiť kotolňu</UncontrolledTooltip>
@@ -305,14 +305,14 @@ class SpravaKotolni extends React.Component {
             {' '}
             { primar ?
               <span>
-                <Button color={'default'} id={'kotolna-primar-ma'}>
+                <Button color={'default'} id={'kotolna-primar-ma'} disabled={!opravnenia.kont}>
                   <FontAwesome name={'angle-double-up'} />
                 </Button>
                 <UncontrolledTooltip target={'kotolna-primar-ma'}>Odobrať primárny rozvod</UncontrolledTooltip>
               </span>
               :
               <span>
-                <Button color={'default'} id={'kotolna-primar-nema'}>
+                <Button color={'default'} id={'kotolna-primar-nema'} disabled={!opravnenia.kont}>
                   <FontAwesome name={'angle-up'} />
                 </Button>
                 <UncontrolledTooltip target={'kotolna-primar-nema'}>Pridať primárny rozvod</UncontrolledTooltip>
@@ -324,7 +324,7 @@ class SpravaKotolni extends React.Component {
         {/* Prehľad kotolní */}
         { zobrazenie === 1 &&
           <CardFooter>
-            <Button color={'success'} onClick={this.handlePridatKotolnu} disabled={creating}>
+            <Button color={'success'} onClick={this.handlePridatKotolnu} disabled={creating || !opravnenia.kont}>
               {!creating && <FontAwesome name={'plus-circle'}/>}
               {creating && <FontAwesome name={'spinner'} spin/>}
               {' '}

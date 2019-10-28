@@ -103,8 +103,14 @@ class Hlavny extends React.Component {
           }
         </CardHeader>
         <CardBody>
-          <CardText>Všetky informácie týkajúce sa hlavného záznamu nájdete v tejto časti</CardText>
-          { hlavny.initialized &&
+          <CardText>
+            { opravnenia.mng ?
+              <span>Všetky informácie týkajúce sa hlavného záznamu nájdete v tejto časti</span>
+              :
+              <span>...</span>
+            }
+          </CardText>
+          { (hlavny.initialized && opravnenia.mng) &&
           <div>
             <Table>
               <tbody>

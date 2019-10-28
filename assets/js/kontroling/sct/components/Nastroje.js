@@ -19,8 +19,11 @@ import {
   createHlavnyRequest,
 
   toggleHighlightEditable,
+  toggleHistoria,
   toggleVypocty
 } from '../actions'
+
+import * as CONSTANTS from '../../../constants'
 
 const Polozka = ({id, nazov, rok, stav, nct_dodavka, nct_cena, vytvoril, datum, poznamka, upload}) => (
   <option value={id}
@@ -88,6 +91,7 @@ class Nastroje extends React.Component {
     this.handleLoad = this.handleLoad.bind(this)
     this.handleNotify = this.handleNotify.bind(this)
     this.handleHighlightEditable = this.handleHighlightEditable.bind(this)
+    this.hadnelHistoria = this.handleHistoria.bind(this)
     this.handleVypocty = this.handleVypocty.bind(this)
   }
 
@@ -180,13 +184,10 @@ class Nastroje extends React.Component {
 
   handleLoad() {
     const id = this.state.id
-    const nct_dodavka = this.state.nct_dodavka
-    const nct_cena = this.state.nct_cena
 
     const data = {
       id,
-      // nct_dodavka,
-      // nct_cena
+      roles: this.props.opravnenia
     }
 
     this.setState({
@@ -211,11 +212,35 @@ class Nastroje extends React.Component {
   }
 
   handleHighlightEditable() {
-    this.props.toggleHighlightEditable(!this.props.nastroje.highlightEditable)
+    const flag = !this.props.nastroje.highlightEditable
+    localStorage.setItem(CONSTANTS.CACHE_KONT_SCT_TOOLS_EDIT, flag)
+    this.props.toggleHighlightEditable(flag)
+  }
+
+  handleHistoria() {
+    const flag = !this.props.nastroje.historia
+    this.props.toggleHistoria(flag)
   }
 
   handleVypocty() {
-    this.props.toggleVypocty(!this.props.nastroje.vypocty)
+    const flag = !this.props.nastroje.vypocty
+    localStorage.setItem(CONSTANTS.CACHE_KONT_SCT_TOOLS_CALCULATIONS, flag)
+    this.props.toggleVypocty(flag)
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // zaskrnutie checkboxov (z karty nastrojov) po nacitani podla posledneho nastavenia pouzivatela (browser cache)
+    if (prevProps.hlavny.all_data_loaded !== this.props.hlavny.all_data_loaded) {
+      if (this.props.hlavny.stav.id !== 1 && this.props.opravnenia.kont) {
+        this.props.toggleHighlightEditable(localStorage.getItem(CONSTANTS.CACHE_KONT_SCT_TOOLS_EDIT) === "true")
+      }
+      if (this.props.opravnenia.mng) {
+        this.props.toggleHistoria(localStorage.getItem(CONSTANTS.CACHE_KONT_SCT_TOOLS_HISTORY) === "true")
+      }
+      if (this.props.opravnenia.mng) {
+        this.props.toggleVypocty(localStorage.getItem(CONSTANTS.CACHE_KONT_SCT_TOOLS_CALCULATIONS) === "true")
+      }
+    }
   }
 
   componentDidMount() {
@@ -246,7 +271,7 @@ class Nastroje extends React.Component {
             Otvoriť existujúcu cenu tepla alebo vypočítať novú cenu tepla?
           </CardText>
 
-          <Button color="primary" onClick={this.toggle} disabled={nastroje.loading || !opravnenia.mng}>
+          <Button color="primary" onClick={this.toggle} disabled={nastroje.loading || !opravnenia.vyr}>
             {vyberpolozky.loading && <FontAwesome name="spinner" spin />}&nbsp;
             Otvoriť cenu tepla
           </Button>
@@ -273,7 +298,7 @@ class Nastroje extends React.Component {
               </Input>
               <br/>
               {
-                this.state.validOption &&
+                (this.state.validOption && opravnenia.mng) &&
                 <Card>
                   <CardBody>
                     <Table size="sm">
@@ -432,27 +457,35 @@ class Nastroje extends React.Component {
                   </Label>
                 </FormGroup>
               }
-              <FormGroup check>
-                <Label check id="xb-historia">
-                  <Input type="checkbox"/>{' '}
-                  História úprav
-                  <UncontrolledTooltip placement="bottom" target="xb-historia">
-                    Zobrazí sa história zmeny príslušnej hodnoty (dátum a zamestnanec)
-                  </UncontrolledTooltip>
-                </Label>
-              </FormGroup>
-              <FormGroup check>
-                <Label check id="xb-vypocty">
-                  <Input type={'checkbox'} value={this.props.nastroje.vypocty}
-                         onChange={this.handleVypocty}
-                  />{' '}
-                  Výpočty
-                  <UncontrolledTooltip placement="bottom" target="xb-vypocty">
-                    Po kliknutí na zvýraznenú bunku sa zobrazí popis výpočtu hodnoty s preklikom na súvisiace čísla a
-                    grafy
-                  </UncontrolledTooltip>
-                </Label>
-              </FormGroup>
+              { opravnenia.mng &&
+                <FormGroup check>
+                  <Label check id="xb-historia">
+                    <Input type="checkbox"
+                           checked={nastroje.historia}
+                           onChange={this.handleHistoria}
+                    />{' '}
+                    História úprav
+                    <UncontrolledTooltip placement="bottom" target="xb-historia">
+                      Zobrazí sa história zmeny príslušnej hodnoty (dátum a zamestnanec)
+                    </UncontrolledTooltip>
+                  </Label>
+                </FormGroup>
+              }
+              { opravnenia.mng &&
+                <FormGroup check>
+                  <Label check id="xb-vypocty">
+                    <Input type={'checkbox'}
+                           checked={nastroje.vypocty}
+                           onChange={this.handleVypocty}
+                    />{' '}
+                    Výpočty
+                    <UncontrolledTooltip placement="bottom" target="xb-vypocty">
+                      Po kliknutí na zvýraznenú bunku sa zobrazí popis výpočtu hodnoty s preklikom na súvisiace čísla a
+                      grafy
+                    </UncontrolledTooltip>
+                  </Label>
+                </FormGroup>
+              }
             </Form>
           }
         </CardBody>
@@ -488,6 +521,7 @@ const mapDispatchToProps = ( dispatch, ownProps ) => ({
 
   // toolbox
   toggleHighlightEditable: (e) => dispatch(toggleHighlightEditable(e)),
+  toggleHistoria: (e) => dispatch(toggleHistoria(e)),
   toggleVypocty: (e) => dispatch(toggleVypocty(e))
 })
 
