@@ -304,7 +304,6 @@ export function* loadMainEntry(action) {
     if (!roles.mng && roles.vyr) {
       // pre vyrobarov nacitat iba prve dve karty a potrebne suvisiace udaje
       yield [
-        put(fetchPoznamkyRequest(id)),
         put(fetchKonstantySCTRequest(id)),
         put(fetchDodavkaTeplaRequest(id)),
         put(fetchVyrobaElektrinyRequest(id)),
