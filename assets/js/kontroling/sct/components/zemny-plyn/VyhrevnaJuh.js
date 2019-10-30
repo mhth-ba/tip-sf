@@ -168,7 +168,7 @@ class VyhrevnaJuh extends React.Component {
         { id: december.id, key: 'december' }
       ],
       update: this.props.update,
-      fetch: this.props.vypocet
+      fetch: this.props.vypocetSQL
     }
 
     return (
@@ -2515,7 +2515,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  vypocet: (e) => dispatch(fetchVypocetBuniekRequest(e)),
+  vypocetSQL: (e) => dispatch(fetchVypocetBuniekRequest(e)),
   update: (e, table, hlavny, bulk) => dispatch(updateZemnyPlynRequest(e, table, hlavny, bulk))
 })
 
