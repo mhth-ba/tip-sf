@@ -42,7 +42,7 @@ class GrantRepository extends EntityRepository
         return $this->createQueryBuilder('grant')
             ->andWhere('grant.role BETWEEN :start and :end')
             ->setParameter('start', 71)
-            ->setParameter('end', 73)
+            ->setParameter('end', 74)
             ->orderBy('grant.role', 'asc')
             ->getQuery()
             ->execute();
