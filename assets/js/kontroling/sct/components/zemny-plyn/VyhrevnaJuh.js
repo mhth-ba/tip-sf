@@ -130,6 +130,7 @@ class VyhrevnaJuh extends React.Component {
 
     const vstup = {
       table: 'vhj',
+      sqlt: 'SCT_ZemnyPlyn',
       hlavny: this.props.hlavny.id,
       bulk: false,
       dec: decimal,

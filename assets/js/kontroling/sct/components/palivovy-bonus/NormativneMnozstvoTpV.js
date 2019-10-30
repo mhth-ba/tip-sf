@@ -105,6 +105,7 @@ class NormativneMnostvoTpV extends React.Component {
 
     const vstup = {
       table: 'tpv',
+      sqlt: 'SCT_NormativneMnozstvo',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.update

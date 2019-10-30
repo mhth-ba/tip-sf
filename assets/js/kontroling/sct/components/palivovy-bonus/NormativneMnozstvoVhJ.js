@@ -96,6 +96,7 @@ class NormativneMnostvoVhJ extends React.Component {
 
     const vstup = {
       table: 'vhj',
+      sqlt: 'SCT_NormativneMnozstvo',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.update

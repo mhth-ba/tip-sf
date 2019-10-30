@@ -13,6 +13,7 @@ import {
   fetchOpravneniaRequest,
   fetchVyberPolozkyRequest,
   fetchMoznostiRequest,
+  fetchAktivitaRequest,
 
   loadMainEntryRequest,
 
@@ -91,7 +92,7 @@ class Nastroje extends React.Component {
     this.handleLoad = this.handleLoad.bind(this)
     this.handleNotify = this.handleNotify.bind(this)
     this.handleHighlightEditable = this.handleHighlightEditable.bind(this)
-    this.hadnelHistoria = this.handleHistoria.bind(this)
+    this.handleHistoria = this.handleHistoria.bind(this)
     this.handleVypocty = this.handleVypocty.bind(this)
   }
 
@@ -219,6 +220,7 @@ class Nastroje extends React.Component {
 
   handleHistoria() {
     const flag = !this.props.nastroje.historia
+    localStorage.setItem(CONSTANTS.CACHE_KONT_SCT_TOOLS_HISTORY, flag)
     this.props.toggleHistoria(flag)
   }
 
@@ -229,6 +231,7 @@ class Nastroje extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+
     // zaskrnutie checkboxov (z karty nastrojov) po nacitani podla posledneho nastavenia pouzivatela (browser cache)
     if (prevProps.hlavny.all_data_loaded !== this.props.hlavny.all_data_loaded) {
       if (this.props.hlavny.stav.id !== 1 && this.props.opravnenia.kont) {
@@ -239,6 +242,12 @@ class Nastroje extends React.Component {
       }
       if (this.props.opravnenia.mng) {
         this.props.toggleVypocty(localStorage.getItem(CONSTANTS.CACHE_KONT_SCT_TOOLS_CALCULATIONS) === "true")
+      }
+    }
+
+    if (prevProps.opravnenia.mng !== this.props.opravnenia.mng) {
+      if (this.props.opravnenia.mng) {
+        this.props.fetchAktivitaRequest()
       }
     }
   }
@@ -512,6 +521,9 @@ const mapDispatchToProps = ( dispatch, ownProps ) => ({
 
   // zoznam moznosti v select->option boxoch
   fetchMoznostiRequest: () => dispatch(fetchMoznostiRequest()),
+
+  // aktivita pouzivatelov (historia zadavania hodnot)
+  fetchAktivitaRequest: () => dispatch(fetchAktivitaRequest()),
 
   // nacitanie hlavneho zaznamu spolu so vsetkymi suvisiacimi datami
   loadMainEntryRequest: (e) => dispatch(loadMainEntryRequest(e)),

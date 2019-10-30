@@ -362,8 +362,8 @@ class OpravneneNaklady extends React.Component {
             <tbody>
             <tr>
               <th>Koeficient palivového bonusu</th>
-              <Vstup id={kpb.id} val={kpb.hodnota} row={'kpb'} col={'hodnota'} dec={3} hlavny={hlavny.id}
-                     update={this.props.update} class={pb_kpb} />
+              <Vstup id={kpb.id} val={kpb.hodnota} row={'kpb'} col={'hodnota'} dec={3} sqlt={'SCT_Konstanty'}
+                     hlavny={hlavny.id} update={this.props.update} class={pb_kpb} />
             </tr>
             </tbody>
           </Table>

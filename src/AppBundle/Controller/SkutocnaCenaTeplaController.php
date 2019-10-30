@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Api\AktivitaApiModel;
 use AppBundle\Api\Kontroling\KonstantyApiModel;
 use AppBundle\Api\Kontroling\SCT\DelenieNakladovApiModel;
 use AppBundle\Api\Kontroling\SCT\DodaneTeploApiModel;
@@ -333,7 +334,7 @@ class SkutocnaCenaTeplaController extends BaseController
     }
 
     /**
-     * @Route("kont/sct/pristupy", name="sct_pristupy_get", options={"expose"=true})
+     * @Route("kont/sct/pristupy", name="sct_pristupy", options={"expose"=true})
      * @Method("GET")
      * @Security("has_role('ROLE_SCT_MNG')")
      */
@@ -385,6 +386,43 @@ class SkutocnaCenaTeplaController extends BaseController
         }
 
         return $this->createApiResponse($moznosti);
+    }
+
+    /**
+     * @Route("kont/sct/aktivita", name="sct_aktivita", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getAktivitaAction()
+    {
+        $aktivita = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:App\ActivityLog')
+            ->findKontSCTUserActivityAll();
+
+        $data = [];
+
+        foreach ($aktivita as $item) {
+            $data[] = $this->createAktivitaApiModel($item);
+        }
+
+        return $this->createApiResponse($data);
+    }
+
+    private function createAktivitaApiModel(ActivityLog $log)
+    {
+        $model = new AktivitaApiModel();
+
+        $model->id = $log->getId();
+        $model->datum = $log->getDatum();
+        $model->schema = $log->getSchema();
+        $model->table = $log->getTable();
+        $model->column = $log->getColumn();
+        $model->row = $log->getRow();
+        $model->value = $log->getValue();
+        $model->username = $log->getUser()->getUsername();
+        $model->fullname = $log->getUser()->getFullname();
+
+        return $model;
     }
 
     /**

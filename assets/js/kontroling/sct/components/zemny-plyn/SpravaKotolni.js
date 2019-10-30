@@ -219,6 +219,7 @@ class SpravaKotolni extends React.Component {
                   <tr key={ix}>
                     <td className={'text-nowrap'}>{ p['polozka'].nazov }</td>
                     <Vstup id={ p.id }
+                           sqlt={'SCT_KotolnaParametre'}
                            hlavny={ hlavny.id }
                            val={ p.hodnota }
                            col={ 'hodnota' }

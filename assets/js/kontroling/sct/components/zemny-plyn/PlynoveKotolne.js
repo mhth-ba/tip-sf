@@ -68,6 +68,7 @@ class PlynoveKotolne extends React.Component {
 
     const vstup = {
       //table: 'klucovanie',
+      sqlt: 'SCT_KotolnaUdaje',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.updateUdaj

@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import nastroje from './nastroje'
 import sprava from './sprava'
 import vypocet from './vypocet'
+import historia from './historia'
 
 import opravnenia from './opravnenia'
 import pristupy from './pristupy'
@@ -38,6 +39,7 @@ export default combineReducers({
   nastroje,
   sprava,
   vypocet,
+  historia,
 
   opravnenia,
   pristupy,

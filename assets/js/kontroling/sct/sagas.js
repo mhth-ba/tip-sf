@@ -7,6 +7,7 @@ import {
   fetchPristupy,
   fetchVyberPolozky,
   fetchMoznosti,
+  fetchAktivita,
 
   loadMainEntry,
 
@@ -63,6 +64,7 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_PRISTUPY_REQUEST, fetchPristupy),
     takeLatest(TYPES.FETCH_VYBER_POLOZKY_REQUEST, fetchVyberPolozky),
     takeLatest(TYPES.FETCH_MOZNOSTI_REQUEST, fetchMoznosti),
+    takeLatest(TYPES.FETCH_AKTIVITA_REQUEST, fetchAktivita),
 
     takeLatest(TYPES.LOAD_MAIN_ENTRY_REQUEST, loadMainEntry),
 

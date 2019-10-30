@@ -65,6 +65,7 @@ class SkutocneNaklady extends React.Component {
 
     const vstup = {
       table: 'sn',
+      sqlt: 'SCT_SkutocneNaklady',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.update

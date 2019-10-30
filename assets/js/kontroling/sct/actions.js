@@ -43,6 +43,10 @@ export const fetchMoznostiRequest = () => ({
   type: TYPES.FETCH_MOZNOSTI_REQUEST
 })
 
+export const fetchAktivitaRequest = () => ({
+  type: TYPES.FETCH_AKTIVITA_REQUEST
+})
+
 export const fetchVyberPolozkyRequest = () => ({
   type: TYPES.FETCH_VYBER_POLOZKY_REQUEST
 })
@@ -247,7 +251,7 @@ export function* fetchOpravnenia() {
 }
 
 export function* fetchPristupy() {
-  const url = Routing.generate('sct_pristupy_get')
+  const url = Routing.generate('sct_pristupy')
 
   try {
     const pristupy = yield call(Api.fetch, url)
@@ -270,6 +274,20 @@ export function* fetchMoznosti() {
 
   } catch (e) {
     yield put({type: TYPES.FETCH_MOZNOSTI_ERROR, data: e})
+    console.error(e)
+  }
+}
+
+export function* fetchAktivita() {
+  const url = Routing.generate('sct_aktivita')
+
+  try {
+    const aktivita = yield call(Api.fetch, url)
+
+    yield put({type: TYPES.FETCH_AKTIVITA_SUCCESS, data: aktivita})
+
+  } catch (e) {
+    yield put({type: TYPES.FETCH_AKTIVITA_ERROR, data: e})
     console.error(e)
   }
 }
@@ -832,6 +850,7 @@ export function* updateKonstanty(action) {
     })
 
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_KONSTANTY_ERROR, data: e})
@@ -857,6 +876,7 @@ export function* updateVyrobaElektriny(action) {
     })
 
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_VYROBA_ELEKTRINY_ERROR, data: e})
@@ -882,6 +902,7 @@ export function* updateDelenieNakladov(action) {
     })
 
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_DELENIE_NAKLADOV_ERROR, data: e})
@@ -928,7 +949,8 @@ export function* updateParameterKotolne(action) {
     yield [
       put(fetchNormativneMnozstvoRequest(hlavny)),
       put(fetchOpravneneNakladyRequest(hlavny)),
-      put(fetchVypocetBuniekRequest(hlavny))
+      put(fetchVypocetBuniekRequest(hlavny)),
+      put(fetchAktivitaRequest())
     ]
 
   } catch(e) {
@@ -954,6 +976,7 @@ export function* updateUdajKotolne(action) {
     })
 
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_UDAJ_KOTOLNE_ERROR, data: e})
@@ -984,6 +1007,7 @@ export function* updateZemnyPlyn(action) {
 
     if (!bulk) {
       yield put(fetchVypocetBuniekRequest(hlavny))
+      yield put(fetchAktivitaRequest())
     }
 
   } catch (e) {
@@ -1010,6 +1034,7 @@ export function* updateZemnyPlynKlucovanie(action) {
     })
 
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_ZEMNY_PLYN_KLUCOVANIE_ERROR, data: e})
@@ -1038,6 +1063,7 @@ export function* updateNormativneMnozstvo(action) {
     })
 
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_NORMATIVNE_MNOZSTVO_ERROR, data: e})
@@ -1066,6 +1092,7 @@ export function* updateNakupTepla(action) {
     })
 
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_NAKUP_TEPLA_ERROR, data: e})
@@ -1095,6 +1122,7 @@ export function* updateSkutocneNaklady(action) {
 
     yield put(fetchSkutocneNakladyRequest(hlavny))
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_SKUTOCNE_NAKLADY_ERROR, data: e})
@@ -1124,6 +1152,7 @@ export function* updateRegulovanaZlozka(action) {
 
     yield put(fetchRegulovanaZlozkaRequest(hlavny))
     yield put(fetchVypocetBuniekRequest(hlavny))
+    yield put(fetchAktivitaRequest())
 
   } catch (e) {
     yield put({type: TYPES.UPDATE_REGULOVANA_ZLOZKA_ERROR, data: e})

@@ -53,6 +53,7 @@ class VyrobaKotolne extends React.Component {
 
     const vstup = {
       //table: 'pk',
+      sqlt: 'SCT_KotolnaUdaje',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.update
@@ -100,7 +101,7 @@ class VyrobaKotolne extends React.Component {
                 (u, ix) => (
                   <tr key={ix} className="text-right">
                     <th className="text-left">{ kotolne['kotolne'].find(k => k.id === u['kotolna']['id']).nazov }</th>
-                    <Vstup {...vstup} id={ u.id } val={ u['z_kwh'] } col={ 'z_kwh' } unit={'kWh'} />
+                    <Vstup {...vstup} id={ u.id } val={ u['z_kwh'] } col={ 'z_kwh' } unit={'kWh'} place={'right'} />
                     <td></td>
                   </tr>
                 )
@@ -116,8 +117,8 @@ class VyrobaKotolne extends React.Component {
                 (u, ix) => (
                   <tr key={ix} className="text-right">
                     <th className="text-left">{ kotolne['kotolne'].find(k => k.id === u['kotolna']['id']).nazov }</th>
-                    <Vstup {...vstup} id={ u.id } val={ u['z_kwh'] } col={ 'z_kwh' } unit={'kWh'} />
-                    <Vstup {...vstup} id={ u.id } val={ u['p_kwh'] } col={ 'p_kwh' } unit={'kWh'} />
+                    <Vstup {...vstup} id={ u.id } val={ u['z_kwh'] } col={ 'z_kwh' } unit={'kWh'} place={'right'} />
+                    <Vstup {...vstup} id={ u.id } val={ u['p_kwh'] } col={ 'p_kwh' } unit={'kWh'} place={'right'} />
                   </tr>
                 )
               )

@@ -84,6 +84,7 @@ class KlucovaneNaklady extends React.Component {
 
     const vstup = {
       //table: 'zpk',
+      sqlt: 'SCT_ZemnyPlynKlucovanie',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.update

@@ -87,6 +87,7 @@ class NakladyNaNakupTepla extends React.Component {
 
     const vstup = {
       table: 'nt',
+      sqlt: 'SCT_NakupTepla',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.update

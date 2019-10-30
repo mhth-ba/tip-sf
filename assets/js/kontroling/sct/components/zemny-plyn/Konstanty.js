@@ -83,6 +83,7 @@ class Konstanty extends React.Component {
     } = vypocet
 
     const vstup = {
+      sqlt: 'SCT_Konstanty',
       hlavny: this.props.hlavny.id,
       col: 'hodnota',
       dec: decimal,

@@ -80,6 +80,7 @@ class VyrobaElektriny extends React.Component {
 
     const vstup = {
       //table: 've',
+      sqlt: 'SCT_Elektrina',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.update

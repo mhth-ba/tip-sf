@@ -79,6 +79,7 @@ class RegulovanaZlozka extends React.Component {
 
     const vstup = {
       table: 'rz',
+      sqlt: 'SCT_RegulovanaZlozka',
       hlavny: this.props.hlavny.id,
       dec: decimal,
       update: this.props.update,

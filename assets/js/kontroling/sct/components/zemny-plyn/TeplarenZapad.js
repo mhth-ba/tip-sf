@@ -131,6 +131,7 @@ class TeplarenZapad extends React.Component {
 
     const vstup = {
       table: 'tpz',
+      sqlt: 'SCT_ZemnyPlyn',
       hlavny: this.props.hlavny.id,
       bulk: false,
       dec: decimal,
