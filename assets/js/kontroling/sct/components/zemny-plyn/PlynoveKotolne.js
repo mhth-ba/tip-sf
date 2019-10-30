@@ -125,7 +125,6 @@ class PlynoveKotolne extends React.Component {
                                <br/>+&nbsp;
                                <span className="text-nowrap">Prekročenie dohodnutých množstiev</span>
                              </div> }
-                             popoverId={`fzp_pk_cnsd_${ix}_pop`}
                              cellsId={[]}
                              placement={'right'}
                              unit={'€'}
@@ -160,7 +159,6 @@ class PlynoveKotolne extends React.Component {
                        popis={ <div className="text-nowrap">
                          <span className="text-muted">Sumár objemu zemného plynu v m<sup>3</sup></span>
                        </div> }
-                       popoverId={'fzp_pk_spo_m3_pop'}
                        cellsId={[]}
                        placement={'bottom'}
                        unit={ <span>m<sup>3</sup></span> }
@@ -181,7 +179,6 @@ class PlynoveKotolne extends React.Component {
                        popis={ <div className="text-nowrap">
                          <span className="text-muted">Sumár objemu zemného plynu v MWh</span>
                        </div> }
-                       popoverId={'fzp_pk_spo_mwh_pop'}
                        cellsId={[]}
                        placement={'bottom'}
                        unit={'MWh'}
@@ -202,7 +199,6 @@ class PlynoveKotolne extends React.Component {
                        popis={ <div className="text-nowrap">
                          <span className="text-muted">Sumár nákladov bez spotrebnej dane</span>
                        </div> }
-                       popoverId={'fzp_pk_spo_nbsd_pop'}
                        cellsId={[]}
                        placement={'bottom'}
                        unit={'€'}
@@ -223,7 +219,6 @@ class PlynoveKotolne extends React.Component {
                        popis={ <div className="text-nowrap">
                          <span className="text-muted">Sumár nákladov na spotrebnú daň</span>
                        </div> }
-                       popoverId={'fzp_pk_spo_sd_pop'}
                        cellsId={[]}
                        placement={'bottom'}
                        unit={'€'}
@@ -244,7 +239,6 @@ class PlynoveKotolne extends React.Component {
                        popis={ <div className="text-nowrap">
                          <span className="text-muted">Sumár nákladov na prekročenie<br/>dohodnutých množstiev</span>
                        </div> }
-                       popoverId={'fzp_pk_spo_pdm_pop'}
                        cellsId={[]}
                        placement={'bottom'}
                        unit={'€'}
@@ -266,7 +260,6 @@ class PlynoveKotolne extends React.Component {
                          <br/>+&nbsp;
                          <span className="polozka-3 text-nowrap">Prekročenie dohodnutých množstiev</span>
                        </div> }
-                       popoverId={'fzp_pk_spo_cnsd_pop'}
                        cellsId={['fzp_pk_spo_nbsd', 'fzp_pk_spo_sd', 'fzp_pk_spo_pdm']}
                        placement={'bottom'}
                        unit={'€'}

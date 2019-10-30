@@ -243,7 +243,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jan_sopo_pop'}
                        cellsId={['fzp_j_jan_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -261,7 +260,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jan_sopp_pop'}
                        cellsId={['fzp_j_jan_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -279,7 +277,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jan_sopd_pop'}
                        cellsId={['fzp_j_jan_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -329,7 +326,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_jan_ns_pop'}
                        cellsId={[
                          'fzp_j_jan_sopo', 'fzp_j_jan_fmso', 'fzp_j_jan_sopp', 'fzp_j_jan_fmsp',
                          'fzp_j_jan_sopd', 'fzp_j_jan_fmsd', 'fzp_j_jan_vsd', 'fzp_j_jan_dan_e', 'fzp_j_jan_pdm']}
@@ -354,7 +350,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_feb_sopo_pop'}
                        cellsId={['fzp_j_feb_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -372,7 +367,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_feb_sopp_pop'}
                        cellsId={['fzp_j_feb_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -390,7 +384,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_feb_sopd_pop'}
                        cellsId={['fzp_j_feb_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -440,7 +433,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_feb_ns_pop'}
                        cellsId={[
                          'fzp_j_feb_sopo', 'fzp_j_feb_fmso', 'fzp_j_feb_sopp', 'fzp_j_feb_fmsp',
                          'fzp_j_feb_sopd', 'fzp_j_feb_fmsd', 'fzp_j_feb_vsd', 'fzp_j_feb_dan_e', 'fzp_j_feb_pdm']}
@@ -465,7 +457,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_mar_sopo_pop'}
                        cellsId={['fzp_j_mar_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -483,7 +474,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_mar_sopp_pop'}
                        cellsId={['fzp_j_mar_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -501,7 +491,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_mar_sopd_pop'}
                        cellsId={['fzp_j_mar_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -551,7 +540,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_mar_ns_pop'}
                        cellsId={[
                          'fzp_j_mar_sopo', 'fzp_j_mar_fmso', 'fzp_j_mar_sopp', 'fzp_j_mar_fmsp',
                          'fzp_j_mar_sopd', 'fzp_j_mar_fmsd', 'fzp_j_mar_vsd', 'fzp_j_mar_dan_e', 'fzp_j_mar_pdm']}
@@ -576,7 +564,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_apr_sopo_pop'}
                        cellsId={['fzp_j_apr_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -594,7 +581,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_apr_sopp_pop'}
                        cellsId={['fzp_j_apr_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -612,7 +598,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_apr_sopd_pop'}
                        cellsId={['fzp_j_apr_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -662,7 +647,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_apr_ns_pop'}
                        cellsId={[
                          'fzp_j_apr_sopo', 'fzp_j_apr_fmso', 'fzp_j_apr_sopp', 'fzp_j_apr_fmsp',
                          'fzp_j_apr_sopd', 'fzp_j_apr_fmsd', 'fzp_j_apr_vsd', 'fzp_j_apr_dan_e', 'fzp_j_apr_pdm']}
@@ -687,7 +671,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_maj_sopo_pop'}
                        cellsId={['fzp_j_maj_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -705,7 +688,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_maj_sopp_pop'}
                        cellsId={['fzp_j_maj_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -723,7 +705,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_maj_sopd_pop'}
                        cellsId={['fzp_j_maj_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -773,7 +754,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_maj_ns_pop'}
                        cellsId={[
                          'fzp_j_maj_sopo', 'fzp_j_maj_fmso', 'fzp_j_maj_sopp', 'fzp_j_maj_fmsp',
                          'fzp_j_maj_sopd', 'fzp_j_maj_fmsd', 'fzp_j_maj_vsd', 'fzp_j_maj_dan_e', 'fzp_j_maj_pdm']}
@@ -798,7 +778,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jun_sopo_pop'}
                        cellsId={['fzp_j_jun_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -816,7 +795,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jun_sopp_pop'}
                        cellsId={['fzp_j_jun_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -834,7 +812,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jun_sopd_pop'}
                        cellsId={['fzp_j_jun_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -884,7 +861,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_jun_ns_pop'}
                        cellsId={[
                          'fzp_j_jun_sopo', 'fzp_j_jun_fmso', 'fzp_j_jun_sopp', 'fzp_j_jun_fmsp',
                          'fzp_j_jun_sopd', 'fzp_j_jun_fmsd', 'fzp_j_jun_vsd', 'fzp_j_jun_dan_e', 'fzp_j_jun_pdm']}
@@ -909,7 +885,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jul_sopo_pop'}
                        cellsId={['fzp_j_jul_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -927,7 +902,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jul_sopp_pop'}
                        cellsId={['fzp_j_jul_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -945,7 +919,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_jul_sopd_pop'}
                        cellsId={['fzp_j_jul_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -995,7 +968,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_jul_ns_pop'}
                        cellsId={[
                          'fzp_j_jul_sopo', 'fzp_j_jul_fmso', 'fzp_j_jul_sopp', 'fzp_j_jul_fmsp',
                          'fzp_j_jul_sopd', 'fzp_j_jul_fmsd', 'fzp_j_jul_vsd', 'fzp_j_jul_dan_e', 'fzp_j_jul_pdm']}
@@ -1020,7 +992,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_aug_sopo_pop'}
                        cellsId={['fzp_j_aug_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1038,7 +1009,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_aug_sopp_pop'}
                        cellsId={['fzp_j_aug_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1056,7 +1026,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_aug_sopd_pop'}
                        cellsId={['fzp_j_aug_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1106,7 +1075,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_aug_ns_pop'}
                        cellsId={[
                          'fzp_j_aug_sopo', 'fzp_j_aug_fmso', 'fzp_j_aug_sopp', 'fzp_j_aug_fmsp',
                          'fzp_j_aug_sopd', 'fzp_j_aug_fmsd', 'fzp_j_aug_vsd', 'fzp_j_aug_dan_e', 'fzp_j_aug_pdm']}
@@ -1131,7 +1099,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_sep_sopo_pop'}
                        cellsId={['fzp_j_sep_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1149,7 +1116,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_sep_sopp_pop'}
                        cellsId={['fzp_j_sep_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1167,7 +1133,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_sep_sopd_pop'}
                        cellsId={['fzp_j_sep_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1217,7 +1182,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_sep_ns_pop'}
                        cellsId={[
                          'fzp_j_sep_sopo', 'fzp_j_sep_fmso', 'fzp_j_sep_sopp', 'fzp_j_sep_fmsp',
                          'fzp_j_sep_sopd', 'fzp_j_sep_fmsd', 'fzp_j_sep_vsd', 'fzp_j_sep_dan_e', 'fzp_j_sep_pdm']}
@@ -1242,7 +1206,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_okt_sopo_pop'}
                        cellsId={['fzp_j_okt_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1260,7 +1223,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_okt_sopp_pop'}
                        cellsId={['fzp_j_okt_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1278,7 +1240,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_okt_sopd_pop'}
                        cellsId={['fzp_j_okt_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1328,7 +1289,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_okt_ns_pop'}
                        cellsId={[
                          'fzp_j_okt_sopo', 'fzp_j_okt_fmso', 'fzp_j_okt_sopp', 'fzp_j_okt_fmsp',
                          'fzp_j_okt_sopd', 'fzp_j_okt_fmsd', 'fzp_j_okt_vsd', 'fzp_j_okt_dan_e', 'fzp_j_okt_pdm']}
@@ -1353,7 +1313,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_nov_sopo_pop'}
                        cellsId={['fzp_j_nov_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1371,7 +1330,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_nov_sopp_pop'}
                        cellsId={['fzp_j_nov_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1389,7 +1347,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_nov_sopd_pop'}
                        cellsId={['fzp_j_nov_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1439,7 +1396,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_nov_ns_pop'}
                        cellsId={[
                          'fzp_j_nov_sopo', 'fzp_j_nov_fmso', 'fzp_j_nov_sopp', 'fzp_j_nov_fmsp',
                          'fzp_j_nov_sopd', 'fzp_j_nov_fmsd', 'fzp_j_nov_vsd', 'fzp_j_nov_dan_e', 'fzp_j_nov_pdm']}
@@ -1464,7 +1420,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_dec_sopo_pop'}
                        cellsId={['fzp_j_dec_mwh', 'fzp_k_jczpsopoj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1482,7 +1437,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_dec_sopp_pop'}
                        cellsId={['fzp_j_dec_mwh', 'fzp_k_jczpsoppj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1500,7 +1454,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena zemného plynu pre SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_dec_sopd_pop'}
                        cellsId={['fzp_j_dec_mwh', 'fzp_k_jczpsopdj']}
                        placement={'top'}
                        decimal={decimal}
@@ -1550,7 +1503,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-9">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_dec_ns_pop'}
                        cellsId={[
                          'fzp_j_dec_sopo', 'fzp_j_dec_fmso', 'fzp_j_dec_sopp', 'fzp_j_dec_fmsp',
                          'fzp_j_dec_sopd', 'fzp_j_dec_fmsd', 'fzp_j_dec_vsd', 'fzp_j_dec_dan_e', 'fzp_j_dec_pdm']}
@@ -1631,7 +1583,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December m<sup>3</sup></span>
                        </div> }
-                       popoverId={'fzp_j_spo_m3_pop'}
                        cellsId={[
                          'fzp_j_jan_m3', 'fzp_j_feb_m3', 'fzp_j_mar_m3', 'fzp_j_apr_m3',
                          'fzp_j_maj_m3', 'fzp_j_jun_m3', 'fzp_j_jul_m3', 'fzp_j_aug_m3',
@@ -1693,7 +1644,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December MWh</span>
                        </div> }
-                       popoverId={'fzp_j_spo_mwh_pop'}
                        cellsId={[
                          'fzp_j_jan_mwh', 'fzp_j_feb_mwh', 'fzp_j_mar_mwh', 'fzp_j_apr_mwh',
                          'fzp_j_maj_mwh', 'fzp_j_jun_mwh', 'fzp_j_jul_mwh', 'fzp_j_aug_mwh',
@@ -1755,7 +1705,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December SOP<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_spo_sopo_pop'}
                        cellsId={[
                          'fzp_j_jan_sopo', 'fzp_j_feb_sopo', 'fzp_j_mar_sopo', 'fzp_j_apr_sopo',
                          'fzp_j_maj_sopo', 'fzp_j_jun_sopo', 'fzp_j_jul_sopo', 'fzp_j_aug_sopo',
@@ -1817,7 +1766,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_j_spo_fmso_pop'}
                        cellsId={[
                          'fzp_j_jan_fmso', 'fzp_j_feb_fmso', 'fzp_j_mar_fmso', 'fzp_j_apr_fmso',
                          'fzp_j_maj_fmso', 'fzp_j_jun_fmso', 'fzp_j_jul_fmso', 'fzp_j_aug_fmso',
@@ -1879,7 +1827,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December SOP<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_spo_sopp_pop'}
                        cellsId={[
                          'fzp_j_jan_sopp', 'fzp_j_feb_sopp', 'fzp_j_mar_sopp', 'fzp_j_apr_sopp',
                          'fzp_j_maj_sopp', 'fzp_j_jun_sopp', 'fzp_j_jul_sopp', 'fzp_j_aug_sopp',
@@ -1941,7 +1888,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_j_spo_fmsp_pop'}
                        cellsId={[
                          'fzp_j_jan_fmsp', 'fzp_j_feb_fmsp', 'fzp_j_mar_fmsp', 'fzp_j_apr_fmsp',
                          'fzp_j_maj_fmsp', 'fzp_j_jun_fmsp', 'fzp_j_jul_fmsp', 'fzp_j_aug_fmsp',
@@ -2003,7 +1949,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December SOP<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_spo_sopd_pop'}
                        cellsId={[
                          'fzp_j_jan_sopd', 'fzp_j_feb_sopd', 'fzp_j_mar_sopd', 'fzp_j_apr_sopd',
                          'fzp_j_maj_sopd', 'fzp_j_jun_sopd', 'fzp_j_jul_sopd', 'fzp_j_aug_sopd',
@@ -2065,7 +2010,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_spo_fmsd_pop'}
                        cellsId={[
                          'fzp_j_jan_fmsd', 'fzp_j_feb_fmsd', 'fzp_j_mar_fmsd', 'fzp_j_apr_fmsd',
                          'fzp_j_maj_fmsd', 'fzp_j_jun_fmsd', 'fzp_j_jul_fmsd', 'fzp_j_aug_fmsd',
@@ -2127,7 +2071,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_spo_vsd_pop'}
                        cellsId={[
                          'fzp_j_jan_vsd', 'fzp_j_feb_vsd', 'fzp_j_mar_vsd', 'fzp_j_apr_vsd',
                          'fzp_j_maj_vsd', 'fzp_j_jun_vsd', 'fzp_j_jul_vsd', 'fzp_j_aug_vsd',
@@ -2189,7 +2132,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December daň MWh</span>
                        </div> }
-                       popoverId={'fzp_j_spo_dan_mwh_pop'}
                        cellsId={[
                          'fzp_j_jan_dan_mwh', 'fzp_j_feb_dan_mwh', 'fzp_j_mar_dan_mwh', 'fzp_j_apr_dan_mwh',
                          'fzp_j_maj_dan_mwh', 'fzp_j_jun_dan_mwh', 'fzp_j_jul_dan_mwh', 'fzp_j_aug_dan_mwh',
@@ -2251,7 +2193,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December daň €</span>
                        </div> }
-                       popoverId={'fzp_j_spo_dan_e_pop'}
                        cellsId={[
                          'fzp_j_jan_dan_e', 'fzp_j_feb_dan_e', 'fzp_j_mar_dan_e', 'fzp_j_apr_dan_e',
                          'fzp_j_maj_dan_e', 'fzp_j_jun_dan_e', 'fzp_j_jul_dan_e', 'fzp_j_aug_dan_e',
@@ -2313,7 +2254,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December PDM</span>
                        </div> }
-                       popoverId={'fzp_j_spo_pdm_pop'}
                        cellsId={[
                          'fzp_j_jan_pdm', 'fzp_j_feb_pdm', 'fzp_j_mar_pdm', 'fzp_j_apr_pdm',
                          'fzp_j_maj_pdm', 'fzp_j_jun_pdm', 'fzp_j_jul_pdm', 'fzp_j_aug_pdm',
@@ -2375,7 +2315,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-12">December náklady</span>
                        </div> }
-                       popoverId={'fzp_j_spo_ns_pop'}
                        cellsId={[
                          'fzp_j_jan_ns', 'fzp_j_feb_ns', 'fzp_j_mar_ns', 'fzp_j_apr_ns',
                          'fzp_j_maj_ns', 'fzp_j_jun_ns', 'fzp_j_jul_ns', 'fzp_j_aug_ns',
@@ -2400,7 +2339,6 @@ class VyhrevnaJuh extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Objem zemného plynu v m<sup>3</sup></span>
                        </div> }
-                       popoverId={'fzp_j_pc_m3_pop'}
                        cellsId={['fzp_j_spo_ns', 'fzp_j_spo_m3']}
                        placement={'bottom'}
                        decimal={4}
@@ -2418,7 +2356,6 @@ class VyhrevnaJuh extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Objem zemného plynu v MWh</span>
                        </div> }
-                       popoverId={'fzp_j_pc_mwh_pop'}
                        cellsId={['fzp_j_spo_ns', 'fzp_j_spo_mwh']}
                        placement={'bottom'}
                        decimal={4}
@@ -2457,7 +2394,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-5">PDM</span>
                        </div> }
-                       popoverId={'fzp_j_vn_pop'}
                        cellsId={['fzp_j_spo_sopo', 'fzp_j_spo_sopp', 'fzp_j_spo_sopd', 'fzp_j_spo_dan_e', 'fzp_j_spo_pdm']}
                        placement={'right'}
                        decimal={decimal}
@@ -2487,7 +2423,6 @@ class VyhrevnaJuh extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4">VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_j_fn_pop'}
                        cellsId={['fzp_j_spo_fmso', 'fzp_j_spo_fmsp', 'fzp_j_spo_fmsd', 'fzp_j_spo_vsd']}
                        placement={'right'}
                        decimal={decimal}

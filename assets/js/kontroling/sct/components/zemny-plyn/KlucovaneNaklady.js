@@ -125,7 +125,6 @@ class KlucovaneNaklady extends React.Component {
                          <br/>
                          <span className="polozka-2 text-nowrap">Kľúčovanie (využiteľné teplo na dodávku tepla)</span>
                        </div> }
-                       popoverId={'fzp_kfn_kvet_tpv_k_pop'}
                        cellsId={['fzp_kfn_kvet_tpv_suma', 'dnem_vtdt_k']}
                        placement={'right'}
                        unit={'€'}
@@ -145,7 +144,6 @@ class KlucovaneNaklady extends React.Component {
                        popis={ <div>
                          <span className="polozka-1 text-nowrap">Zemný plyn TpV<br/>(bez kombinovanej výroby elektriny a tepla)</span>
                        </div> }
-                       popoverId={'fzp_kfn_bez_kvet_tpv_kfn_pop'}
                        cellsId={['fzp_kfn_bez_kvet_tpv_suma']}
                        placement={'right'}
                        unit={'€'}
@@ -171,7 +169,6 @@ class KlucovaneNaklady extends React.Component {
                          <br/>
                          <span className="polozka-2 text-nowrap">Kľúčovanie (využiteľné teplo na dodávku tepla)</span>
                        </div> }
-                       popoverId={'fzp_kfn_kvet_tpz_k_pop'}
                        cellsId={['fzp_kfn_kvet_tpz_suma', 'dnem_vtdt_k']}
                        placement={'right'}
                        unit={'€'}
@@ -191,7 +188,6 @@ class KlucovaneNaklady extends React.Component {
                        popis={ <div>
                          <span className="polozka-1 text-nowrap">Zemný plyn TpZ<br/>(bez kombinovanej výroby elektriny a tepla)</span>
                        </div> }
-                       popoverId={'fzp_kfn_bez_kvet_tpz_kfn_pop'}
                        cellsId={['fzp_kfn_bez_kvet_tpz_suma']}
                        placement={'right'}
                        unit={'€'}
@@ -208,7 +204,6 @@ class KlucovaneNaklady extends React.Component {
                        popis={ <div>
                          <span className="polozka-1 text-nowrap">Celkové náklady spolu na zemný plyn vo VhJ</span>
                        </div> }
-                       popoverId={'fzp_kfn_vhj_fn_pop'}
                        cellsId={['fzp_j_spo_ns']}
                        placement={'top'}
                        unit={'€'}
@@ -224,7 +219,6 @@ class KlucovaneNaklady extends React.Component {
                          <br/>
                          <span className="text-muted text-nowrap">Vo VhJ sa nevyrába kombinovane</span>
                        </div> }
-                       popoverId={'fzp_kfn_vhj_kfn_pop'}
                        cellsId={['fzp_kfn_vhj_fn']}
                        placement={'right'}
                        unit={'€'}
@@ -241,7 +235,6 @@ class KlucovaneNaklady extends React.Component {
                        popis={ <div>
                          <span className="polozka-1 text-nowrap">Celkové náklady spolu na zemný plyn kotolní</span>
                        </div> }
-                       popoverId={'fzp_kfn_pk_fn_pop'}
                        cellsId={['fzp_pk_spo_cnsd']}
                        placement={'top'}
                        unit={'€'}
@@ -257,7 +250,6 @@ class KlucovaneNaklady extends React.Component {
                          <br/>
                          <span className="text-muted text-nowrap">V plynových kotolniach sa nevyrába kombinovane</span>
                        </div> }
-                       popoverId={'fzp_kfn_pk_kfn_pop'}
                        cellsId={['fzp_kfn_pk_fn']}
                        placement={'right'}
                        unit={'€'}
@@ -300,7 +292,6 @@ class KlucovaneNaklady extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-6 text-nowrap">Plynové kotolne</span>
                        </div> }
-                       popoverId={'fzp_kfn_spolu_fn_pop'}
                        cellsId={[
                          'fzp_kfn_kvet_tpv_suma', 'fzp_kfn_bez_kvet_tpv_suma',
                          'fzp_kfn_kvet_tpz_suma', 'fzp_kfn_bez_kvet_tpz_suma',
@@ -338,7 +329,6 @@ class KlucovaneNaklady extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-6 text-nowrap">Plynové kotolne</span>
                        </div> }
-                       popoverId={'fzp_kfn_spolu_kfn_pop'}
                        cellsId={[
                          'fzp_kfn_kvet_tpv_kfn', 'fzp_kfn_bez_kvet_tpv_kfn',
                          'fzp_kfn_kvet_tpz_kfn', 'fzp_kfn_bez_kvet_tpz_kfn',

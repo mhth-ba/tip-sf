@@ -183,7 +183,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Zdroj západ</span>
                        </div> }
-                       popoverId={'udt_zdr_b_kwh_pop'}
                        cellsId={['udt_zdr_v_kwh', 'udt_zdr_z_kwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -201,7 +200,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Zdroj západ</span>
                        </div> }
-                       popoverId={'udt_zdr_b_kw_pop'}
                        cellsId={['udt_zdr_v_kw', 'udt_zdr_z_kw']}
                        placement={'top'}
                        decimal={decimal}
@@ -226,7 +224,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Primár západ</span>
                        </div> }
-                       popoverId={'udt_pri_b_kwh_pop'}
                        cellsId={['udt_pri_v_kwh', 'udt_pri_z_kwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -244,7 +241,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Primár západ</span>
                        </div> }
-                       popoverId={'udt_pri_b_kw_pop'}
                        cellsId={['udt_pri_v_kw', 'udt_pri_z_kw']}
                        placement={'top'}
                        decimal={decimal}
@@ -269,7 +265,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">OST západ</span>
                        </div> }
-                       popoverId={'udt_ost_b_kwh_pop'}
                        cellsId={['udt_ost_v_kwh', 'udt_ost_z_kwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -287,7 +282,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">OST západ</span>
                        </div> }
-                       popoverId={'udt_ost_b_kw_pop'}
                        cellsId={['udt_ost_v_kw', 'udt_ost_z_kw']}
                        placement={'top'}
                        decimal={decimal}
@@ -312,7 +306,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Sekundár západ</span>
                        </div> }
-                       popoverId={'udt_sek_b_kwh_pop'}
                        cellsId={['udt_sek_v_kwh', 'udt_sek_z_kwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -330,7 +323,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Sekundár západ</span>
                        </div> }
-                       popoverId={'udt_sek_b_kw_pop'}
                        cellsId={['udt_sek_v_kw', 'udt_sek_z_kw']}
                        placement={'top'}
                        decimal={decimal}
@@ -368,7 +360,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Sekundár východ</span>
                        </div> }
-                       popoverId={'udt_spolu_bezpk_v_kwh_pop'}
                        cellsId={['udt_zdr_v_kwh', 'udt_pri_v_kwh', 'udt_ost_v_kwh', 'udt_sek_v_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -394,7 +385,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Sekundár východ</span>
                        </div> }
-                       popoverId={'udt_spolu_bezpk_v_kw_pop'}
                        cellsId={['udt_zdr_v_kw', 'udt_pri_v_kw', 'udt_ost_v_kw', 'udt_sek_v_kw']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -420,7 +410,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Sekundár západ</span>
                        </div> }
-                       popoverId={'udt_spolu_bezpk_z_kwh_pop'}
                        cellsId={['udt_zdr_z_kwh', 'udt_pri_z_kwh', 'udt_ost_z_kwh', 'udt_sek_z_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -446,7 +435,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Sekundár západ</span>
                        </div> }
-                       popoverId={'udt_spolu_bezpk_z_kw_pop'}
                        cellsId={['udt_zdr_z_kw', 'udt_pri_z_kw', 'udt_ost_z_kw', 'udt_sek_z_kw']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -472,7 +460,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Sekundár BAT</span>
                        </div> }
-                       popoverId={'udt_spolu_bezpk_b_kwh_pop'}
                        cellsId={['udt_zdr_b_kwh', 'udt_pri_b_kwh', 'udt_ost_b_kwh', 'udt_sek_b_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -498,7 +485,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Sekundár BAT</span>
                        </div> }
-                       popoverId={'udt_spolu_bezpk_b_kw_pop'}
                        cellsId={['udt_zdr_b_kw', 'udt_pri_b_kw', 'udt_ost_b_kw', 'udt_sek_b_kw']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -532,7 +518,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne západ</span>
                        </div> }
-                       popoverId={'udt_pk_b_kwh_pop'}
                        cellsId={['udt_pk_v_kwh', 'udt_pk_z_kwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -550,7 +535,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne západ</span>
                        </div> }
-                       popoverId={'udt_pk_b_kw_pop'}
                        cellsId={['udt_pk_v_kw', 'udt_pk_z_kw']}
                        placement={'top'}
                        decimal={decimal}
@@ -580,7 +564,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne východ</span>
                        </div> }
-                       popoverId={'udt_spk_v_kwh_pop'}
                        cellsId={['udt_bpk_v_kwh', 'udt_pk_v_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -598,7 +581,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne východ</span>
                        </div> }
-                       popoverId={'udt_spk_v_kw_pop'}
                        cellsId={['udt_bpk_v_kw', 'udt_pk_v_kw']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -616,7 +598,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne západ</span>
                        </div> }
-                       popoverId={'udt_spk_z_kwh_pop'}
                        cellsId={['udt_bpk_z_kwh', 'udt_pk_z_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -634,7 +615,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne západ</span>
                        </div> }
-                       popoverId={'udt_spk_z_kw_pop'}
                        cellsId={['udt_bpk_z_kw', 'udt_pk_z_kw']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -652,7 +632,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne BAT</span>
                        </div> }
-                       popoverId={'udt_spk_b_kwh_pop'}
                        cellsId={['udt_bpk_b_kwh', 'udt_pk_b_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -670,7 +649,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne BAT</span>
                        </div> }
-                       popoverId={'udt_spk_b_kw_pop'}
                        cellsId={['udt_bpk_b_kw', 'udt_pk_b_kw']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -703,7 +681,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          <br/>-&nbsp;
                          <span className="polozka-5">Spolu (bez PK) východ</span>
                        </div> }
-                       popoverId={'udt_str_v_kwh_pop'}
                        cellsId={['vtpz_tpv_kwh', 'vtpz_vhj_kwh', 'vtpz_ppc_kwh', 'vtpz_slo_kwh', 'udt_bpk_v_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -726,7 +703,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          <br/>-&nbsp;
                          <span className="polozka-3">Spolu (bez PK) západ</span>
                        </div> }
-                       popoverId={'udt_str_z_kwh_pop'}
                        cellsId={['vtpz_tpz_kwh', 'vtpz_cw_kwh', 'udt_bpk_z_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -745,7 +721,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Straty západ</span>
                        </div> }
-                       popoverId={'udt_str_b_kwh_pop'}
                        cellsId={['udt_str_v_kwh', 'udt_str_z_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -776,7 +751,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Straty východ</span>
                        </div> }
-                       popoverId={'udt_cel_v_kwh_pop'}
                        cellsId={['udt_spk_v_kwh', 'udt_str_v_kwh']}
                        placement={'bottom'}
                        unit={'kWh'}
@@ -794,7 +768,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Straty západ</span>
                        </div> }
-                       popoverId={'udt_cel_z_kwh_pop'}
                        cellsId={['udt_spk_z_kwh', 'udt_str_z_kwh']}
                        placement={'bottom'}
                        unit={'kWh'}
@@ -812,7 +785,6 @@ class UzitocnaDodavkaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Straty BAT</span>
                        </div> }
-                       popoverId={'udt_cel_b_kwh_pop'}
                        cellsId={['udt_spk_b_kwh', 'udt_str_b_kwh']}
                        placement={'bottom'}
                        unit={'kWh'}

@@ -145,7 +145,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena</span>
                        </div> }
-                       popoverId={'pb_eonnzp_v_nn_pop'}
                        cellsId={['pb_eonnzp_v_nm', 'pb_eonnzp_v_jc']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -164,7 +163,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;-&nbsp;
                          <span className="polozka-2">Skutočné fakturované náklady</span>
                        </div> }
-                       popoverId={'pb_eonnzp_v_pb_pop'}
                        cellsId={['pb_eonnzp_v_nn', 'pb_eonnzp_v_sfn']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -186,7 +184,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-3">Koeficient palivového bonusu</span>
                        </div> }
-                       popoverId={'pb_eonnzp_v_pop'}
                        cellsId={['pb_eonnzp_v_sfn', 'pb_eonnzp_v_pb', 'pb_kpb']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -209,7 +206,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena</span>
                        </div> }
-                       popoverId={'pb_eonnzp_j_nn_pop'}
                        cellsId={['pb_eonnzp_j_nm', 'pb_eonnzp_j_jc']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -228,7 +224,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;-&nbsp;
                          <span className="polozka-2">Skutočné fakturované náklady</span>
                        </div> }
-                       popoverId={'pb_eonnzp_j_pb_pop'}
                        cellsId={['pb_eonnzp_j_nn', 'pb_eonnzp_j_sfn']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -250,7 +245,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-3">Koeficient palivového bonusu</span>
                        </div> }
-                       popoverId={'pb_eonnzp_j_pop'}
                        cellsId={['pb_eonnzp_j_sfn', 'pb_eonnzp_j_pb', 'pb_kpb']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -273,7 +267,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-2">Jednotková cena</span>
                        </div> }
-                       popoverId={'pb_eonnzp_z_nn_pop'}
                        cellsId={['pb_eonnzp_z_nm', 'pb_eonnzp_z_jc']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -292,7 +285,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;-&nbsp;
                          <span className="polozka-2">Skutočné fakturované náklady</span>
                        </div> }
-                       popoverId={'pb_eonnzp_z_pb_pop'}
                        cellsId={['pb_eonnzp_z_nn', 'pb_eonnzp_z_sfn']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -314,7 +306,6 @@ class OpravneneNaklady extends React.Component {
                          &nbsp;×&nbsp;
                          <span className="polozka-3">Koeficient palivového bonusu</span>
                        </div> }
-                       popoverId={'pb_eonnzp_z_pop'}
                        cellsId={['pb_eonnzp_z_sfn', 'pb_eonnzp_z_pb', 'pb_kpb']}
                        placement={'bottom'}
                        decimal={decimal}

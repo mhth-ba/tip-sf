@@ -147,7 +147,6 @@ class NakladyNaNakupTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">Cogen West</span>
                        </div> }
-                       popoverId={'nt_nnt_rp_spolu_pop'}
                        cellsId={['nt_nnt_rp_ppc', 'nt_nnt_rp_slo', 'nt_nnt_rp_cw']}
                        placement={'right'}
                        decimal={decimal}
@@ -168,7 +167,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Dodávka nakúpeného tepla PPC</span>
                        </div> }
-                       popoverId={'nt_nnt_vzc_ppc_pop'}
                        cellsId={['nt_nnt_vn_ppc', 'nt_nnt_dnt_ppc']}
                        placement={'right'}
                        decimal={4}
@@ -186,7 +184,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Dodávka nakúpeného tepla Slovnaft</span>
                        </div> }
-                       popoverId={'nt_nnt_vzc_slo_pop'}
                        cellsId={['nt_nnt_vn_slo', 'nt_nnt_dnt_slo']}
                        placement={'right'}
                        decimal={4}
@@ -204,7 +201,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Dodávka nakúpeného tepla Cogen West</span>
                        </div> }
-                       popoverId={'nt_nnt_vzc_cw_pop'}
                        cellsId={['nt_nnt_vn_cw', 'nt_nnt_dnt_cw']}
                        placement={'right'}
                        decimal={4}
@@ -222,7 +218,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Dodávka nakúpeného tepla spolu</span>
                        </div> }
-                       popoverId={'nt_nnt_vzc_spolu_pop'}
                        cellsId={['nt_nnt_vn_spolu', 'nt_nnt_dnt_spolu']}
                        placement={'right'}
                        decimal={4}
@@ -243,7 +238,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Regulačný príkon PPC</span>
                        </div> }
-                       popoverId={'nt_nnt_fzc_ppc_pop'}
                        cellsId={['nt_nnt_fn_ppc', 'nt_nnt_rp_ppc']}
                        placement={'right'}
                        decimal={4}
@@ -261,7 +255,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Regulačný príkon Slovnaft</span>
                        </div> }
-                       popoverId={'nt_nnt_fzc_slo_pop'}
                        cellsId={['nt_nnt_fn_slo', 'nt_nnt_rp_slo']}
                        placement={'right'}
                        decimal={4}
@@ -279,7 +272,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Regulačný príkon Cogen West</span>
                        </div> }
-                       popoverId={'nt_nnt_fzc_cw_pop'}
                        cellsId={['nt_nnt_fn_cw', 'nt_nnt_rp_cw']}
                        placement={'right'}
                        decimal={4}
@@ -297,7 +289,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Regulačný príkon spolu</span>
                        </div> }
-                       popoverId={'nt_nnt_fzc_spolu_pop'}
                        cellsId={['nt_nnt_fn_spolu', 'nt_nnt_rp_spolu']}
                        placement={'right'}
                        decimal={4}
@@ -318,7 +309,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Dodávka nakúpeného tepla PPC</span>
                        </div> }
-                       popoverId={'nt_nnt_pjc_ppc_pop'}
                        cellsId={['nt_nnt_nnts_ppc', 'nt_nnt_dnt_ppc']}
                        placement={'right'}
                        decimal={4}
@@ -336,7 +326,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Dodávka nakúpeného tepla Slovnaft</span>
                        </div> }
-                       popoverId={'nt_nnt_pjc_slo_pop'}
                        cellsId={['nt_nnt_nnts_slo', 'nt_nnt_dnt_slo']}
                        placement={'right'}
                        decimal={4}
@@ -354,7 +343,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Dodávka nakúpeného tepla Cogen West</span>
                        </div> }
-                       popoverId={'nt_nnt_pjc_cw_pop'}
                        cellsId={['nt_nnt_nnts_cw', 'nt_nnt_dnt_cw']}
                        placement={'right'}
                        decimal={4}
@@ -372,7 +360,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Dodávka nakúpeného tepla spolu</span>
                        </div> }
-                       popoverId={'nt_nnt_pjc_spolu_pop'}
                        cellsId={['nt_nnt_nnts_spolu', 'nt_nnt_dnt_spolu']}
                        placement={'right'}
                        decimal={4}
@@ -402,7 +389,6 @@ class NakladyNaNakupTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">Cogen West</span>
                        </div> }
-                       popoverId={'nt_nnt_vn_spolu_pop'}
                        cellsId={['nt_nnt_vn_ppc', 'nt_nnt_vn_slo', 'nt_nnt_vn_cw']}
                        placement={'right'}
                        decimal={decimal}
@@ -432,7 +418,6 @@ class NakladyNaNakupTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">Cogen West</span>
                        </div> }
-                       popoverId={'nt_nnt_fn_spolu_pop'}
                        cellsId={['nt_nnt_fn_ppc', 'nt_nnt_fn_slo', 'nt_nnt_fn_cw']}
                        placement={'right'}
                        decimal={decimal}
@@ -460,7 +445,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <br/>+<br/>
                          <span className="polozka-2">Fixné náklady PPC</span>
                        </div> }
-                       popoverId={'nt_nnt_nnts_ppc_pop'}
                        cellsId={['nt_nnt_vn_ppc', 'nt_nnt_fn_ppc']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -478,7 +462,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <br/>+<br/>
                          <span className="polozka-2">Fixné náklady Slovnaft</span>
                        </div> }
-                       popoverId={'nt_nnt_nnts_slo_pop'}
                        cellsId={['nt_nnt_vn_slo', 'nt_nnt_fn_slo']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -496,7 +479,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <br/>+<br/>
                          <span className="polozka-2">Fixné náklady Cogen West</span>
                        </div> }
-                       popoverId={'nt_nnt_nnts_cw_pop'}
                        cellsId={['nt_nnt_vn_cw', 'nt_nnt_fn_cw']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -514,7 +496,6 @@ class NakladyNaNakupTepla extends React.Component {
                          <br/>+<br/>
                          <span className="polozka-2">Fixné náklady spolu</span>
                        </div> }
-                       popoverId={'nt_nnt_nnts_spolu_pop'}
                        cellsId={['nt_nnt_vn_spolu', 'nt_nnt_fn_spolu']}
                        placement={'bottom'}
                        decimal={decimal}

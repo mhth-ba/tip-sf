@@ -154,7 +154,6 @@ class VyrobaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Plynové kotolne</span>
                        </div> }
-                       popoverId={'vtpz_vz_kwh_pop'}
                        cellsId={['vtpz_tpv_kwh', 'vtpz_vhj_kwh', 'vtpz_tpz_kwh', 'vtpz_pk_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -180,7 +179,6 @@ class VyrobaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Plynové kotolne</span>
                        </div> }
-                       popoverId={'vtpz_vz_gj_pop'}
                        cellsId={['vtpz_tpv_gj', 'vtpz_vhj_gj', 'vtpz_tpz_gj', 'vtpz_pk_gj']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -230,7 +228,6 @@ class VyrobaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3 text-nowrap">Cogen West</span>
                        </div> }
-                       popoverId={'vtpz_ez_kwh_pop'}
                        cellsId={['vtpz_ppc_kwh', 'vtpz_slo_kwh', 'vtpz_cw_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -252,7 +249,6 @@ class VyrobaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3 text-nowrap">Cogen West</span>
                        </div> }
-                       popoverId={'vtpz_ez_gj_pop'}
                        cellsId={['vtpz_ppc_gj', 'vtpz_slo_gj', 'vtpz_cw_gj']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -278,7 +274,6 @@ class VyrobaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2 text-nowrap">Externé zdroje</span>
                        </div> }
-                       popoverId={'vtpz_s_kwh_pop'}
                        cellsId={['vtpz_vz_kwh', 'vtpz_ez_kwh']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -296,7 +291,6 @@ class VyrobaTepla extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2 text-nowrap">Externé zdroje</span>
                        </div> }
-                       popoverId={'vtpz_s_gj_pop'}
                        cellsId={['vtpz_vz_gj', 'vtpz_ez_gj']}
                        placement={'bottom'}
                        decimal={decimal}

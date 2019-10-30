@@ -87,7 +87,6 @@ class SumarBAT extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne m<sup>3</sup></span>
                        </div> }
-                       popoverId={'fzp_bat_m3_pop'}
                        cellsId={['fzp_vyr_spo_m3', 'fzp_pk_spo_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -105,7 +104,6 @@ class SumarBAT extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne MWh</span>
                        </div> }
-                       popoverId={'fzp_bat_mwh_pop'}
                        cellsId={['fzp_vyr_spo_mwh', 'fzp_pk_spo_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -149,7 +147,6 @@ class SumarBAT extends React.Component {
                          <span>Kotolne:</span>&nbsp;
                          <span className="polozka-8">Náklady bez spotrebnej dane</span>
                        </div> }
-                       popoverId={'fzp_bat_nbsd_pop'}
                        cellsId={[
                          'fzp_vyr_spo_sopo', 'fzp_vyr_spo_fmso', 'fzp_vyr_spo_sopp', 'fzp_vyr_spo_fmsp',
                          'fzp_vyr_spo_sopd', 'fzp_vyr_spo_fmsd', 'fzp_vyr_spo_vsd', 'fzp_pk_spo_nbsd'
@@ -170,7 +167,6 @@ class SumarBAT extends React.Component {
                          <br/>+&nbsp;
                          <span className="polozka-2">Kotolne Spotrebná daň €</span>
                        </div> }
-                       popoverId={'fzp_bat_sd_pop'}
                        cellsId={['fzp_vyr_spo_dan_e', 'fzp_pk_spo_sd']}
                        placement={'top'}
                        decimal={decimal}
@@ -188,7 +184,6 @@ class SumarBAT extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2">Kotolne PDM €</span>
                        </div> }
-                       popoverId={'fzp_bat_pdm_pop'}
                        cellsId={['fzp_vyr_spo_pdm', 'fzp_pk_spo_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -206,7 +201,6 @@ class SumarBAT extends React.Component {
                          <br/>+&nbsp;
                          <span className="polozka-2">Kotolne Celkové náklady €</span>
                        </div> }
-                       popoverId={'fzp_bat_cnsd_pop'}
                        cellsId={['fzp_vyr_spo_ns', 'fzp_pk_spo_cnsd']}
                        placement={'top'}
                        decimal={decimal}

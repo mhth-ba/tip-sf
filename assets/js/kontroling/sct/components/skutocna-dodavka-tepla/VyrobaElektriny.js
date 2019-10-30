@@ -123,7 +123,6 @@ class VyrobaElektriny extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2 text-nowrap">Elektrina na zdroji TpZ</span>
                        </div> }
-                       popoverId={'vee_veez_bat_pop'}
                        cellsId={['vee_veez_tpv', 'vee_veez_tpz']}
                        placement={'top'}
                        unit={'MWh'}
@@ -145,7 +144,6 @@ class VyrobaElektriny extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2 text-nowrap">Dodávka do siete TpZ</span>
                        </div> }
-                       popoverId={'vee_dszse_bat_pop'}
                        cellsId={['vee_dszse_tpv', 'vee_dszse_tpz']}
                        placement={'top'}
                        unit={'MWh'}
@@ -167,7 +165,6 @@ class VyrobaElektriny extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2 text-nowrap">Regulačná elektrina TpZ</span>
                        </div> }
-                       popoverId={'vee_dree_bat_pop'}
                        cellsId={['vee_dree_tpv', 'vee_dree_tpz']}
                        placement={'top'}
                        unit={'MWh'}
@@ -189,7 +186,6 @@ class VyrobaElektriny extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2 text-nowrap">Vlastná spotreba TpZ</span>
                        </div> }
-                       popoverId={'vee_vsee_bat_pop'}
                        cellsId={['vee_vsee_tpv', 'vee_vsee_tpz']}
                        placement={'top'}
                        unit={'MWh'}

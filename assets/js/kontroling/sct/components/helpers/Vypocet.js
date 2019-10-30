@@ -1,13 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+import { Popover, PopoverHeader, PopoverBody } from 'reactstrap'
 import NumberFormat from 'react-number-format'
 
-import { highlightCells } from "../../actions"
+import { highlightCells } from '../../actions'
 
-import {
-  Button, Popover, PopoverHeader, PopoverBody
-} from 'reactstrap'
 
 let numFormat = {
   thousandSeparator: ' ',
@@ -21,6 +19,11 @@ class Vypocet extends React.Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      id: 'init',
+      pop: false
+    }
+
     this.toggle = this.toggle.bind(this)
   }
 
@@ -33,32 +36,37 @@ class Vypocet extends React.Component {
       'bunka-7', 'bunka-8', 'bunka-9', 'bunka-10', 'bunka-11', 'bunka-12'
     ]
 
-    // konvencia pre nazov popoverId:
+    // konvencia pre nazov cellsId:
     // prve pismena nazvu tabulky (bez predloziek a spojok)
     // _
     // prve pismena nazvu polozky v riadku (bez predloziek a spojok)
     // _
     // prve pismena nazvu polozky v stlpci (bez predloziek a spojok)
-    // _
-    // pop
 
-    // konvencia pre nazov cellsId:
-    // to isze ako popoverID ale bez _pop
-
-    const popoverId = this.props['popoverId']
     const cellsId = this.props['cellsId']
 
     const cells = {}
 
-    const popoverOpen = this.props.vypocet[popoverId]
+    //const popoverOpen = this.props.vypocet[popId]
+    const popoverOpen = this.state.pop
 
     for (let [index, id] of cellsId.entries()) {
       cells[id] = popoverOpen ? '' : colors[index]
     }
 
+    this.setState({
+      pop: !this.state.pop
+    })
+
     this.props.highlightCells({
-      [popoverId]: !popoverOpen,
+      //[popId]: !popoverOpen,
       ...cells
+    })
+  }
+
+  componentDidMount() {
+    this.setState({
+      id: 'pop_calculation_' + Math.random().toString(36).substring(2, 15)
     })
   }
 
@@ -69,21 +77,23 @@ class Vypocet extends React.Component {
       decimalScale: Number(this.props['decimal'])
     }
 
-    const popoverId = this.props['popoverId']
+    const popId = this.state.id
     const className =
       (this.props.nastroje.vypocty ? 'bg-yellow' : '')
       + ' '
-      + this.props['class']
+      + (this.props['class'] === undefined ? '' : this.props['class'])
 
     return (
-      <td id={ popoverId }
+      <td id={ popId }
           onClick={ this.toggle }
           className={ className }
       >
         <Popover placement={ this.props.placement }
-                 isOpen={ this.props.vypocet[popoverId] }
-                 target={ popoverId }
-                 toggle={ this.toggle } >
+                 //isOpen={ this.props.vypocet[popId] }
+                 isOpen={ this.state.pop }
+                 target={ popId }
+                 toggle={ this.toggle }
+        >
           <PopoverHeader className="vypocet-bublina">Výpočet</PopoverHeader>
           <PopoverBody className="text-center vypocet-bublina">
             { this.props['cisla'] }

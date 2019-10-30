@@ -232,7 +232,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jan_m3_pop'}
                        cellsId={['fzp_v_jan_m3', 'fzp_z_jan_m3', 'fzp_j_jan_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -252,7 +251,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_jan_mwh_pop'}
                        cellsId={['fzp_v_jan_mwh', 'fzp_z_jan_mwh', 'fzp_j_jan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -291,7 +289,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jan_sopo_pop'}
                        cellsId={['fzp_v_jan_sopo', 'fzp_z_jan_sopo', 'fzp_j_jan_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -311,7 +308,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jan_fmso_pop'}
                        cellsId={['fzp_v_jan_fmso', 'fzp_z_jan_fmso', 'fzp_j_jan_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -350,7 +346,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jan_sopp_pop'}
                        cellsId={['fzp_v_jan_sopp', 'fzp_z_jan_sopp', 'fzp_j_jan_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -370,7 +365,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jan_fmsp_pop'}
                        cellsId={['fzp_v_jan_fmsp', 'fzp_z_jan_fmsp', 'fzp_j_jan_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -409,7 +403,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jan_sopd_pop'}
                        cellsId={['fzp_v_jan_sopd', 'fzp_z_jan_sopd', 'fzp_j_jan_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -429,7 +422,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jan_fmsd_pop'}
                        cellsId={['fzp_v_jan_fmsd', 'fzp_z_jan_fmsd', 'fzp_j_jan_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -449,7 +441,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jan_vsd_pop'}
                        cellsId={['fzp_v_jan_vsd', 'fzp_z_jan_vsd', 'fzp_j_jan_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -469,7 +460,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_jan_dan_mwh_pop'}
                        cellsId={['fzp_v_jan_dan_mwh', 'fzp_z_jan_dan_mwh', 'fzp_j_jan_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -508,7 +498,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jan_dan_eur_pop'}
                        cellsId={['fzp_v_jan_dan_eur', 'fzp_z_jan_dan_eur', 'fzp_j_jan_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -547,7 +536,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jan_pdm_pop'}
                        cellsId={['fzp_v_jan_pdm', 'fzp_z_jan_pdm', 'fzp_j_jan_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -586,7 +574,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jan_ns_pop'}
                        cellsId={['fzp_v_jan_ns', 'fzp_z_jan_ns', 'fzp_j_jan_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -629,7 +616,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_feb_m3_pop'}
                        cellsId={['fzp_v_feb_m3', 'fzp_z_feb_m3', 'fzp_j_feb_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -649,7 +635,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_feb_mwh_pop'}
                        cellsId={['fzp_v_feb_mwh', 'fzp_z_feb_mwh', 'fzp_j_feb_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -688,7 +673,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_feb_sopo_pop'}
                        cellsId={['fzp_v_feb_sopo', 'fzp_z_feb_sopo', 'fzp_j_feb_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -708,7 +692,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_feb_fmso_pop'}
                        cellsId={['fzp_v_feb_fmso', 'fzp_z_feb_fmso', 'fzp_j_feb_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -747,7 +730,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_feb_sopp_pop'}
                        cellsId={['fzp_v_feb_sopp', 'fzp_z_feb_sopp', 'fzp_j_feb_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -767,7 +749,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_feb_fmsp_pop'}
                        cellsId={['fzp_v_feb_fmsp', 'fzp_z_feb_fmsp', 'fzp_j_feb_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -806,7 +787,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_feb_sopd_pop'}
                        cellsId={['fzp_v_feb_sopd', 'fzp_z_feb_sopd', 'fzp_j_feb_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -826,7 +806,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_feb_fmsd_pop'}
                        cellsId={['fzp_v_feb_fmsd', 'fzp_z_feb_fmsd', 'fzp_j_feb_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -846,7 +825,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_feb_vsd_pop'}
                        cellsId={['fzp_v_feb_vsd', 'fzp_z_feb_vsd', 'fzp_j_feb_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -866,7 +844,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_feb_dan_mwh_pop'}
                        cellsId={['fzp_v_feb_dan_mwh', 'fzp_z_feb_dan_mwh', 'fzp_j_feb_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -905,7 +882,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_feb_dan_eur_pop'}
                        cellsId={['fzp_v_feb_dan_eur', 'fzp_z_feb_dan_eur', 'fzp_j_feb_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -944,7 +920,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_feb_pdm_pop'}
                        cellsId={['fzp_v_feb_pdm', 'fzp_z_feb_pdm', 'fzp_j_feb_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -983,7 +958,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_feb_ns_pop'}
                        cellsId={['fzp_v_feb_ns', 'fzp_z_feb_ns', 'fzp_j_feb_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -1026,7 +1000,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_mar_m3_pop'}
                        cellsId={['fzp_v_mar_m3', 'fzp_z_mar_m3', 'fzp_j_mar_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -1046,7 +1019,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_mar_mwh_pop'}
                        cellsId={['fzp_v_mar_mwh', 'fzp_z_mar_mwh', 'fzp_j_mar_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -1085,7 +1057,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_mar_sopo_pop'}
                        cellsId={['fzp_v_mar_sopo', 'fzp_z_mar_sopo', 'fzp_j_mar_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -1105,7 +1076,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_mar_fmso_pop'}
                        cellsId={['fzp_v_mar_fmso', 'fzp_z_mar_fmso', 'fzp_j_mar_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -1144,7 +1114,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_mar_sopp_pop'}
                        cellsId={['fzp_v_mar_sopp', 'fzp_z_mar_sopp', 'fzp_j_mar_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -1164,7 +1133,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_mar_fmsp_pop'}
                        cellsId={['fzp_v_mar_fmsp', 'fzp_z_mar_fmsp', 'fzp_j_mar_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -1203,7 +1171,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_mar_sopd_pop'}
                        cellsId={['fzp_v_mar_sopd', 'fzp_z_mar_sopd', 'fzp_j_mar_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -1223,7 +1190,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_mar_fmsd_pop'}
                        cellsId={['fzp_v_mar_fmsd', 'fzp_z_mar_fmsd', 'fzp_j_mar_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -1243,7 +1209,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_mar_vsd_pop'}
                        cellsId={['fzp_v_mar_vsd', 'fzp_z_mar_vsd', 'fzp_j_mar_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -1263,7 +1228,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_mar_dan_mwh_pop'}
                        cellsId={['fzp_v_mar_dan_mwh', 'fzp_z_mar_dan_mwh', 'fzp_j_mar_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -1302,7 +1266,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_mar_dan_eur_pop'}
                        cellsId={['fzp_v_mar_dan_eur', 'fzp_z_mar_dan_eur', 'fzp_j_mar_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -1341,7 +1304,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_mar_pdm_pop'}
                        cellsId={['fzp_v_mar_pdm', 'fzp_z_mar_pdm', 'fzp_j_mar_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -1380,7 +1342,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_mar_ns_pop'}
                        cellsId={['fzp_v_mar_ns', 'fzp_z_mar_ns', 'fzp_j_mar_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -1423,7 +1384,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_apr_m3_pop'}
                        cellsId={['fzp_v_apr_m3', 'fzp_z_apr_m3', 'fzp_j_apr_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -1443,7 +1403,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_apr_mwh_pop'}
                        cellsId={['fzp_v_apr_mwh', 'fzp_z_apr_mwh', 'fzp_j_apr_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -1482,7 +1441,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_apr_sopo_pop'}
                        cellsId={['fzp_v_apr_sopo', 'fzp_z_apr_sopo', 'fzp_j_apr_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -1502,7 +1460,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_apr_fmso_pop'}
                        cellsId={['fzp_v_apr_fmso', 'fzp_z_apr_fmso', 'fzp_j_apr_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -1541,7 +1498,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_apr_sopp_pop'}
                        cellsId={['fzp_v_apr_sopp', 'fzp_z_apr_sopp', 'fzp_j_apr_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -1561,7 +1517,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_apr_fmsp_pop'}
                        cellsId={['fzp_v_apr_fmsp', 'fzp_z_apr_fmsp', 'fzp_j_apr_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -1600,7 +1555,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_apr_sopd_pop'}
                        cellsId={['fzp_v_apr_sopd', 'fzp_z_apr_sopd', 'fzp_j_apr_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -1620,7 +1574,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_apr_fmsd_pop'}
                        cellsId={['fzp_v_apr_fmsd', 'fzp_z_apr_fmsd', 'fzp_j_apr_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -1640,7 +1593,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_apr_vsd_pop'}
                        cellsId={['fzp_v_apr_vsd', 'fzp_z_apr_vsd', 'fzp_j_apr_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -1660,7 +1612,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_apr_dan_mwh_pop'}
                        cellsId={['fzp_v_apr_dan_mwh', 'fzp_z_apr_dan_mwh', 'fzp_j_apr_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -1699,7 +1650,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_apr_dan_eur_pop'}
                        cellsId={['fzp_v_apr_dan_eur', 'fzp_z_apr_dan_eur', 'fzp_j_apr_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -1738,7 +1688,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_apr_pdm_pop'}
                        cellsId={['fzp_v_apr_pdm', 'fzp_z_apr_pdm', 'fzp_j_apr_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -1777,7 +1726,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_apr_ns_pop'}
                        cellsId={['fzp_v_apr_ns', 'fzp_z_apr_ns', 'fzp_j_apr_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -1820,7 +1768,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_maj_m3_pop'}
                        cellsId={['fzp_v_maj_m3', 'fzp_z_maj_m3', 'fzp_j_maj_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -1840,7 +1787,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_maj_mwh_pop'}
                        cellsId={['fzp_v_maj_mwh', 'fzp_z_maj_mwh', 'fzp_j_maj_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -1879,7 +1825,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_maj_sopo_pop'}
                        cellsId={['fzp_v_maj_sopo', 'fzp_z_maj_sopo', 'fzp_j_maj_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -1899,7 +1844,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_maj_fmso_pop'}
                        cellsId={['fzp_v_maj_fmso', 'fzp_z_maj_fmso', 'fzp_j_maj_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -1938,7 +1882,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_maj_sopp_pop'}
                        cellsId={['fzp_v_maj_sopp', 'fzp_z_maj_sopp', 'fzp_j_maj_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -1958,7 +1901,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_maj_fmsp_pop'}
                        cellsId={['fzp_v_maj_fmsp', 'fzp_z_maj_fmsp', 'fzp_j_maj_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -1997,7 +1939,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_maj_sopd_pop'}
                        cellsId={['fzp_v_maj_sopd', 'fzp_z_maj_sopd', 'fzp_j_maj_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2017,7 +1958,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_maj_fmsd_pop'}
                        cellsId={['fzp_v_maj_fmsd', 'fzp_z_maj_fmsd', 'fzp_j_maj_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2037,7 +1977,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_maj_vsd_pop'}
                        cellsId={['fzp_v_maj_vsd', 'fzp_z_maj_vsd', 'fzp_j_maj_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2057,7 +1996,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_maj_dan_mwh_pop'}
                        cellsId={['fzp_v_maj_dan_mwh', 'fzp_z_maj_dan_mwh', 'fzp_j_maj_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -2096,7 +2034,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_maj_dan_eur_pop'}
                        cellsId={['fzp_v_maj_dan_eur', 'fzp_z_maj_dan_eur', 'fzp_j_maj_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -2135,7 +2072,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_maj_pdm_pop'}
                        cellsId={['fzp_v_maj_pdm', 'fzp_z_maj_pdm', 'fzp_j_maj_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -2174,7 +2110,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_maj_ns_pop'}
                        cellsId={['fzp_v_maj_ns', 'fzp_z_maj_ns', 'fzp_j_maj_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -2217,7 +2152,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jun_m3_pop'}
                        cellsId={['fzp_v_jun_m3', 'fzp_z_jun_m3', 'fzp_j_jun_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -2237,7 +2171,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_jun_mwh_pop'}
                        cellsId={['fzp_v_jun_mwh', 'fzp_z_jun_mwh', 'fzp_j_jun_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -2276,7 +2209,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jun_sopo_pop'}
                        cellsId={['fzp_v_jun_sopo', 'fzp_z_jun_sopo', 'fzp_j_jun_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -2296,7 +2228,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jun_fmso_pop'}
                        cellsId={['fzp_v_jun_fmso', 'fzp_z_jun_fmso', 'fzp_j_jun_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -2335,7 +2266,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jun_sopp_pop'}
                        cellsId={['fzp_v_jun_sopp', 'fzp_z_jun_sopp', 'fzp_j_jun_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -2355,7 +2285,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jun_fmsp_pop'}
                        cellsId={['fzp_v_jun_fmsp', 'fzp_z_jun_fmsp', 'fzp_j_jun_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -2394,7 +2323,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jun_sopd_pop'}
                        cellsId={['fzp_v_jun_sopd', 'fzp_z_jun_sopd', 'fzp_j_jun_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2414,7 +2342,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jun_fmsd_pop'}
                        cellsId={['fzp_v_jun_fmsd', 'fzp_z_jun_fmsd', 'fzp_j_jun_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2434,7 +2361,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jun_vsd_pop'}
                        cellsId={['fzp_v_jun_vsd', 'fzp_z_jun_vsd', 'fzp_j_jun_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2454,7 +2380,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_jun_dan_mwh_pop'}
                        cellsId={['fzp_v_jun_dan_mwh', 'fzp_z_jun_dan_mwh', 'fzp_j_jun_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -2493,7 +2418,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jun_dan_eur_pop'}
                        cellsId={['fzp_v_jun_dan_eur', 'fzp_z_jun_dan_eur', 'fzp_j_jun_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -2532,7 +2456,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jun_pdm_pop'}
                        cellsId={['fzp_v_jun_pdm', 'fzp_z_jun_pdm', 'fzp_j_jun_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -2571,7 +2494,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jun_ns_pop'}
                        cellsId={['fzp_v_jun_ns', 'fzp_z_jun_ns', 'fzp_j_jun_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -2614,7 +2536,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jul_m3_pop'}
                        cellsId={['fzp_v_jul_m3', 'fzp_z_jul_m3', 'fzp_j_jul_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -2634,7 +2555,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_jul_mwh_pop'}
                        cellsId={['fzp_v_jul_mwh', 'fzp_z_jul_mwh', 'fzp_j_jul_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -2673,7 +2593,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jul_sopo_pop'}
                        cellsId={['fzp_v_jul_sopo', 'fzp_z_jul_sopo', 'fzp_j_jul_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -2693,7 +2612,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jul_fmso_pop'}
                        cellsId={['fzp_v_jul_fmso', 'fzp_z_jul_fmso', 'fzp_j_jul_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -2732,7 +2650,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jul_sopp_pop'}
                        cellsId={['fzp_v_jul_sopp', 'fzp_z_jul_sopp', 'fzp_j_jul_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -2752,7 +2669,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jul_fmsp_pop'}
                        cellsId={['fzp_v_jul_fmsp', 'fzp_z_jul_fmsp', 'fzp_j_jul_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -2791,7 +2707,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jul_sopd_pop'}
                        cellsId={['fzp_v_jul_sopd', 'fzp_z_jul_sopd', 'fzp_j_jul_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2811,7 +2726,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jul_fmsd_pop'}
                        cellsId={['fzp_v_jul_fmsd', 'fzp_z_jul_fmsd', 'fzp_j_jul_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2831,7 +2745,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_jul_vsd_pop'}
                        cellsId={['fzp_v_jul_vsd', 'fzp_z_jul_vsd', 'fzp_j_jul_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -2851,7 +2764,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_jul_dan_mwh_pop'}
                        cellsId={['fzp_v_jul_dan_mwh', 'fzp_z_jul_dan_mwh', 'fzp_j_jul_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -2890,7 +2802,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jul_dan_eur_pop'}
                        cellsId={['fzp_v_jul_dan_eur', 'fzp_z_jul_dan_eur', 'fzp_j_jul_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -2929,7 +2840,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jul_pdm_pop'}
                        cellsId={['fzp_v_jul_pdm', 'fzp_z_jul_pdm', 'fzp_j_jul_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -2968,7 +2878,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_jul_ns_pop'}
                        cellsId={['fzp_v_jul_ns', 'fzp_z_jul_ns', 'fzp_j_jul_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -3011,7 +2920,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_aug_m3_pop'}
                        cellsId={['fzp_v_aug_m3', 'fzp_z_aug_m3', 'fzp_j_aug_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -3031,7 +2939,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_aug_mwh_pop'}
                        cellsId={['fzp_v_aug_mwh', 'fzp_z_aug_mwh', 'fzp_j_aug_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -3070,7 +2977,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_aug_sopo_pop'}
                        cellsId={['fzp_v_aug_sopo', 'fzp_z_aug_sopo', 'fzp_j_aug_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -3090,7 +2996,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_aug_fmso_pop'}
                        cellsId={['fzp_v_aug_fmso', 'fzp_z_aug_fmso', 'fzp_j_aug_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -3129,7 +3034,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_aug_sopp_pop'}
                        cellsId={['fzp_v_aug_sopp', 'fzp_z_aug_sopp', 'fzp_j_aug_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -3149,7 +3053,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_aug_fmsp_pop'}
                        cellsId={['fzp_v_aug_fmsp', 'fzp_z_aug_fmsp', 'fzp_j_aug_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -3188,7 +3091,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_aug_sopd_pop'}
                        cellsId={['fzp_v_aug_sopd', 'fzp_z_aug_sopd', 'fzp_j_aug_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -3208,7 +3110,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_aug_fmsd_pop'}
                        cellsId={['fzp_v_aug_fmsd', 'fzp_z_aug_fmsd', 'fzp_j_aug_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -3228,7 +3129,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_aug_vsd_pop'}
                        cellsId={['fzp_v_aug_vsd', 'fzp_z_aug_vsd', 'fzp_j_aug_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -3248,7 +3148,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_aug_dan_mwh_pop'}
                        cellsId={['fzp_v_aug_dan_mwh', 'fzp_z_aug_dan_mwh', 'fzp_j_aug_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -3287,7 +3186,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_aug_dan_eur_pop'}
                        cellsId={['fzp_v_aug_dan_eur', 'fzp_z_aug_dan_eur', 'fzp_j_aug_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -3326,7 +3224,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_aug_pdm_pop'}
                        cellsId={['fzp_v_aug_pdm', 'fzp_z_aug_pdm', 'fzp_j_aug_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -3365,7 +3262,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_aug_ns_pop'}
                        cellsId={['fzp_v_aug_ns', 'fzp_z_aug_ns', 'fzp_j_aug_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -3408,7 +3304,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_sep_m3_pop'}
                        cellsId={['fzp_v_sep_m3', 'fzp_z_sep_m3', 'fzp_j_sep_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -3428,7 +3323,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_sep_mwh_pop'}
                        cellsId={['fzp_v_sep_mwh', 'fzp_z_sep_mwh', 'fzp_j_sep_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -3467,7 +3361,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_sep_sopo_pop'}
                        cellsId={['fzp_v_sep_sopo', 'fzp_z_sep_sopo', 'fzp_j_sep_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -3487,7 +3380,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_sep_fmso_pop'}
                        cellsId={['fzp_v_sep_fmso', 'fzp_z_sep_fmso', 'fzp_j_sep_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -3526,7 +3418,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_sep_sopp_pop'}
                        cellsId={['fzp_v_sep_sopp', 'fzp_z_sep_sopp', 'fzp_j_sep_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -3546,7 +3437,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_sep_fmsp_pop'}
                        cellsId={['fzp_v_sep_fmsp', 'fzp_z_sep_fmsp', 'fzp_j_sep_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -3585,7 +3475,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_sep_sopd_pop'}
                        cellsId={['fzp_v_sep_sopd', 'fzp_z_sep_sopd', 'fzp_j_sep_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -3605,7 +3494,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_sep_fmsd_pop'}
                        cellsId={['fzp_v_sep_fmsd', 'fzp_z_sep_fmsd', 'fzp_j_sep_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -3625,7 +3513,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_sep_vsd_pop'}
                        cellsId={['fzp_v_sep_vsd', 'fzp_z_sep_vsd', 'fzp_j_sep_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -3645,7 +3532,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_sep_dan_mwh_pop'}
                        cellsId={['fzp_v_sep_dan_mwh', 'fzp_z_sep_dan_mwh', 'fzp_j_sep_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -3684,7 +3570,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_sep_dan_eur_pop'}
                        cellsId={['fzp_v_sep_dan_eur', 'fzp_z_sep_dan_eur', 'fzp_j_sep_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -3723,7 +3608,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_sep_pdm_pop'}
                        cellsId={['fzp_v_sep_pdm', 'fzp_z_sep_pdm', 'fzp_j_sep_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -3762,7 +3646,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_sep_ns_pop'}
                        cellsId={['fzp_v_sep_ns', 'fzp_z_sep_ns', 'fzp_j_sep_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -3805,7 +3688,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_okt_m3_pop'}
                        cellsId={['fzp_v_okt_m3', 'fzp_z_okt_m3', 'fzp_j_okt_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -3825,7 +3707,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_okt_mwh_pop'}
                        cellsId={['fzp_v_okt_mwh', 'fzp_z_okt_mwh', 'fzp_j_okt_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -3864,7 +3745,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_okt_sopo_pop'}
                        cellsId={['fzp_v_okt_sopo', 'fzp_z_okt_sopo', 'fzp_j_okt_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -3884,7 +3764,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_okt_fmso_pop'}
                        cellsId={['fzp_v_okt_fmso', 'fzp_z_okt_fmso', 'fzp_j_okt_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -3923,7 +3802,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_okt_sopp_pop'}
                        cellsId={['fzp_v_okt_sopp', 'fzp_z_okt_sopp', 'fzp_j_okt_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -3943,7 +3821,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_okt_fmsp_pop'}
                        cellsId={['fzp_v_okt_fmsp', 'fzp_z_okt_fmsp', 'fzp_j_okt_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -3982,7 +3859,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_okt_sopd_pop'}
                        cellsId={['fzp_v_okt_sopd', 'fzp_z_okt_sopd', 'fzp_j_okt_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4002,7 +3878,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_okt_fmsd_pop'}
                        cellsId={['fzp_v_okt_fmsd', 'fzp_z_okt_fmsd', 'fzp_j_okt_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4022,7 +3897,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_okt_vsd_pop'}
                        cellsId={['fzp_v_okt_vsd', 'fzp_z_okt_vsd', 'fzp_j_okt_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4042,7 +3916,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_okt_dan_mwh_pop'}
                        cellsId={['fzp_v_okt_dan_mwh', 'fzp_z_okt_dan_mwh', 'fzp_j_okt_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -4081,7 +3954,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_okt_dan_eur_pop'}
                        cellsId={['fzp_v_okt_dan_eur', 'fzp_z_okt_dan_eur', 'fzp_j_okt_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -4120,7 +3992,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_okt_pdm_pop'}
                        cellsId={['fzp_v_okt_pdm', 'fzp_z_okt_pdm', 'fzp_j_okt_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -4159,7 +4030,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_okt_ns_pop'}
                        cellsId={['fzp_v_okt_ns', 'fzp_z_okt_ns', 'fzp_j_okt_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -4202,7 +4072,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_nov_m3_pop'}
                        cellsId={['fzp_v_nov_m3', 'fzp_z_nov_m3', 'fzp_j_nov_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -4222,7 +4091,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_nov_mwh_pop'}
                        cellsId={['fzp_v_nov_mwh', 'fzp_z_nov_mwh', 'fzp_j_nov_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -4261,7 +4129,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_nov_sopo_pop'}
                        cellsId={['fzp_v_nov_sopo', 'fzp_z_nov_sopo', 'fzp_j_nov_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -4281,7 +4148,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_nov_fmso_pop'}
                        cellsId={['fzp_v_nov_fmso', 'fzp_z_nov_fmso', 'fzp_j_nov_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -4320,7 +4186,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_nov_sopp_pop'}
                        cellsId={['fzp_v_nov_sopp', 'fzp_z_nov_sopp', 'fzp_j_nov_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -4340,7 +4205,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_nov_fmsp_pop'}
                        cellsId={['fzp_v_nov_fmsp', 'fzp_z_nov_fmsp', 'fzp_j_nov_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -4379,7 +4243,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_nov_sopd_pop'}
                        cellsId={['fzp_v_nov_sopd', 'fzp_z_nov_sopd', 'fzp_j_nov_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4399,7 +4262,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_nov_fmsd_pop'}
                        cellsId={['fzp_v_nov_fmsd', 'fzp_z_nov_fmsd', 'fzp_j_nov_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4419,7 +4281,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_nov_vsd_pop'}
                        cellsId={['fzp_v_nov_vsd', 'fzp_z_nov_vsd', 'fzp_j_nov_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4439,7 +4300,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_nov_dan_mwh_pop'}
                        cellsId={['fzp_v_nov_dan_mwh', 'fzp_z_nov_dan_mwh', 'fzp_j_nov_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -4478,7 +4338,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_nov_dan_eur_pop'}
                        cellsId={['fzp_v_nov_dan_eur', 'fzp_z_nov_dan_eur', 'fzp_j_nov_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -4517,7 +4376,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_nov_pdm_pop'}
                        cellsId={['fzp_v_nov_pdm', 'fzp_z_nov_pdm', 'fzp_j_nov_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -4556,7 +4414,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_nov_ns_pop'}
                        cellsId={['fzp_v_nov_ns', 'fzp_z_nov_ns', 'fzp_j_nov_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -4599,7 +4456,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_dec_m3_pop'}
                        cellsId={['fzp_v_dec_m3', 'fzp_z_dec_m3', 'fzp_j_dec_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -4619,7 +4475,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_dec_mwh_pop'}
                        cellsId={['fzp_v_dec_mwh', 'fzp_z_dec_mwh', 'fzp_j_dec_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -4658,7 +4513,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_dec_sopo_pop'}
                        cellsId={['fzp_v_dec_sopo', 'fzp_z_dec_sopo', 'fzp_j_dec_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -4678,7 +4532,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_dec_fmso_pop'}
                        cellsId={['fzp_v_dec_fmso', 'fzp_z_dec_fmso', 'fzp_j_dec_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -4717,7 +4570,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_dec_sopp_pop'}
                        cellsId={['fzp_v_dec_sopp', 'fzp_z_dec_sopp', 'fzp_j_dec_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -4737,7 +4589,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_dec_fmsp_pop'}
                        cellsId={['fzp_v_dec_fmsp', 'fzp_z_dec_fmsp', 'fzp_j_dec_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -4776,7 +4627,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_dec_sopd_pop'}
                        cellsId={['fzp_v_dec_sopd', 'fzp_z_dec_sopd', 'fzp_j_dec_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4796,7 +4646,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_dec_fmsd_pop'}
                        cellsId={['fzp_v_dec_fmsd', 'fzp_z_dec_fmsd', 'fzp_j_dec_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4816,7 +4665,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_dec_vsd_pop'}
                        cellsId={['fzp_v_dec_vsd', 'fzp_z_dec_vsd', 'fzp_j_dec_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -4836,7 +4684,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_dec_dan_mwh_pop'}
                        cellsId={['fzp_v_dec_dan_mwh', 'fzp_z_dec_dan_mwh', 'fzp_j_dec_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -4875,7 +4722,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_dec_dan_eur_pop'}
                        cellsId={['fzp_v_dec_dan_eur', 'fzp_z_dec_dan_eur', 'fzp_j_dec_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -4914,7 +4760,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_dec_pdm_pop'}
                        cellsId={['fzp_v_dec_pdm', 'fzp_z_dec_pdm', 'fzp_j_dec_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -4953,7 +4798,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_dec_ns_pop'}
                        cellsId={['fzp_v_dec_ns', 'fzp_z_dec_ns', 'fzp_j_dec_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -5014,7 +4858,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_spo_m3_pop'}
                        cellsId={['fzp_v_spo_m3', 'fzp_z_spo_m3', 'fzp_j_spo_m3']}
                        placement={'top'}
                        decimal={decimal}
@@ -5036,7 +4879,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_spo_mwh_pop'}
                        cellsId={['fzp_v_spo_mwh', 'fzp_z_spo_mwh', 'fzp_j_spo_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -5077,7 +4919,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_spo_sopo_pop'}
                        cellsId={['fzp_v_spo_sopo', 'fzp_z_spo_sopo', 'fzp_j_spo_sopo']}
                        placement={'top'}
                        decimal={decimal}
@@ -5099,7 +4940,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>o</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_spo_fmso_pop'}
                        cellsId={['fzp_v_spo_fmso', 'fzp_z_spo_fmso', 'fzp_j_spo_fmso']}
                        placement={'top'}
                        decimal={decimal}
@@ -5140,7 +4980,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_spo_sopp_pop'}
                        cellsId={['fzp_v_spo_sopp', 'fzp_z_spo_sopp', 'fzp_j_spo_sopp']}
                        placement={'top'}
                        decimal={decimal}
@@ -5162,7 +5001,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>p</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_spo_fmsp_pop'}
                        cellsId={['fzp_v_spo_fmsp', 'fzp_z_spo_fmsp', 'fzp_j_spo_fmsp']}
                        placement={'top'}
                        decimal={decimal}
@@ -5203,7 +5041,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_spo_sopd_pop'}
                        cellsId={['fzp_v_spo_sopd', 'fzp_z_spo_sopd', 'fzp_j_spo_sopd']}
                        placement={'top'}
                        decimal={decimal}
@@ -5225,7 +5062,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ FMS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_spo_fmsd_pop'}
                        cellsId={['fzp_v_spo_fmsd', 'fzp_z_spo_fmsd', 'fzp_j_spo_fmsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -5247,7 +5083,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_spo_vsd_pop'}
                        cellsId={['fzp_v_spo_vsd', 'fzp_z_spo_vsd', 'fzp_j_spo_vsd']}
                        placement={'top'}
                        decimal={decimal}
@@ -5269,7 +5104,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3">VhJ Daň MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_spo_dan_mwh_pop'}
                        cellsId={['fzp_v_spo_dan_mwh', 'fzp_z_spo_dan_mwh', 'fzp_j_spo_dan_mwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -5310,7 +5144,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_spo_dan_eur_pop'}
                        cellsId={['fzp_v_spo_dan_eur', 'fzp_z_spo_dan_eur', 'fzp_j_spo_dan_eur']}
                        placement={'top'}
                        decimal={decimal}
@@ -5351,7 +5184,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_spo_pdm_pop'}
                        cellsId={['fzp_v_spo_pdm', 'fzp_z_spo_pdm', 'fzp_j_spo_pdm']}
                        placement={'top'}
                        decimal={decimal}
@@ -5392,7 +5224,6 @@ class SumarVyrobne extends React.Component {
                            }]
                          }]
                        }} /> }
-                       popoverId={'fzp_vyr_spo_ns_pop'}
                        cellsId={['fzp_v_spo_ns', 'fzp_z_spo_ns', 'fzp_j_spo_ns']}
                        placement={'top'}
                        decimal={decimal}
@@ -5415,7 +5246,6 @@ class SumarVyrobne extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Objem zemného plynu v m<sup>3</sup></span>
                        </div> }
-                       popoverId={'fzp_vyr_pc_m3_pop'}
                        cellsId={['fzp_vyr_spo_ns', 'fzp_vyr_spo_m3']}
                        placement={'bottom'}
                        decimal={4}
@@ -5433,7 +5263,6 @@ class SumarVyrobne extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-2">Objem zemného plynu v MWh</span>
                        </div> }
-                       popoverId={'fzp_vyr_pc_mwh_pop'}
                        cellsId={['fzp_vyr_spo_ns', 'fzp_vyr_spo_mwh']}
                        placement={'bottom'}
                        decimal={4}
@@ -5472,7 +5301,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-5">PDM</span>
                        </div> }
-                       popoverId={'fzp_vyr_vn_pop'}
                        cellsId={['fzp_vyr_spo_sopo', 'fzp_vyr_spo_sopp', 'fzp_vyr_spo_sopd', 'fzp_vyr_spo_dan_e', 'fzp_vyr_spo_pdm']}
                        placement={'right'}
                        decimal={decimal}
@@ -5502,7 +5330,6 @@ class SumarVyrobne extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4">VS<sub>d</sub></span>
                        </div> }
-                       popoverId={'fzp_vyr_fn_pop'}
                        cellsId={['fzp_vyr_spo_fmso', 'fzp_vyr_spo_fmsp', 'fzp_vyr_spo_fmsd', 'fzp_vyr_spo_vsd']}
                        placement={'right'}
                        decimal={decimal}

@@ -157,7 +157,6 @@ class NormativneMnostvoTpV extends React.Component {
                          <br/>+<br/>
                          <span className="polozka-3">Užitočná dodávka z OST východ</span>
                        </div> }
-                       popoverId={'pb_nmzp_v_vtost_m_pop'}
                        cellsId={['pb_nmzp_v_vtsek_m', 'pb_nmzp_v_vtsek_u']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -183,7 +182,6 @@ class NormativneMnostvoTpV extends React.Component {
                          <br/>+<br/>
                          <span className="polozka-3">Užitočná dodávka z primárnej siete východ</span>
                        </div> }
-                       popoverId={'pb_nmzp_v_vtpri_m_pop'}
                        cellsId={['pb_nmzp_v_vtost_m', 'pb_nmzp_v_vtost_u']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -209,7 +207,6 @@ class NormativneMnostvoTpV extends React.Component {
                          <br/>+<br/>
                          <span className="polozka-3">Užitočná dodávka zo zdroja východ</span>
                        </div> }
-                       popoverId={'pb_nmzp_v_tvtpv_pop'}
                        cellsId={['pb_nmzp_v_vtpri_m', 'pb_nmzp_v_vtpri_u']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -250,7 +247,6 @@ class NormativneMnostvoTpV extends React.Component {
                          &nbsp;-&nbsp;
                          <span className="polozka-4">Nákup tepla Slovnaft</span>
                        </div> }
-                       popoverId={'pb_nmzp_v_tvz_m_pop'}
                        cellsId={['pb_nmzp_v_tvtpv', 'pb_nmzp_v_tvvhj', 'pb_nmzp_v_ntppc', 'pb_nmzp_v_ntslo']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -290,7 +286,6 @@ class NormativneMnostvoTpV extends React.Component {
                          <br/>×<br/>
                          <span className="polozka-3">Pomer spaľovacieho tepla a výhrevnosti</span>
                        </div> }
-                       popoverId={'pb_nmzp_v_tpvz_pop'}
                        cellsId={['pb_nmzp_v_tvz_m', 'pb_nmzp_v_tvz_u', 'pb_nmzp_v_pstv']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -318,7 +313,6 @@ class NormativneMnostvoTpV extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-3">Výhrevnosť zemného plynu</span>
                        </div> }
-                       popoverId={'pb_nmzp_v_m3_pop'}
                        cellsId={['pb_nmzp_v_tvz_m', 'pb_nmzp_v_tvz_u', 'pb_nmzp_v_vzp']}
                        placement={'bottom'}
                        decimal={decimal}

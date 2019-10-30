@@ -121,7 +121,6 @@ class PorovnanieSPlanom extends React.Component {
                        popis={ <div>
                          <span>Zdroj + Primár + OST + Sekundár + Plynové kotolne</span>
                        </div> }
-                       popoverId={'pp_v_udt_p_pop'}
                        cellsId={[]}
                        placement={'top'}
                        decimal={decimal}
@@ -135,7 +134,6 @@ class PorovnanieSPlanom extends React.Component {
                        popis={ <div>
                          <span className="polozka-1">Skutočná dodávka tepla (vrátane kotolní)</span>
                        </div> }
-                       popoverId={'pp_v_udt_s_pop'}
                        cellsId={['udt_spk_v_kwh']}
                        placement={'top'}
                        decimal={decimal}
@@ -153,7 +151,6 @@ class PorovnanieSPlanom extends React.Component {
                          &nbsp;-&nbsp;
                          <span className="polozka-2">Plánovaná dodávka tepla</span>
                        </div> }
-                       popoverId={'pp_v_udt_r_pop'}
                        cellsId={['pp_v_udt_s', 'pp_v_udt_p']}
                        placement={'top'}
                        decimal={decimal}

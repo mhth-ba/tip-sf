@@ -132,7 +132,6 @@ class DelenieNakladov extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Elektrina TpZ</span>
                        </div> }
-                       popoverId={'dnem_vtdt_k_pop'}
                        cellsId={['dnem_vtdt_tpv', 'dnem_vtdt_tpz', 'dnem_tsve_tpv', 'dnem_tsve_tpz']}
                        placement={'top'}
                        unit={'%'}
@@ -171,7 +170,6 @@ class DelenieNakladov extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-4 text-nowrap">Teplo TpZ</span>
                        </div> }
-                       popoverId={'dnem_tsve_k_pop'}
                        cellsId={['dnem_tsve_tpv', 'dnem_tsve_tpz', 'dnem_vtdt_tpv', 'dnem_vtdt_tpz']}
                        placement={'top'}
                        unit={'%'}

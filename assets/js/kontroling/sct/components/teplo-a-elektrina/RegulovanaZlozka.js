@@ -130,7 +130,6 @@ class RegulovanaZlozka extends React.Component {
                          <br/>×<br/>
                          <span className="polozka-2 text-nowrap">RZFN nad 21 000 kW (konštanta)</span>
                        </div> }
-                       popoverId={'snte_rzfn_kdkwnl_pop'}
                        cellsId={['snte_rzfn_rp', 'snte_rzfn_nl']}
                        placement={'right'}
                        decimal={decimal}
@@ -151,7 +150,6 @@ class RegulovanaZlozka extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2 text-nowrap">RZFN nad 21 000 kW</span>
                        </div> }
-                       popoverId={'snte_rzfn_rzfn_pop'}
                        cellsId={['snte_rzfn_dl', 'snte_rzfn_kdkwnl']}
                        placement={'right'}
                        decimal={decimal}
@@ -188,7 +186,6 @@ class RegulovanaZlozka extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-3 text-nowrap">Príplatok</span>)
                        </div> }
-                       popoverId={'snte_rzfn_pz_pop'}
                        cellsId={['snte_rzfn_rp', 'snte_rzfn_zaklad', 'snte_rzfn_priplatok']}
                        placement={'right'}
                        decimal={decimal}
@@ -213,7 +210,6 @@ class RegulovanaZlozka extends React.Component {
                          <br/>+&nbsp;
                          <span className="polozka-2 text-nowrap">Primeraný zisk</span>
                        </div> }
-                       popoverId={'snte_rzfn_rzfnapz_pop'}
                        cellsId={['snte_rzfn_rzfn', 'snte_rzfn_pz']}
                        placement={'right'}
                        decimal={decimal}
@@ -238,7 +234,6 @@ class RegulovanaZlozka extends React.Component {
                          &nbsp;+&nbsp;
                          <span className="polozka-2 text-nowrap">Primeraný zisk</span>
                        </div> }
-                       popoverId={'snte_rzfn_fnpz_pop'}
                        cellsId={['snte_sn_fn', 'snte_rzfn_pz']}
                        placement={'right'}
                        decimal={decimal}

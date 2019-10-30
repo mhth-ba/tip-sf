@@ -169,7 +169,6 @@ class NormativneMnostvoVhJ extends React.Component {
                          <br/>×<br/>
                          <span className="polozka-4">Pomer spaľovacieho tepla a výhrevnosti</span>
                        </div> }
-                       popoverId={'pb_nmzp_j_tpvz_pop'}
                        cellsId={['pb_nmzp_j_tvz_m', 'pb_nmzp_j_tvz_u', 'pb_nmzp_j_tvtvo_m', 'pb_nmzp_j_pstv']}
                        placement={'bottom'}
                        decimal={decimal}
@@ -203,7 +202,6 @@ class NormativneMnostvoVhJ extends React.Component {
                          <ZlomkovaCiara/>
                          <span className="polozka-3">Výhrevnosť zemného plynu</span>
                        </div> }
-                       popoverId={'pb_nmzp_j_m3_pop'}
                        cellsId={['pb_nmzp_j_tvz_m', 'pb_nmzp_j_tvz_u', 'pb_nmzp_j_tvtvo_m', 'pb_nmzp_j_vzp']}
                        placement={'bottom'}
                        decimal={decimal}
