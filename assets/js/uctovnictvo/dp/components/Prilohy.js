@@ -101,7 +101,7 @@ class Prilohy extends React.Component {
     return (
       <div>
         <Card>
-          <CardBody className="d-flex">
+          <CardBody className="d-flex flex-wrap">
             { (prilohy === null || prilohy.length === 0)&&
               <span className="text-muted">Zatiaľ tu nie sú žiadne súbory ...</span>
             }
