@@ -4,16 +4,12 @@ import {connect} from 'react-redux'
 import ReactHtmlParser from 'react-html-parser'
 
 import {
-  Card, CardHeader, CardBody, CardFooter, CardTitle,
-  Button, ButtonGroup,
-  Table, Alert,
-  UncontrolledTooltip
+  Card, CardHeader, CardBody, CardFooter, Button, Table, Alert, UncontrolledTooltip
 } from 'reactstrap'
 
 import Swal from 'sweetalert2'
 import withReactComponent from 'sweetalert2-react-content'
 
-import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek2'
 
 import Vstup from '../helpers/Vstup'
 import VstupText from '../../../../components/VstupText'
@@ -31,7 +27,6 @@ import FontAwesome from 'react-fontawesome'
 import Highcharts from 'highcharts'
 require('highcharts/highcharts-more')(Highcharts)
 import ReactHighcharts from 'react-highcharts'
-import * as CONFIGS from '../../../../configs'
 
 class SpravaKotolni extends React.Component {
   constructor(props) {
@@ -168,6 +163,8 @@ class SpravaKotolni extends React.Component {
     const loading = this.props.kotolne.loading
     const creating = this.props.kotolne.creating
     const deleting = this.props.kotolne.deleting
+
+    const dokonceny = this.props.hlavny.stav.id === 1
 
     return (
 
@@ -325,7 +322,7 @@ class SpravaKotolni extends React.Component {
         {/* Prehľad kotolní */}
         { zobrazenie === 1 &&
           <CardFooter>
-            <Button color={'success'} onClick={this.handlePridatKotolnu} disabled={creating || !opravnenia.kont}>
+            <Button color={'success'} onClick={this.handlePridatKotolnu} disabled={creating || dokonceny || !opravnenia.kont}>
               {!creating && <FontAwesome name={'plus-circle'}/>}
               {creating && <FontAwesome name={'spinner'} spin/>}
               {' '}
