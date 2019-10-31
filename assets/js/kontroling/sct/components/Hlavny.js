@@ -99,7 +99,7 @@ class Hlavny extends React.Component {
           Karta hlavných údajov{' '}
           { (hlavny.loading || hlavny.updating) && <FontAwesome name="spinner" spin /> }
           { hlavny.initialized &&
-            <span className="pull-right">ID = {hlavny.id}</span>
+            <span className="pull-right">ID: {hlavny.id}</span>
           }
         </CardHeader>
         <CardBody>
@@ -135,9 +135,9 @@ class Hlavny extends React.Component {
                   <FormFeedback>Musí mať aspoň 5 znakov</FormFeedback>
                 </td>
               </tr>
-              <tr>
+              <tr className="bg-yellow">
                 <th>Rok</th>
-                <td>
+                <td className="font-weight-bold text-primary">
                   {/*{ editovatelne ?
                     <RIENumber {...RIEConfig}
                                value={hlavny.rok}
