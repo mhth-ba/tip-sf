@@ -66,6 +66,11 @@ export const fetchPoznamkyRequest = (id) => ({
   id
 })
 
+export const fetchSuboryRequest = (id) => ({
+  type: TYPES.FETCH_SUBORY_REQUEST,
+  id
+})
+
 export const fetchKonstantySCTRequest = (id) => ({
   type: TYPES.FETCH_KONSTANTY_SCT_REQUEST,
   id
@@ -236,6 +241,11 @@ export const deleteKotolnaRequest = (data) => ({
   data
 })
 
+export const deleteSuborRequest = (data) => ({
+  type: TYPES.DELETE_SUBOR_REQUEST,
+  data
+})
+
 export function* fetchOpravnenia() {
   const url = Routing.generate('sct_opravnenia')
 
@@ -336,6 +346,7 @@ export function* loadMainEntry(action) {
       // pre ostatnych nacitat vsetko
       yield [
         put(fetchPoznamkyRequest(id)),
+        put(fetchSuboryRequest(id)),
         put(fetchKonstantySCTRequest(id)),
         put(fetchDodavkaTeplaRequest(id)),
         put(fetchVyrobaElektrinyRequest(id)),
@@ -415,6 +426,21 @@ export function* fetchPoznamky(action) {
 
   } catch (e) {
     yield put({type: TYPES.FETCH_POZNAMKY_ERROR, data: e})
+    console.error(e)
+  }
+}
+
+export function* fetchSubory(action) {
+  const url = Routing.generate('sct_subory_get')
+  const id = action.id
+
+  try {
+    const subory = yield call(Api.fetch, `${url}/${id}`)
+
+    yield put({type: TYPES.FETCH_SUBORY_SUCCESS, data: subory})
+
+  } catch (e) {
+    yield put({type: TYPES.FETCH_SUBORY_ERROR, data: e})
     console.error(e)
   }
 }
@@ -623,44 +649,66 @@ export function* processUploadedFile(action) {
   const url = Routing.generate('sct_upload')
   const data = action.data
 
-  try {
-    yield call(delay, 1000)
+  // dodane teplo, skutocne naklady, danove odpisy
+  if (data.uploadtype > 1) {
 
-    yield put(Notifications.info({
-      message: 'Prebieha spracovanie súboru'
-    }))
+    try {
+      yield call(delay, 1000)
 
-    yield call(delay, 1000)
+      yield put(Notifications.info({
+        message: 'Prebieha spracovanie súboru'
+      }))
 
-    const udaje = yield call(Api.post, url, data)
+      yield call(delay, 1000)
 
-    yield put({type: TYPES.PROCESS_UPLOADED_FILE_SUCCESS, data: udaje})
+      const udaje = yield call(Api.post, url, data)
 
-    yield put(Notifications.success({
-      title: 'Spracovanie dokončené',
-      message: 'Údaje zo súboru boli úspešne uložené do databázy'
-    }))
+      yield put({type: TYPES.PROCESS_UPLOADED_FILE_SUCCESS, data: udaje})
 
-    //yield put(loadMainEntryRequest(data))
-    yield [
-      put(fetchVyberPolozkyRequest()),
-      put(fetchHlavnyRequest(data.id)),
-      put(fetchDodavkaTeplaRequest(data.id)),
-      put(fetchSkutocneNakladyRequest(data.id)),
-      put(fetchVypocetBuniekRequest(data.id))
-    ]
+      yield put(Notifications.success({
+        title: 'Spracovanie dokončené',
+        message: 'Údaje zo súboru boli úspešne uložené do databázy'
+      }))
 
-  } catch (e) {
-    yield put({type: TYPES.PROCESS_UPLOADED_FILE_ERROR, data: e})
+      //yield put(loadMainEntryRequest(data))
+      yield [
+        put(fetchVyberPolozkyRequest()),
+        put(fetchHlavnyRequest(data.id)),
+        put(fetchDodavkaTeplaRequest(data.id)),
+        put(fetchSkutocneNakladyRequest(data.id)),
+        put(fetchVypocetBuniekRequest(data.id)),
+        put(fetchAktivitaRequest())
+      ]
 
-    yield put(Notifications.error({
-      title: 'Spracovanie neúspešné',
-      message: `Počas spracovania nastala chyba. Skúste chvíľu počkať
+    } catch (e) {
+      yield put({type: TYPES.PROCESS_UPLOADED_FILE_ERROR, data: e})
+      yield put(Notifications.error({
+        title: 'Spracovanie neúspešné',
+        message: `Počas spracovania nastala chyba. Skúste chvíľu počkať
                 a nahrať súbor znovu neskôr alebo kontaktujte vývojára.`,
-      autoDismiss: 12
-    }))
+        autoDismiss: 12
+      }))
+      console.error(e)
+    }
+  }
 
-    console.error(e)
+  // ostatne subory (ulozisko)
+  if (data.uploadtype === 1) {
+
+    try {
+      const udaje = yield call(Api.post, url, data)
+
+      yield put({type: TYPES.PROCESS_UPLOADED_FILE_SUCCESS, data: udaje})
+
+      yield [
+        put(fetchSuboryRequest(data.id)),
+        put(fetchAktivitaRequest())
+      ]
+
+    } catch (e) {
+      yield put({type: TYPES.PROCESS_UPLOADED_FILE_ERROR, data: e})
+      console.error(e)
+    }
   }
 }
 
@@ -1209,6 +1257,25 @@ export function* deleteKotolna(action) {
       autoDismiss: 12
     }))
 
+    console.error(e)
+  }
+}
+
+export function* deleteSubor(action) {
+  const url = Routing.generate('sct_subor_delete')
+  const data = action.data
+  const id = data.id
+
+  try {
+    yield call(Api.delete, `${url}/${id}`)
+
+    yield [
+      put({type: TYPES.DELETE_SUBOR_SUCCESS, id: id}),
+      put(fetchAktivitaRequest())
+    ]
+
+  } catch (e) {
+    yield put({type: TYPES.DELETE_SUBOR_ERROR, data: e})
     console.error(e)
   }
 }

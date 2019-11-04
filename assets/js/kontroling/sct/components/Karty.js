@@ -1,8 +1,7 @@
 import React from 'react'
 import {
-    TabContent, TabPane, Nav, NavItem, NavLink,
-  Card, CardHeader, CardBody, CardImg, CardTitle, CardText,
-  Button, Row, Col, Table
+  TabContent, TabPane, Nav, NavItem, NavLink,
+  Card, CardBody, CardTitle, CardText
 } from 'reactstrap'
 import FontAwesome from 'react-fontawesome'
 import ReactLoading from 'react-loading'
@@ -141,13 +140,23 @@ class Karty extends React.Component {
                 </NavItem>
                 <NavItem>
                   <NavLink
-                    className={classnames({ active: this.state.activeTab === '8' })}
+                    className={classnames({ active: this.state.activeTab === '7' })}
                     onClick={() => { this.toggle('7') }}
                     href="#"
                     disabled={!opravnenia.mng}
                   >
                     {this.props.vstupy.loading && <FontAwesome name="spinner" spin />}{' '}
                     Vstupy
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: this.state.activeTab === '8' })}
+                    onClick={() => { this.toggle('8') }}
+                    href="#"
+                    disabled={!opravnenia.mng}
+                  >
+                    Ostatné súbory
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -188,6 +197,11 @@ class Karty extends React.Component {
           { opravnenia.mng &&
             <TabPane tabId="7">
               { this.props['Vstupy'] }
+            </TabPane>
+          }
+          { opravnenia.mng &&
+            <TabPane tabId="8">
+              { this.props['Subory'] }
             </TabPane>
           }
         </TabContent> }

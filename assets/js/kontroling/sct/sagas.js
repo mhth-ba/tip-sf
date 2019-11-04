@@ -13,6 +13,7 @@ import {
 
   fetchHlavny,
   fetchPoznamky,
+  fetchSubory,
   fetchKonstantySCT,
   fetchDodavkaTepla,
   fetchVyrobaElektriny,
@@ -51,7 +52,8 @@ import {
   updateRegulovanaZlozka,
 
   deletePristup,
-  deleteKotolna
+  deleteKotolna,
+  deleteSubor
 } from './actions'
 
 /*export function* helloSaga() {
@@ -70,6 +72,7 @@ function* mySaga() {
 
     takeLatest(TYPES.FETCH_HLAVNY_REQUEST, fetchHlavny),
     takeLatest(TYPES.FETCH_POZNAMKY_REQUEST, fetchPoznamky),
+    takeLatest(TYPES.FETCH_SUBORY_REQUEST, fetchSubory),
     takeLatest(TYPES.FETCH_KONSTANTY_SCT_REQUEST, fetchKonstantySCT),
     takeLatest(TYPES.FETCH_DODAVKA_TEPLA_REQUEST, fetchDodavkaTepla),
     takeLatest(TYPES.FETCH_VYROBA_ELEKTRINY_REQUEST, fetchVyrobaElektriny),
@@ -108,7 +111,8 @@ function* mySaga() {
     takeEvery(TYPES.UPDATE_REGULOVANA_ZLOZKA_REQUEST, updateRegulovanaZlozka),
 
     takeEvery(TYPES.DELETE_PRISTUP_REQUEST, deletePristup),
-    takeEvery(TYPES.DELETE_KOTOLNA_REQUEST, deleteKotolna)
+    takeEvery(TYPES.DELETE_KOTOLNA_REQUEST, deleteKotolna),
+    takeEvery(TYPES.DELETE_SUBOR_REQUEST, deleteSubor)
   ])
 }
 

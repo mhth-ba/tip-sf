@@ -41,6 +41,11 @@ class Upload extends BaseEntity
     private $datum;
 
     /**
+     * @ORM\Column(type="boolean", name="Valid")
+     */
+    private $platne;
+
+    /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Kontroling\SCT\Hlavny")
      */
     private $hlavny;
@@ -61,6 +66,11 @@ class Upload extends BaseEntity
     private $subor;
 
     /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\App\User")
+     */
+    private $vymazal;
+
+    /**
      * Set the default values
      * This works as the constructor of a persisted class is not called upon hydration.
      */
@@ -77,6 +87,16 @@ class Upload extends BaseEntity
     public function getDatum()
     {
         return $this->getTimestampWithoutOffset($this->datum);
+    }
+
+    public function getPlatne()
+    {
+        return $this->platne;
+    }
+
+    public function setPlatne($platne)
+    {
+        $this->platne = $platne;
     }
 
     public function getHlavny()
@@ -117,5 +137,15 @@ class Upload extends BaseEntity
     public function setSubor($subor)
     {
         $this->subor = $subor;
+    }
+
+    public function getVymazal()
+    {
+        return $this->vymazal;
+    }
+
+    public function setVymazal($vymazal)
+    {
+        $this->vymazal = $vymazal;
     }
 }

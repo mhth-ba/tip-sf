@@ -17,6 +17,7 @@ use AppBundle\Api\Kontroling\SCT\OpravneneNakladyKotolneApiModel;
 use AppBundle\Api\Kontroling\SCT\PoznamkyApiModel;
 use AppBundle\Api\Kontroling\SCT\RegulovanaZlozkaApiModel;
 use AppBundle\Api\Kontroling\SCT\SkutocneNakladyApiModel;
+use AppBundle\Api\Kontroling\SCT\UploadApiModel;
 use AppBundle\Api\Kontroling\SCT\VypocetBuniekApiModel;
 use AppBundle\Api\Kontroling\SCT\VyrobaElektrinyApiModel;
 use AppBundle\Api\Kontroling\SCT\ZemnyPlynApiModel;
@@ -120,6 +121,7 @@ class SkutocnaCenaTeplaController extends BaseController
 
         $upload = new Upload();
 
+        $upload->setPlatne(true);
         $upload->setHlavny($hlavny);
         $upload->setUpload($uploadtype);
         $upload->setOriginal($original);
@@ -129,6 +131,8 @@ class SkutocnaCenaTeplaController extends BaseController
         $em->persist($upload);
         $em->flush();
 
+        $this->logCreateActivity($upload->getId(), 'AppBundle:Kontroling\SCT\Upload');
+
 //        throw new Exception('Nastala neočakávaná chyba');
 
         $fs = new Filesystem();
@@ -136,6 +140,8 @@ class SkutocnaCenaTeplaController extends BaseController
         $dir = $this->get('kernel')->getProjectDir().'/web/uploads';
 
         switch ($uploadtype_id) {
+            case 1: // vlastny subor (ulozisko priloh, exportov, podkladov...)
+                break;
             case 2: // dodavka tepla (skutocna)
                 $fs->copy(
                     $dir.'/kontroling/'.$filename,
@@ -528,6 +534,38 @@ class SkutocnaCenaTeplaController extends BaseController
 //        $model->hlavny = $poznamky->getHlavny();
         $model->karta = $poznamky->getKarta();
         $model->poznamka = $poznamky->getPoznamka();
+
+        return $model;
+    }
+
+    /**
+     * @Route("kont/sct/subory/{id}", name="sct_subory_get", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_SCT_MNG')")
+     */
+    public function getSuboryAction($id)
+    {
+        $polozky = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Kontroling\SCT\Upload')
+            ->findUploadedGeneralFiles($id);
+
+        $data = [];
+        foreach ($polozky as $item) {
+            $data[] = $this->createSuboryApiModel($item);
+        }
+
+        return $this->createApiResponse($data);
+    }
+
+    private function createSuboryApiModel(Upload $upload)
+    {
+        $model = new UploadApiModel();
+
+        $model->id = $upload->getId();
+        $model->datum = $upload->getDatum();
+        $model->platne = $upload->getPlatne();
+        $model->original = $upload->getOriginal();
+        $model->subor = $upload->getSubor();
 
         return $model;
     }
@@ -1425,6 +1463,28 @@ class SkutocnaCenaTeplaController extends BaseController
             $id,
             'AppBundle:Kontroling\SCT\Kotolna',
             $request
+        );
+    }
+
+    /**
+     * @Route("kont/sct/subory/{id}", name="sct_subor_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_SCT_KONT')")
+     */
+    public function deleteSuborAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $subor = $em->getRepository('AppBundle:Kontroling\SCT\Upload')
+            ->find($id);
+
+        $subor->setPlatne(false);
+        $em->persist($subor);
+        $em->flush();
+
+        return $this->markAsDeleted(
+            $id,
+            'AppBundle:Kontroling\SCT\Upload'
         );
     }
 

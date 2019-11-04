@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 import Notification from '../../../components/Notification'
 import Nastroje from './Nastroje'
 import Sprava from './Sprava'
@@ -14,6 +14,7 @@ import SpolocneNakladyNaTeploAElektrinu from './SpolocneNakladyNaTeploAElektrinu
 import CenaTepla from './CenaTepla'
 
 import Vstupy from './Vstupy'
+import Subory from './Subory'
 
 import { hot } from 'react-hot-loader'
 
@@ -44,6 +45,7 @@ class App extends React.Component {
               SpolocneNakladyNaTeploAElektrinu={<SpolocneNakladyNaTeploAElektrinu/>}
               CenaTepla={<CenaTepla/>}
               Vstupy={<Vstupy/>}
+              Subory={<Subory/>}
             />
           </Col>
         </Row>

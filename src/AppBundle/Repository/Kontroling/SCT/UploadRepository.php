@@ -6,6 +6,17 @@ use Doctrine\ORM\EntityRepository;
 
 class UploadRepository extends EntityRepository
 {
+    public function findUploadedGeneralFiles($id)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.upload = 1')
+            ->andWhere('u.hlavny = :id')
+            ->setParameter('id', $id)
+            ->orderBy('u.id', 'desc')
+            ->getQuery()
+            ->execute();
+    }
+
     public function getLastUploadedDodaneTeplo($id)
     {
         return $this->createQueryBuilder('u')

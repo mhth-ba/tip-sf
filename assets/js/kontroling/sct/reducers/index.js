@@ -13,6 +13,7 @@ import moznosti from './moznosti'
 import hlavny from './hlavny'
 
 import poznamky from './poznamky'
+import subory from './subory'
 import konstanty from './konstanty'
 
 import dodavkatepla from './dodavkatepla'                  // uzitocna dodavka tepla
@@ -49,6 +50,7 @@ export default combineReducers({
   hlavny,
 
   poznamky,
+  subory,
   konstanty,
 
   dodavkatepla,
