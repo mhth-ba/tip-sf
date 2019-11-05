@@ -41,18 +41,6 @@ class UploadRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
-    public function getLastUploadedDanoveOdpisy($id)
-    {
-        return $this->createQueryBuilder('u')
-            ->setMaxResults(1)
-            ->andWhere('u.upload = 4')
-            ->andWhere('u.hlavny = :id')
-            ->setParameter('id', $id)
-            ->orderBy('u.datum', 'desc')
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
     public function uploadDodaneTeplo($id)
     {
         return $this->createNativeNamedQuery('Excel_DodaneTeplo')
@@ -63,13 +51,6 @@ class UploadRepository extends EntityRepository
     public function uploadSkutocneNaklady($id)
     {
         return $this->createNativeNamedQuery('Excel_SkutocneNaklady')
-            ->setParameter('id', $id)
-            ->execute();
-    }
-
-    public function uploadDanoveOdpisy($id)
-    {
-        return $this->createNativeNamedQuery('Excel_DanoveOdpisy')
             ->setParameter('id', $id)
             ->execute();
     }
