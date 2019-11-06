@@ -31,7 +31,7 @@ class NakupovaneTeplo extends React.Component {
         <br/>
         <Row>
           <Col>
-            <Poznamky id={note.id} val={note.poznamka} row={'snte'} col={'poznamka'} update={this.props.update} />
+            <Poznamky id={note.id} val={note.poznamka} row={'nt'} col={'poznamka'} update={this.props.update} />
           </Col>
         </Row>
       </div>

@@ -90,7 +90,7 @@ class FakturovanyZemnyPlyn extends React.Component {
         <Row>
           <Col>
             { opravnenia.mng &&
-              <Poznamky id={note.id} val={note.poznamka} row={'ct'} col={'poznamka'} update={this.props.update} />
+              <Poznamky id={note.id} val={note.poznamka} row={'fzp'} col={'poznamka'} update={this.props.update} />
             }
           </Col>
         </Row>

@@ -53,7 +53,7 @@ class PalivovyBonus extends React.Component {
         <br/>
         <Row>
           <Col>
-            <Poznamky id={note.id} val={note.poznamka} row={'ct'} col={'poznamka'} update={this.props.update} />
+            <Poznamky id={note.id} val={note.poznamka} row={'pb'} col={'poznamka'} update={this.props.update} />
           </Col>
         </Row>
       </div>
