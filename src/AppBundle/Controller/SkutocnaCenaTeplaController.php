@@ -18,10 +18,10 @@ use AppBundle\Api\Kontroling\SCT\PoznamkyApiModel;
 use AppBundle\Api\Kontroling\SCT\RegulovanaZlozkaApiModel;
 use AppBundle\Api\Kontroling\SCT\SkutocneNakladyApiModel;
 use AppBundle\Api\Kontroling\SCT\UploadApiModel;
-use AppBundle\Api\Kontroling\SCT\VypocetBuniekApiModel;
 use AppBundle\Api\Kontroling\SCT\VyrobaElektrinyApiModel;
 use AppBundle\Api\Kontroling\SCT\ZemnyPlynApiModel;
 use AppBundle\Api\Kontroling\SCT\ZemnyPlynKlucovanieApiModel;
+use AppBundle\Api\Kontroling\VypocetBuniekApiModel;
 use AppBundle\Entity\App\ActivityLog;
 use AppBundle\Entity\App\Grant;
 use AppBundle\Entity\Kontroling\SCT\Hlavny;
@@ -624,6 +624,7 @@ class SkutocnaCenaTeplaController extends BaseController
     private function createDodaneTeploApiModel(DodaneTeplo $dodaneTeplo)
     {
         $model = new DodaneTeploApiModel();
+
         $model->id = $dodaneTeplo->getId();
         $model->datum = $dodaneTeplo->getDatum();
         $model->platne = $dodaneTeplo->getPlatne();
