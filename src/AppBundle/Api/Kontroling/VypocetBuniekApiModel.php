@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Api\Kontroling\SCT;
+namespace AppBundle\Api\Kontroling;
 
 class VypocetBuniekApiModel
 {
