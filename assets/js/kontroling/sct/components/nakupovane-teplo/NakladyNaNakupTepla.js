@@ -128,9 +128,9 @@ class NakladyNaNakupTepla extends React.Component {
             </tr>
             <tr>
               <td className="text-left">Regulačný príkon <Jednotka unit={'kW'} /></td>
-              <Vstup {...vstup_rp} val={rp.ppc} col={'ppc'} class={nt_nnt_rp_ppc} unit={'kWh'} />
-              <Vstup {...vstup_rp} val={rp.slovnaft} col={'slovnaft'} class={nt_nnt_rp_slo} unit={'kWh'} />
-              <Vstup {...vstup_rp} val={rp.cw} col={'cw'} class={nt_nnt_rp_cw} unit={'kWh'} />
+              <Vstup {...vstup_rp} val={rp.ppc} col={'ppc'} class={nt_nnt_rp_ppc} unit={'kW'} />
+              <Vstup {...vstup_rp} val={rp.slovnaft} col={'slovnaft'} class={nt_nnt_rp_slo} unit={'kW'} />
+              <Vstup {...vstup_rp} val={rp.cw} col={'cw'} class={nt_nnt_rp_cw} unit={'kW'} />
               <Vypocet value={ rp.spolu }
                        cisla={ <div>
                          <NumberFormat {...vypocetFormat} value={rp.ppc} />
@@ -151,7 +151,7 @@ class NakladyNaNakupTepla extends React.Component {
                        cellsId={['nt_nnt_rp_ppc', 'nt_nnt_rp_slo', 'nt_nnt_rp_cw']}
                        placement={'right'}
                        decimal={decimal}
-                       unit={'kWh'}
+                       unit={'kW'}
                        class={nt_nnt_rp_spolu}
               />
             </tr>
