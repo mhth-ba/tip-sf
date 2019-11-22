@@ -242,7 +242,7 @@ class NakladyNaNakupTepla extends React.Component {
                        cellsId={['nt_nnt_fn_ppc', 'nt_nnt_rp_ppc']}
                        placement={'right'}
                        decimal={4}
-                       unit={'€/kWh'}
+                       unit={'€/kW'}
                        class={nt_nnt_fzc_ppc}
               />
               <Vypocet value={ fzc.slovnaft }
@@ -259,7 +259,7 @@ class NakladyNaNakupTepla extends React.Component {
                        cellsId={['nt_nnt_fn_slo', 'nt_nnt_rp_slo']}
                        placement={'right'}
                        decimal={4}
-                       unit={'€/kWh'}
+                       unit={'€/kW'}
                        class={nt_nnt_fzc_slo}
               />
               <Vypocet value={ fzc.cw }
@@ -276,7 +276,7 @@ class NakladyNaNakupTepla extends React.Component {
                        cellsId={['nt_nnt_fn_cw', 'nt_nnt_rp_cw']}
                        placement={'right'}
                        decimal={4}
-                       unit={'€/kWh'}
+                       unit={'€/kW'}
                        class={nt_nnt_fzc_cw}
               />
               <Vypocet value={ fzc.spolu }
@@ -293,7 +293,7 @@ class NakladyNaNakupTepla extends React.Component {
                        cellsId={['nt_nnt_fn_spolu', 'nt_nnt_rp_spolu']}
                        placement={'right'}
                        decimal={4}
-                       unit={'€/kWh'}
+                       unit={'€/kW'}
                        class={nt_nnt_fzc_spolu}
               />
             </tr>
