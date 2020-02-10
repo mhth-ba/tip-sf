@@ -39,11 +39,11 @@ const chart = {
       switch (this.index) {
         case 0:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Predpoveď vonkajšej teploty"
+                        title="Vonkajšia teplota ako priemer z OST"
                   >${this.name}</span>`
         case 1:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Vonkajšia teplota ako priemer z OST 644, 655 a 798"
+                        title="Predpoveď vonkajšej teploty"
                   >${this.name}</span>`
         case 2:
           return `<span>${this.name}</span>`
@@ -101,6 +101,7 @@ const chart = {
     opposite: true
   }],
   tooltip: {
+    valueDecimals: 2,
     shared: true,
     split: true,
     dateTimeLabelFormats: {
@@ -203,12 +204,18 @@ class VychodZdrojeColumn extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+
     const chart = this.refs['chart_vykon_zdroje_column'].getChart()
 
-    let teplota = [], termis_pocasie = [],
-      ppc = [], tpv = [], slovnaft = [], vhj = [], termis_zdroje = []
+    let vonkajsia_teplota = [],
+      termis_pocasie = [],
+      ppc = [],
+      tpv = [],
+      slovnaft = [],
+      vhj = [],
+      termis_zdroje = []
 
-    this.props.zdroje.vonkajsia_teplota_1h.map( row => { teplota.push([ row['hodina'], row['priemer'] ]) })
+    vonkajsia_teplota = this.props.zdroje.vonkajsia_teplota_priemer_1hod
     this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.ppc_vykon_1h.map( row => { ppc.push([ row['hodina'], row['priemer'] ]) })
     this.props.zdroje.tpv_vykon_1h.map( row => { tpv.push([ row['hodina'], row['priemer'] ]) })
@@ -216,15 +223,13 @@ class VychodZdrojeColumn extends React.Component {
     this.props.zdroje.vhj_vykon_1h.map( row => { vhj.push([ row['hodina'], row['priemer'] ]) })
     this.props.vykon.termis.map( row => { termis_zdroje.push([ row['datum'], row['hodnota'] ]) })
 
-    chart.series[0].setData(teplota, false)
+    chart.series[0].setData(vonkajsia_teplota, false)
     chart.series[1].setData(termis_pocasie, false)
     chart.series[2].setData(vhj, false)
     chart.series[3].setData(slovnaft, false)
     chart.series[4].setData(tpv, false)
     chart.series[5].setData(ppc, false)
     chart.series[6].setData(termis_zdroje, false)
-
-    //chart.yAxis[0].setExtremes(0, this.props.zdroje.max['hodnota'])
 
     chart.redraw()
     chart.reflow()

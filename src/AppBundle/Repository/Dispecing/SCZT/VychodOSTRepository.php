@@ -29,4 +29,15 @@ class VychodOSTRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function getVonkajsiaTeplota($dateTo, $dateFrom) {
+        return $this->createQueryBuilder('vo')
+            ->andWhere('vo.kategoria BETWEEN 300 AND 320')
+            ->andWhere('vo.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('vo.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
 }

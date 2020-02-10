@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Api\Dispecing\SCZT\OSTVyberUdajovApiModel;
 use AppBundle\Api\Dispecing\SCZT\VykonApiModel;
 use AppBundle\Api\Dispecing\SCZT\Zdroje1hApiModel;
 use AppBundle\Api\Dispecing\SCZT\ZdrojeApiModel;
@@ -146,15 +147,16 @@ class SCZTVychodController extends BaseController
         $zdroje_teplota_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodVystupnaTeplota');
         $zdroje_diferencny_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodDiferencnyTlak');
         $zdroje_prietok_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodPrietok');
-        $ost_ventily_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodOST');
+        $ost_repository = $em->getRepository('AppBundle:Dispecing\SCZT\VychodOST');
 
         $ppc_vykon_10min = $zdroje_vykon_repository->getPPC($dateTo, $dateFrom);
         $tpv_vykon_10min = $zdroje_vykon_repository->getTpV($dateTo, $dateFrom);
         $slovnaft_vykon_10min = $zdroje_vykon_repository->getSlovnaft($dateTo, $dateFrom);
         $vhj_vykon_10min = $zdroje_vykon_repository->getVhJ($dateTo, $dateFrom);
-        $vonkajsia_teplota_10min = $zdroje_vykon_repository->getTeplota($dateTo, $dateFrom);
-        $ventil_tuv_10min = $ost_ventily_repository->getVentilTUV($dateTo, $dateFrom);
-        $ventil_uk_10min = $ost_ventily_repository->getVentilUK($dateTo, $dateFrom);
+        //$vonkajsia_teplota_10min = $zdroje_vykon_repository->getTeplota($dateTo, $dateFrom);
+        $ventil_tuv_10min = $ost_repository->getVentilTUV($dateTo, $dateFrom);
+        $ventil_uk_10min = $ost_repository->getVentilUK($dateTo, $dateFrom);
+        $vonkajsia_teplota_10min = $ost_repository->getVonkajsiaTeplota($dateTo, $dateFrom);
         $maxVykon = $zdroje_vykon_repository->getMaxVykon($dateTo, $dateFrom);
         
         $ppc_teplota_skutocnost_10min = $zdroje_teplota_repository->getPPCSkutocnost($dateTo, $dateFrom);
@@ -197,7 +199,7 @@ class SCZTVychodController extends BaseController
             $data['vhj_vykon_10min'][] = $this->createZdrojeApiModel($item);
         }
         foreach ($vonkajsia_teplota_10min as $item) {
-            $data['vonkajsia_teplota_10min'][] = $this->createZdrojeApiModel($item);
+            $data['vonkajsia_teplota_10min'][] = $this->createOSTVyberUdajovApiModel($item);
         }
         foreach ($ventil_tuv_10min as $item) {
             $data['ventil_tuv_10min'][] = $this->createOSTApiModel($item);
@@ -329,6 +331,17 @@ class SCZTVychodController extends BaseController
         $model = new ZdrojeApiModel();
 
         $model->datum = $vychodOST->getDatum() * 1000;
+        $model->hodnota = $vychodOST->getHodnota();
+
+        return $model;
+    }
+
+    private function createOSTVyberUdajovApiModel(VychodOST $vychodOST)
+    {
+        $model = new OSTVyberUdajovApiModel();
+
+        $model->datum = $vychodOST->getDatum() * 1000;
+        $model->kategoria = $vychodOST->getKategoria();
         $model->hodnota = $vychodOST->getHodnota();
 
         return $model;

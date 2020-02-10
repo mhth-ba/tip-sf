@@ -86,15 +86,15 @@ const chart = {
           return `<span>${this.name}</span>`
         case 4:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Vonkajšia teplota ako priemer z OST 644, 655 a 798"
+                        title="Vonkajšia teplota ako priemer z OST"
                   >${this.name}</span>`
         case 5:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Percento otvorenia ventilu TÚV priemer z OST 644, 655 a 798"
+                        title="Percento otvorenia ventilu TÚV priemer z OST 715, 770 a 841"
                   >${this.name}</span>`
         case 6:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Percento otvorenia ventilu ÚK priemer z OST 644, 655 a 798"
+                        title="Percento otvorenia ventilu ÚK priemer z OST 715, 770, 841 a 688"
                   >${this.name}</span>`
       }
     }
@@ -156,6 +156,7 @@ const chart = {
     visible: false
   }],
   tooltip: {
+    valueDecimals: 2,
     shared: true,
     split: true,
     dateTimeLabelFormats: {
@@ -274,7 +275,8 @@ class VychodZdrojeLine extends React.Component {
     this.props.zdroje.tpv_vykon_10min.map( row => { tpv.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.slovnaft_vykon_10min.map( row => { slovnaft.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.vhj_vykon_10min.map( row => { vhj.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.vonkajsia_teplota_10min.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
+    //this.props.zdroje.vonkajsia_teplota_10min.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
+    teplota = this.props.zdroje.vonkajsia_teplota_priemer_10min
     this.props.zdroje.ventil_tuv_10min.map( row => { ventil_tuv.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.ventil_uk_10min.map( row => { ventil_uk.push([ row['datum'], row['hodnota'] ]) })
 

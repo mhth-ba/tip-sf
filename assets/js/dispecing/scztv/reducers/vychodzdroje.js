@@ -43,6 +43,10 @@ const initState = { // Dispecing.SCZTV_Zdroje
   vhj_vykon_1h: [],
   vonkajsia_teplota_1h: [],
 
+  parametre: [],
+  vonkajsia_teplota_priemer_10min: [],
+  vonkajsia_teplota_priemer_1hod: [],
+
   loading: false,
   error: null
 }
@@ -55,6 +59,13 @@ export default (state = initState, action) => {
       return {...state, loading: false, ...action.data}
     case TYPES.FETCH_SCZT_VYCHOD_ZDROJE_ERROR:
       return {...state, loading: false, error: action.data}
+    case TYPES.UPDATE_PARAMETRE:
+      return {...state, parametre: action.data}
+    case TYPES.UPDATE_VONKAJSIA_TEPLOTA_PRIEMER:
+      return {...state,
+        vonkajsia_teplota_priemer_10min: action.data.mm,
+        vonkajsia_teplota_priemer_1hod: action.data.hh,
+      }
     default:
       return state
   }

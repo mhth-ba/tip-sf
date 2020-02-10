@@ -1000,13 +1000,13 @@ class DanovePriznanieController extends BaseController
         $rok = $obdobie->format('Y');
 
         $icdph = 2020285245;
-        $urad = 'Bratislava';
+        $urad = 'Úrad pre vybrané hospodárske subjekty';
         $nazov = 'Bratislavská teplárenská, a.s.';
         $ulica = 'Turbínová';
         $cislo = 3;
         $psc = 82905;
         $obec = 'Bratislava - Nové Mesto';
-        $telefon = '0257372184';
+        $telefon = '0257372167';
 
         // dátum zistenia skutočnosti na podanie dodatočného daňového priznania
         if ($datumZistenia) {
@@ -1052,7 +1052,7 @@ class DanovePriznanieController extends BaseController
         $r37 = $this->checkArray($riadky,37);
         $r38 = $this->checkArray($riadky,38);
 
-        $filename =  'DPH form.391.xml';
+        $filename =  'DPH form.472.xml';
 
         $fileContent = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
             ."<dokument>\r\n"

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import _ from 'lodash'
+
 import Highcharts from 'highcharts'
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/export-data')(Highcharts)
@@ -47,7 +49,7 @@ const chart = {
       switch (this.index) {
         case 0:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Vonkajšia teplota ako priemer z OST 644, 655 a 798"
+                        title="Vonkajšia teplota ako priemer z OST"
                   >${this.name}</span>`
         case 1:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
@@ -76,6 +78,14 @@ const chart = {
         case 7:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
                         title="Počet meradiel s platnými údajmi"
+                  >${this.name}</span>`
+        case 8:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Percento otvorenia ventilu TÚV priemer z OST 715, 770 a 841"
+                  >${this.name}</span>`
+        case 9:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="Percento otvorenia ventilu ÚK priemer z OST 715, 770, 841 a 688"
                   >${this.name}</span>`
       }
     }
@@ -126,9 +136,25 @@ const chart = {
     },
     min: 0,
     visible: false
+  }, {
+    title: {
+      text: 'Percento otvorenia ventilu'
+    },
+    labels: {
+      formatter: function () {
+        return this.value + ' %'
+      },
+      style: {
+        color: '#ee2818',
+      }
+    },
+    opposite: true,
+    min: 0,
+    max: 100,
+    visible: false
   }],
   tooltip: {
-    //pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:.2f}</b><br/>',
+    valueDecimals: 2,
     shared: true,
     split: true,
     dateTimeLabelFormats: {
@@ -193,7 +219,6 @@ const chart = {
     yAxis: 1,
     tooltip: { valueSuffix: ' MW' },
     zIndex: 2,
-    visible: false,
     data: [],
   }, {
     name: 'Termis zdroje',
@@ -240,6 +265,30 @@ const chart = {
     zIndex: 2,
     //visible: false,
     data: []
+  }, {
+    name: 'Ventil TÚV',
+    color: '#ffa905',
+    //dashStyle: 'ShortDot',
+    type: 'spline',
+    yAxis: 3,
+    tooltip: { valueSuffix: ' %' },
+    marker: {
+      enabled: true
+    },
+    visible: false,
+    data: []
+  }, {
+    name: 'Ventil ÚK',
+    color: '#ee1515',
+    //dashStyle: 'ShortDot',
+    type: 'spline',
+    yAxis: 3,
+    tooltip: { valueSuffix: ' %' },
+    marker: {
+      enabled: true
+    },
+    visible: false,
+    data: []
   }]
 }
 
@@ -249,20 +298,22 @@ class VychodVykon extends React.Component {
     super(props)
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
 
     const chart = this.refs['chart_vykon_prehlad'].getChart()
 
-    let teplota = [],
+    let vonkajsia_teplota = [],
       termis_pocasie = [],
       plan = [],
       termis = [],
       zdroje = [],
       termis_ost = [],
       ost = [],
-      komunikacia = []
+      komunikacia = [],
+      ventil_tuv = [],
+      ventil_uk = []
 
-    this.props.vykon.teplota.map( row => { teplota.push([ row['datum'], row['hodnota'] ]) })
+    vonkajsia_teplota = this.props.zdroje.vonkajsia_teplota_priemer_1hod
     this.props.vykon.termis_pocasie.map( row => { termis_pocasie.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.plan.map( row => { plan.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.termis.map( row => { termis.push([ row['datum'], row['hodnota'] ]) })
@@ -270,8 +321,10 @@ class VychodVykon extends React.Component {
     this.props.vykon.termis_ost.map( row => { termis_ost.push([ row['datum'], row['hodnota'] ]) })
     this.props.vykon.ost.map( row => { ost.push([ row['datum'], parseFloat((row['hodnota'] / 1000).toFixed(4)) ]) })
     this.props.vykon.komunikacia.map( row => { komunikacia.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.ventil_tuv_10min.map( row => { ventil_tuv.push([ row['datum'], row['hodnota'] ]) })
+    this.props.zdroje.ventil_uk_10min.map( row => { ventil_uk.push([ row['datum'], row['hodnota'] ]) })
 
-    chart.series[0].setData(teplota, false)
+    chart.series[0].setData(vonkajsia_teplota, false)
     chart.series[1].setData(termis_pocasie, false)
     chart.series[2].setData(plan, false)
     chart.series[3].setData(termis, false)
@@ -279,16 +332,8 @@ class VychodVykon extends React.Component {
     chart.series[5].setData(termis_ost, false)
     chart.series[6].setData(ost, false)
     chart.series[7].setData(komunikacia, false)
-
-    /*chart.yAxis[0].setExtremes(
-      this.props.vykon.extremy_teplota['hodnota_min'],
-      this.props.vykon.extremy_teplota['hodnota_max']
-    )
-
-    chart.yAxis[1].setExtremes(
-      this.props.vykon.extremy_vykon['hodnota_min'],
-      this.props.vykon.extremy_vykon['hodnota_max']
-    )*/
+    chart.series[8].setData(ventil_tuv, false)
+    chart.series[9].setData(ventil_uk, false)
 
     chart.yAxis[2].setExtremes(
       0,
@@ -297,9 +342,6 @@ class VychodVykon extends React.Component {
 
     chart.redraw()
     chart.reflow()
-
-    //console.log(this.props.vykon.teplota)
-
   }
 
   render() {
@@ -313,6 +355,7 @@ class VychodVykon extends React.Component {
 }
 
 const mapStateToProps = ( state, ownProps ) => ({
+  zdroje: state.vychodzdroje,
   vykon: state.vychodvykon
 })
 

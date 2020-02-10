@@ -6,6 +6,16 @@ import Notifications from 'react-notification-system-redux'
 
 import Routing from '../../Components/Routing'
 
+export const updateParametre = (data) => ({
+  type: TYPES.UPDATE_PARAMETRE,
+  data
+})
+
+export const updateVonkajsiaTeplotaPriemer = (data) => ({
+  type: TYPES.UPDATE_VONKAJSIA_TEPLOTA_PRIEMER,
+  data
+})
+
 export const loadSCZTVychodRequest = (data) => ({
   type: TYPES.LOAD_SCZT_VYCHOD_REQUEST,
   data

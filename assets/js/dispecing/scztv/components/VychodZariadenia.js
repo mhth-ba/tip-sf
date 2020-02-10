@@ -54,9 +54,9 @@ class VychodZariadenia extends React.Component {
             &nbsp;&nbsp;&nbsp;
             <Zariadenie val={slovnaft} nazov={'Slovnaft'} col={'green'} />
             &nbsp;&nbsp;&nbsp;
-            <Zariadenie val={hk3} nazov={'HK3'} col={'pruple'} />
+            <Zariadenie val={hk3} nazov={'HK3'} col={'purple'} />
             &nbsp;&nbsp;&nbsp;
-            <Zariadenie val={hk4} nazov={'HK4'} col={'pruple'} />
+            <Zariadenie val={hk4} nazov={'HK4'} col={'purple'} />
           </CardBody>
         </Card>
 

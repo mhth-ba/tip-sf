@@ -77,6 +77,22 @@ const chart = {
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
                         title="PPC skutočnosť"
                   >${this.name}</span>`
+        case 8:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="VhJ + Slovnaft (priemer) predikcia"
+                  >${this.name}</span>`
+        case 9:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="VhJ + Slovnaft (priemer) skutočnosť"
+                  >${this.name}</span>`
+        case 10:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="TpV + PPC (priemer) predikcia"
+                  >${this.name}</span>`
+        case 11:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="TpV + PPC (priemer) skutočnosť"
+                  >${this.name}</span>`
       }
     }
   },
@@ -97,14 +113,14 @@ const chart = {
       text: 'Prietok'
     },
     labels: {
-      format: '{value} t/h',
+      format: '{value:.2f} t/h',
       style: {
         color: '#47e'
       }
     }
   }],
   tooltip: {
-    //pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:.2f}</b><br/>',
+    valueDecimals: 2,
     shared: true,
     split: true,
     dateTimeLabelFormats: {
@@ -247,62 +263,65 @@ const chart = {
       enabled: false
     },*/
     data: []
-  }, /*, {
-    name: 'Denný plán',
-    color: '#47e',
-    type: 'spline',
-    //lineWidth: 3,
-    yAxis: 1,
-    tooltip: { valueSuffix: ' MW' },
-    zIndex: 2,
-    visible: false,
-    data: [],
   }, {
-    name: 'Termis zdroje',
-    color: '#cb26b3',
+    name: 'VhJ + Slovnaft (P)',
+    color: '#84bbba',
+    dashStyle: 'LongDash',
     type: 'spline',
-    yAxis: 1,
-    tooltip: { valueSuffix: ' MW' },
-    zIndex: 2,
+    yAxis: 0,
+    tooltip: { valueSuffix: ' t/h' },
+    /*marker: {
+      fillColor: 'white',
+      lineWidth: 2,
+      lineColor: '#ecba17',
+      enabled: true
+    },*/
+    zIndex: 1,
     data: []
   }, {
-    name: 'Zdroje',
-    color: '#000',
+    name: 'VhJ + Slovnaft (S)',
+    color: '#22e0da',
     type: 'spline',
-    yAxis: 1,
-    tooltip: { valueSuffix: ' MW' },
-    zIndex: 2,
+    yAxis: 0,
+    tooltip: { valueSuffix: ' t/h' },
+    /*marker: {
+      fillColor: 'white',
+      lineWidth: 2,
+      lineColor: '#ecba17',
+      enabled: true
+    },*/
+    zIndex: 1,
     data: []
   }, {
-    name: 'Termis OST',
-    color: '#a062cb',
-    dashStyle: 'ShortDash',
+    name: 'TpV + PPC (P)',
+    color: '#d68ac0',
+    dashStyle: 'LongDash',
     type: 'spline',
-    yAxis: 1,
-    tooltip: { valueSuffix: ' MW' },
-    zIndex: 2,
-    visible: false,
+    yAxis: 0,
+    tooltip: { valueSuffix: ' t/h' },
+    /*marker: {
+      fillColor: 'white',
+      lineWidth: 2,
+      lineColor: '#ecba17',
+      enabled: true
+    },*/
+    zIndex: 1,
     data: []
   }, {
-    name: 'OST',
-    color: '#e41e25',
+    name: 'TpV + PPC (S)',
+    color: '#d63aaa',
     type: 'spline',
-    yAxis: 1,
-    tooltip: { valueSuffix: ' MW' },
-    zIndex: 2,
-    //visible: false,
+    yAxis: 0,
+    tooltip: { valueSuffix: ' t/h' },
+    /*marker: {
+      fillColor: 'white',
+      lineWidth: 2,
+      lineColor: '#ecba17',
+      enabled: true
+    },*/
+    zIndex: 1,
     data: []
-  }, {
-    name: 'Komunikácia',
-    color: '#2add1d',
-    dashStyle: 'ShortDot',
-    type: 'spline',
-    lineWidth: 1,
-    yAxis: 2,
-    zIndex: 2,
-    //visible: false,
-    data: []
-  }*/]
+  }]
 }
 
 
@@ -316,7 +335,11 @@ class VychodZdrojePrietok extends React.Component {
     const chart = this.refs['chart_zdroje_prietok'].getChart()
 
     // sk = skutocnost, pr = predikcia termis
-    let ppc_sk = [],
+    let tpv_ppc_sk = [],
+      tpv_ppc_pr = [],
+      vhj_slo_sk = [],
+      vhj_slo_pr = [],
+      ppc_sk = [],
       ppc_pr = [],
       tpv_sk = [],
       tpv_pr = [],
@@ -325,6 +348,42 @@ class VychodZdrojePrietok extends React.Component {
       vhj_sk = [],
       vhj_pr = []
 
+    this.props.zdroje.ppc_p_sk_10min.map(
+      (row, x) => {
+        tpv_ppc_sk.push([
+          this.props.zdroje.ppc_p_sk_10min[x]['datum'],
+          (this.props.zdroje.tpv_p_sk_10min[x]['hodnota'] + this.props.zdroje.ppc_p_sk_10min[x]['hodnota']) / 2
+        ])
+      }
+    )
+
+    this.props.zdroje.ppc_p_pr_10min.map(
+      (row, x) => {
+        tpv_ppc_pr.push([
+          this.props.zdroje.ppc_p_pr_10min[x]['datum'],
+          (this.props.zdroje.tpv_p_pr_10min[x]['hodnota'] + this.props.zdroje.ppc_p_pr_10min[x]['hodnota']) / 2
+        ])
+      }
+    )
+
+    this.props.zdroje.slovnaft_p_sk_10min.map(
+      (row, x) => {
+        vhj_slo_sk.push([
+          this.props.zdroje.slovnaft_p_sk_10min[x]['datum'],
+          (this.props.zdroje.vhj_p_sk_10min[x]['hodnota'] + this.props.zdroje.slovnaft_p_sk_10min[x]['hodnota']) / 2
+        ])
+      }
+    )
+
+    this.props.zdroje.slovnaft_p_pr_10min.map(
+      (row, x) => {
+        vhj_slo_pr.push([
+          this.props.zdroje.slovnaft_p_pr_10min[x]['datum'],
+          (this.props.zdroje.vhj_p_pr_10min[x]['hodnota'] + this.props.zdroje.slovnaft_p_pr_10min[x]['hodnota']) / 2
+        ])
+      }
+    )
+    
     this.props.zdroje.ppc_p_sk_10min.map( row => { ppc_sk.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.ppc_p_pr_10min.map( row => { ppc_pr.push([ row['datum'], row['hodnota'] ]) })
     this.props.zdroje.tpv_p_sk_10min.map( row => { tpv_sk.push([ row['datum'], row['hodnota'] ]) })
@@ -342,6 +401,11 @@ class VychodZdrojePrietok extends React.Component {
     chart.series[5].setData(tpv_sk, false)
     chart.series[6].setData(ppc_pr, false)
     chart.series[7].setData(ppc_sk, false)
+
+    chart.series[8].setData(vhj_slo_pr, false)
+    chart.series[9].setData(vhj_slo_sk, false)
+    chart.series[10].setData(tpv_ppc_pr, false)
+    chart.series[11].setData(tpv_ppc_sk, false)
 
     chart.redraw()
     chart.reflow()

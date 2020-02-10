@@ -52,13 +52,13 @@ class App extends React.Component {
         <br/>
         <Row>
           <Col>
-            <VychodZdrojeDiferencny/>
+            <VychodZdrojePrietok/>
           </Col>
         </Row>
         <br/>
         <Row>
           <Col>
-            <VychodZdrojePrietok/>
+            <VychodZdrojeDiferencny/>
           </Col>
         </Row>
         <br/>

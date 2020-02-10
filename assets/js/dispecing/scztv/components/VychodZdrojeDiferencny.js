@@ -104,7 +104,7 @@ const chart = {
     }
   }],
   tooltip: {
-    //pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y:.2f}</b><br/>',
+    valueDecimals: 2,
     shared: true,
     split: true,
     dateTimeLabelFormats: {

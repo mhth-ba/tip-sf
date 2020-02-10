@@ -1,4 +1,6 @@
+export const CACHE_DISP_SCZTV_VONK_TEP = 'tipsf/disp/scztv#vonk_tep' // vypocet priemernej vonkajsej teploty
 export const CACHE_DISP_VCO_PAGES = 'tipsf/disp/vco/table#1_rowsPerPage'
+
 export const CACHE_UCT_DP_PAGES = 'tipsf/uct/dp/table#1_rowsPerPage'
 
 export const CACHE_KONT_SCT_TOOLS_EDIT = 'tipsf/kont/sct#tools_edit'                 // checkbox upravovať hodnoty
@@ -35,5 +37,18 @@ export const CACHE_KONT_SCT_DECIMAL_SNTERZFN = 'tipsf/kont/sct#snterzfn' // snte
 
 export const CACHE_KONT_SCT_DECIMAL_CTVZ = 'tipsf/kont/sct#ctvz' // ctvz = cena tepla | variabilna zlozka
 export const CACHE_KONT_SCT_DECIMAL_CTFZ = 'tipsf/kont/sct#ctfz' // ctfz = cena tepla | fixna zlozka
+
+export const CACHE_KONT_VCT_TOOLS_EDIT = 'tipsf/kont/vct#tools_edit'                 // checkbox upravovať hodnoty
+export const CACHE_KONT_VCT_TOOLS_HISTORY = 'tipsf/kont/vct#tools_history'           // checkbox história úprav
+export const CACHE_KONT_VCT_TOOLS_CALCULATIONS = 'tipsf/kont/vct#tools_calculations' // checkbox výpočty
+
+// ds = decimal scale
+export const CACHE_KONT_VCT_DECIMAL_FDT = 'tipsf/kont/vct#ds_fdt'   // fdt = forecast dodavky tepla
+export const CACHE_KONT_VCT_DECIMAL_ZPV = 'tipsf/kont/vct#ds_zpv'   // zpv = zemny plyn - vychod
+export const CACHE_KONT_VCT_DECIMAL_ZPZ = 'tipsf/kont/vct#ds_zpz'   // zpz = zemny plyn - zapad
+export const CACHE_KONT_VCT_DECIMAL_NMV = 'tipsf/kont/vct#ds_nmv'   // nmz = normativne mnozstvo - vychod
+export const CACHE_KONT_VCT_DECIMAL_NMZ = 'tipsf/kont/vct#ds_nmz'   // nmz = normativne mnozstvo - zapad
+export const CACHE_KONT_VCT_DECIMAL_NT = 'tipsf/kont/vct#ds_nt'     // nt = nakup tepla
+export const CACHE_KONT_VCT_DECIMAL_ONTE = 'tipsf/kont/vct#ds_onte' // onte = ocakavane naklady na teplo a elektrinu
 
 export const METRICS_GJ = 0.0036
