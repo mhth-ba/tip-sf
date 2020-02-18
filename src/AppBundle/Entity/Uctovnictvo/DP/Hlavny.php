@@ -74,6 +74,11 @@ class Hlavny extends BaseEntity
     private $poznamka;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $zamknute;
+
+    /**
      * Set the default values
      * This works as the constructor of a persisted class is not called upon hydration.
      */
@@ -190,5 +195,15 @@ class Hlavny extends BaseEntity
     public function setPoznamka($poznamka)
     {
         $this->poznamka = $poznamka;
+    }
+
+    public function getZamknute()
+    {
+        return $this->zamknute;
+    }
+
+    public function setZamknute($zamknute)
+    {
+        $this->zamknute = $zamknute;
     }
 }

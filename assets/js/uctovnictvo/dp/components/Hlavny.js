@@ -133,10 +133,14 @@ class Hlavny extends React.Component {
     const upravil = hlavny.upravil
 
     const poznamka = hlavny.poznamka
+    const zamknute = hlavny.zamknute
 
     const updating = hlavny.updating
 
     const path = Routing.generate('dp_download')
+
+    const moznosti_predchadzajuci = moznosti.predchadzajuci.find(x => x.id === predchadzajuci)
+    const moznosti_suvisiace = moznosti.suvisiace.find(x => x.id === posledny)
 
     return (
       <div>
@@ -158,32 +162,52 @@ class Hlavny extends React.Component {
                 <tr>
                   <th>Druh priznania</th>
                   <td>
-                    <Input type={'select'} disabled={hlavny.updating}
-                           value={druh.id}
-                           onChange={ this.handleDruh }>
-                      { moznosti.druh.map(
-                        (polozka, x) => <option key={x} value={polozka.id}>{polozka.druh}</option>
-                      ) }
-                    </Input>
+                    { zamknute ?
+                      <span>{druh.druh}</span>
+                      :
+                      <Input type={'select'} disabled={updating}
+                             value={druh.id}
+                             onChange={ this.handleDruh }>
+                        { moznosti.druh.map(
+                          (polozka, x) => <option key={x} value={polozka.id}>{polozka.druh}</option>
+                        ) }
+                      </Input>
+                    }
                   </td>
                 </tr>
-                { druh.id !== 3 && // iba v prípade riadneho a lebo opravného daňového priznania
+                { druh.id !== 3 && // iba v prípade riadneho alebo opravného daňového priznania
                   <tr>
                     <th>Priznanie v predchádzajúcom období<br/>
                       <span className="small">Odpočítanie nadmerného odpočtu od vlastnej daňovej povinnosti</span>
                     </th>
                     <td>
-                      <Input type={'select'} disabled={hlavny.updating}
-                             value={predchadzajuci ? predchadzajuci : ''}
-                             onChange={this.handlePredchadzajuci}>
-                        <option value="">-</option>
-                        {moznosti.predchadzajuci && moznosti.predchadzajuci.map(
-                          (polozka, x) =>
-                            <option key={x} value={polozka.id}>
-                              {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh} | Podané {dateSmall(polozka.podane)}
-                            </option>
-                        )}
-                      </Input>
+                      { zamknute ?
+
+                        moznosti_predchadzajuci !== undefined ?
+                          <span>
+                            {dateYearMonth(moznosti.predchadzajuci.find(x => x.id === predchadzajuci).obdobie)}
+                            &nbsp;-&nbsp;
+                            {moznosti.predchadzajuci.find(x => x.id === predchadzajuci).druh.druh}
+                            &nbsp;|&nbsp;
+                            Podané {dateSmall(moznosti.predchadzajuci.find(x => x.id === predchadzajuci).podane)}
+                          </span>
+                          :
+                          <span>-</span>
+
+                        :
+
+                          <Input type={'select'} disabled={hlavny.updating}
+                                 value={predchadzajuci ? predchadzajuci : ''}
+                                 onChange={this.handlePredchadzajuci}>
+                            <option value="">-</option>
+                            {moznosti.predchadzajuci && moznosti.predchadzajuci.map(
+                              (polozka, x) =>
+                                <option key={x} value={polozka.id}>
+                                  {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh} | Podané {dateSmall(polozka.podane)}
+                                </option>
+                            )}
+                          </Input>
+                      }
                     </td>
                   </tr>
                 }
@@ -193,20 +217,24 @@ class Hlavny extends React.Component {
                       <span className="small">Na podanie dodatočného daňového priznania</span>
                     </th>
                     <td>
-                      <Form inline>
-                        <FormGroup>
-                          <DatePicker
-                            selected={zistene ? moment(zistene * 1000) : null}
-                            onChange={this.handleZistene}
-                            disabled={updating}
-                            className="form-control datum"
-                          />
-                          &nbsp;
-                          <Button size={'sm'} onClick={this.handleZistene} disabled={updating}>
-                            <FontAwesome name={'times'}/>
-                          </Button>
-                        </FormGroup>
-                      </Form>
+                      { zamknute ?
+                        zistene ? dateShort(zistene) : '-'
+                        :
+                        <Form inline>
+                          <FormGroup>
+                            <DatePicker
+                              selected={zistene ? moment(zistene * 1000) : null}
+                              onChange={this.handleZistene}
+                              disabled={updating}
+                              className="form-control datum"
+                            />
+                            &nbsp;
+                            <Button size={'sm'} onClick={this.handleZistene} disabled={updating}>
+                              <FontAwesome name={'times'}/>
+                            </Button>
+                          </FormGroup>
+                        </Form>
+                      }
                     </td>
                   </tr>
                 }
@@ -216,37 +244,56 @@ class Hlavny extends React.Component {
                       <span className="small">Prepojenie kvôli riadkom 37 a 38</span>
                     </th>
                     <td>
-                      <Input type={'select'} disabled={hlavny.updating}
-                             value={posledny ? posledny : ''}
-                             onChange={ this.handlePosledny }>
-                        <option value="">-</option>
-                        { moznosti.suvisiace && moznosti.suvisiace.map(
-                          (polozka, x) =>
-                            <option key={x} value={polozka.id}>
-                              {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh} | Podané {dateSmall(polozka.podane)}
-                            </option>
-                        ) }
-                      </Input>
+                      { zamknute ?
+
+                        moznosti_suvisiace !== undefined ?
+                          <span>
+                            {dateYearMonth(moznosti.suvisiace.find(x => x.id === posledny).obdobie)}
+                            &nbsp;-&nbsp;
+                            {moznosti.suvisiace.find(x => x.id === posledny).druh.druh}
+                            &nbsp;|&nbsp;
+                            Podané {dateSmall(moznosti.suvisiace.find(x => x.id === posledny).podane)}
+                          </span>
+                          :
+                          <span>-</span>
+
+                        :
+                        <Input type={'select'} disabled={hlavny.updating}
+                               value={posledny ? posledny : ''}
+                               onChange={ this.handlePosledny }>
+                          <option value="">-</option>
+                          { moznosti.suvisiace && moznosti.suvisiace.map(
+                            (polozka, x) =>
+                              <option key={x} value={polozka.id}>
+                                {dateYearMonth(polozka.obdobie)} - {polozka.druh.druh} | Podané {dateSmall(polozka.podane)}
+                              </option>
+                          ) }
+                        </Input>
+                      }
                     </td>
                   </tr>
                 }
                 <tr>
                   <th>Dátum podania</th>
                   <td>
-                    <Form inline>
-                      <FormGroup>
-                        <DatePicker
-                          selected={podane ? moment(podane * 1000) : null}
-                          onChange={this.handlePodane}
-                          disabled={updating}
-                          className="form-control datum"
-                        />
-                        &nbsp;
-                        <Button size={'sm'} onClick={this.handlePodane} disabled={updating}>
-                          <FontAwesome name={'times'} />
-                        </Button>
-                      </FormGroup>
-                    </Form>
+                    { zamknute ?
+                      podane ? dateShort(podane) : '-'
+                      :
+                      <Form inline>
+                        <FormGroup>
+                          <DatePicker
+                            selected={podane ? moment(podane * 1000) : null}
+                            onChange={this.handlePodane}
+                            disabled={updating}
+                            className="form-control datum"
+                          />
+                          &nbsp;
+                          <Button size={'sm'} onClick={this.handlePodane} disabled={updating}>
+                            <FontAwesome name={'times'} />
+                          </Button>
+                        </FormGroup>
+                      </Form>
+                    }
                   </td>
                 </tr>
                 <tr>
@@ -282,13 +329,17 @@ class Hlavny extends React.Component {
                 </tbody>
               </Table>
               <CardText style={{whiteSpace: 'pre-line'}}>
-                <RIETextArea {...RIEConfig}
-                             value={poznamka}
-                             change={this.handleChange}
-                             propName={'poznamka'}
-                             rows={8}
-                             className={"riek-base"}
-                />
+                { zamknute ?
+                  poznamka
+                  :
+                  <RIETextArea {...RIEConfig}
+                               value={poznamka}
+                               change={this.handleChange}
+                               propName={'poznamka'}
+                               rows={8}
+                               className={"riek-base"}
+                  />
+                }
               </CardText>
               <CardText className="small text-muted text-right">
                 Vytvoril používateľ { vytvoril.fullname }

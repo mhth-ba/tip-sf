@@ -1,17 +1,31 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+import FontAwesome from 'react-fontawesome'
 import Routing from '../../../Components/Routing'
+import {updateHlavnyRequest} from '../actions'
 
 class Export extends React.Component {
   constructor(props) {
     super(props)
+
+    this.handleZamknut = this.handleZamknut.bind(this)
+  }
+
+  handleZamknut(e) {
+    e.preventDefault()
+
+    this.props.zamknut({
+      id: this.props.hlavny.id,
+      zamknute: true
+    })
   }
 
   render() {
 
     const init = this.props.hlavny.initialized
     const hlavny = this.props.hlavny
+    const zamknute = hlavny.zamknute
     const path = Routing.generate('dp_export')
 
     return (
@@ -22,7 +36,7 @@ class Export extends React.Component {
               Exportovať do XML
             </a>
             &nbsp;
-            <a href="https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.391.html"
+            <a href="https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.472.html"
                target="_blank"
                className="btn btn-info"
                role="button"
@@ -37,6 +51,14 @@ class Export extends React.Component {
             >
               Finančná správa - Elektronické formuláre
             </a>
+            &nbsp;
+            { !zamknute &&
+              <a href="#" className="btn btn-dark" role="button" onClick={this.handleZamknut}>
+                <FontAwesome name="lock" />
+                &nbsp;
+                Zamknúť
+              </a>
+            }
             <br/>
             <br/>
           </div>
@@ -51,7 +73,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  // load: (e) => dispatch(loadMainEntry(e))
+  zamknut: (e) => dispatch(updateHlavnyRequest(e))
 })
 
 export default connect(

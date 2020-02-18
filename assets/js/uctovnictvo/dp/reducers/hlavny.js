@@ -25,6 +25,7 @@ const initState = {
   },
 
   poznamka: null,
+  zamknute: null,
 
   loading: false,
   creating: false,

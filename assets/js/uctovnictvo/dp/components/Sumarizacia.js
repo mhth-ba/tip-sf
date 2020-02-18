@@ -4,7 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter, Table, Button } from 'reactstra
 import FontAwesome from 'react-fontawesome'
 
 import Suma from './helpers/Suma'
-import {dateYearMonth} from "../../../utils/format";
+import { dateYearMonth, dateYear } from '../../../utils/format'
 
 class Sumarizacia extends React.Component {
   constructor(props) {
@@ -63,6 +63,8 @@ class Sumarizacia extends React.Component {
     const r37 = this.findSuma(37)
     const r38 = this.findSuma(38)
 
+    const verzia_2020 = dateYear(this.props.hlavny.obdobie) >= 2020
+
     const pomocnik = this.state.pomocnik
 
     return (
@@ -105,7 +107,11 @@ class Sumarizacia extends React.Component {
                 </thead>
                 <tbody>
                 <tr>
-                  <td>Dodanie tovaru a služby - § 8,9 - 10% sadzba DPH</td>
+                  { verzia_2020 ?
+                    <td>Dodanie tovaru a služby - § 8,9 a daň § 81 - 10% sadzba DPH</td>
+                    :
+                    <td>Dodanie tovaru a služby - § 8,9 - 10% sadzba DPH</td>
+                  }
                   <td>
                     <span className="cislo-riadku">01</span>
                   </td>
@@ -302,7 +308,12 @@ class Sumarizacia extends React.Component {
                 </tr>
                 <tr>
                   <td colSpan={2}>
-                    Daňová povinnosť pri zrušení registrácie podľa § 81 <br/>
+                    { verzia_2020 ?
+                      'Daň podľa § 48ca ods. 2, § 48d ods. 15 a § 48e ods. 3 a 8 zákona '
+                      :
+                      'Daňová povinnosť pri zrušení registrácie podľa § 81 '
+                    }
+                    <br/>
                     <span className="text-primary">
                       (suma dane prislúchajúca k zostatkovej cene majetku a zásob pri zrušení registrácie platiteľa DPH)
                     </span>
@@ -554,7 +565,12 @@ class Sumarizacia extends React.Component {
                 </tr>
                 <tr>
                   <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
-                    Rozdiel v ZD a DPH po oprave - § 25 ods. 1 a 3 <br/>
+                    { verzia_2020 ?
+                      'Rozdiel v ZD a DPH po oprave - § 25 ods. 1 až 3, § 65 ods. 10 a 11'
+                      :
+                      'Rozdiel v ZD a DPH po oprave - § 25 ods. 1 až 3 '
+                    }
+                    <br/>
                     <span className="text-primary">(D, Ť na výstupe)</span>
                   </td>
                   <td rowSpan={ pomocnik ? 4 : 1 } className="align-middle">
@@ -594,7 +610,12 @@ class Sumarizacia extends React.Component {
                 </tr> }
                 <tr>
                   <td rowSpan={ pomocnik ? 6 : 1 } colSpan={2} className="align-middle">
-                    Oprava odpočítanej dane - § 53 <br/>
+                    { verzia_2020 ?
+                      'Oprava odpočítanej dane - § 53 a 53a'
+                      :
+                      'Oprava odpočítanej dane - § 53 '
+                    }
+                    <br/>
                     <span className="text-primary">(D, Ť na vstupe)</span>
                   </td>
                   <td rowSpan={ pomocnik ? 6 : 1 } className="align-middle">

@@ -2,7 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import { Button } from 'reactstrap'
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import BootstrapTable from 'react-bootstrap-table-next'
+import paginationFactory from 'react-bootstrap-table2-paginator'
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
+import cellEditFactory from 'react-bootstrap-table2-editor'
 import { dateSmall } from '../../../../utils/format'
 
 import Swal from 'sweetalert2'
@@ -31,6 +34,29 @@ const rowColor = ( row, idx ) => {
       return 'bg-azure'
   }
 }
+
+const pagination = paginationFactory({
+  sizePerPage: 10,
+  showTotal: true, // display pagination information
+  sizePerPageList: [5, 10, 20, 30, 50],
+  withFirstAndLast: false, // hide the going to first and last page button
+  alwaysShowAllBtns: true, // always show the next and previous page button
+  firstPageText: '<<', // the text of first page button
+  prePageText: '<', // the text of previous page button
+  nextPageText: '>', // the text of next page button
+  lastPageText: '>>', // the text of last page button
+  nextPageTitle: 'Ďalšia strana', // the title of next page button
+  prePageTitle: 'Predchádzajúca strana', // the title of previous page button
+  firstPageTitle: 'Prvá strana', // the title of first page button
+  lastPageTitle: 'Posledná strana', // the title of last page button
+  hideSizePerPage: false, // hide the size per page dropdown
+  hidePageListOnlyOnePage: true // hide pagination bar when only one page, default is false
+})
+
+const partnerFilter = textFilter({
+  placeholder: 'Partner',
+  delay: 400
+})
 
 class PolozkyVstup extends React.Component {
   constructor(props) {
@@ -71,7 +97,7 @@ class PolozkyVstup extends React.Component {
     return <Button onClick={this.handleDelete.bind(this, cell, row)} size={'sm'}>X</Button>
   }
 
-  handleUpdate(row, cellName, cellValue) {
+  handleUpdate(oldValue, newValue, row, column) {
     // ak editujeme pohľad "zmenené", id týchto položiek sa začína číslom 99
     // skutočné ID záznamu v databáze je však bez úvodných dvoch cifier 99, preto ich treba odstrániť
     // v prípade, že editujeme pohľad "pôvodné", neupravujeme nič
@@ -81,8 +107,8 @@ class PolozkyVstup extends React.Component {
 
     const data = {
       id: row.id,
-      key: cellName,
-      [cellName]: cellValue,
+      key: column.dataField,
+      [column.dataField]: newValue,
       zaradenie: 1,
       hlavny: this.props.hlavny.id
     }
@@ -138,68 +164,131 @@ class PolozkyVstup extends React.Component {
       onSizePerPageList: this.onSizePerPageList
     }
 
-    const cellEdit = {
+    const cellEdit = cellEditFactory({
       mode: 'dbclick', // dvojklik pre úpravu bunky
       beforeSaveCell: this.handleUpdate
-    }
+    })
+
+    const columns = [{
+      dataField: 'id',
+      text: 'ID',
+      hidden: true
+    }, {
+      dataField: 'doklad',
+      text: 'Doklad',
+      sort: true,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '100px'}
+      }
+    }, {
+      dataField: 'referencia',
+      text: 'Referencia',
+      sort: true,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '100px' }
+      }
+    }, {
+      dataField: 'obchodny_partner',
+      text: 'Obchodný partner',
+      sort: true,
+      filter: partnerFilter,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '210px' }
+      }
+    }, {
+      dataField: 'znak',
+      text: 'Znak',
+      editable: !this.props.hlavny.zamknute,
+      headerStyle: (col, idx) => {
+        return { width: '60px' }
+      }
+    }, {
+      dataField: 'druh_dokladu',
+      text: 'Druh',
+      sort: true,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '60px' }
+      },
+      formatter: this.druhFormatter
+    }, {
+      dataField: 'datum_dokladu',
+      text: 'Dátum dokladu',
+      sort: true,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '120px' }
+      },
+      formatter: dateTimeFormatter
+    }, {
+      dataField: 'datum_uctovania',
+      text: 'Dátum účtovania',
+      sort: true,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '120px' }
+      },
+      formatter: dateTimeFormatter
+    }, {
+      dataField: 'suma_bez_dph',
+      text: 'Základ dane',
+      sort: true,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '110px' }
+      },
+      align: 'right',
+      headerAlign: 'right',
+      formatter: eurFormatter
+    }, {
+      dataField: 'dph',
+      text: 'Vstupná DPH',
+      sort: true,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '110px' }
+      },
+      align: 'right',
+      headerAlign: 'right',
+      formatter: eurFormatter
+    }, {
+      dataField: 'suma_s_dph',
+      text: 'Suma s DPH',
+      sort: true,
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '110px' }
+      },
+      align: 'right',
+      headerAlign: 'right',
+      formatter: eurFormatter
+    }, {
+      dataField: 'button',
+      text: '',
+      editable: false,
+      headerStyle: (col, idx) => {
+        return { width: '30px' }
+      },
+      formatter: this.buttonFormatter,
+      hidden: this.props.hlavny.zamknute
+    }]
 
     return (
-      <BootstrapTable version={'4'}
+      <BootstrapTable keyField={'id'}
                       data={p}
+                      columns={columns}
+                      bootstrap4
                       cellEdit={cellEdit}
-                      trClassName={rowColor}
-                      options={options}
+                      rowClasses={rowColor}
                       bordered={false}
                       striped
                       condensed
-                      pagination
-                      search
-                      searchPlaceholder={'Hľadať'}
-                      multiColumnSearch
-      >
-        <TableHeaderColumn dataField={'doklad'} width={'100px'} isKey dataSort editable={false}>
-          Doklad
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'referencia'} width={'100px'} dataSort editable={false}>
-          Referencia
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'obchodny_partner'} width={'210px'} dataSort editable={false}>
-          Obchodný partner
-        </TableHeaderColumn>
-        {/*<TableHeaderColumn width={'110px'}>
-          IČDPH
-        </TableHeaderColumn>*/}
-        <TableHeaderColumn dataField={'znak'} width={'60px'}>
-          Znak
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'druh_dokladu'} width={'60px'}
-                           dataFormat={this.druhFormatter} dataSort editable={false}>
-          Druh
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'datum_dokladu'} width={'120px'}
-                           dataFormat={dateTimeFormatter} dataSort editable={false}>
-          Dátum dokladu
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'datum_uctovania'} width={'120px'}
-                           dataFormat={dateTimeFormatter} dataSort editable={false}>
-          Dátum účtovania
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'suma_bez_dph'} width={'110px'}
-                           dataFormat={eurFormatter} dataAlign={'right'} dataSort editable={false}>
-          Základ dane
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'dph'} width={'110px'}
-                           dataFormat={eurFormatter} dataAlign={'right'} dataSort editable={false}>
-          Vstupná DPH
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'suma_s_dph'} width={'110px'}
-                           dataFormat={eurFormatter} dataAlign={'right'} dataSort editable={false}>
-          Suma s DPH
-        </TableHeaderColumn>
-        <TableHeaderColumn dataField={'button'} width={'30px'}
-                           dataFormat={this.buttonFormatter} editable={false} >
-        </TableHeaderColumn>
-      </BootstrapTable>
+                      pagination={ pagination }
+                      filter={ filterFactory() }
+      />
     )
   }
 }

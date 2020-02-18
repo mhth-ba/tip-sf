@@ -398,6 +398,7 @@ class DanovePriznanieController extends BaseController
         $model->vytvoril = $hlavny->getVytvoril();
         $model->upravil = $hlavny->getUpravil();
         $model->poznamka = $hlavny->getPoznamka();
+        $model->zamknute = $hlavny->getZamknute();
 
         $upload = $em->getRepository("AppBundle:Uctovnictvo\DP\Upload");
 

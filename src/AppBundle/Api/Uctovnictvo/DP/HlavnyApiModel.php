@@ -31,4 +31,6 @@ class HlavnyApiModel extends DefaultApiModel
     public $poznamka;
 
     public $upload;
+
+    public $zamknute;
 }

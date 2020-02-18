@@ -6,6 +6,7 @@ import {
   Form, FormGroup, FormText, Label, Input, Button,
   UncontrolledTooltip
 } from 'reactstrap'
+import FontAwesome from 'react-fontawesome'
 import ReactLoading from 'react-loading'
 
 import DatePicker from 'react-datepicker'
@@ -34,8 +35,8 @@ const DEFAULT_STATE = {
 
   validation: {
     znak: {
-      valid: false,
-      feedback: false,
+      valid: false,     // či je údaj platný
+      feedback: false,  // či zobraziť invalid hlášku
     },
     druh: {
       valid: false,
@@ -43,10 +44,12 @@ const DEFAULT_STATE = {
     },
     datumDokladu: {
       valid: false,
+      warning: false,   // či zobraziť varovnú informáciu
       feedback: false
     },
     datumUctovania: {
       valid: false,
+      warning: false,
       feedback: false
     },
     zaklad: {
@@ -207,6 +210,9 @@ class VytvoritHlavny extends React.Component {
     return validation
   }
 
+  /**
+   * Upozorniť, ak obdobie dokladu je iné ako zdaňovacie obdobie (mesiac/rok)
+   */
   handleDatumDokladuValidation(e) {
 
     const validation = this.handleDatumValidation(e.target.value)
@@ -219,6 +225,9 @@ class VytvoritHlavny extends React.Component {
     })
   }
 
+  /**
+   * Nepovoliť obdobie účtovania iné ako zdaňovacie obdobie (mesiac/rok)
+   */
   handleDatumUctovaniaValidation(e) {
 
     const validation = this.handleDatumValidation(e.target.value)

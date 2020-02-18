@@ -93,6 +93,7 @@ class Nastroje extends React.Component {
   render() {
 
     const hlavny = this.props.hlavny
+    const zamknute = hlavny.zamknute
     const init = hlavny.initialized
 
     return (
@@ -106,18 +107,24 @@ class Nastroje extends React.Component {
           &nbsp;
           { init &&
             <span>
-              <Button color={'primary'} onClick={this.collapseDoklad}>
-                <FontAwesome name={'plus-circle'} />
-                &nbsp;&nbsp;
-                Pridať doklad
-              </Button>
-              &nbsp;
-              <Button color={'primary'} onClick={this.collapseImport}>
+              {zamknute ?
+                ''
+                :
+                <span>
+                  <Button color={'primary'} onClick={this.collapseDoklad}>
+                  <FontAwesome name={'plus-circle'} />
+                    &nbsp;&nbsp;
+                    Pridať doklad
+                </Button>
+                  &nbsp;
+                  <Button color={'primary'} onClick={this.collapseImport}>
                 <FontAwesome name={'upload'} />
-                &nbsp;&nbsp;
-                Import údajov
-              </Button>
-              &nbsp;
+                    &nbsp;&nbsp;
+                    Import údajov
+                </Button>
+                  &nbsp;
+                </span>
+              }
               <Button color={'danger'} onClick={this.collapsePrilohy}>
                 <FontAwesome name={'file-pdf-o'} />
                 &nbsp;&nbsp;
@@ -173,8 +180,6 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   // load: (e) => dispatch(loadMainEntry(e))
-  uiCollapseImport: (e) => dispatch(uiCollapseImport(e)),
-  uiCollapsePrilohy: (e) => dispatch(uiCollapsePrilohy(e))
 })
 
 export default connect(
