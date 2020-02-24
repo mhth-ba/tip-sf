@@ -691,6 +691,7 @@ class DanovePriznanieController extends BaseController
         $novy->setObdobie($obdobie);
         $novy->setVytvoril($user);
         $novy->setPoznamka("Poznámky ...");
+        $novy->setZamknute(false);
 
         $em->persist($novy);
         $em->flush();
