@@ -16,7 +16,7 @@ import Routing from '../../../Components/Routing'
 import { processUploadedFileRequest, deleteSuborRequest } from '../actions'
 
 const componentConfig = {
-  iconFiletypes: ['.doc', '.xls', '.pdf', '.txt', '.xml'],
+  iconFiletypes: ['.doc', '.xls', '.pdf', '.txt', '.xml', '.zip'],
   showFiletypeIcon: true,
   postUrl: $('#uploader-excel').data('endpoint'),
   maxFilesize: 1000 // MB
@@ -30,7 +30,7 @@ const config = {
       dictDefaultMessage: `Sem presuňte akýkoľvek súbor, ktorý chcete mať k dispozícií
                            v úložisku k tomuto hlavnému záznamu.`,
       dictInvalidFileType: 'Tento typ súborov nie je podporovaný.',
-      acceptedFiles: '.doc,.docx,.xls,.xlsx,.pdf,.txt,.xml'
+      acceptedFiles: '.doc,.docx,.xls,.xlsx,.pdf,.txt,.xml,.zip'
     },
     eventHandlers: {
       // addedfile: (file) => console.log(file)
