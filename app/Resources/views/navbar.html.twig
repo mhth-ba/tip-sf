@@ -6,7 +6,8 @@
     or url == '/disp/scztz'
     or url == '/disp/scztost'
     or url == '/disp/vco') %}
-{% set kontroling = url == '/kont/sct' %}
+{% set kontroling = (url == '/kont/sct'
+    or url == '/kont/vct') %}
 {% set uctovnictvo = url == '/uct/dp' %}
 {% set projekty = url == '/projekty' %}
 
@@ -32,7 +33,8 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_uvod_meteorologicke-udaje.php">Meteorologické údaje</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="http://192.168.20.67/ProCopWeb/ProWeb.dll/Displays">ProCop Web</a>
+                    <a class="dropdown-item" href="http://192.168.20.60/ProCopWeb/ProWeb.dll/Displays">ProCop Web - východ</a>
+                    <a class="dropdown-item" href="http://192.168.22.60/ProCopWeb/ProWeb.dll/Displays">ProCop Web - západ</a>
                     <a class="dropdown-item" href="https://192.168.20.107/">Zmena hesla do PCS7</a>
                     <a class="dropdown-item" href="http://dispecer-dts:8080/">Dispečing teplárenských sústav</a>
                     <a class="dropdown-item" href="http://fabasoft/fsc">Fabasoft</a>
@@ -144,6 +146,10 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-vhj.php">Denník prevádzky VhJ - Nový záznam</a>
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-zoznam-vhj.php">Denník prevádzky VhJ - Zobrazenie údajov</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ path('miestne-prevadzkove-predpisy-tpv') }}">Miestne prevádzkové predpisy - TpV</a>
+                    <a class="dropdown-item" href="{{ path('miestne-prevadzkove-predpisy-tpz') }}">Miestne prevádzkové predpisy - TpZ</a>
+                    <a class="dropdown-item" href="{{ path('miestne-prevadzkove-predpisy-vhj') }}">Miestne prevádzkové predpisy - VhJ</a>
                 </div>
             </li>
 
@@ -155,7 +161,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownKontroling">
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_kont_navrh-ceny-tepla.php">Príprava návrhu ceny tepla</a>
                     <a class="dropdown-item" href="{{ path('skutocna-cena-tepla') }}">Výpočet skutočnej ceny tepla</a>
-                    <a class="dropdown-item disabled" href="#">Vyhodnotenie ceny tepla</a>
+                    <a class="dropdown-item" href="{{ path('vyhodnotenie-ceny-tepla') }}">Vyhodnotenie ceny tepla</a>
                 </div>
             </li>
 

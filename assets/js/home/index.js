@@ -11,7 +11,7 @@ const polozky = [
         Aktualizované hodnoty k poslednej hodine.
         Historické zobrazenie za 72 hodín.
         Export údajov do excelu.`,
-    users: `Ing. Milan Bartoš`,
+    users: `Ing. Vladimír Raček, Ing. Milan Bartoš, Ing. Peter Sochovič, Ing. Daniel Ušjak`,
     links: [{
       url: Routing.generate('sczt-vychod'),
       nazov: 'SCZT Východ',
@@ -96,6 +96,12 @@ const polozky = [
       nazov: 'Skutočná cena tepla',
       color: 'primary',
       size: 'md'
+    }, {
+      url: Routing.generate('vyhodnotenie-ceny-tepla'),
+      nazov: 'Vyhodnotenie ceny tepla',
+      color: 'primary',
+      size: 'md',
+      disabled: true
     }]
   }, {
     title: 'Denníky prevádzky',
@@ -163,6 +169,29 @@ const polozky = [
       nazov: 'Daňové priznanie',
       color: 'primary',
       size: 'md'
+    }]
+  }, {
+    title: 'Miestne prevádzkové predpisy',
+    text: `Zobrazenie miestnych prevádzkových predpisov (MPP) technologických zariadení zdrojov a rozvodov sústavy CZT.`,
+    users: `Ing. Szilárd Szabó, Ing. Jaroslav Ovečka`,
+    links: [{
+      url: Routing.generate('miestne-prevadzkove-predpisy-tpv'),
+      nazov: 'Tepláreň Východ',
+      color: 'success',
+      size: 'md',
+      new: true
+    }, {
+      url: Routing.generate('miestne-prevadzkove-predpisy-tpz'),
+      nazov: 'Tepláreň Západ',
+      color: 'success',
+      size: 'md',
+      new: true
+    }, {
+      url: Routing.generate('miestne-prevadzkove-predpisy-vhj'),
+      nazov: 'Výhrevňa Juh',
+      color: 'success',
+      size: 'md',
+      new: true
     }]
   }
 ]

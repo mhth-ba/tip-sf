@@ -32,7 +32,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
 
     role_hierarchy:
-        ROLE_ADMIN:     [ROLE_VIP, ROLE_NCT, ROLE_SCT, ROLE_DPP, ROLE_DP_UCT, ROLE_ANM]
+        ROLE_ADMIN:     [ROLE_VIP, ROLE_NCT, ROLE_SCT, ROLE_VCT, ROLE_DPP, ROLE_DP_UCT, ROLE_ANM, ROLE_MPP_TPV, ROLE_MPP_TPZ, ROLE_MPP_VHJ]
         ROLE_NCT:       [ROLE_NCT_ADMIN]
         ROLE_NCT_ADMIN: [ROLE_NCT_KONT]
         ROLE_NCT_KONT:  [ROLE_NCT_MNG]
@@ -40,4 +40,7 @@ security:
         ROLE_SCT_ADMIN: [ROLE_SCT_KONT]
         ROLE_SCT_KONT:  [ROLE_SCT_MNG]
         ROLE_SCT_MNG:   [ROLE_SCT_VYR]
+        ROLE_VCT:       [ROLE_VCT_ADMIN]
+        ROLE_VCT_ADMIN: [ROLE_VCT_KONT]
+        ROLE_VCT_KONT:  [ROLE_VCT_MNG]
         ROLE_DP_SUPER:  [ROLE_DP_UCT]

@@ -69,6 +69,9 @@ services:
     AppBundle\Entity\Kontroling\SCT\Hlavny:
         public: true
 
+    AppBundle\Entity\Kontroling\VCT\Hlavny:
+        public: true
+
     AppBundle\Entity\Dispecing\VCO\Vychladenie:
         public: true
 

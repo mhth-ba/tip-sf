@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Miestne prevádzkové predpisy - VhJ' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/mppvhj.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>{{ title }}</h1>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col">
+                <div id="miestne-prevadzkove-predpisy-vhj"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('build/mppvhj.js') }}"></script>
+{% endblock %}

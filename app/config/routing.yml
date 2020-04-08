@@ -78,12 +78,40 @@ vychladenie-ost:
     defaults:
         _controller: AppBundle:VychladenieOST:index
 
+miestne-prevadzkove-predpisy-tpv:
+    path: /prev/mpp-tpv
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:MiestnePrevadzkovePredpisyTpV:index
+
+miestne-prevadzkove-predpisy-tpz:
+    path: /prev/mpp-tpz
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:MiestnePrevadzkovePredpisyTpZ:index
+
+miestne-prevadzkove-predpisy-vhj:
+    path: /prev/mpp-vhj
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:MiestnePrevadzkovePredpisyVhJ:index
+
 skutocna-cena-tepla:
     path: /kont/sct
     options:
         expose: true
     defaults:
         _controller: AppBundle:SkutocnaCenaTepla:index
+
+vyhodnotenie-ceny-tepla:
+    path: /kont/vct
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:VyhodnotenieCenyTepla:index
 
 danove-priznanie:
     path: /uct/dp
