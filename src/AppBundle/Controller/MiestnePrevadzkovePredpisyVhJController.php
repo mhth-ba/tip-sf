@@ -8,7 +8,7 @@ class MiestnePrevadzkovePredpisyVhJController extends BaseController
     {
         $roles = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:App\Role')
-            ->findRolesVCT();
+            ->findRolesMPP();
 
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_MPP_VHJ')) {
             return $this->render('access-denied.html.twig', [

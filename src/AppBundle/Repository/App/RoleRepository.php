@@ -35,6 +35,20 @@ class RoleRepository extends EntityRepository
     }
 
     /**
+     * Get list of roles regarding MPP app
+     *
+     * @return array
+     */
+    public function findRolesMPP()
+    {
+        return $this->createQueryBuilder('role')
+            ->andWhere('role.role LIKE :role')
+            ->setParameter('role', 'ROLE_MPP_%')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
      * Get list of roles regarding SCT app
      *
      * @return array
@@ -44,6 +58,20 @@ class RoleRepository extends EntityRepository
         return $this->createQueryBuilder('role')
             ->andWhere('role.role LIKE :role')
             ->setParameter('role', 'ROLE_SCT_%')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
+     * Get list of roles regarding VCT app
+     *
+     * @return array
+     */
+    public function findRolesVCT()
+    {
+        return $this->createQueryBuilder('role')
+            ->andWhere('role.role LIKE :role')
+            ->setParameter('role', 'ROLE_VCT_%')
             ->getQuery()
             ->getArrayResult();
     }
