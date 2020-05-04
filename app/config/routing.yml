@@ -71,6 +71,13 @@ sczt-ost:
     defaults:
         _controller: AppBundle:SCZTOST:index
 
+evidencia-ost:
+    path: /disp/deo
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:DispecingEvidencia:index
+
 vychladenie-ost:
     path: /disp/vco
     options:

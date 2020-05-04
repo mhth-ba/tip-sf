@@ -36,6 +36,7 @@ class RoleRepository extends EntityRepository
 
     /**
      * Get list of roles regarding MPP app
+     * Miestne prevadzkove predpisy (vyroba)
      *
      * @return array
      */
@@ -49,7 +50,23 @@ class RoleRepository extends EntityRepository
     }
 
     /**
+     * Get list of roles regarding DEO app
+     * Evidencia stavov OST a zariadeni (dispecing)
+     *
+     * @return array
+     */
+    public function findRolesDEO()
+    {
+        return $this->createQueryBuilder('role')
+            ->andWhere('role.role LIKE :role')
+            ->setParameter('role', 'ROLE_DEO_%')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    /**
      * Get list of roles regarding SCT app
+     * Skutocna cena tepla (kontroling)
      *
      * @return array
      */
@@ -64,6 +81,7 @@ class RoleRepository extends EntityRepository
 
     /**
      * Get list of roles regarding VCT app
+     * Vyhodnotenie ceny tepla (kontroling)
      *
      * @return array
      */
@@ -77,7 +95,8 @@ class RoleRepository extends EntityRepository
     }
 
     /**
-     * Get list of roles regarding Danove priznanie app
+     * Get list of roles regarding DP app
+     * Danove priznanie (uctovnictvo)
      *
      * @return array
      */

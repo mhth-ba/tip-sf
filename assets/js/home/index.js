@@ -177,21 +177,28 @@ const polozky = [
     links: [{
       url: Routing.generate('miestne-prevadzkove-predpisy-tpv'),
       nazov: 'Tepláreň Východ',
-      color: 'success',
-      size: 'md',
-      new: true
+      color: 'secondary',
+      size: 'md'
     }, {
       url: Routing.generate('miestne-prevadzkove-predpisy-tpz'),
       nazov: 'Tepláreň Západ',
-      color: 'success',
-      size: 'md',
-      new: true
+      color: 'secondary',
+      size: 'md'
     }, {
       url: Routing.generate('miestne-prevadzkove-predpisy-vhj'),
       nazov: 'Výhrevňa Juh',
-      color: 'success',
-      size: 'md',
-      new: true
+      color: 'secondary',
+      size: 'md'
+    }]
+  }, {
+    title: 'Dispečing',
+    text: `Evidencia záznamov porúch a manipulácií na OST, zdrojoch a zariadeniach`,
+    users: `Ing. Peter Sochovič`,
+    links: [{
+      url: Routing.generate('evidencia-ost'),
+      nazov: 'Evidencia stavov OST a zdrojov',
+      color: 'primary',
+      size: 'md'
     }]
   }
 ]
