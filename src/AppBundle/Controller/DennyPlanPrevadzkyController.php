@@ -9,6 +9,8 @@ use AppBundle\Api\Efektivnost\DPP\KonstantyApiModel;
 use AppBundle\Api\Efektivnost\DPP\ObjednavkaApiModel;
 use AppBundle\Api\Efektivnost\DPP\PrognozaApiModel;
 use AppBundle\Api\Efektivnost\DPP\UploadApiModel;
+use AppBundle\Api\Efektivnost\DPP\UserApiModel;
+use AppBundle\Entity\App\User;
 use AppBundle\Entity\Efektivnost\DPP\Dodavka;
 use AppBundle\Entity\Efektivnost\DPP\Elektrina;
 use AppBundle\Entity\Efektivnost\DPP\Hlavny;
@@ -179,7 +181,10 @@ class DennyPlanPrevadzkyController extends BaseController
         $model->datum = $hlavny->getDatum();
         $model->zmenene = $hlavny->getZmenene();
         $model->den = $hlavny->getDen();
-        $model->vytvoril = $hlavny->getVytvoril();
+        //$model->vytvoril = $hlavny->getVytvoril();
+        $model->vytvoril = $this->createUserApiModel(
+            $hlavny->getVytvoril()
+        );
 
         $upload =  $em->getRepository('AppBundle:Efektivnost\DPP\Upload');
 
@@ -201,6 +206,18 @@ class DennyPlanPrevadzkyController extends BaseController
         $model->datum = $upload->getDatum();
         $model->original = $upload->getOriginal();
         $model->subor = $upload->getSubor();
+
+        return $model;
+    }
+
+    private function createUserApiModel(User $user)
+    {
+        $model = new UserApiModel();
+
+        $model->id = $user->getId();
+        $model->fullname = $user->getFullname();
+        $model->mail = $user->getMail();
+        $model->title = $user->getTitle();
 
         return $model;
     }
