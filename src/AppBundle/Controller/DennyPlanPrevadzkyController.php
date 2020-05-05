@@ -8,6 +8,7 @@ use AppBundle\Api\Efektivnost\DPP\HlavnyApiModel;
 use AppBundle\Api\Efektivnost\DPP\KonstantyApiModel;
 use AppBundle\Api\Efektivnost\DPP\ObjednavkaApiModel;
 use AppBundle\Api\Efektivnost\DPP\PrognozaApiModel;
+use AppBundle\Api\Efektivnost\DPP\UploadApiModel;
 use AppBundle\Entity\Efektivnost\DPP\Dodavka;
 use AppBundle\Entity\Efektivnost\DPP\Elektrina;
 use AppBundle\Entity\Efektivnost\DPP\Hlavny;
@@ -182,9 +183,24 @@ class DennyPlanPrevadzkyController extends BaseController
 
         $upload =  $em->getRepository('AppBundle:Efektivnost\DPP\Upload');
 
-        $upload_dpp = $upload->getLastUploadedDennyPlanPrevadzky($id);
+        //$upload_dpp = $upload->getLastUploadedDennyPlanPrevadzky($id);
+        $upload_dpp = $this->createUploadApiModel(
+            $upload->getLastUploadedDennyPlanPrevadzky($id)
+        );
 
         $model->upload['dpp'] = $upload_dpp;
+
+        return $model;
+    }
+
+    private function createUploadApiModel(Upload $upload)
+    {
+        $model = new UploadApiModel();
+
+        $model->id = $upload->getId();
+        $model->datum = $upload->getDatum();
+        $model->original = $upload->getOriginal();
+        $model->subor = $upload->getSubor();
 
         return $model;
     }
