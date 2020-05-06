@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Api\AktivitaApiModel;
+use AppBundle\Api\GrantApiModel;
 use AppBundle\Api\Kontroling\KonstantyApiModel;
 use AppBundle\Api\Kontroling\NakupTeplaApiModel;
 use AppBundle\Api\Kontroling\NormativneMnozstvoApiModel;
@@ -22,9 +23,11 @@ use AppBundle\Api\Kontroling\SCT\VyrobaElektrinyApiModel;
 use AppBundle\Api\Kontroling\SCT\ZemnyPlynApiModel;
 use AppBundle\Api\Kontroling\SCT\ZemnyPlynKlucovanieApiModel;
 use AppBundle\Api\Kontroling\VypocetBuniekApiModel;
+use AppBundle\Api\RoleApiModel;
 use AppBundle\Api\UserApiModel;
 use AppBundle\Entity\App\ActivityLog;
 use AppBundle\Entity\App\Grant;
+use AppBundle\Entity\App\Role;
 use AppBundle\Entity\App\User;
 use AppBundle\Entity\Kontroling\SCT\Hlavny;
 use AppBundle\Entity\Kontroling\SCT\DelenieNakladov;
@@ -255,7 +258,13 @@ class SkutocnaCenaTeplaController extends BaseController
 
         $this->logCreateActivity($pristup->getId(), 'AppBundle:App\Grant');
 
-        return $this->createApiResponse($pristup);
+        $grant = $em->getRepository('AppBundle:App\Grant')
+            ->findOneBy(['id' => $pristup->getId()]);
+
+        $grant->setUser($userId);
+        $grant->setRole($roleId);
+
+        return $this->createApiResponse($this->createGrantApiModel($grant));
     }
 
 
@@ -351,7 +360,12 @@ class SkutocnaCenaTeplaController extends BaseController
             ->getRepository('AppBundle:App\Grant')
             ->findGrantedRolesSCT();
 
-        return $this->createApiResponse($grants);
+        $grants_arr = [];
+        foreach ($grants as $grant) {
+            $grants_arr[] = $this->createGrantApiModel($grant);
+        }
+
+        return $this->createApiResponse($grants_arr);
     }
 
     /**
@@ -409,6 +423,39 @@ class SkutocnaCenaTeplaController extends BaseController
         $model->mobile = $user->getMobile();
         $model->office = $user->getOffice();
         $model->company = $user->getCompany();
+
+        return $model;
+    }
+
+    private function createRoleApiModel(Role $role)
+    {
+        $model = new RoleApiModel();
+
+        $model->id = $role->getId();
+        $model->name = $role->getName();
+        $model->role = $role->getRole();
+        $model->description = $role->getDescription();
+
+        return $model;
+    }
+
+    private function createGrantApiModel(Grant $grant)
+    {
+        $model = new GrantApiModel();
+
+        $model->id = $grant->getId();
+        $model->createdAt = $grant->getCreatedAt();
+        $model->modifiedAt = $grant->getModifiedAt();
+        $model->user = $this->createUserApiModel(
+            $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:App\User')
+            ->findOneBy(['id' => $grant->getUser()])
+        );
+        $model->role = $this->createRoleApiModel(
+            $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:App\Role')
+            ->findOneBy(['id' => $grant->getRole()])
+        );
 
         return $model;
     }
@@ -1251,15 +1298,17 @@ class SkutocnaCenaTeplaController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $pristup = $em->getRepository('AppBundle:App\Grant')
-            ->find($id);
-
-        return $this->updateDatabase(
+        $this->updateDatabase(
             $id,
             'AppBundle:App\Grant',
             GrantType::class,
             $request
         );
+
+        $pristup = $em->getRepository('AppBundle:App\Grant')
+            ->find($id);
+
+        return $this->createApiResponse($this->createGrantApiModel($pristup), 200);
     }
 
     /**
