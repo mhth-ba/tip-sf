@@ -2,7 +2,7 @@
 
 namespace AppBundle\Api;
 
-class RoleApiModel extends DefaultApiModel
+class RoleApiModel
 {
     public $id;
 

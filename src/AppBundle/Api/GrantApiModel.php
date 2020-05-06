@@ -2,9 +2,13 @@
 
 namespace AppBundle\Api;
 
-class GrantApiModel extends DefaultApiModel
+class GrantApiModel
 {
+    public $id;
+
     public $createdAt;
+
+    public $modifiedAt;
 
     public $user;
 
