@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class DispecingEvidenciaController extends BaseController
 {
@@ -19,6 +20,46 @@ class DispecingEvidenciaController extends BaseController
         return $this->render('disp/evidencia-ost/index.html.twig', [
             'name' => null
         ]);
+    }
+
+    /**
+     * @Route("disp/deo/opravnenia", name="deo_opravnenia", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getOpravneniaAction(UserInterface $user)
+    {
+        $guid = $user->getId();
+
+        $grants = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:App\Grant')
+            ->findGrantedRolesToUser($guid);
+
+        $roles = [];
+        foreach ($grants as $grant) {
+            $roles[] = $grant->getRoles()->getRole();
+        }
+
+        return $this->createApiResponse($roles);
+    }
+
+    /**
+     * @Route("disp/deo/moznosti", name="deo_moznosti", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getMoznostiAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ost = $em->getRepository('AppBundle:Dispecing\OST')
+            ->findAll();
+
+        $moznosti = [];
+
+        foreach ($ost as $item) {
+            $moznosti['ost'][] = $item;
+        }
+
+        return $this->createApiResponse($moznosti);
     }
 
     private function createHlavnyApiModel(Hlavny $hlavny)
@@ -40,6 +81,7 @@ class DispecingEvidenciaController extends BaseController
         $model->udalost = $hlavny->getUdalost();
         $model->vplyv_uk = $hlavny->getVplyvUk();
         $model->vplyv_tuv = $hlavny->getVplyvTuv();
+        $model->zavinenie = $hlavny->getZavinenie();
         $model->typ = $hlavny->getTyp();
         $model->poznamka = $hlavny->getPoznamka();
 
