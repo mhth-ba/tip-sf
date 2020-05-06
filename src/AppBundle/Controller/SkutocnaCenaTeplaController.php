@@ -4,14 +4,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Api\AktivitaApiModel;
 use AppBundle\Api\Kontroling\KonstantyApiModel;
+use AppBundle\Api\Kontroling\NakupTeplaApiModel;
+use AppBundle\Api\Kontroling\NormativneMnozstvoApiModel;
 use AppBundle\Api\Kontroling\SCT\DelenieNakladovApiModel;
 use AppBundle\Api\Kontroling\SCT\DodaneTeploApiModel;
 use AppBundle\Api\Kontroling\SCT\HlavnyApiModel;
 use AppBundle\Api\Kontroling\SCT\KotolnaParametreApiModel;
 use AppBundle\Api\Kontroling\SCT\KotolnaPlatnostApiModel;
 use AppBundle\Api\Kontroling\SCT\KotolnaUdajeApiModel;
-use AppBundle\Api\Kontroling\SCT\NakupTeplaApiModel;
-use AppBundle\Api\Kontroling\SCT\NormativneMnozstvoApiModel;
 use AppBundle\Api\Kontroling\SCT\NormativneMnozstvoKotolneApiModel;
 use AppBundle\Api\Kontroling\SCT\OpravneneNakladyKotolneApiModel;
 use AppBundle\Api\Kontroling\SCT\PoznamkyApiModel;
@@ -22,13 +22,14 @@ use AppBundle\Api\Kontroling\SCT\VyrobaElektrinyApiModel;
 use AppBundle\Api\Kontroling\SCT\ZemnyPlynApiModel;
 use AppBundle\Api\Kontroling\SCT\ZemnyPlynKlucovanieApiModel;
 use AppBundle\Api\Kontroling\VypocetBuniekApiModel;
+use AppBundle\Api\UserApiModel;
 use AppBundle\Entity\App\ActivityLog;
 use AppBundle\Entity\App\Grant;
+use AppBundle\Entity\App\User;
 use AppBundle\Entity\Kontroling\SCT\Hlavny;
 use AppBundle\Entity\Kontroling\SCT\DelenieNakladov;
 use AppBundle\Entity\Kontroling\SCT\DodaneTeplo;
 use AppBundle\Entity\Kontroling\SCT\Konstanty;
-use AppBundle\Entity\Kontroling\SCT\Kotolna;
 use AppBundle\Entity\Kontroling\SCT\KotolnaParametre;
 use AppBundle\Entity\Kontroling\SCT\KotolnaPlatnost;
 use AppBundle\Entity\Kontroling\SCT\KotolnaUdaje;
@@ -384,7 +385,7 @@ class SkutocnaCenaTeplaController extends BaseController
         }
 
         foreach ($pouzivatelia as $pouzivatel) {
-            $moznosti['pouzivatelia'][] = $pouzivatel;
+            $moznosti['pouzivatelia'][] = $this->createUserApiModel($pouzivatel);
         }
 
         foreach ($role as $rola) {
@@ -392,6 +393,24 @@ class SkutocnaCenaTeplaController extends BaseController
         }
 
         return $this->createApiResponse($moznosti);
+    }
+
+    private function createUserApiModel(User $user)
+    {
+        $model = new UserApiModel();
+
+        $model->id = $user->getId();
+        $model->username = $user->getUsername();
+        $model->fullname = $user->getFullname();
+        $model->mail = $user->getMail();
+        $model->title = $user->getTitle();
+        $model->department = $user->getDepartment();
+        $model->phone = $user->getPhone();
+        $model->mobile = $user->getMobile();
+        $model->office = $user->getOffice();
+        $model->company = $user->getCompany();
+
+        return $model;
     }
 
     /**
@@ -1046,7 +1065,6 @@ class SkutocnaCenaTeplaController extends BaseController
 
         $model->id = $nakupTepla->getId();
         $model->datum = $nakupTepla->getDatum();
-//        $model->hlavny = $nakupTepla->getHlavny();
         $model->polozka = $nakupTepla->getPolozka();
         $model->ppc = $nakupTepla->getPpc();
         $model->slovnaft = $nakupTepla->getSlovnaft();
