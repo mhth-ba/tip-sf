@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Api\AktivitaApiModel;
+use AppBundle\Api\GrantApiModel;
 use AppBundle\Api\Kontroling\NakupTeplaApiModel;
 use AppBundle\Api\Kontroling\NormativneMnozstvoApiModel;
 use AppBundle\Api\Kontroling\VCT\ForecastDodavkyTeplaVariantApiModel;
@@ -19,7 +20,12 @@ use AppBundle\Api\Kontroling\VCT\VariantApiModel;
 use AppBundle\Api\Kontroling\VCT\ZemnyPlynApiModel;
 use AppBundle\Api\Kontroling\VCT\ZemnyPlynVariantyApiModel;
 use AppBundle\Api\Kontroling\VypocetBuniekApiModel;
+use AppBundle\Api\RoleApiModel;
+use AppBundle\Api\UserApiModel;
 use AppBundle\Entity\App\ActivityLog;
+use AppBundle\Entity\App\Grant;
+use AppBundle\Entity\App\Role;
+use AppBundle\Entity\App\User;
 use AppBundle\Entity\Kontroling\VCT\Hlavny;
 use AppBundle\Entity\Kontroling\VCT\NakupTepla;
 use AppBundle\Entity\Kontroling\VCT\NormativneMnozstvo;
@@ -218,7 +224,7 @@ class VyhodnotenieCenyTeplaController extends BaseController
         }
 
         foreach ($pouzivatelia as $pouzivatel) {
-            $moznosti['pouzivatelia'][] = $pouzivatel;
+            $moznosti['pouzivatelia'][] = $this->createUserApiModel($pouzivatel);
         }
 
         foreach ($role as $rola) {
@@ -226,6 +232,57 @@ class VyhodnotenieCenyTeplaController extends BaseController
         }
 
         return $this->createApiResponse($moznosti);
+    }
+
+    private function createUserApiModel(User $user)
+    {
+        $model = new UserApiModel();
+
+        $model->id = $user->getId();
+        $model->username = $user->getUsername();
+        $model->fullname = $user->getFullname();
+        $model->mail = $user->getMail();
+        $model->title = $user->getTitle();
+        $model->department = $user->getDepartment();
+        $model->phone = $user->getPhone();
+        $model->mobile = $user->getMobile();
+        $model->office = $user->getOffice();
+        $model->company = $user->getCompany();
+
+        return $model;
+    }
+
+    private function createRoleApiModel(Role $role)
+    {
+        $model = new RoleApiModel();
+
+        $model->id = $role->getId();
+        $model->name = $role->getName();
+        $model->role = $role->getRole();
+        $model->description = $role->getDescription();
+
+        return $model;
+    }
+
+    private function createGrantApiModel(Grant $grant)
+    {
+        $model = new GrantApiModel();
+
+        $model->id = $grant->getId();
+        $model->createdAt = $grant->getCreatedAt();
+        $model->modifiedAt = $grant->getModifiedAt();
+        $model->user = $this->createUserApiModel(
+            $this->getDoctrine()->getManager()
+                ->getRepository('AppBundle:App\User')
+                ->findOneBy(['id' => $grant->getUser()])
+        );
+        $model->role = $this->createRoleApiModel(
+            $this->getDoctrine()->getManager()
+                ->getRepository('AppBundle:App\Role')
+                ->findOneBy(['id' => $grant->getRole()])
+        );
+
+        return $model;
     }
 
     /**
