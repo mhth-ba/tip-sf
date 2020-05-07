@@ -23,11 +23,16 @@ class Vstup extends React.Component {
 
     this.state = {
       id: 'init',
-      history: false
+      history: false,
+      has_error: false
     }
 
     this.formatNumber = this.formatNumber.bind(this)
     this.toggle = this.toggle.bind(this)
+  }
+
+  static getDerivedStateFromError(error) {
+    return { has_error: true }
   }
 
   handleChange(id, col, key, table, hlavny, data) {
@@ -55,6 +60,10 @@ class Vstup extends React.Component {
     this.setState({
       history: !this.state.history
     })
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error({error, errorInfo, props: this.props})
   }
 
   componentDidMount() {
@@ -115,7 +124,9 @@ class Vstup extends React.Component {
     if (historia_data.length === 0) icon_class = 'text-danger'
     if (historia_data.length > 8) icon_class = 'text-primary'
 
-    return (
+    if (this.state.has_error) {
+      return <td>something went wrong</td>
+    } else return (
       <td id={ popId }
           onClick={ this.toggle }
           className={ className }

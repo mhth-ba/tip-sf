@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 
 import nastroje from './nastroje'
-import sprava from './sprava'
 import vypocet from './vypocet'
 import historia from './historia'
 
@@ -38,7 +37,6 @@ import {reducer as notifications} from 'react-notification-system-redux'
 
 export default combineReducers({
   nastroje,
-  sprava,
   vypocet,
   historia,
 

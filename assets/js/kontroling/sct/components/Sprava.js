@@ -165,10 +165,10 @@ class Sprava extends React.Component {
                           { pristupy.data.map((p, ix) => (
                             <tr key={ix}>
                               <td className="text-left align-middle">
-                                <span>{p.users.fullname}</span>
+                                <span>{p.user.fullname}</span>
                               </td>
                               <td className="text-right align-middle">
-                                <Input type={'select'} defaultValue={p.roles.id}
+                                <Input type={'select'} defaultValue={p.role.id}
                                        disabled={pristupy.updating || pristupy.deleting}
                                        onChange={this.handleUpdatePristup.bind(this, p.id)}
                                 >
@@ -233,7 +233,7 @@ class Sprava extends React.Component {
                             >
                               <option value="">- Používateľ -</option>
                               { moznosti.pouzivatelia
-                                .filter(x => !pristupy.data.find(y => y.users.id === x.id))
+                                .filter(x => !pristupy.data.find(y => y.user.id === x.id))
                                 .map((p, ix) => (
                                 <option key={ix} value={p.id}>{p.fullname}</option>
                               )) }
@@ -284,8 +284,8 @@ class Sprava extends React.Component {
                           <tbody>
                           { pristupy.data.map((p, ix) => (
                             <tr key={ix}>
-                              <td className="text-left">{p.users.fullname}</td>
-                              <td className="text-right">{p.roles.name}</td>
+                              <td className="text-left">{p.user.fullname}</td>
+                              <td className="text-right">{p.role.name}</td>
                             </tr>
                           )) }
                           </tbody>

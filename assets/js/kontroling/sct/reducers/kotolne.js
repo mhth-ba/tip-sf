@@ -7,7 +7,7 @@ const initState = {
   udaje: [],     // Kontroling.SCT_KotolnaUdaje
   platnost: [],  // Kontroling.SCT_KotolnaPlatnost
 
-  zps: {         // naklady na zemny plyn - sumar
+  zps: {         // naklady na (z)emny (p)lyn - (s)umar
     m3: 0,       // mnozstvo zemneho plynu v m3
     mwh: 0,      // mnozstvo zemneho plynu v MWh
     nbsd: 0,     // naklady bez spotrebnej dane

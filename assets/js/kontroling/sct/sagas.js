@@ -56,10 +56,6 @@ import {
   deleteSubor
 } from './actions'
 
-/*export function* helloSaga() {
-    console.log('Hello sagas!')
-}*/
-
 function* mySaga() {
   yield all([
     takeLatest(TYPES.FETCH_OPRAVNENIA_REQUEST, fetchOpravnenia),
@@ -115,13 +111,5 @@ function* mySaga() {
     takeEvery(TYPES.DELETE_SUBOR_REQUEST, deleteSubor)
   ])
 }
-
-// single entry point to start all Sagas at once
-/*export default function* rootSaga () {
-    yield all([
-        helloSaga(),
-        mySaga()
-    ])
-}*/
 
 export default mySaga

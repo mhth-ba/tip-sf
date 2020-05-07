@@ -2,8 +2,8 @@ import * as TYPES from '../../../services/ActionTypes'
 
 const initState = { // Kontroling.SCT_NormativneMnozstvo
 
-  // hodnota  - zadavanie
-  // ucinnost - zadavanie
+  // hodnota  - zadavanie (input box)
+  // ucinnost - zadavanie (input box)
   // mnozstvo - vypocet
 
   tpv: {
@@ -48,7 +48,9 @@ const initState = { // Kontroling.SCT_NormativneMnozstvo
       mnozstvo: 0,
       ucinnost: 0
     },
-    tvtvo: 0, // teplo vyrobene z mazutu (ŤVO = tazky vykurovaci olej)
+    tvtvo: { // teplo vyrobene z mazutu (ŤVO = tazky vykurovaci olej)
+      hodnota: 0,
+    },
     vzp: {    // vyhrevnost zemneho plynu
       hodnota: 0,
       polozka: {

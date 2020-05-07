@@ -22,7 +22,7 @@ const initState = { // Kontroling.SCT_Konstanty
   jczpsoppj: { id: null, hodnota: 0 }, // (j)ednotkova (c)ena (z)emneho (p)lynu SOPp na MWh pre VhJ
   jczpsopdj: { id: null, hodnota: 0 }, // (j)ednotkova (c)ena (z)emneho (p)lynu SOPd na MWh pre VhJ
 
-  kpb: 0, // (k)oeficient (p)alivoveho (b)onusu
+  kpb: { id: null, hodnota: 0 }, // (k)oeficient (p)alivoveho (b)onusu
 
   loading: false,
   error: null
