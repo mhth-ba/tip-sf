@@ -1,0 +1,188 @@
+$color-1: #b10e0e;
+$color-2: #0e11f3;
+$color-3: #248214;
+$color-4: #941ec3;
+$color-5: #c26e1b;
+$color-6: #118194;
+$color-7: #77a06c;
+$color-8: #ed559b;
+$color-9: #a9981f;
+$color-10: #ba5559;
+$color-11: #47679a;
+$color-12: #59ab5c;
+
+$border: 1px double !important;
+$border-transition: border-color .4s ease-in-out;
+
+$background-transition: background-color .5s ease-in-out, border-color .4s ease-in-out;
+
+.polozka-1 {
+  color: $color-1;
+}
+
+.bunka-1 {
+  border: lighten( $color-1, 20% ) $border;
+  transition: $border-transition;
+  /*-webkit-animation: pulse-1 3s infinite;
+  -o-animation: pulse-1 3s infinite;
+  animation: pulse-1 3s infinite;*/
+}
+
+@keyframes pulse-1 {
+  0% { border-color: $color-1 }
+  50% { border-color: lighten( $color-1, 50% ) }
+  100% { border-color: $color-1 }
+}
+
+.polozka-2 {
+  color: $color-2;
+}
+
+.bunka-2 {
+  border: lighten( $color-2, 20% ) $border;
+  transition: $border-transition;
+  /*-webkit-animation: pulse-2 3s infinite;
+  -o-animation: pulse-2 3s infinite;
+  animation: pulse-2 3s infinite;*/
+}
+
+@keyframes pulse-2 {
+  0% { border-color: $color-2 }
+  50% { border-color: lighten( $color-2, 35% ) }
+  100% { border-color: $color-2 }
+}
+
+.polozka-3 {
+  color: $color-3;
+}
+
+.bunka-3 {
+  border: lighten( $color-3, 10% ) $border;
+  transition: $border-transition;
+  /*-webkit-animation: pulse-3 3s infinite;
+  -o-animation: pulse-3 3s infinite;
+  animation: pulse-3 3s infinite;*/
+}
+
+@keyframes pulse-3 {
+  0% { border-color: $color-3 }
+  50% { border-color: lighten( $color-3, 35% ) }
+  100% { border-color: $color-3 }
+}
+
+.polozka-4 {
+  color: $color-4;
+}
+
+.bunka-4 {
+  border: lighten( $color-4, 20% ) $border;
+  transition: $border-transition;
+  /*-webkit-animation: pulse-4 3s infinite;
+  -o-animation: pulse-4 3s infinite;
+  animation: pulse-4 3s infinite;*/
+}
+
+@keyframes pulse-4 {
+  0% { border-color: $color-4 }
+  50% { border-color: lighten( $color-4, 40% ) }
+  100% { border-color: $color-4 }
+}
+
+.polozka-5 {
+  color: $color-5;
+}
+
+.bunka-5 {
+  border: lighten( $color-5, 20% ) $border;
+  transition: $border-transition;
+}
+
+.polozka-6 {
+  color: $color-6;
+}
+
+.bunka-6 {
+  border: lighten( $color-6, 20% ) $border;
+  transition: $border-transition;
+}
+
+.polozka-7 {
+  color: $color-7;
+}
+
+.bunka-7 {
+  border: lighten( $color-7, 20% ) $border;
+  transition: $border-transition;
+}
+
+.polozka-8 {
+  color: $color-8;
+}
+
+.bunka-8 {
+  border: lighten( $color-8, 20% ) $border;
+  transition: $border-transition;
+}
+
+.polozka-9 {
+  color: $color-9;
+}
+
+.bunka-9 {
+  border: lighten( $color-9, 20% ) $border;
+  transition: $border-transition;
+}
+
+.polozka-10 {
+  color: $color-10;
+}
+
+.bunka-10 {
+  border: lighten( $color-10, 20% ) $border;
+  transition: $border-transition;
+}
+
+.polozka-11 {
+  color: $color-11;
+}
+
+.bunka-11 {
+  border: lighten( $color-11, 20% ) $border;
+  transition: $border-transition;
+}
+
+.polozka-12 {
+  color: $color-12;
+}
+
+.bunka-12 {
+  border: lighten( $color-12, 20% ) $border;
+  transition: $border-transition;
+}
+
+td.bg-yellow {
+  transition: $background-transition;
+}
+
+div.zlomkova-ciara-wrapper {
+  text-align: center;
+  height: 5px;
+}
+
+div.zlomkova-ciara {
+  border-bottom: 1px solid #484e52;
+  margin-bottom: 10px;
+  display: inline-block;
+  width: 100%;
+  height: 1px;
+}
+
+.vypocet-bublina {
+  font-family: cursive;
+  font-size: 1.03em;
+}
+
+.historia-bublina {
+  font-family: "Segoe UI", "cursive";
+  font-size: 1.05em;
+}

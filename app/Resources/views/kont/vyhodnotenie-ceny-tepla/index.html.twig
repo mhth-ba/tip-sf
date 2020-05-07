@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Vyhodnotenie ceny tepla' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/vct.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>{{ title }}</h1>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col">
+                <div id="vyhodnotenie-ceny-tepla"></div>
+            </div>
+        </div>
+
+        {#https://github.com/1up-lab/OneupUploaderBundle/issues/143#}
+        <div id="uploader-excel" data-endpoint="{{ oneup_uploader_endpoint('kontroling') }}"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('build/vct.js') }}"></script>
+{% endblock %}
