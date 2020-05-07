@@ -1,10 +1,8 @@
 <?php
 
-namespace AppBundle\Api\Kontroling\SCT;
+namespace AppBundle\Api\Kontroling;
 
-use AppBundle\Api\DefaultApiModel;
-
-class NormativneMnozstvoApiModel extends DefaultApiModel
+class NormativneMnozstvoApiModel
 {
     public $id;
 

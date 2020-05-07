@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Api\Kontroling\SCT;
+namespace AppBundle\Api\Kontroling;
 
 use AppBundle\Api\DefaultApiModel;
 
@@ -9,8 +9,6 @@ class NakupTeplaApiModel extends DefaultApiModel
     public $id;
 
     public $datum;
-
-    public $hlavny;
 
     public $polozka;
 
