@@ -9,7 +9,7 @@ use AppBundle\Api\Efektivnost\DPP\KonstantyApiModel;
 use AppBundle\Api\Efektivnost\DPP\ObjednavkaApiModel;
 use AppBundle\Api\Efektivnost\DPP\PrognozaApiModel;
 use AppBundle\Api\Efektivnost\DPP\UploadApiModel;
-use AppBundle\Api\Efektivnost\DPP\UserApiModel;
+use AppBundle\Api\UserApiModel;
 use AppBundle\Entity\App\User;
 use AppBundle\Entity\Efektivnost\DPP\Dodavka;
 use AppBundle\Entity\Efektivnost\DPP\Elektrina;
