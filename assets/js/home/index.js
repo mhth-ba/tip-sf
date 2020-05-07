@@ -100,8 +100,7 @@ const polozky = [
       url: Routing.generate('vyhodnotenie-ceny-tepla'),
       nazov: 'Vyhodnotenie ceny tepla',
       color: 'primary',
-      size: 'md',
-      disabled: true
+      size: 'md'
     }]
   }, {
     title: 'Denníky prevádzky',
@@ -196,7 +195,7 @@ const polozky = [
     users: `Ing. Peter Sochovič`,
     links: [{
       url: Routing.generate('evidencia-ost'),
-      nazov: 'Evidencia stavov OST a zdrojov',
+      nazov: 'Evidencia stavov OST',
       color: 'primary',
       size: 'md'
     }]
