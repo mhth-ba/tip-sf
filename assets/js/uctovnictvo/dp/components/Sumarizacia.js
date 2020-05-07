@@ -585,7 +585,7 @@ class Sumarizacia extends React.Component {
                   { pomocnik && <td>3H</td> }
                   { pomocnik && <td>OB, MF, OT, OD, ST, RU</td> }
                   { pomocnik && <td>Výstup</td> }
-                  { pomocnik && <td className="align-middle" rowSpan={4}>C1</td> }
+                  { pomocnik && <td className="align-middle" rowSpan={4}>C1, D2-FO vyúčt.fakt.</td> }
                 </tr>
                 { pomocnik &&
                 <tr>
