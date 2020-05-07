@@ -6,6 +6,15 @@ use Doctrine\ORM\EntityRepository;
 
 class HlavnyRepository extends EntityRepository
 {
+    public function findPouzitelne()
+    {
+        return $this->createQueryBuilder('h')
+            ->andWhere('h.stav != 3')
+            ->orderBy('h.rok')
+            ->getQuery()
+            ->execute();
+    }
+
     public function getZoznam()
     {
         return $this->createQueryBuilder('ct')
