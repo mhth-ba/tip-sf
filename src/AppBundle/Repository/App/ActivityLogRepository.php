@@ -19,6 +19,18 @@ class ActivityLogRepository extends EntityRepository
             ->execute();
     }
 
+    public function findKontVCTUserActivityAll()
+    {
+        return $this->createQueryBuilder('al')
+            ->andWhere('al.schema = :schema')
+            ->setParameter('schema', 'Kontroling')
+            ->andWhere('al.table LIKE :table')
+            ->setParameter('table', 'VCT_%')
+            ->orderBy('al.id', 'desc')
+            ->getQuery()
+            ->execute();
+    }
+
     public function findUctDPUserActivityAll()
     {
         // -> addJoinedEntityResult
