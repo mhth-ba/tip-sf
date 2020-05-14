@@ -192,7 +192,7 @@ export function* processUploadedFile(action) {
     }))
 
     yield put(fetchVyberPolozkyRequest())
-    yield put(loadMainEntryRequest(udaje.hlavny.id))
+    yield put(loadMainEntryRequest(udaje.hlavny))
 
   } catch (e) {
     yield put({type: TYPES.PROCESS_UPLOADED_FILE_ERROR, data: e})

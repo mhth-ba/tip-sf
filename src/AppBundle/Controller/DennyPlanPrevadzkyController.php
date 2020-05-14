@@ -84,7 +84,8 @@ class DennyPlanPrevadzkyController extends BaseController
         $em->flush();
 
         return $this->createApiResponse([
-            'data' => $data
+            'data' => $data,
+            'hlavny' => $hlavnyId
         ]);
     }
 
