@@ -76,16 +76,6 @@ class DennyPlanPrevadzkyController extends BaseController
         $hlavny = $em->getRepository('AppBundle:Efektivnost\DPP\Hlavny')
             ->find($hlavnyId);
 
-        $apiModel = $this->createHlavnyApiModel($hlavny);
-
-        /*$hlavny = new Hlavny();
-        $hlavny->setDen(new \DateTime($datum));
-        $hlavny->setVytvoril($user);
-        $em->persist($hlavny);
-        $em->flush();
-
-        $hlavny_id = $hlavny->getId();*/
-
         $upload = new Upload();
         $upload->setHlavny($hlavny);
         $upload->setOriginal($original);
@@ -94,8 +84,7 @@ class DennyPlanPrevadzkyController extends BaseController
         $em->flush();
 
         return $this->createApiResponse([
-            'data' => $data,
-            'hlavny' => $apiModel
+            'data' => $data
         ]);
     }
 
