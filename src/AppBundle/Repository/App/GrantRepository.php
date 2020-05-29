@@ -48,6 +48,39 @@ class GrantRepository extends EntityRepository
             ->execute();
     }
 
+    /**
+     * Get all grants for VCT app
+     *
+     * @return Grant[]
+     */
+    public function findGrantedRolesVCT()
+    {
+        return $this->createQueryBuilder('grant')
+            ->andWhere('grant.role BETWEEN :start and :end')
+            ->setParameter('start', 81)
+            ->setParameter('end', 83)
+            ->orderBy('grant.role', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * Get all grans for DEO app
+     * Evidencia stavov OST (dispecing)
+     *
+     * @return Grant[]
+     */
+    public function findGrantedRolesDEO()
+    {
+        return $this->createQueryBuilder('grant')
+            ->andWhere('grant.role BETWEEN :start and :end')
+            ->setParameter('start', 31)
+            ->setParameter('end', 32)
+            ->orderBy('grant.role', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
     public function findAllRoles()
     {}
 

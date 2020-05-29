@@ -66,12 +66,12 @@ class Grant extends BaseEntity
 
     public function getCreatedAt()
     {
-        return $this->getTimestampWithOffset($this->createdAt);
+        return $this->getTimestampWithoutOffset($this->createdAt);
     }
 
     public function getModifiedAt()
     {
-        return $this->getTimestampWithOffset($this->modifiedAt);
+        return $this->getTimestampWithoutOffset($this->modifiedAt);
     }
 
     public function getUser()
