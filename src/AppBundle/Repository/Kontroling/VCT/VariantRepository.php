@@ -15,4 +15,18 @@ class VariantRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function createVariant($hlavny_id)
+    {
+        return $this->createNativeNamedQuery('VCT_Variant_Novy')
+            ->setParameter('hlavny_id', $hlavny_id)
+            ->execute();
+    }
+
+    public function deleteVariant($variant_id)
+    {
+        return $this->createNativeNamedQuery('VCT_Variant_Vymazat')
+            ->setParameter('variant_id', $variant_id)
+            ->execute();
+    }
 }

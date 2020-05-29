@@ -36,12 +36,14 @@ use AppBundle\Entity\Kontroling\VCT\Poznamky;
 use AppBundle\Entity\Kontroling\VCT\SkutocneNaklady;
 use AppBundle\Entity\Kontroling\VCT\Upload;
 use AppBundle\Entity\Kontroling\VCT\Variant;
+use AppBundle\Form\Type\GrantType;
 use AppBundle\Form\Type\Kontroling\VCT\HlavnyType;
 use AppBundle\Form\Type\Kontroling\VCT\NakupTeplaType;
 use AppBundle\Form\Type\Kontroling\VCT\NormativneMnozstvoType;
 use AppBundle\Form\Type\Kontroling\VCT\OcakavaneNakladyType;
 use AppBundle\Form\Type\Kontroling\VCT\OcakavaneNakladyVariantyType;
 use AppBundle\Form\Type\Kontroling\VCT\SkutocneNakladyType;
+use AppBundle\Form\Type\Kontroling\VCT\VariantType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -158,9 +160,106 @@ class VyhodnotenieCenyTeplaController extends BaseController
         return $this->downloadFile($sub, $file, $orig, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
     }
 
-    // TODO create hlavny action
+    /**
+     * @Route("kont/vct/hlavny", name="vct_hlavny_post", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_VCT_KONT')")
+     */
+    public function createHlavnyAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Kontroling\VCT\Hlavny');
 
-    // TODO create pristup action
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $rok = $data['rok'];
+        $mesiac = $data['mesiac'];
+        $userId = $this->getUser()->getId();
+
+        $novy = $repository->createHlavny($rok, $mesiac, $userId);
+        $hlavnyId = $novy[0]->getId(); // ID noveho hlavneho zaznamu
+
+        $this->logCreateActivity($hlavnyId, 'AppBundle:Kontroling\VCT\Hlavny');
+
+        $hlavny = $repository->find($hlavnyId);
+
+        $apiModel = $this->createHlavnyApiModel($hlavny);
+
+        return $this->createApiResponse($apiModel);
+    }
+
+    /**
+     * @Route("kont/vct/variant", name="vct_variant_post", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_VCT_KONT')")
+     */
+    public function createVariantAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Kontroling\VCT\Variant');
+
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $hlavny_id = $data['hlavny'];
+
+        $novy = $repository->createVariant($hlavny_id);
+        $variantId = $novy[0]->getId(); // ID noveho variantu
+
+        $this->logCreateActivity($variantId, 'AppBundle:Kontroling\VCT\Variant');
+
+        $variant = $repository->find($variantId);
+
+        $apiModel = $this->createVariantApiModel($variant);
+
+        return $this->createApiResponse($apiModel);
+    }
+
+    /**
+     * @Route("kont/vct/pristupy", name="vct_pristup_post", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_VCT_ADMIN')")
+     */
+    public function createPristupAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        $userId = $data['user'];
+        $roleId = $data['role'];
+
+        $user = $em->getRepository('AppBundle:App\User')
+            ->find($userId);
+        $role = $em->getRepository('AppBundle:App\Role')
+            ->find($roleId);
+
+        $pristup = new Grant();
+
+        $pristup->setUsers($user);
+        $pristup->setRoles($role);
+
+        $em->persist($pristup);
+        $em->flush();
+
+        $this->logCreateActivity($pristup->getId(), 'AppBundle:App\Grant');
+
+        $grant = $em->getRepository('AppBundle:App\Grant')
+            ->findOneBy(['id' => $pristup->getId()]);
+
+        $grant->setUser($userId);
+        $grant->setRole($roleId);
+
+        return $this->createApiResponse($this->createGrantApiModel($grant));
+    }
 
     /**
      * @Route("kont/vct/opravnenia", name="vct_opravnenia", options={"expose"=true})
@@ -183,7 +282,24 @@ class VyhodnotenieCenyTeplaController extends BaseController
         return $this->createApiResponse($roles);
     }
 
-    // TODO get pristupy action
+    /**
+     * @Route("kont/vct/pristupy", name="vct_pristupy", options={"expose"=true})
+     * @Method("GET")
+     * @Security("has_role('ROLE_VCT_MNG')")
+     */
+    public function getPristupyAction()
+    {
+        $grants = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:App\Grant')
+            ->findGrantedRolesVCT();
+
+        $grants_arr = [];
+        foreach ($grants as $grant) {
+            $grants_arr[] = $this->createGrantApiModel($grant);
+        }
+
+        return $this->createApiResponse($grants_arr);
+    }
 
     /**
      * @Route("kont/vct/moznosti", name="vct_moznosti", options={"expose"=true})
@@ -908,6 +1024,43 @@ class VyhodnotenieCenyTeplaController extends BaseController
     }
 
     /**
+     * @Route("kont/vct/variant/{id}", name="vct_variant_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_VCT_KONT')")
+     */
+    public function updateVariantAction($id, Request $request)
+    {
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Kontroling\VCT\Variant',
+            VariantType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/vct/pristup/{id}", name="vct_pristup_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_VCT_ADMIN')")
+     */
+    public function updatePristupAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $this->updateDatabase(
+            $id,
+            'AppBundle:App\Grant',
+            GrantType::class,
+            $request
+        );
+
+        $pristup = $em->getRepository('AppBundle:App\Grant')
+            ->find($id);
+
+        return $this->createApiResponse($this->createGrantApiModel($pristup), 200);
+    }
+
+    /**
      * @Route("kont/vct/normativne-mnozstvo/{id}", name="vct_normativne-mnozstvo_update", options={"expose"=true})
      * @Method("PATCH")
      * @Security("has_role('ROLE_VCT_KONT')")
@@ -978,6 +1131,39 @@ class VyhodnotenieCenyTeplaController extends BaseController
             $id,
             'AppBundle:Kontroling\VCT\OcakavaneNakladyVarianty',
             OcakavaneNakladyVariantyType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("kont/vct/variant/{id}", name="vct_variant_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_VCT_KONT')")
+     */
+    public function deleteVariantAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Kontroling\VCT\Variant');
+
+        $repository->deleteVariant($id);
+
+        $metadata = $em->getClassMetadata('AppBundle:Kontroling\VCT\Variant');
+
+        $this->logDeleteActivity($metadata, $id);
+
+        return $this->createApiResponse(null, 204);
+    }
+
+    /**
+     * @Route("kont/vct/pristup/{id}", name="vct_pristup_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_VCT_ADMIN')")
+     */
+    public function deletePristupAction($id, Request $request)
+    {
+        return $this->deleteFromDatabase(
+            $id,
+            'AppBundle:App\Grant',
             $request
         );
     }
