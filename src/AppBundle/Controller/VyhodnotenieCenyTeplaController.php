@@ -812,6 +812,9 @@ class VyhodnotenieCenyTeplaController extends BaseController
         }
 
         $varianty = [];
+        $varianty['FDT'] = [];
+        $varianty['FNM'] = [];
+        $varianty['FON'] = [];
         foreach ($polozky_var[0] as $item) {
             // forecast dodavka tepla
             $varianty['FDT'][] = $this->createForecastDodavkyTeplaVariantApiModel($item);
