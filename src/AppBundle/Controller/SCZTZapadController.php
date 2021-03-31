@@ -7,6 +7,7 @@ use AppBundle\Api\Dispecing\SCZT\Zdroje1hApiModel;
 use AppBundle\Api\Dispecing\SCZT\ZdrojeApiModel;
 use AppBundle\Entity\Dispecing\SCZT\ZapadOST;
 use AppBundle\Entity\Dispecing\SCZT\ZapadVykon;
+use AppBundle\Entity\Dispecing\SCZT\ZapadVystupnaTeplota;
 use AppBundle\Entity\Dispecing\SCZT\ZapadZdroje;
 use AppBundle\Entity\Dispecing\SCZT\ZapadZdroje1h;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -162,6 +163,8 @@ class SCZTZapadController extends BaseController
 
         $repository = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Dispecing\SCZT\ZapadZdroje');
+        $zdroje_teplota_repository = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Dispecing\SCZT\ZapadVystupnaTeplota');
 
         $tpz = $repository->getTpZ($dateTo, $dateFrom);
         $cw = $repository->getCW($dateTo, $dateFrom);
@@ -172,6 +175,8 @@ class SCZTZapadController extends BaseController
         $k6 = $repository->getK6($dateTo, $dateFrom);
         $tg1 = $repository->getTG1($dateTo, $dateFrom);
 
+        $tpz_tepl_skut = $zdroje_teplota_repository->getTpZSkutocnost($dateTo, $dateFrom);
+
         $tpz_models = [];
         $cw_models = [];
         $teplota_models = [];
@@ -180,6 +185,8 @@ class SCZTZapadController extends BaseController
         $hk3_models = [];
         $k6_models = [];
         $tg1_models = [];
+
+        $tpz_tepl_skut_models = [];
 
         foreach ($tpz as $ppc_riadok) {
             $tpz_models[] = $this->createZdrojeApiModel($ppc_riadok);
@@ -207,6 +214,10 @@ class SCZTZapadController extends BaseController
 
         foreach ($tg1 as $tg1_riadok) {
             $tg1_models[] = $this->createZdrojeApiModel($tg1_riadok);
+        }
+
+        foreach ($tpz_tepl_skut as $tpz_tepl_skut_riadok) {
+            $tpz_tepl_skut_models[] = $this->createZdrojeTeplotaApiModel($tpz_tepl_skut_riadok);
         }
 
         $zdroje_1h = $this->getDoctrine()->getManager()
@@ -241,6 +252,8 @@ class SCZTZapadController extends BaseController
             'hk3' => $hk3_models,
             'k6' => $k6_models,
             'tg1' => $tg1_models,
+
+            'tpz_tepl_skut' => $tpz_tepl_skut_models,
             
             'tpz_1h' => $tpz_1h_models,
             'cw_1h' => $cw_1h_models,
@@ -265,6 +278,16 @@ class SCZTZapadController extends BaseController
         $model->hodina = $zapadZdroje1h->getHodina() * 1000;
         $model->priemer = $zapadZdroje1h->getPriemer();
         
+        return $model;
+    }
+
+    private function createZdrojeTeplotaApiModel(ZapadVystupnaTeplota $zapadVystupnaTeplota)
+    {
+        $model = new ZdrojeApiModel();
+
+        $model->datum = $zapadVystupnaTeplota->getDatum() * 1000;
+        $model->hodnota = $zapadVystupnaTeplota->getHodnota();
+
         return $model;
     }
 

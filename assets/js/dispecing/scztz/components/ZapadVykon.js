@@ -79,7 +79,7 @@ const chart = {
                   >${this.name}</span>`
         case 9:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
-                        title="Percento otvorenia ventilu ÚK priemer z OST 957, 973, 974, 977, 993 a 999"
+                        title="Percento otvorenia ventilu ÚK priemer z OST 973, 993 a 999"
                   >${this.name}</span>`
       }
     }

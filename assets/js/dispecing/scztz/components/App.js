@@ -5,6 +5,7 @@ import ZapadVykon from './ZapadVykon'
 import ZapadZdrojeLine from './ZapadZdrojeLine'
 import ZapadZdrojeColumn from './ZapadZdrojeColumn'
 import ZapadZariadenia from './ZapadZariadenia'
+import ZapadZdrojeTeplota from './ZapadZdrojeTeplota'
 //import VychodOST from './VychodOST'
 
 class App extends React.Component {
@@ -41,6 +42,12 @@ class App extends React.Component {
           </Col>
         </Row>
         <br/>
+        <br/>
+        <Row>
+          <Col>
+            <ZapadZdrojeTeplota/>
+          </Col>
+        </Row>
       </div>
     )
   }
