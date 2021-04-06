@@ -51,6 +51,10 @@ const chart = {
                   >${this.name}</span>`
         case 1:
           return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
+                        title="TpZ predikcia"
+                  >${this.name}</span>`
+        case 2:
+          return `<span class="my-tooltip" data-toggle="tooltip" data-placement="top"
                         title="TpZ skutočnosť"
                   >${this.name}</span>`
       }
@@ -134,6 +138,21 @@ const chart = {
     zIndex: 1,
     data: []
   }, {
+    name: 'TpZ (P)',
+    color: '#689edf',
+    dashStyle: 'ShortDash',
+    type: 'spline',
+    yAxis: 1,
+    tooltip: { valueSuffix: ' °C' },
+    /*marker: {
+      fillColor: 'white',
+      lineWidth: 2,
+      lineColor: '#ecba17',
+      enabled: true
+    },*/
+    zIndex: 1,
+    data: []
+  }, {
     name: 'TpZ (S)',
     color: '#3b69df',
     type: 'spline',
@@ -164,14 +183,17 @@ class ZapadZdrojeTeplota extends React.Component {
 
     // sk = skutocnost, pr = predikcia termis
     let vonkajsia_teplota = [],
-      tpz_sk = []
+      tpz_sk = [],
+      tpz_pr = []
 
     //vonkajsia_teplota = zdr.teplota
-    this.props.zdroje.teplota_1h.map( row => { vonkajsia_teplota.push([ row['hodina'], row['priemer'] ]) })
-    this.props.zdroje.tpz_tepl_skut.map( row => { tpz_sk.push([ row['datum'], row['hodnota'] ]) })
+    zdr.teplota_1h.map( row => { vonkajsia_teplota.push([ row['hodina'], row['priemer'] ]) })
+    zdr.tpz_tepl_skut.map( row => { tpz_sk.push([ row['datum'], row['hodnota'] ]) })
+    zdr.tpz_tepl_pred.map( row => { tpz_pr.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(vonkajsia_teplota, false)
-    chart.series[1].setData(tpz_sk, false)
+    chart.series[1].setData(tpz_pr, false)
+    chart.series[2].setData(tpz_sk, false)
 
     chart.redraw()
     chart.reflow()

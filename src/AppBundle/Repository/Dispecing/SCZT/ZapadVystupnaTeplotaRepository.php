@@ -8,12 +8,24 @@ class ZapadVystupnaTeplotaRepository extends EntityRepository
 {
     public function getTpZSkutocnost($dateTo, $dateFrom)
     {
-        return $this->createQueryBuilder('vvt')
-            ->andWhere('vvt.kategoria = 43')
-            ->andWhere('vvt.datum BETWEEN :from AND :to')
+        return $this->createQueryBuilder('zvt')
+            ->andWhere('zvt.kategoria = 43')
+            ->andWhere('zvt.datum BETWEEN :from AND :to')
             ->setParameter('from', $dateFrom)
             ->setParameter('to', $dateTo)
-            ->orderBy('vvt.datum', 'asc')
+            ->orderBy('zvt.datum', 'asc')
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getTpZPredikcia($dateTo, $dateFrom)
+    {
+        return $this->createQueryBuilder('zvt')
+            ->andWhere('zvt.kategoria = 53')
+            ->andWhere('zvt.datum BETWEEN :from AND :to')
+            ->setParameter('from', $dateFrom)
+            ->setParameter('to', $dateTo)
+            ->orderBy('zvt.datum', 'asc')
             ->getQuery()
             ->execute();
     }

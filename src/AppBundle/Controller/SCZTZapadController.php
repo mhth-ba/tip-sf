@@ -176,6 +176,7 @@ class SCZTZapadController extends BaseController
         $tg1 = $repository->getTG1($dateTo, $dateFrom);
 
         $tpz_tepl_skut = $zdroje_teplota_repository->getTpZSkutocnost($dateTo, $dateFrom);
+        $tpz_tepl_pred = $zdroje_teplota_repository->getTpZPredikcia($dateTo, $dateFrom);
 
         $tpz_models = [];
         $cw_models = [];
@@ -187,6 +188,7 @@ class SCZTZapadController extends BaseController
         $tg1_models = [];
 
         $tpz_tepl_skut_models = [];
+        $tpz_tepl_pred_models = [];
 
         foreach ($tpz as $ppc_riadok) {
             $tpz_models[] = $this->createZdrojeApiModel($ppc_riadok);
@@ -218,6 +220,10 @@ class SCZTZapadController extends BaseController
 
         foreach ($tpz_tepl_skut as $tpz_tepl_skut_riadok) {
             $tpz_tepl_skut_models[] = $this->createZdrojeTeplotaApiModel($tpz_tepl_skut_riadok);
+        }
+
+        foreach ($tpz_tepl_pred as $tpz_tepl_pred_riadok) {
+            $tpz_tepl_pred_models[] = $this->createZdrojeTeplotaApiModel($tpz_tepl_pred_riadok);
         }
 
         $zdroje_1h = $this->getDoctrine()->getManager()
@@ -254,7 +260,8 @@ class SCZTZapadController extends BaseController
             'tg1' => $tg1_models,
 
             'tpz_tepl_skut' => $tpz_tepl_skut_models,
-            
+            'tpz_tepl_pred' => $tpz_tepl_pred_models,
+
             'tpz_1h' => $tpz_1h_models,
             'cw_1h' => $cw_1h_models,
             'teplota_1h' => $teplota_1h_models

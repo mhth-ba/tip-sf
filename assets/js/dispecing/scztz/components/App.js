@@ -48,6 +48,8 @@ class App extends React.Component {
             <ZapadZdrojeTeplota/>
           </Col>
         </Row>
+        <br/>
+        <br/>
       </div>
     )
   }

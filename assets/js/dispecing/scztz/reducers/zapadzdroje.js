@@ -12,6 +12,7 @@ const initState = { // Dispecing.SCZTZ_Zdroje
   tg1: [],
 
   tpz_tepl_skut: [],
+  tpz_tepl_pred: [],
 
   tpz_1h: [],
   cw_1h: [],
@@ -38,6 +39,7 @@ export default (state = initState, action) => {
         tg1: action.data['tg1'],
 
         tpz_tepl_skut: action.data['tpz_tepl_skut'],
+        tpz_tepl_pred: action.data['tpz_tepl_pred'],
 
         tpz_1h: action.data['tpz_1h'],
         cw_1h: action.data['cw_1h'],

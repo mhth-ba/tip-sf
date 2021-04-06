@@ -438,14 +438,14 @@ class VychodZdrojeTeplota extends React.Component {
       }
     )
 
-    this.props.zdroje.ppc_tv_sk_10min.map( row => { ppc_sk.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.ppc_tv_pr_10min.map( row => { ppc_pr.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.tpv_tv_sk_10min.map( row => { tpv_sk.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.tpv_tv_pr_10min.map( row => { tpv_pr.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.slovnaft_tv_sk_10min.map( row => { slovnaft_sk.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.slovnaft_tv_pr_10min.map( row => { slovnaft_pr.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.vhj_tv_sk_10min.map( row => { vhj_sk.push([ row['datum'], row['hodnota'] ]) })
-    this.props.zdroje.vhj_tv_pr_10min.map( row => { vhj_pr.push([ row['datum'], row['hodnota'] ]) })
+    zdr.ppc_tv_sk_10min.map( row => { ppc_sk.push([ row['datum'], row['hodnota'] ]) })
+    zdr.ppc_tv_pr_10min.map( row => { ppc_pr.push([ row['datum'], row['hodnota'] ]) })
+    zdr.tpv_tv_sk_10min.map( row => { tpv_sk.push([ row['datum'], row['hodnota'] ]) })
+    zdr.tpv_tv_pr_10min.map( row => { tpv_pr.push([ row['datum'], row['hodnota'] ]) })
+    zdr.slovnaft_tv_sk_10min.map( row => { slovnaft_sk.push([ row['datum'], row['hodnota'] ]) })
+    zdr.slovnaft_tv_pr_10min.map( row => { slovnaft_pr.push([ row['datum'], row['hodnota'] ]) })
+    zdr.vhj_tv_sk_10min.map( row => { vhj_sk.push([ row['datum'], row['hodnota'] ]) })
+    zdr.vhj_tv_pr_10min.map( row => { vhj_pr.push([ row['datum'], row['hodnota'] ]) })
 
     chart.series[0].setData(vonkajsia_teplota, false)
 

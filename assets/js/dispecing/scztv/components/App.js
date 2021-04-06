@@ -68,6 +68,7 @@ class App extends React.Component {
           </Col>
         </Row>
         <br/>
+        <br/>
       </div>
     )
   }
