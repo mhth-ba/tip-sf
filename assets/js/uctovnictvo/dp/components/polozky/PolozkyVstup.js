@@ -193,7 +193,7 @@ class PolozkyVstup extends React.Component {
       dataField: 'obchodny_partner',
       text: 'Obchodný partner',
       sort: true,
-      filter: partnerFilter,
+      //filter: partnerFilter,
       editable: false,
       headerStyle: (col, idx) => {
         return { width: '210px' }

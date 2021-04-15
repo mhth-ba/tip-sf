@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import FontAwesome from 'react-fontawesome'
 import Routing from '../../../Components/Routing'
 import {updateHlavnyRequest} from '../actions'
+import {dateYear} from "../../../utils/format";
 
 class Export extends React.Component {
   constructor(props) {
@@ -28,6 +29,8 @@ class Export extends React.Component {
     const zamknute = hlavny.zamknute
     const path = Routing.generate('dp_export')
 
+    const verzia_2021 = dateYear(this.props.hlavny.obdobie) >= 2021
+
     return (
       <div>
         { init &&
@@ -36,7 +39,8 @@ class Export extends React.Component {
               Exportovať do XML
             </a>
             &nbsp;
-            <a href="https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.472.html"
+            <a href={verzia_2021 ? "https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.503.html"
+                : "https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.472.html"}
                target="_blank"
                className="btn btn-info"
                role="button"
