@@ -71,6 +71,13 @@ sczt-ost:
     defaults:
         _controller: AppBundle:SCZTOST:index
 
+doplnovanie-ost:
+    path: /disp/doo
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:DoplnovanieOST:index
+
 evidencia-ost:
     path: /disp/deo
     options:

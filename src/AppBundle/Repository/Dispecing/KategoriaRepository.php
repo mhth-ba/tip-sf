@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repository\Dispecing\SCZT;
+namespace AppBundle\Repository\Dispecing;
 
 use Doctrine\ORM\EntityRepository;
 

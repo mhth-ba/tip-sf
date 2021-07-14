@@ -28,6 +28,11 @@ const polozky = [
       color: 'primary',
       size: 'sm'
     }, {
+      url: Routing.generate('doplnovanie-ost'),
+      nazov: 'Doplňovanie a odpúšťanie OST',
+      color: 'secondary',
+      size: 'sm'
+    }, {
       url: Routing.generate('vychladenie-ost'),
       nazov: 'Vychladenie OST',
       color: 'secondary',

@@ -18,7 +18,7 @@ class VychodZdroje1h extends BaseEntity
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Dispecing\SCZT\Kategoria")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Dispecing\Kategoria")
      */
     private $kategoria;
 

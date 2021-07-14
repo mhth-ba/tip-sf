@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Entity\Dispecing\SCZT;
+namespace AppBundle\Entity\Dispecing;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\SCZT\KategoriaRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\KategoriaRepository")
  * @ORM\Table(name="_RefKategoria", schema="Dispecing")
  */
 class Kategoria

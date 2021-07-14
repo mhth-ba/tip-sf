@@ -1,15 +1,15 @@
 <?php
 
-namespace AppBundle\Entity\Dispecing\SCZT;
+namespace AppBundle\Entity\Dispecing\DOO;
 
 use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\SCZT\ZapadVystupnaTeplotaRepository")
- * @ORM\Table(name="SCZTZ_VystupnaTeplota", schema="Dispecing")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\DOO\DoplnovanieRepository")
+ * @ORM\Table(name="Doplnovanie_OST", schema="Dispecing")
  */
-class ZapadVystupnaTeplota extends BaseEntity
+class DoplnovanieOST extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -45,7 +45,7 @@ class ZapadVystupnaTeplota extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->getTimestampWithoutOffset($this->datum);
     }
 
     public function getHodnota()
