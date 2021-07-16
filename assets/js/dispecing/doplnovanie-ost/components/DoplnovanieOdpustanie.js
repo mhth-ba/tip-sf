@@ -5,6 +5,7 @@ import { Card, CardHeader, CardBody, CardFooter, Table } from 'reactstrap'
 
 import { fetchDoplnovanieOdpustanieRequest } from '../actions'
 
+import { number } from '../../../utils/format'
 import moment from 'moment'
 moment.locale('sk')
 
@@ -39,9 +40,9 @@ class DoplnovanieOdpustanie extends React.Component {
       <div>
 
         <Card>
-          <CardHeader className="bg-primary text-white">Doplňovanie a odpúšťanie</CardHeader>
+          <CardHeader className="bg-primary text-white">Doplňovanie a odpúšťanie podľa sústavy a vlastníctva OST</CardHeader>
           <CardBody>
-            <Table size="md" bordered>
+            <Table size="md" bordered hover>
               <thead>
               <tr className="text-center">
                 <th>{' '}</th>
@@ -73,7 +74,7 @@ class DoplnovanieOdpustanie extends React.Component {
                     temp_data === undefined ?
                     <td key={idx}></td>
                     :
-                    <td key={idx}>{temp_data.hodnota}</td>
+                    <td key={idx}>{number(temp_data.hodnota, 2)}</td>
 
                   ))
                 }
@@ -95,7 +96,7 @@ class DoplnovanieOdpustanie extends React.Component {
                       temp_data === undefined ?
                         <td key={idx}></td>
                         :
-                        <td key={idx}>{temp_data.hodnota}</td>
+                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
 
                   ))
                 }
@@ -117,11 +118,16 @@ class DoplnovanieOdpustanie extends React.Component {
                       temp_data === undefined ?
                         <td key={idx}></td>
                         :
-                        <td key={idx}>{temp_data.hodnota}</td>
+                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
 
                   ))
                 }
               </tr>
+
+              <tr>
+                <td></td>
+              </tr>
+
               <tr>
                 <th rowSpan={3} className="text-center align-middle">Západ</th>
                 <th className="text-left">Doplňovanie BAT <span className="text-muted small">ID=521</span></th>
@@ -140,7 +146,7 @@ class DoplnovanieOdpustanie extends React.Component {
                       temp_data === undefined ?
                         <td key={idx}></td>
                         :
-                        <td key={idx}>{temp_data.hodnota}</td>
+                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
 
                   ))
                 }
@@ -162,7 +168,7 @@ class DoplnovanieOdpustanie extends React.Component {
                       temp_data === undefined ?
                         <td key={idx}></td>
                         :
-                        <td key={idx}>{temp_data.hodnota}</td>
+                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
 
                   ))
                 }
@@ -184,7 +190,7 @@ class DoplnovanieOdpustanie extends React.Component {
                       temp_data === undefined ?
                         <td key={idx}></td>
                         :
-                        <td key={idx}>{temp_data.hodnota}</td>
+                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
 
                   ))
                 }
