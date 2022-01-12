@@ -1028,6 +1028,8 @@ class DanovePriznanieController extends BaseController
             $riadky[] = $this->createRiadkyApiModel($riadok);
         }
 
+        $r1 = $this->checkArray($riadky,1);
+        $r2 = $this->checkArray($riadky,2);
         $r3 = $this->checkArray($riadky,3);
         $r4 = $this->checkArray($riadky,4);
         $r5 = $this->checkArray($riadky,5);
@@ -1125,8 +1127,8 @@ class DanovePriznanieController extends BaseController
                 ."<datumVyhlasenia>$datumVyhlasenia</datumVyhlasenia>\r\n"
                 ."</hlavicka>\r\n"
                 ."<telo>\r\n"
-                ."<r01></r01>\r\n"
-                ."<r02></r02>\r\n"
+                ."<r01>$r1</r01>\r\n"
+                ."<r02>$r2</r02>\r\n"
                 ."<r03>$r3</r03>\r\n"
                 ."<r04>$r4</r04>\r\n"
                 ."<r05>$r5</r05>\r\n"
@@ -1215,8 +1217,8 @@ class DanovePriznanieController extends BaseController
                 ."<datumVyhlasenia>$datumVyhlasenia</datumVyhlasenia>\r\n"
                 ."</hlavicka>\r\n"
                 ."<telo>\r\n"
-                ."<r01></r01>\r\n"
-                ."<r02></r02>\r\n"
+                ."<r01>$r1</r01>\r\n"
+                ."<r02>$r2</r02>\r\n"
                 ."<r03>$r3</r03>\r\n"
                 ."<r04>$r4</r04>\r\n"
                 ."<r05>$r5</r05>\r\n"

@@ -37,6 +37,8 @@ class Sumarizacia extends React.Component {
 
     const init = this.props.hlavny.initialized
 
+    const r1 = this.findSuma(1)
+    const r2 = this.findSuma(2)
     const r3 = this.findSuma(3)
     const r4 = this.findSuma(4)
     const r5 = this.findSuma(5)
@@ -114,10 +116,17 @@ class Sumarizacia extends React.Component {
                     <td>Dodanie tovaru a služby - § 8,9 a daň § 81 - 10% sadzba DPH</td>
                     <td>
                       <span className="cislo-riadku">01</span>
+                      <div className="suma"><Suma v={r1} /></div>
                     </td>
                     <td>
                       <span className="cislo-riadku">02</span>
+                      <div className="suma"><Suma v={r2} /></div>
                     </td>
+                    { pomocnik && <td>343192</td> }
+                    { pomocnik && <td>2A</td> }
+                    { pomocnik && <td>OD, OO, OT, ST, RU</td> }
+                    { pomocnik && <td>Výstup</td> }
+                    { pomocnik && <td>A1</td> }
                   </tr>
                   <tr>
                     <td rowSpan={ pomocnik ? 3 : 1} className="align-middle">
