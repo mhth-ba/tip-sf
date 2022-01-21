@@ -24,11 +24,6 @@ class DoplnovanieOST extends BaseEntity
     private $kategoria;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $ost;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $datum;
@@ -46,11 +41,6 @@ class DoplnovanieOST extends BaseEntity
     public function getKategoria()
     {
         return $this->kategoria;
-    }
-
-    public function getOst()
-    {
-        return $this->ost;
     }
 
     public function getDatum()
