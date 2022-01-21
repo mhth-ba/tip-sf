@@ -4,7 +4,7 @@ namespace AppBundle\Repository\Dispecing\DOO;
 
 use Doctrine\ORM\EntityRepository;
 
-class DoplnovanieRepository extends EntityRepository
+class DoplnovanieOSTRepository extends EntityRepository
 {
     public function findDoplnovanieOdpustanieByRokMesiac($dateFrom, $dateTo)
     {

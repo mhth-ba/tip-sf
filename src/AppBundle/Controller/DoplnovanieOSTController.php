@@ -15,7 +15,7 @@ class DoplnovanieOSTController extends BaseController
     }
 
     /**
-     * @Route("doo/dop_odp", name="doo_doplnovanie_odpustanie_get", options={"expose"=true})
+     * @Route("doo/dop_odp", name="doo_dop_odp_get", options={"expose"=true})
      * @Method("POST")
      */
     public function getDoplnovanieOdpustanieAction(Request $request)
