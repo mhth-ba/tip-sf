@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\DOO\DoplnovanieOSTRepository")
- * @ORM\Table(name="Doplnovanie_OST", schema="Dispecing")
+ * @ORM\Table(name="DOO_OST", schema="Dispecing")
  */
 class DoplnovanieOST extends BaseEntity
 {
@@ -22,6 +22,11 @@ class DoplnovanieOST extends BaseEntity
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Dispecing\Kategoria")
      */
     private $kategoria;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $ost;
 
     /**
      * @ORM\Column(type="datetime")
@@ -41,6 +46,11 @@ class DoplnovanieOST extends BaseEntity
     public function getKategoria()
     {
         return $this->kategoria;
+    }
+
+    public function getOst()
+    {
+        return $this->ost;
     }
 
     public function getDatum()

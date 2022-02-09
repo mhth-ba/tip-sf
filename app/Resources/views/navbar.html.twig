@@ -5,7 +5,8 @@
 {% set dispecing = (url == '/disp/scztv'
     or url == '/disp/scztz'
     or url == '/disp/scztost'
-    or url == '/disp/deo'
+    or url == '/disp/ds'
+    or url == '/disp/doo'
     or url == '/disp/vco') %}
 {% set kontroling = (url == '/kont/sct'
     or url == '/kont/vct') %}
@@ -120,7 +121,8 @@
                     <a class="dropdown-item" href={{ path('sczt-zapad') }}>SCZT Západ</a>
                     <a class="dropdown-item" href={{ path('sczt-ost') }}>SCZT OST</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ path('doplnovanie-ost') }}">Doplňovanie a odpúšťanie OST</a>
+                    <a class="dropdown-item" href="{{ path('doplnovanie-siet') }}">Doplňovanie do siete</a>
+                    <a class="dropdown-item" href="{{ path('doplnovanie-ost') }}">Doplňovanie OST</a>
                     <a class="dropdown-item" href="{{ path('vychladenie-ost') }}">Vychladenie OST</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="http://zeusprod-vi/tip/zone_ris_ost-diferencny-tlak-trendy-tpv.php">Diferenčný tlak OST východ</a>

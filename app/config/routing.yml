@@ -71,6 +71,13 @@ sczt-ost:
     defaults:
         _controller: AppBundle:SCZTOST:index
 
+doplnovanie-siet:
+    path: /disp/ds
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:DoplnovanieSiet:index
+
 doplnovanie-ost:
     path: /disp/doo
     options:
@@ -78,19 +85,19 @@ doplnovanie-ost:
     defaults:
         _controller: AppBundle:DoplnovanieOST:index
 
-evidencia-ost:
-    path: /disp/deo
-    options:
-        expose: true
-    defaults:
-        _controller: AppBundle:DispecingEvidencia:index
-
 vychladenie-ost:
     path: /disp/vco
     options:
         expose: true
     defaults:
         _controller: AppBundle:VychladenieOST:index
+
+evidencia-ost:
+    path: /disp/deo
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:DispecingEvidencia:index
 
 miestne-prevadzkove-predpisy-tpv:
     path: /prev/mpp-tpv
