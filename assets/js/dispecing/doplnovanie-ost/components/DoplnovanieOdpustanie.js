@@ -27,6 +27,7 @@ class DoplnovanieOdpustanie extends React.Component {
     const mesiac = this.props.data.mesiac
 
     const data = this.props.data.doplnovanie_odpustanie
+    let unique_ost = [...new Set(data.map(item => item.ost))]
     let temp_data
 
     const pocet_dni = moment(`${rok}-${mesiac}`, "YYYY-MM").daysInMonth()
@@ -41,9 +42,9 @@ class DoplnovanieOdpustanie extends React.Component {
 
         <Card>
           <CardHeader className="bg-primary text-white">
-            Doplňovanie a odpúšťanie podľa sústavy a vlastníctva OST
+            Doplňovanie a odpúšťanie jednotlivých OST
           </CardHeader>
-          <CardBody style={{overflow: 'auto', maxHeight: '95vh'}}>
+          <CardBody style={{overflow: 'auto', maxHeight: '90vh'}}>
             <Table size="md" bordered hover>
               <thead>
               <tr className="text-center">
@@ -58,148 +59,117 @@ class DoplnovanieOdpustanie extends React.Component {
               </tr>
               </thead>
               <tbody className="text-right">
-              <tr>
-                <th rowSpan={7} className="text-center align-middle">Východ</th>
-                <th className="text-left text-blue text-nowrap" title={"bez PPC"}>
-                  Doplňovanie zdroj <span className="font-weight-normal">[t/h]</span> <span className="text-muted small">ID=516</span>
-                </th>
 
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
+              { unique_ost.map(
+                (ost, idx) => {
+                  /** OST VÝCHOD
+                   * Vo vlastníctve BAT
+                   * DOPLŇOVANIE aj ODPÚŠŤANIE **/
+                  if (data.find(x => x.ost === ost && x.kategoria.id === 511) !== undefined &&
+                      data.find(x => x.ost === ost && x.kategoria.id === 512) !== undefined) {
+                    return [
+                      <tr key={idx}>
+                        <th rowSpan={2} className="align-middle">
+                          OST {ost}
+                        </th>
+                        <th className="text-left text-nowrap">
+                          Doplňovanie <span className="font-weight-normal">[t/deň]</span>
+                        </th>
+                        {dni.map(
+                          (x, idx) => (
+                            temp_data = data
+                              .find(y => y.kategoria.id === 511 && y.ost === ost
+                                && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
+                                && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
+                                && moment(y.datum * 1000).format("DD") == x),
 
-                { dni.map(
-                  (x, idx) => (
+                              temp_data === undefined ?
+                                <td key={idx}></td>
+                                :
+                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                          ))
+                        }
+                      </tr>,
+                      <tr key={idx}>
+                        <th className="text-left text-nowrap">
+                          Odpúšťanie <span className="font-weight-normal">[t/deň]</span>
+                        </th>
+                        {dni.map(
+                          (x, idx) => (
+                            temp_data = data
+                              .find(y => y.kategoria.id === 512 && y.ost === ost
+                                && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
+                                && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
+                                && moment(y.datum * 1000).format("DD") == x),
 
-                    temp_data = data
-                      .find(y => y.kategoria.id === 516
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
+                              temp_data === undefined ?
+                                <td key={idx}></td>
+                                :
+                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                          ))
+                        }
+                      </tr>
+                    ]
+                    /** OST VÝCHOD
+                     * Vo vlastníctve BAT
+                     * Iba DOPLŇOVANIE **/
+                  } else if (data.find(x => x.ost === ost && x.kategoria.id === 511) !== undefined &&
+                             data.find(x => x.ost === ost && x.kategoria.id === 512) === undefined) {
+                    return (
+                      <tr>
+                        <th>
+                          OST {ost}
+                        </th>
+                        <th className="text-left text-nowrap">
+                          Doplňovanie <span className="font-weight-normal">[t/deň]</span>
+                        </th>
+                        {dni.map(
+                          (x, idx) => (
+                            temp_data = data
+                              .find(y => y.kategoria.id === 511 && y.ost === ost
+                                && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
+                                && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
+                                && moment(y.datum * 1000).format("DD") == x),
 
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota / 24, 2)}</td>
+                              temp_data === undefined ?
+                                <td key={idx}></td>
+                                :
+                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                          ))
+                        }
+                      </tr>
+                    )
+                    /** OST VÝCHOD
+                     * V cudzom vlastníctve
+                     * Iba DOPLŇOVANIE **/
+                  } else if (data.find(x => x.ost === ost && x.kategoria.id === 513) !== undefined) {
+                    return (
+                      <tr>
+                        <th>
+                          OST {ost}
+                        </th>
+                        <th className="text-left text-nowrap">
+                          Doplňovanie <span className="font-weight-normal">[t/deň]</span>
+                        </th>
+                        {dni.map(
+                          (x, idx) => (
+                            temp_data = data
+                              .find(y => y.kategoria.id === 513 && y.ost === ost
+                                && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
+                                && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
+                                && moment(y.datum * 1000).format("DD") == x),
 
-                  ))
+                              temp_data === undefined ?
+                                <td key={idx}></td>
+                                :
+                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                          ))
+                        }
+                      </tr>
+                    )
+                  }
                 }
-              </tr>
-              <tr>
-                <th className="text-left text-blue text-nowrap" title={"= doplňovanie zdroj - doplňovanie OST spolu"}>
-                  Doplňovanie sieť <span className="font-weight-normal">[t/h]</span> <span className="text-muted small">ID=517</span>
-                </th>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 517
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota / 24, 2)}</td>
-
-                  ))
-                }
-              </tr>
-              <tr>
-                <th className="text-left text-nowrap" title={"rozťažnosť vody"}>Doplňovanie sieť (korekcia na T)</th>
-              </tr>
-              <tr>
-                <td className="text-left text-nowrap">Doplňovanie OST BAT [t] <span className="text-muted small">ID=511</span></td>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 511
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                    temp_data === undefined ?
-                    <td key={idx}></td>
-                    :
-                    <td key={idx}>{number(temp_data.hodnota, 2)}</td>
-
-                  ))
-                }
-              </tr>
-              <tr>
-                <td className="text-left">Odpúšťanie OST BAT [t] <span className="text-muted small">ID=512</span></td>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 512
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
-
-                  ))
-                }
-              </tr>
-              <tr>
-                <td className="text-left">Doplňovanie OST Cudzí [t] <span className="text-muted small">ID=513</span></td>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 513
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
-
-                  ))
-                }
-              </tr>
-              <tr>
-                <th className="text-left" title={"= doplňovanie OST BAT + doplňovanie OST cudzí"}>
-                  Doplňovanie OST Spolu <span className="font-weight-normal">[t]</span> <span className="text-muted small">ID=515</span>
-                </th>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 515
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
-
-                  ))
-                }
-              </tr>
+              )}
 
               <tr className="bg-secondary">
                 <td></td>
@@ -211,148 +181,116 @@ class DoplnovanieOdpustanie extends React.Component {
                 )}
               </tr>
 
-              <tr>
-                <th rowSpan={7} className="text-center align-middle">Západ</th>
-                <th className="text-left text-orange" title={"bez odpúšťania"}>
-                  Doplňovanie zdroj <span className="font-weight-normal">[t/h]</span> <span className="text-muted small">ID=526</span>
-                </th>
+              { unique_ost.map(
+                (ost, idx) => {
+                  /** OST ZÁPAD
+                   * Vo vlastníctve BAT
+                   * DOPLŇOVANIE aj ODPÚŠŤANIE **/
+                  if (data.find(x => x.ost === ost && x.kategoria.id === 521) !== undefined &&
+                      data.find(x => x.ost === ost && x.kategoria.id === 522) !== undefined) {
+                    return [
+                      <tr key={idx}>
+                        <th rowSpan={2} className="align-middle">
+                          OST {ost}
+                        </th>
+                        <th className="text-left text-nowrap">
+                          Doplňovanie <span className="font-weight-normal">[t/deň]</span>
+                        </th>
+                        {dni.map(
+                          (x, idx) => (
+                            temp_data = data
+                              .find(y => y.kategoria.id === 521 && y.ost === ost
+                                && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
+                                && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
+                                && moment(y.datum * 1000).format("DD") == x),
 
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
+                              temp_data === undefined ?
+                                <td key={idx}></td>
+                                :
+                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                          ))
+                        }
+                      </tr>,
+                      <tr key={idx}>
+                        <th className="text-left text-nowrap">
+                          Odpúšťanie <span className="font-weight-normal">[t/deň]</span>
+                        </th>
+                        {dni.map(
+                          (x, idx) => (
+                            temp_data = data
+                              .find(y => y.kategoria.id === 522 && y.ost === ost
+                                && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
+                                && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
+                                && moment(y.datum * 1000).format("DD") == x),
 
-                { dni.map(
-                  (x, idx) => (
+                              temp_data === undefined ?
+                                <td key={idx}></td>
+                                :
+                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                          ))
+                        }
+                      </tr>
+                    ]
+                    /** OST ZÁPAD
+                     * Vo vlastníctve BAT
+                     * Iba DOPLŇOVANIE **/
+                  } else if (data.find(x => x.ost === ost && x.kategoria.id === 521) !== undefined &&
+                             data.find(x => x.ost === ost && x.kategoria.id === 522) === undefined) {
+                    return (
+                      <tr>
+                        <th>
+                          OST {ost}
+                        </th>
+                        <th className="text-left text-nowrap">
+                          Doplňovanie <span className="font-weight-normal">[t/deň]</span>
+                        </th>
+                        {dni.map(
+                          (x, idx) => (
+                            temp_data = data
+                              .find(y => y.kategoria.id === 521 && y.ost === ost
+                                && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
+                                && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
+                                && moment(y.datum * 1000).format("DD") == x),
 
-                    temp_data = data
-                      .find(y => y.kategoria.id === 526
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
+                              temp_data === undefined ?
+                                <td key={idx}></td>
+                                :
+                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                          ))
+                        }
+                      </tr>
+                    )
+                    /** OST ZÁPAD
+                     * V cudzom vlastníctve
+                     * Iba DOPLŇOVANIE **/
+                  } else if (data.find(x => x.ost === ost && x.kategoria.id === 523) !== undefined) {
+                    return (
+                      <tr>
+                        <th>
+                          OST {ost}
+                        </th>
+                        <th className="text-left text-nowrap">
+                          Doplňovanie <span className="font-weight-normal">[t/deň]</span>
+                        </th>
+                        {dni.map(
+                          (x, idx) => (
+                            temp_data = data
+                              .find(y => y.kategoria.id === 523 && y.ost === ost
+                                && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
+                                && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
+                                && moment(y.datum * 1000).format("DD") == x),
 
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota / 24, 2)}</td>
-
-                  ))
+                              temp_data === undefined ?
+                                <td key={idx}></td>
+                                :
+                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                          ))
+                        }
+                      </tr>
+                    )
+                  }
                 }
-              </tr>
-              <tr>
-                <th className="text-left text-orange" title={"= doplňovanie zdroj - doplňovanie OST spolu"}>
-                  Doplňovanie sieť <span className="font-weight-normal">[t/h]</span> <span className="text-muted small">ID=527</span>
-                </th>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 527
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota / 24, 2)}</td>
-
-                  ))
-                }
-              </tr>
-              <tr>
-                <th className="text-left" title={"rozťažnosť vody"}>Doplňovanie sieť (korekcia na T)</th>
-              </tr>
-              <tr>
-                <td className="text-left">Doplňovanie OST BAT [t] <span className="text-muted small">ID=521</span></td>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 521
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
-
-                  ))
-                }
-              </tr>
-              <tr>
-                <td className="text-left">Odpúšťanie OST BAT [t] <span className="text-muted small">ID=522</span></td>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 522
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
-
-                  ))
-                }
-              </tr>
-              <tr>
-                <td className="text-left">Doplňovanie OST Cudzí [t] <span className="text-muted small">ID=523</span></td>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 523
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
-
-                  ))
-                }
-              </tr>
-              <tr>
-                <th className="text-left" title={"= doplňovanie OST BAT + doplňovanie OST cudzí"}>
-                  Doplňovanie OST Spolu <span className="font-weight-normal">[t/h]</span> <span className="text-muted small">ID=525</span>
-                </th>
-
-                {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
-
-                { dni.map(
-                  (x, idx) => (
-
-                    temp_data = data
-                      .find(y => y.kategoria.id === 525
-                        && moment(y.datum * 1000).format("YYYY") == this.props.data.rok
-                        && moment(y.datum * 1000).format("MM") == this.props.data.mesiac
-                        && moment(y.datum * 1000).format("DD") == x),
-
-                      temp_data === undefined ?
-                        <td key={idx}></td>
-                        :
-                        <td key={idx}>{number(temp_data.hodnota, 2)}</td>
-
-                  ))
-                }
-              </tr>
+              )}
               </tbody>
             </Table>
           </CardBody>

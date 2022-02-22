@@ -41,7 +41,7 @@ class DoplnovanieOdpustanie extends React.Component {
 
         <Card>
           <CardHeader className="bg-primary text-white">
-            Doplňovanie do siete
+            Doplňovanie sústav Východ, Západ, OST
           </CardHeader>
           <CardBody style={{overflow: 'auto', maxHeight: '90vh'}}>
             <Table size="md" bordered hover>
@@ -109,7 +109,7 @@ class DoplnovanieOdpustanie extends React.Component {
               </tr>
               <tr>
                 <th className="text-left text-nowrap" title={"korekcia na tepelný obsah (rozťažnosť vody)"}>
-                  Doplňovanie sieť (korekcia) <span className="font-weight-normal">[t/h]</span> <span className="text-muted small">ID=518</span>
+                  Korekcia na tepelný obsah sústavy <span className="font-weight-normal">[t/h]</span> <span className="text-muted small">ID=518</span>
                 </th>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
@@ -139,7 +139,7 @@ class DoplnovanieOdpustanie extends React.Component {
                 }
               </tr>
               <tr>
-                <td className="text-left text-nowrap">Doplňovanie OST BAT [t] <span className="text-muted small">ID=511</span></td>
+                <td className="text-left text-nowrap">Doplňovanie OST BAT [t/deň] <span className="text-muted small">ID=511</span></td>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
 
@@ -161,7 +161,7 @@ class DoplnovanieOdpustanie extends React.Component {
                 }
               </tr>
               <tr>
-                <td className="text-left">Odpúšťanie OST BAT [t] <span className="text-muted small">ID=512</span></td>
+                <td className="text-left">Odpúšťanie OST BAT [t/deň] <span className="text-muted small">ID=512</span></td>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
 
@@ -183,7 +183,7 @@ class DoplnovanieOdpustanie extends React.Component {
                 }
               </tr>
               <tr>
-                <td className="text-left">Doplňovanie OST Cudzí [t] <span className="text-muted small">ID=513</span></td>
+                <td className="text-left">Doplňovanie OST Cudzí [t/deň] <span className="text-muted small">ID=513</span></td>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
 
@@ -206,7 +206,7 @@ class DoplnovanieOdpustanie extends React.Component {
               </tr>
               <tr>
                 <th className="text-left" title={"= doplňovanie OST BAT + doplňovanie OST cudzí"}>
-                  Doplňovanie OST Spolu <span className="font-weight-normal">[t]</span> <span className="text-muted small">ID=515</span>
+                  Doplňovanie OST Spolu <span className="font-weight-normal">[t/deň]</span> <span className="text-muted small">ID=515</span>
                 </th>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
@@ -290,11 +290,11 @@ class DoplnovanieOdpustanie extends React.Component {
               </tr>
               <tr>
                 <th className="text-left text-nowrap" title={"korekcia na tepelný obsah (rozťažnosť vody)"}>
-                  Doplňovanie sieť (korekcia)
+                  Korekcia na tepelný obsah sústavy
                 </th>
               </tr>
               <tr>
-                <td className="text-left">Doplňovanie OST BAT [t] <span className="text-muted small">ID=521</span></td>
+                <td className="text-left">Doplňovanie OST BAT [t/deň] <span className="text-muted small">ID=521</span></td>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
 
@@ -316,7 +316,7 @@ class DoplnovanieOdpustanie extends React.Component {
                 }
               </tr>
               <tr>
-                <td className="text-left">Odpúšťanie OST BAT [t] <span className="text-muted small">ID=522</span></td>
+                <td className="text-left">Odpúšťanie OST BAT [t/deň] <span className="text-muted small">ID=522</span></td>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
 
@@ -338,7 +338,7 @@ class DoplnovanieOdpustanie extends React.Component {
                 }
               </tr>
               <tr>
-                <td className="text-left">Doplňovanie OST Cudzí [t] <span className="text-muted small">ID=523</span></td>
+                <td className="text-left">Doplňovanie OST Cudzí [t/deň] <span className="text-muted small">ID=523</span></td>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}
 
@@ -361,7 +361,7 @@ class DoplnovanieOdpustanie extends React.Component {
               </tr>
               <tr>
                 <th className="text-left" title={"= doplňovanie OST BAT + doplňovanie OST cudzí"}>
-                  Doplňovanie OST Spolu <span className="font-weight-normal">[t]</span> <span className="text-muted small">ID=525</span>
+                  Doplňovanie OST Spolu <span className="font-weight-normal">[t/deň]</span> <span className="text-muted small">ID=525</span>
                 </th>
 
                 {/* pocet buniek podla poctu dni v danom roku_a_mesiaci a hodnota k prislusnej kategorii */}

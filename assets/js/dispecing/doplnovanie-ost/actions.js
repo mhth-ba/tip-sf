@@ -25,7 +25,7 @@ export const fetchDoplnovanieOdpustanieRequest = (data) => ({
 
 export function* fetchDoplnovanieOdpustanie(action) {
 
-  const url = Routing.generate('doo_doplnovanie_odpustanie_get')
+  const url = Routing.generate('doo_dop_odp_get')
   const data = action.data
 
   try {

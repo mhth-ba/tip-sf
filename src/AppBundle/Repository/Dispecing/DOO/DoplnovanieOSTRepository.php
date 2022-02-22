@@ -12,6 +12,7 @@ class DoplnovanieOSTRepository extends EntityRepository
             ->andWhere('d.datum BETWEEN :from AND :to')
             ->setParameter('from', $dateFrom)
             ->setParameter('to', $dateTo)
+            ->orderBy('d.ost')
             ->getQuery()
             ->execute();
     }

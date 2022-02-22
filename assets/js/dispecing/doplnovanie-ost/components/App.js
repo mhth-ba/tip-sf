@@ -23,6 +23,7 @@ class App extends React.Component {
             <DoplnovanieOdpustanie/>
           </Col>
         </Row>
+        <br/>
       </div>
     )
   }
