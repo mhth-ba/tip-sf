@@ -17,7 +17,7 @@ class OST
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     private $cislo;
 
