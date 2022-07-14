@@ -29,6 +29,12 @@ class DoplnovanieOST extends BaseEntity
     private $ost;
 
     /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Dispecing\OST")
+     * @ORM\JoinColumn(name="OST", referencedColumnName="cislo")
+     */
+    private $nazov;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $datum;
@@ -51,6 +57,11 @@ class DoplnovanieOST extends BaseEntity
     public function getOst()
     {
         return $this->ost;
+    }
+
+    public function getNazov()
+    {
+        return $this->nazov;
     }
 
     public function getDatum()

@@ -11,12 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
 class OST
 {
     /**
-     * @ORM\Id
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
+     * @ORM\Id
      * @ORM\Column(type="integer")
      */
     private $cislo;

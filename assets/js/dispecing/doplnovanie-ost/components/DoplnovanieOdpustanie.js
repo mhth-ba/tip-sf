@@ -42,11 +42,11 @@ class DoplnovanieOdpustanie extends React.Component {
 
         <Card>
           <CardHeader className="bg-primary text-white">
-            Doplňovanie a odpúšťanie jednotlivých OST
+            Východ • Doplňovanie a odpúšťanie OST
           </CardHeader>
-          <CardBody style={{overflow: 'auto', maxHeight: '90vh'}}>
+          <CardBody style={{overflow: 'auto', maxHeight: '85vh'}}>
             <Table size="md" bordered hover>
-              <thead>
+              <thead className="bg-white sticky-top">
               <tr className="text-center">
                 <th>{' '}</th>
                 <th>{' '}</th>
@@ -70,7 +70,7 @@ class DoplnovanieOdpustanie extends React.Component {
                     return [
                       <tr key={idx}>
                         <th rowSpan={2} className="align-middle">
-                          OST {ost}
+                          OST {ost}<br/>{(data.find(z => z.nazov.cislo === ost)).nazov.adresa}
                         </th>
                         <th className="text-left text-nowrap">
                           Doplňovanie <span className="font-weight-normal">[t/deň]</span>
@@ -86,7 +86,9 @@ class DoplnovanieOdpustanie extends React.Component {
                               temp_data === undefined ?
                                 <td key={idx}></td>
                                 :
-                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                                <td key={idx} className={(temp_data.hodnota > 0.5) ? 'bg-lightorange' : ''}>
+                                  {number(temp_data.hodnota, 2)}
+                                </td>
                           ))
                         }
                       </tr>,
@@ -105,7 +107,9 @@ class DoplnovanieOdpustanie extends React.Component {
                               temp_data === undefined ?
                                 <td key={idx}></td>
                                 :
-                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                                <td key={idx} className={(temp_data.hodnota > 0.1) ? 'bg-azure' : ''}>
+                                  {number(temp_data.hodnota, 2)}
+                                </td>
                           ))
                         }
                       </tr>
@@ -118,7 +122,7 @@ class DoplnovanieOdpustanie extends React.Component {
                     return (
                       <tr>
                         <th>
-                          OST {ost}
+                          OST {ost}<br/>{(data.find(z => z.nazov.cislo === ost)).nazov.adresa}
                         </th>
                         <th className="text-left text-nowrap">
                           Doplňovanie <span className="font-weight-normal">[t/deň]</span>
@@ -134,7 +138,9 @@ class DoplnovanieOdpustanie extends React.Component {
                               temp_data === undefined ?
                                 <td key={idx}></td>
                                 :
-                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                                <td key={idx} className={(temp_data.hodnota > 0.5) ? 'bg-lightorange' : ''}>
+                                  {number(temp_data.hodnota, 2)}
+                                </td>
                           ))
                         }
                       </tr>
@@ -146,7 +152,7 @@ class DoplnovanieOdpustanie extends React.Component {
                     return (
                       <tr>
                         <th>
-                          OST {ost}
+                          OST {ost}<br/>{(data.find(z => z.nazov.cislo === ost)).nazov.adresa}
                         </th>
                         <th className="text-left text-nowrap">
                           Doplňovanie <span className="font-weight-normal">[t/deň]</span>
@@ -162,7 +168,9 @@ class DoplnovanieOdpustanie extends React.Component {
                               temp_data === undefined ?
                                 <td key={idx}></td>
                                 :
-                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                                <td key={idx} className={(temp_data.hodnota > 0.5) ? 'bg-lightorange' : ''}>
+                                  {number(temp_data.hodnota, 2)}
+                                </td>
                           ))
                         }
                       </tr>
@@ -171,15 +179,32 @@ class DoplnovanieOdpustanie extends React.Component {
                 }
               )}
 
-              <tr className="bg-secondary">
-                <td></td>
-                <td></td>
+              </tbody>
+            </Table>
+          </CardBody>
+        </Card>
+
+        <br/>
+
+        <Card>
+          <CardHeader className="bg-primary text-white">
+            Západ • Doplňovanie a odpúšťanie OST
+          </CardHeader>
+          <CardBody style={{overflow: 'auto', maxHeight: '85vh'}}>
+            <Table size="md" bordered hover>
+              <thead className="bg-white sticky-top">
+              <tr className="text-center">
+                <th>{' '}</th>
+                <th>{' '}</th>
+                {/* cisla dni podla poctu dni v danom roku_a_mesiaci */}
                 { dni.map(
                   (x, idx) => (
-                    <td key={idx}></td>
-                  )
-                )}
+                    <th key={idx}>{x}</th>
+                  ))
+                }
               </tr>
+              </thead>
+              <tbody className="text-right">
 
               { unique_ost.map(
                 (ost, idx) => {
@@ -187,11 +212,11 @@ class DoplnovanieOdpustanie extends React.Component {
                    * Vo vlastníctve BAT
                    * DOPLŇOVANIE aj ODPÚŠŤANIE **/
                   if (data.find(x => x.ost === ost && x.kategoria.id === 521) !== undefined &&
-                      data.find(x => x.ost === ost && x.kategoria.id === 522) !== undefined) {
+                    data.find(x => x.ost === ost && x.kategoria.id === 522) !== undefined) {
                     return [
                       <tr key={idx}>
                         <th rowSpan={2} className="align-middle">
-                          OST {ost}
+                          OST {ost}<br/>{(data.find(z => z.nazov.cislo === ost)).nazov.adresa}
                         </th>
                         <th className="text-left text-nowrap">
                           Doplňovanie <span className="font-weight-normal">[t/deň]</span>
@@ -207,7 +232,9 @@ class DoplnovanieOdpustanie extends React.Component {
                               temp_data === undefined ?
                                 <td key={idx}></td>
                                 :
-                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                                <td key={idx} className={(temp_data.hodnota > 0.5) ? 'bg-lightorange' : ''}>
+                                  {number(temp_data.hodnota, 2)}
+                                </td>
                           ))
                         }
                       </tr>,
@@ -226,7 +253,9 @@ class DoplnovanieOdpustanie extends React.Component {
                               temp_data === undefined ?
                                 <td key={idx}></td>
                                 :
-                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                                <td key={idx} className={(temp_data.hodnota > 0.1) ? 'bg-azure' : ''}>
+                                  {number(temp_data.hodnota, 2)}
+                                </td>
                           ))
                         }
                       </tr>
@@ -235,11 +264,11 @@ class DoplnovanieOdpustanie extends React.Component {
                      * Vo vlastníctve BAT
                      * Iba DOPLŇOVANIE **/
                   } else if (data.find(x => x.ost === ost && x.kategoria.id === 521) !== undefined &&
-                             data.find(x => x.ost === ost && x.kategoria.id === 522) === undefined) {
+                    data.find(x => x.ost === ost && x.kategoria.id === 522) === undefined) {
                     return (
                       <tr>
                         <th>
-                          OST {ost}
+                          OST {ost}<br/>{(data.find(z => z.nazov.cislo === ost)).nazov.adresa}
                         </th>
                         <th className="text-left text-nowrap">
                           Doplňovanie <span className="font-weight-normal">[t/deň]</span>
@@ -255,7 +284,9 @@ class DoplnovanieOdpustanie extends React.Component {
                               temp_data === undefined ?
                                 <td key={idx}></td>
                                 :
-                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                                <td key={idx} className={(temp_data.hodnota > 0.5) ? 'bg-lightorange' : ''}>
+                                  {number(temp_data.hodnota, 2)}
+                                </td>
                           ))
                         }
                       </tr>
@@ -267,7 +298,7 @@ class DoplnovanieOdpustanie extends React.Component {
                     return (
                       <tr>
                         <th>
-                          OST {ost}
+                          OST {ost}<br/>{(data.find(z => z.nazov.cislo === ost)).nazov.adresa}
                         </th>
                         <th className="text-left text-nowrap">
                           Doplňovanie <span className="font-weight-normal">[t/deň]</span>
@@ -283,7 +314,9 @@ class DoplnovanieOdpustanie extends React.Component {
                               temp_data === undefined ?
                                 <td key={idx}></td>
                                 :
-                                <td key={idx}>{number(temp_data.hodnota, 2)}</td>
+                                <td key={idx} className={(temp_data.hodnota > 0.5) ? 'bg-lightorange' : ''}>
+                                  {number(temp_data.hodnota, 2)}
+                                </td>
                           ))
                         }
                       </tr>
@@ -291,6 +324,7 @@ class DoplnovanieOdpustanie extends React.Component {
                   }
                 }
               )}
+
               </tbody>
             </Table>
           </CardBody>
