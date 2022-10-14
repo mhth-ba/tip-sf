@@ -16,6 +16,11 @@ export const setMesiac = (mesiac) => ({
   mesiac
 })
 
+export const setDni = (dni) => ({
+  type: TYPES.SET_DNI,
+  dni
+})
+
 export const fetchDoplnovanieOdpustanieRequest = (data) => ({
   type: TYPES.FETCH_DOPLNOVANIE_ODPUSTANIE_REQUEST,
   data

@@ -26,16 +26,20 @@ class DoplnovanieOSTController extends BaseController
         }
 
         $obdobie = $this->getObdobie($data);
+        $dni = $data['dni'];
 
         $from = $obdobie['from'];
         $to = $obdobie['to'];
 
         $repository = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Dispecing\DOO\DoplnovanieOST')
-            ->findDoplnovanieOdpustanieByRokMesiac($from, $to);
+            ->getRepository('AppBundle:Dispecing\DOO\DoplnovanieOST');
+
+        $repository_data = $repository->findDoplnovanieOdpustanieByRokMesiac($from, $to);
+        $repository_ost = $repository->findDoplnovanieOdpustanieOSTFilter($from, $to, $dni);
 
         return $this->createApiResponse([
-            $repository,
+            $repository_data,
+            $repository_ost,
             $from,
             $to
         ]);

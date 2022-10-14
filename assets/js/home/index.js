@@ -28,14 +28,14 @@ const polozky = [
       color: 'primary',
       size: 'sm'
     }, {
-      url: Routing.generate('doplnovanie-ost'),
-      nazov: 'Doplňovanie a odpúšťanie OST',
-      color: 'secondary',
+      url: Routing.generate('doplnovanie-siet'),
+      nazov: 'Doplňovanie sústav',
+      color: 'dark',
       size: 'sm'
     }, {
-      url: Routing.generate('vychladenie-ost'),
-      nazov: 'Vychladenie OST',
-      color: 'secondary',
+      url: Routing.generate('doplnovanie-ost'),
+      nazov: 'Doplňovanie OST',
+      color: 'dark',
       size: 'sm'
     }]
   }, {

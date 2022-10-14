@@ -27,7 +27,7 @@ class DoplnovanieOdpustanie extends React.Component {
     const mesiac = this.props.data.mesiac
 
     const data = this.props.data.doplnovanie_odpustanie
-    let unique_ost = [...new Set(data.map(item => item.ost))]
+    let unique_ost = [...new Set(this.props.data.zoznam_ost.map(item => item.ost))]
     let temp_data
 
     const pocet_dni = moment(`${rok}-${mesiac}`, "YYYY-MM").daysInMonth()

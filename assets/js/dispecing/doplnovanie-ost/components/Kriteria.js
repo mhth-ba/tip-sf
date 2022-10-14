@@ -4,7 +4,7 @@ import { Row, Col, Input, Label, Form, FormGroup, Tooltip } from 'reactstrap'
 
 import { fetchDoplnovanieOdpustanieRequest } from '../actions'
 
-import { setRok, setMesiac } from '../actions'
+import { setRok, setMesiac, setDni } from '../actions'
 
 import moment from 'moment'
 moment.locale('sk')
@@ -15,6 +15,7 @@ class Kriteria extends React.Component {
 
     this.handleRok = this.handleRok.bind(this)
     this.handleMesiac = this.handleMesiac.bind(this)
+    this.handleDni = this.handleDni.bind(this)
   }
 
   handleRok(e) {
@@ -29,13 +30,21 @@ class Kriteria extends React.Component {
     this.props.setMesiac(parseInt(value))
   }
 
+  handleDni(e) {
+    const value = e.target.value
+
+    this.props.setDni(parseInt(value))
+  }
+
   componentDidUpdate(prevProps, prevState, prevContext) {
     if (this.props.data.rok !== prevProps.data.rok ||
-      this.props.data.mesiac !== prevProps.data.mesiac) {
+      this.props.data.mesiac !== prevProps.data.mesiac ||
+      this.props.data.dni !== prevProps.data.dni) {
 
       this.props.fetchDoplnovanieOdpustanieRequest({
         rok: this.props.data.rok,
-        mesiac: this.props.data.mesiac
+        mesiac: this.props.data.mesiac,
+        dni: this.props.data.dni
       })
 
     }
@@ -86,6 +95,21 @@ class Kriteria extends React.Component {
             </Input>
           </FormGroup>
         </Form>
+        <br/>
+        <Form inline>
+          <FormGroup>
+            <Label for="pocetDniSuvisle">Počet dní nadmerného doplň./odpúšť.:</Label>
+            &nbsp;
+            &nbsp;
+            <Input type={'select'} id={'pocetDniSuvisle'} value={this.props.data.dni} onChange={ this.handleDni }>
+              <option value="1">Všetky</option>
+              <option value="2">2 a viac</option>
+              <option value="3">3 a viac</option>
+              <option value="4">4 a viac</option>
+              <option value="5">5 a viac</option>
+            </Input>
+          </FormGroup>
+        </Form>
       </div>
     )
   }
@@ -101,6 +125,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   // load: (e) => dispatch(loadMainEntry(e))
   setRok: (e) => dispatch(setRok(e)),
   setMesiac: (e) => dispatch(setMesiac(e)),
+  setDni: (e) => dispatch(setDni(e)),
 
   fetchDoplnovanieOdpustanieRequest: (e) => dispatch(fetchDoplnovanieOdpustanieRequest(e))
 })
