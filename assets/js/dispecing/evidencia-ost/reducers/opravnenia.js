@@ -18,7 +18,7 @@ export default (state = initState, action) => {
     case TYPES.FETCH_OPRAVNENIA_SUCCESS:
       const roles = {}
 
-      if (action.data.includes('ROLE_DEO')) {
+      if (action.data.includes('ROLE_DEO') || action.data.includes('ROLE_ADMIN')) {
         roles.deo = true
         roles.write = true
         roles.read = true

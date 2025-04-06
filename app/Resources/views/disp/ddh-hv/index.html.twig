@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Denné dispečerské hlásenie - Zdroje a HV' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{#    <link rel="stylesheet" href="{{ asset('build/ddh.css') }}">#}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>{{ title }}</h1>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col">
+                <div id="ddh-hv"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('build/ddhhv.js') }}"></script>
+{% endblock %}

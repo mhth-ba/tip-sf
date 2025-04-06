@@ -99,6 +99,20 @@ evidencia-ost:
     defaults:
         _controller: AppBundle:DispecingEvidencia:index
 
+ddh-ost:
+    path: /disp/ddh-ost
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:DenneDispecerskeHlasenieOST:index
+
+ddh-hv:
+    path: /disp/ddh-hv
+    options:
+        expose: true
+    defaults:
+        _controller: AppBundle:DenneDispecerskeHlasenieHV:index
+
 miestne-prevadzkove-predpisy-tpv:
     path: /prev/mpp-tpv
     options:

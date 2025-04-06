@@ -55,7 +55,21 @@ class Kriteria extends React.Component {
     this.props.setMesiac(parseInt(moment().format("M")))
   }
 
+  // Generate an array of years starting from 2020 up to the current year
+  generateYears() {
+    const currentYear = moment().year()
+    const startYear = 2020
+    let years = []
+
+    for (let i = startYear; i <= currentYear; i++) {
+      years.push(i)
+    }
+
+    return years
+  }
+
   render() {
+    const years = this.generateYears()
 
     return (
       <div>
@@ -64,10 +78,10 @@ class Kriteria extends React.Component {
             <Label for="rokSelect">Rok:</Label>
             &nbsp;
             &nbsp;
-            <Input type={'select'} id={'rokSelect'} value={this.props.data.rok} onChange={ this.handleRok }>
-              <option value="2020">2020</option>
-              <option value="2021">2021</option>
-              <option value="2022">2022</option>
+            <Input type={'select'} id={'rokSelect'} value={this.props.data.rok} onChange={this.handleRok}>
+              {years.map(year => (
+                <option key={year} value={year}>{year}</option>
+              ))}
             </Input>
           </FormGroup>
           &nbsp;

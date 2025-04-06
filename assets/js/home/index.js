@@ -45,7 +45,7 @@ const polozky = [
         zadefinuje pri tvorbe plánu.`,
     users: `Ing. Peter Sochovič, Ing. Mário Geleta, Ing. Ivan Broniš`,
     links: [{
-      url: 'http://zeusprod-vi/tip/zone_ee_plan-prevadzky.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_ee_plan-prevadzky.php',
       nazov: 'Týždenný plán prevádzky',
       color: 'primary',
       size: 'md'
@@ -62,17 +62,17 @@ const polozky = [
         Export nameraných a skontrolovaných stavov do SAPu.`,
     users: `Ing. Miroslav Lenhartovič, Ing. Zlatica Tatarková`,
     links: [{
-      url: 'http://zeusprod-vi/tip/zone_smao_denne-a-mesacne-odpocty.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_smao_denne-a-mesacne-odpocty.php',
       nazov: 'Správa odpočtov',
       color: 'primary',
       size: 'md'
-    }, {
+    }/*, {
       url: Routing.generate('analyzy-notifikacie-merani'),
       nazov: 'Analýzy a notifikácie o meraní',
       color: 'primary',
       size: 'md'
     }, {
-      url: 'http://zeusprod-vi/tip/zone_smao_vyhladavanie-meradiel.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_smao_vyhladavanie-meradiel.php',
       nazov: 'Vyhľadávanie meradiel',
       color: 'secondary',
       size: 'sm'
@@ -81,8 +81,8 @@ const polozky = [
       nazov: 'Report meračov',
       color: 'secondary',
       size: 'sm'
-    }]
-  }, {
+    }*/]
+  }, /*{
     title: 'Cena tepla',
     text: `Príprava návrhu a výpočet skutočnej ceny tepla.
         Zobrazenie, tvorba, upravenie.
@@ -92,7 +92,7 @@ const polozky = [
         Export príloh k cenovému návrhu pre ÚRSO.`,
     users: `Ing. Marcela Belanská, Ing. Martin Bíreš, Ing. Róbert Tomčík`,
     links: [{
-      url: 'http://zeusprod-vi/tip/zone_kont_navrh-ceny-tepla.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_kont_navrh-ceny-tepla.php',
       nazov: 'Návrh ceny tepla',
       color: 'primary',
       size: 'md'
@@ -107,41 +107,41 @@ const polozky = [
       color: 'primary',
       size: 'md'
     }]
-  }, {
+  },*/ {
     title: 'Denníky prevádzky',
     text: `Stavy a údaje o výrobných zariadeniach na teplárňach.
         Činnosti súvisiace s výrobou a dodávkou tepla na prevádzkach.
         Hlásenia a poznámky odboru rozvod tepla východ.`,
     users: `Ing. Martin Cýcha, Ing. Szilárd Szabó, Ing. Peter Štetka, Ing. Peter Sochovič, Ing. Diana Chovancová`,
     links: [{
-      url: 'http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-zoznam-tpv.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_disp-dennik-cinnosti-zoznam-tpv.php',
       nazov: 'Tepláreň Východ',
       color: 'secondary',
       size: 'sm'
     }, {
-      url: 'http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-zoznam-tpz.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_disp-dennik-cinnosti-zoznam-tpz.php',
       nazov: 'Tepláreň Západ',
       color: 'secondary',
       size: 'sm'
     }, {
-      url: 'http://zeusprod-vi/tip/zone_disp-dennik-cinnosti-zoznam-vhj.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_disp-dennik-cinnosti-zoznam-vhj.php',
       nazov: 'Výhrevňa Juh',
       color: 'secondary',
       size: 'sm'
     }, {
-      url: 'http://zeusprod-vi/tip/zone_prevadzka_rozvod-tepla-vychod.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_prevadzka_rozvod-tepla-vychod.php',
       nazov: 'Rozvod tepla východ',
       color: 'dark',
       size: 'sm'
     }]
-  }, {
+  },/* {
     title: 'Opravy a poruchy',
     text: `Hlásenia modulu PM zo SAPu.
         Obnova údajov v intervale 15 minút.
         Najčastejšie poruchové zariadenia.`,
     users: `Ing. Szilárd Szabó`,
     links: [{
-      url: 'http://zeusprod-vi/tip/zone_uvod_hlasenia-pm.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_uvod_hlasenia-pm.php',
       nazov: 'Hlásenia PM',
       color: 'primary',
       size: 'md'
@@ -153,12 +153,12 @@ const polozky = [
         Generovanie formuláru hromadnej prevodky DM a KM.`,
     users: `Mgr. Miroslav Rybár, Zuzana Grancová, Mgr. Andrej Rybák, Ing. Juraj Lelkeš`,
     links: [{
-      url: 'http://zeusprod-vi/tip/zone_uvod_majetkove-karty.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_uvod_majetkove-karty.php',
       nazov: 'Majetková karta',
       color: 'primary',
       size: 'md'
     }, {
-      url: 'http://zeusprod-vi/tip/zone_uvod_prevodka.php',
+      url: 'https://srv10wpzeusprod01.corp.mhth.sk/tip/zone_uvod_prevodka.php',
       nazov: 'Hromadná prevodka',
       color: 'secondary',
       size: 'sm'
@@ -204,7 +204,7 @@ const polozky = [
       color: 'primary',
       size: 'md'
     }]
-  }
+  }*/
 ]
 
 const Karta = ({title, text, users, links}) => (
@@ -248,4 +248,4 @@ class App extends React.Component {
 ReactDOM.render(
   <App/>,
   document.getElementById('uvodna-stranka')
-);
+)

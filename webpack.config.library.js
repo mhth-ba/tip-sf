@@ -14,7 +14,7 @@ const webpackConfig = {
   },
 
   entry: {
-    library: [
+    library5: [
       'jquery',
       'bootstrap',
       'highcharts',
@@ -30,6 +30,7 @@ const webpackConfig = {
       'date-fns',
       'sweetalert2',
       'sweetalert2-react-content',
+      'immutable',
       'react',
       'react-dom',
       'react-redux',
@@ -42,6 +43,10 @@ const webpackConfig = {
       'react-highcharts',
       'react-hot-loader',
       'react-bootstrap-table',
+      'react-bootstrap-table-next',
+      'react-bootstrap-table2-paginator',
+      'react-bootstrap-table2-filter',
+      'react-bootstrap-table2-editor',
       'react-fontawesome',
       'react-number-format',
       'react-dropzone-component',

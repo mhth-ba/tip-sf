@@ -36,8 +36,9 @@ class Dokoncene extends React.Component {
           </Card>
           :
           <ListGroup style={{ overflowY: 'scroll', maxHeight: '250px' }}>
-            {/* OPERATIVNE ULOHY */}
-            { ulohy
+
+            {/* ZMENOVE POZIADAVKY K DOKONCENYM PROJEKTOM */}
+            { zmenove
               .filter(x => x.stav.id === 3)
               .map(
                 (uloha, idx) => (
@@ -46,9 +47,10 @@ class Dokoncene extends React.Component {
                          ziadatel={uloha.ziadatel}
                          zadane={dateShort(uloha.zadane)}
                          termin={dateShort(uloha.termin)}
-                         dokoncene={dateShort(uloha.dokoncene)}
                          pracnost={uloha.cas}
+                         projekt={uloha.projekt.nazov}
                          popis={uloha.popis}
+                         plnenie={uloha.plnenie}
                          stav={uloha.stav}
                   />
                 )
@@ -74,8 +76,8 @@ class Dokoncene extends React.Component {
               )
             }
 
-            {/* ZMENOVE POZIADAVKY K DOKONCENYM PROJEKTOM */}
-            { zmenove
+            {/* OPERATIVNE ULOHY */}
+            { ulohy
               .filter(x => x.stav.id === 3)
               .map(
                 (uloha, idx) => (
@@ -84,10 +86,9 @@ class Dokoncene extends React.Component {
                          ziadatel={uloha.ziadatel}
                          zadane={dateShort(uloha.zadane)}
                          termin={dateShort(uloha.termin)}
+                         dokoncene={dateShort(uloha.dokoncene)}
                          pracnost={uloha.cas}
-                         projekt={uloha.projekt.nazov}
                          popis={uloha.popis}
-                         plnenie={uloha.plnenie}
                          stav={uloha.stav}
                   />
                 )

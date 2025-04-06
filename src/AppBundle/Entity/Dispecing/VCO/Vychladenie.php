@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity\Dispecing\VCO;
 
+use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\VCO\VychladenieRepository")
  * @ORM\Table(name="OST_Vychladenie", schema="Dispecing")
  */
-class Vychladenie
+class Vychladenie extends BaseEntity
 {
     /**
      * @ORM\Column(type="bigint", name="OM")
@@ -145,12 +146,12 @@ class Vychladenie
 
     public function getPrvyDen()
     {
-        return $this->prvyDen;
+        return $this->getTimestampWithOffset($this->prvyDen);
     }
 
     public function getPoslednyDen()
     {
-        return $this->poslednyDen;
+        return $this->getTimestampWithOffset($this->poslednyDen);
     }
 
     public function getRok()

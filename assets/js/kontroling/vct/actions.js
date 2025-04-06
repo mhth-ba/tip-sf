@@ -290,7 +290,15 @@ export function* loadMainEntry(action) {
       }))
     }
 
-    //yield call(delay, 7000)
+    yield call(delay, 7000)
+
+    if (udaje.upload.sn === null) {
+      yield put(Notifications.error({
+        title: 'Chýba súbor so skutočnýcmi nákladmi',
+        message: 'XML súbor obsahujúci skutočné náklady (1-X) zatiaľ nebol nahratý',
+        autoDismiss: 10
+      }))
+    }
 
   } catch (e) {
     yield put({type: TYPES.LOAD_MAIN_ENTRY_ERROR, data: e})
@@ -618,10 +626,6 @@ export function* updateHlavny(action) {
   try {
     const update = yield call(Api.patch, `${url}/${id}`, data)
 
-    if (data.nct || data.sct) {
-      yield put(fetchVypocetBuniekRequest(id))
-    }
-
     if (data.stav === '1') {
       yield put(Notifications.success({
         title: 'Ukladanie údajov',
@@ -630,6 +634,11 @@ export function* updateHlavny(action) {
     }
 
     yield put({type: TYPES.UPDATE_HLAVNY_SUCCESS, data: update})
+
+    if (data.nct !== undefined || data.sct !== undefined) {
+      yield put(fetchVypocetBuniekRequest(id))
+    }
+
     yield put(fetchVyberPolozkyRequest())
 
   } catch (e) {

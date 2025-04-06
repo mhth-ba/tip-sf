@@ -40,7 +40,8 @@ const Polozka = ({id, nazov, rok, mesiac, stav, nct, sct, vytvoril, datum, pozna
           data-datum={ datum }
           data-poznamka={poznamka}
           data-upload_odt={upload.odt && upload.odt.original}
-  >({rok}) {nazov}</option>
+          data-upload_sn={upload.sn && upload.sn.original}
+  >({rok}/{mesiac}) {nazov}</option>
 )
 
 const NacitavanieOpravneni = () => (
@@ -79,7 +80,8 @@ class Nastroje extends React.Component {
       poznamka: null,
       vytvoril: null,
       datum: null,
-      excel_odt: null            // ocakavana dodavka tepla (subor)
+      excel_odt: null,           // ocakavana dodavka tepla (subor)
+      excel_sn: null             // skutocne naklady (subor)
     }
 
     this.toggleCreate = this.toggleCreate.bind(this)
@@ -148,7 +150,8 @@ class Nastroje extends React.Component {
       poznamka: null,
       vytvoril: null,
       datum: null,
-      excel_odt: null        // ocakavana dodavka tepla
+      excel_odt: null,       // ocakavana dodavka tepla
+      excel_sn: null         // skutocne naklady
     })
   }
 
@@ -167,6 +170,7 @@ class Nastroje extends React.Component {
     const vytvoril = option.getAttribute('data-vytvoril')
     const datum = option.getAttribute('data-datum')
     const excel_odt = option.getAttribute('data-upload_odt')
+    const excel_sn = option.getAttribute('data-upload_sn')
 
     this.setState({
       validOption: e.target.value !== '',
@@ -182,7 +186,8 @@ class Nastroje extends React.Component {
       poznamka,
       vytvoril,
       datum,
-      excel_odt
+      excel_odt,
+      excel_sn
     })
   }
 
@@ -346,13 +351,26 @@ class Nastroje extends React.Component {
                           </span> }
                         </td>
                       </tr>
+                      <tr>
+                        <th>Import SN<br/><span className="small">Skutočné náklady</span></th>
+                        <td className="align-middle">{ this.state.excel_sn ?
+                          <Badge color="success">{ this.state.excel_sn }</Badge>
+                          :
+                          <span>
+                            <Badge color="danger" id="xml-nenahrany-sn-spr">Nenahraný</Badge>
+                            <UncontrolledTooltip placement="top" target="xml-nenahrany-sn-spr">
+                              XML súbor s údajmi o skutočných nákladoch (1-X) zatiaľ nebol nahraný
+                            </UncontrolledTooltip>
+                          </span> }
+                        </td>
+                      </tr>
                       </tbody>
                     </Table>
                     <CardText style={{whiteSpace: 'pre-line'}}>
                       { this.state.poznamka }
                     </CardText>
                     <CardText className="small text-muted text-right">
-                      Vytvoril užívateľ { this.state.vytvoril }
+                      Vytvoril používateľ { this.state.vytvoril }
                       <br/>
                       { dateTime( this.state.datum ) }
                     </CardText>

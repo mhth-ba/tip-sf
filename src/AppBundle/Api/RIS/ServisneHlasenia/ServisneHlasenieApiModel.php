@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Api;
+namespace AppBundle\Api\RIS\ServisneHlasenia;
 
 class ServisneHlasenieApiModel
 {

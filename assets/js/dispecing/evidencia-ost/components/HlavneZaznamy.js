@@ -1,14 +1,23 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Row, Col, Card, CardHeader, CardBody, Table} from 'reactstrap'
+import {
+  Row, Col, Card, CardHeader, CardBody, CardFooter, Table, Input,
+  Form, FormGroup, Label
+} from 'reactstrap'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
-import cellEditFactory from 'react-bootstrap-table2-editor'
+import cellEditFactory, { Type } from 'react-bootstrap-table2-editor'
 import { dateSmall, dateTimeSmall } from '../../../utils/format'
 
-import {fetchHlavneZaznamyEvidencieRequest} from '../actions'
+import {
+  fetchOpravneniaRequest,
+  fetchMoznostiRequest,
+  fetchHlavneZaznamyEvidencieRequest,
+  updateHlavnyRequest,
+  updatePostupenieRequest
+} from '../actions'
 
 const dateTimeFormatter = ( cell, row ) => (
   dateTimeSmall(cell)
@@ -20,7 +29,7 @@ const booleanFormatter = ( cell, row ) => {
 
 const vplyvFormatter = ( cell, row ) => {
   switch (cell) {
-    case 1: return '-'
+    case 1: return 'Žiadny'
     case 2: return 'Obmedzená dodávka'
     case 3: return 'Prerušená dodávka'
   }
@@ -51,18 +60,76 @@ const pagination = paginationFactory({
 class HlavneZaznamy extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      edit: false // 0 = rezim zobrazenia | 1 = rezim uprav
+    }
+
+
+    this.editable = this.editable.bind(this)
+
+    this.handleUpdateHlavny = this.handleUpdateHlavny.bind(this)
+    this.handleUpdatePostupenie = this.handleUpdatePostupenie.bind(this)
+  }
+
+  editable(e) {
+    this.setState({
+      edit: e.target.value === 'true'
+    })
+  }
+
+  handleUpdateHlavny(oldValue, newValue, row, column) {
+
+    const data = {
+      id: row.id,
+      key: column.dataField,
+      [column.dataField]: newValue,
+      zaradenie: 1,
+    }
+
+    this.props.updateHlavny(data)
+
+    return true
+  }
+
+  handleUpdatePostupenie(oldValue, newValue, row, column) {
+
+    const data = {
+      id: row.id,
+      key: column.dataField,
+      [column.dataField]: newValue,
+      zaradenie: 1,
+      hlavny: this.props.hlavny.id
+    }
+
+    this.props.updatePostupenie(data)
+
+    return true
   }
 
   componentDidMount() {
+    this.props.access()
+    this.props.options()
     this.props.load()
   }
 
   render() {
 
+    const opravnenia = this.props.opravnenia.deo
+    const moznosti = this.props.moznosti
     const hlavny = this.props.hlavny
     const zaznamy = hlavny.zaznamy
 
+    const edit = this.state.edit
+
+    const cellEdit = cellEditFactory({
+      mode: 'click', // dvojklik pre úpravu bunky
+      beforeSaveCell: this.handleUpdate
+    })
+
     const expandRow = {
+      expandByColumnOnly: true,
+      showExpandColumn: true,
       renderer: row => (
         <Table>
           <thead>
@@ -77,7 +144,7 @@ class HlavneZaznamy extends React.Component {
           </tr>
           </thead>
           <tbody>
-          { row.postupenia.map( (v, index) => (
+          { row.postupenia !== null && row.postupenia.map( (v, index) => (
             <tr key={index}>
               <td>{dateTimeFormatter(v.datum_postupenia)}</td>
               <td>{v.subjekt_postupenia.subjekt}</td>
@@ -90,9 +157,30 @@ class HlavneZaznamy extends React.Component {
             ) ) }
           </tbody>
         </Table>
-      ),
-      showExpandColumn: true
+      )
     }
+
+    const vplyv_options = [{
+      value: 1,
+      label: 'Žiadny'
+    }, {
+      value: 2,
+      label: 'Obmedzená dodávka'
+    }, {
+      value: 3,
+      label: 'Prerušená dodávka'
+    }]
+
+    // ost ... value=id .... label=cislo + adresa
+
+    let ost_options = []
+
+    moznosti.ost.map( item => {
+      ost_options.push({
+        value: item.id,
+        label: item.cislo + ' ' + item.adresa
+      })
+    })
 
     const columns = [{
       dataField: 'id',
@@ -101,48 +189,78 @@ class HlavneZaznamy extends React.Component {
     }, {
       dataField: 'datum_zistenia',
       text: 'Dátum a čas zistenia',
-      formatter: dateTimeFormatter
+      formatter: dateTimeFormatter,
+      editable: edit
     }, {
       dataField: 'ost',
       text: 'OST',
-      formatter: ostFormatter
+      formatter: ostFormatter,
+      editable: edit,
+      editor: {
+        type: Type.SELECT,
+        options: ost_options,
+        defaultValue: 1000
+      }
     }, {
       dataField: 'predmet.nazov',
-      text: 'Predmet'
+      text: 'Predmet',
+      editable: edit
     }, {
       dataField: 'zakaznik.meno',
-      text: 'Zákazník'
+      text: 'Zákazník',
+      editable: edit
     }, {
       dataField: 'udalost.nazov',
-      text: 'Udalosť'
+      text: 'Udalosť',
+      editable: edit
     },{
       dataField: 'vytvoril.fullname',
-      text: 'Zaevidoval'
+      text: 'Zaevidoval',
+      editable: false
     }, {
-      dataField: '',
-      text: 'Doba trvania'
+      dataField: 'doba_trvania',
+      text: 'Doba trvania',
+      editable: false,
     }, {
-      dataField: '',
-      text: 'Doba odstraňovania'
+      dataField: 'doba_odstranovania',
+      text: 'Doba odstraňovania',
+      editable: false
     }, {
       dataField: 'vplyv_uk',
       text: 'Vplyv na ÚK',
-      formatter: vplyvFormatter
+      formatter: vplyvFormatter,
+      editable: edit,
+      editor: {
+        type: Type.SELECT,
+        options: vplyv_options
+      }
     }, {
       dataField: 'vplyv_tuv',
       text: 'Vplyv na TÚV',
-      formatter: vplyvFormatter
+      formatter: vplyvFormatter,
+      editable: edit,
+      editor: {
+        type: Type.SELECT,
+        options: vplyv_options
+      }
     }, {
       dataField: 'zavinenie',
       text: 'Zavinenie',
-      formatter: booleanFormatter
+      formatter: booleanFormatter,
+      editable: edit,
+      editor: {
+        type: Type.CHECKBOX,
+        value: 'true:false'
+      }
     },{
       dataField: 'typ.nazov',
-      text: 'Typ'
+      text: 'Typ',
+      editable: edit
     }, {
       dataField: 'poznamka',
-      text: 'Poznámka'
-    }];
+      text: 'Poznámka',
+      editable: edit
+    }]
 
     return (
       <Card>
@@ -152,26 +270,57 @@ class HlavneZaznamy extends React.Component {
                           data={zaznamy}
                           columns={columns}
                           bootstrap4
+                          cellEdit={cellEdit}
                           bordered={false}
                           striped
                           condensed
                           pagination={pagination}
-                          filter={ filterFactory() }
+                          filter={filterFactory()}
                           expandRow={expandRow}
           />
         </CardBody>
+        { opravnenia &&
+          <CardFooter>
+            <Form inline onChange={ this.editable }>
+              <FormGroup check>
+                <Label check>
+                  <Input type={'radio'} name={'edit'} value={false} defaultChecked />{' '}
+                  Režim zobrazenia
+                </Label>
+              </FormGroup>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <FormGroup check>
+                <Label check>
+                  <Input type={'radio'} name={'edit'} value={true} />{' '}
+                  Režim úprav
+                </Label>
+              </FormGroup>
+            </Form>
+          </CardFooter>
+        }
       </Card>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  // zoznam: state.zoznam,
+  nastroje: state.nastroje,
+  opravnenia: state.opravnenia,
+  moznosti: state.moznosti,
   hlavny: state.hlavny
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  load: () => dispatch(fetchHlavneZaznamyEvidencieRequest())
+  // opravnenia
+  access: () => dispatch(fetchOpravneniaRequest()),
+  options: () => dispatch(fetchMoznostiRequest()),
+
+  // data read
+
+  // data update
+  load: () => dispatch(fetchHlavneZaznamyEvidencieRequest()),
+  updateHlavny: (e) => dispatch(updateHlavnyRequest(e)),
+  updatePostupenie: (e) => dispatch(updatePostupenieRequest(e))
 })
 
 export default connect(

@@ -42,11 +42,23 @@ const webpackConfig = {
   entry: {
     layout: './assets/js/layout.js',
     home: './assets/js/home/index.js',
+    anm: './assets/js/meranie-a-odpocty/anm/index.js',
     rm: './assets/js/meranie-a-odpocty/rm/index.js',
     dpp: './assets/js/efektivnost/dpp/index.js',
     scztv: './assets/js/dispecing/scztv/index.js',
+    scztz: './assets/js/dispecing/scztz/index.js',
+    scztost: './assets/js/dispecing/scztost/index.js',
+    ds: './assets/js/dispecing/doplnovanie-siet/index.js',
+    doo: './assets/js/dispecing/doplnovanie-ost/index.js',
     vco: './assets/js/dispecing/vychladenie-ost/index.js',
+    deo: './assets/js/dispecing/evidencia-ost/index.js',
+    mpptpv: './assets/js/prevadzka/mpp-tpv/index.js',
+    mpptpz: './assets/js/prevadzka/mpp-tpz/index.js',
+    mppvhj: './assets/js/prevadzka/mpp-vhj/index.js',
     sct: './assets/js/kontroling/sct/index.js',
+    vct: './assets/js/kontroling/vct/index.js',
+    dp: './assets/js/uctovnictvo/dp/index.js',
+    prj: './assets/js/projekty/index.js',
     admin: './assets/js/admin/index.js',
   },
 
@@ -193,7 +205,7 @@ const webpackConfig = {
     // DLL plugin to optimize build speed
     new webpack.DllReferencePlugin({
       context: __dirname,
-      manifest: require('./web/build/library/library.json')
+      manifest: require('./web/build/library/library5.json')
     }),
 
     // optimize javascript files

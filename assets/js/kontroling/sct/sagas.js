@@ -58,6 +58,7 @@ import {
 
 function* mySaga() {
   yield all([
+    // FETCH
     takeLatest(TYPES.FETCH_OPRAVNENIA_REQUEST, fetchOpravnenia),
     takeLatest(TYPES.FETCH_PRISTUPY_REQUEST, fetchPristupy),
     takeLatest(TYPES.FETCH_VYBER_POLOZKY_REQUEST, fetchVyberPolozky),
@@ -86,10 +87,12 @@ function* mySaga() {
 
     takeLatest(TYPES.PROCESS_UPLOADED_FILE_REQUEST, processUploadedFile),
 
+    // CREATE
     takeEvery(TYPES.CREATE_HLAVNY_REQUEST, createHlavny),
     takeEvery(TYPES.CREATE_PRISTUP_REQUEST, createPristup),
     takeEvery(TYPES.CREATE_KOTOLNA_REQUEST, createKotolna),
 
+    // UPDATE
     takeEvery(TYPES.UPDATE_HLAVNY_REQUEST, updateHlavny),
     takeEvery(TYPES.UPDATE_PRISTUP_REQUEST, updatePristup),
     takeEvery(TYPES.UPDATE_POZNAMKY_REQUEST, updatePoznamky),
@@ -106,6 +109,7 @@ function* mySaga() {
     takeEvery(TYPES.UPDATE_SKUTOCNE_NAKLADY_REQUEST, updateSkutocneNaklady),
     takeEvery(TYPES.UPDATE_REGULOVANA_ZLOZKA_REQUEST, updateRegulovanaZlozka),
 
+    // DELETE
     takeEvery(TYPES.DELETE_PRISTUP_REQUEST, deletePristup),
     takeEvery(TYPES.DELETE_KOTOLNA_REQUEST, deleteKotolna),
     takeEvery(TYPES.DELETE_SUBOR_REQUEST, deleteSubor)

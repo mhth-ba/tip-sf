@@ -95,8 +95,8 @@ class VychladenieOSTController extends BaseController
         $model->odberatel = $vychladenie->getOdberatel();
         $model->adresa = $vychladenie->getAdresa();
         $model->tarifa = $vychladenie->getTarifa();
-        $model->prvyDen = $vychladenie->getPrvyDen()->getTimestamp();
-        $model->poslednyDen = $vychladenie->getPoslednyDen()->getTimestamp();
+        $model->prvyDen = $vychladenie->getPrvyDen();
+        $model->poslednyDen = $vychladenie->getPoslednyDen();
         $model->spotrebaEnergie = $vychladenie->getSpotrebaEnergie();
         $model->spotrebaObjemu = $vychladenie->getSpotrebaObjemu();
         $model->vychladenie = $vychladenie->getVychladenie();
@@ -164,8 +164,8 @@ class VychladenieOSTController extends BaseController
         $model->tarifa = $vychladenie->getTarifa();
         $model->rok = $vychladenie->getRok();
         $model->mesiac = $vychladenie->getMesiac();
-        $model->prvyDen = $vychladenie->getPrvyDen()->getTimestamp();
-        $model->poslednyDen = $vychladenie->getPoslednyDen()->getTimestamp();
+        $model->prvyDen = $vychladenie->getPrvyDen();
+        $model->poslednyDen = $vychladenie->getPoslednyDen();
         $model->teplo = $vychladenie->getSpotrebaEnergie();
         $model->prietok = $vychladenie->getSpotrebaObjemu();
         $model->vychladenie = $vychladenie->getVychladenie();

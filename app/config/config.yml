@@ -51,24 +51,44 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        wrapper_class: 'AppBundle\Doctrine\DBAL\ExtendedConnection'
-        dbname: '%database_name%'
-        host: '%database_host%'
-        port: '%database_port%'
-        user: '%database_user%'
-        password: '%database_password%'
-        driver: pdo_sqlsrv
-        charset: UTF8
-        logging: '%kernel.debug%'
-        profiling: '%kernel.debug%'
-        MultipleActiveResultSets: true
+        default_connection: default
+        connections:
+            default:
+                wrapper_class: 'AppBundle\Doctrine\DBAL\ExtendedConnection'
+                dbname: '%database_name%'
+                host: '%database_host%'
+                port: '%database_port%'
+                user: '%database_user%'
+                password: '%database_password%'
+                driver: pdo_sqlsrv
+                charset: UTF8
+                logging: '%kernel.debug%'
+                profiling: '%kernel.debug%'
+                MultipleActiveResultSets: true
+            db01vi:
+                dbname: '%database_name_db01vi%'
+                host: '%database_host_db01vi%'
+                port: '%database_port_db01vi%'
+                user: '%database_user_db01vi%'
+                password: '%database_password_db01vi%'
+                driver: pdo_sqlsrv
+                charset: UTF8
         types:
             datetime: AppBundle\Doctrine\Types\DateTime
 
     orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+#            db01vi:
+#                connection: db01vi
+#                mappings:
+#                    AktionBundle: ~
+#                naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_generate_proxy_classes: '%kernel.debug%'
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
 
 # Swiftmailer Configuration
 swiftmailer:

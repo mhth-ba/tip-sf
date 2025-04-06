@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import { Table, Card, CardHeader, CardBody, CardFooter, Button, UncontrolledTooltip } from 'reactstrap'
+import { Table, Card, CardHeader, CardBody, CardFooter, Button, UncontrolledTooltip, Alert } from 'reactstrap'
 import NumberFormat from 'react-number-format'
 //import { Context, Node } from 'react-mathjax2'
 
@@ -59,6 +59,8 @@ class UzitocnaDodavkaTepla extends React.Component {
     const ocakavanadodavka = this.props.ocakavanadodavka
     const vypocet = this.props.vypocet
     const varianty = ocakavanadodavka.varianty
+
+    const upload_odt = hlavny.upload.odt !== null
 
     const variant = this.props.variant
 
@@ -126,6 +128,15 @@ class UzitocnaDodavkaTepla extends React.Component {
       <Card>
         <CardHeader className="bg-primary text-white">Forecast dodávky tepla</CardHeader>
         <CardBody style={{ overflowX: 'scroll' }}>
+          { !upload_odt &&
+            <span>
+              <Alert color={'danger'}>
+                <FontAwesome name={'exclamation'} />
+                &nbsp;
+                Súbor s očakávanou dodávkou tepla zatiaľ nebol nahraný.
+              </Alert>
+            </span>
+          }
           <Table size="sm" bordered>
             <thead>
             <tr className="text-center text-nowrap">

@@ -4,7 +4,7 @@ import {
 } from 'reactstrap'
 import scrollToComponent from 'react-scroll-to-component'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-import dateTime from '../../../utils/format'
+import { dateTime } from '../../../utils/format'
 import { connect } from 'react-redux'
 
 import Highcharts from 'highcharts'
@@ -285,16 +285,16 @@ class VychladenieOST extends React.Component {
                         ( riadok, i ) => {
                             datum.push(riadok.datum * 1000)
 
-                            let teplotaAvg_a = riadok.teplotaAvg && parseFloat(riadok.teplotaAvg.toFixed(2))
-                            let teplotaMin_a = riadok.teplotaMin && parseFloat(riadok.teplotaMin.toFixed(2))
-                            let teplotaMax_a = riadok.teplotaMax && parseFloat(riadok.teplotaMax.toFixed(2))
+                            let teplota_avg_a = riadok.teplota_avg && parseFloat(riadok.teplota_avg.toFixed(2))
+                            let teplota_min_a = riadok.teplota_min && parseFloat(riadok.teplota_min.toFixed(2))
+                            let teplota_max_a = riadok.teplota_max && parseFloat(riadok.teplota_max.toFixed(2))
                             let energia_a = riadok.energia && parseFloat(riadok.energia.toFixed(2))
                             let objem_a = riadok.objem && parseFloat(riadok.objem.toFixed(2))
                             let vychladenie_a = riadok.vychladenie && parseFloat(riadok.vychladenie.toFixed(2))
                             let vplyv_a = riadok.vplyv && parseFloat(riadok.vplyv.toFixed(2))
 
-                            teplotaPriemer.push([ datum[i], teplotaAvg_a ])
-                            teplotaRozsah.push([ datum[i], teplotaMin_a, teplotaMax_a ])
+                            teplotaPriemer.push([ datum[i], teplota_avg_a ])
+                            teplotaRozsah.push([ datum[i], teplota_min_a, teplota_max_a ])
                             energia.push([ datum[i], energia_a ])
                             objem.push([ datum[i], objem_a ])
                             vychladenie.push([ datum[i], vychladenie_a ])
@@ -396,10 +396,10 @@ class VychladenieOST extends React.Component {
                             <TableHeaderColumn dataField={'mesiac'} width={'80px'} dataFormat={monthFormatter} dataSort>
                                 Mesiac
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'prvyDen'} width={'130px'} dataFormat={dateTimeFormatter} dataSort>
+                            <TableHeaderColumn dataField={'prvy_den'} width={'130px'} dataFormat={dateTimeFormatter} dataSort>
                                 Prvý deň
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'poslednyDen'} width={'130px'} dataFormat={dateTimeFormatter} dataSort>
+                            <TableHeaderColumn dataField={'posledny_den'} width={'130px'} dataFormat={dateTimeFormatter} dataSort>
                                 Posledný deň
                             </TableHeaderColumn>
                             <TableHeaderColumn dataField={'teplo'} width={'90px'} dataFormat={energyFormatter} dataAlign={'right'} dataSort>

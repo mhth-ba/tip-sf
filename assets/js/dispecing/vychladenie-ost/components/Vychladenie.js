@@ -7,7 +7,7 @@ import {
 import ReactLoading from 'react-loading'
 import FontAwesome from 'react-fontawesome'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-import dateTime from '../../../utils/format'
+import { dateTime } from '../../../utils/format'
 import { connect } from 'react-redux'
 import {
     fetchZoznamObdobiRequest,
@@ -322,19 +322,19 @@ class Vychladenie extends React.Component {
                             <TableHeaderColumn dataField={'tarifa'} width={'80px'} dataAlign={'center'} dataSort>
                                 Tarifa
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'prvyDen'} width={'130px'}
+                            <TableHeaderColumn dataField={'prvy_den'} width={'130px'}
                                                dataFormat={dateTimeFormatter} dataSort>
                                 Prvý deň
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'poslednyDen'} width={'130px'}
+                            <TableHeaderColumn dataField={'posledny_den'} width={'130px'}
                                                dataFormat={dateTimeFormatter} dataSort>
                                 Posledný deň
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'spotrebaEnergie'} width={'90px'}
+                            <TableHeaderColumn dataField={'spotreba_energie'} width={'90px'}
                                                dataFormat={energyFormatter} dataAlign={'right'} dataSort>
                                 Teplo
                             </TableHeaderColumn>
-                            <TableHeaderColumn dataField={'spotrebaObjemu'} width={'100px'}
+                            <TableHeaderColumn dataField={'spotreba_objemu'} width={'100px'}
                                                dataFormat={volumeFormatter} dataAlign={'right'} dataSort>
                                 Prietok
                             </TableHeaderColumn>
@@ -383,7 +383,7 @@ class Vychladenie extends React.Component {
                                     { prehlad.map( ( polozka, ix ) =>
                                         <tr key={ix}>
                                             <td>{ polozka.hranica }</td>
-                                            <td>{ polozka.pocetOm }</td>
+                                            <td>{ polozka.pocet_om }</td>
                                             <td className="text-right">
                                                 { decimalFormatter(polozka.energia) } GJ
                                             </td>

@@ -354,7 +354,7 @@ class SkutocnaCenaTeplaController extends BaseController
      * @Method("GET")
      * @Security("has_role('ROLE_SCT_MNG')")
      */
-    public function getPristupy()
+    public function getPristupyAction()
     {
         $grants = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:App\Grant')

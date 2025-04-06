@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity\Meranie\RM;
 
+use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Meranie\RM\HlavnyRepository")
  * @ORM\Table(name="RM_Hlavny", schema="Meranie")
  */
-class Hlavny
+class Hlavny extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -34,11 +35,11 @@ class Hlavny
 
     public function getVytvorene()
     {
-        return $this->vytvorene;
+        return $this->getTimestampWithOffset($this->vytvorene);
     }
 
     public function getDatum()
     {
-        return $this->datum;
+        return $this->getTimestampWithOffset($this->datum);
     }
 }

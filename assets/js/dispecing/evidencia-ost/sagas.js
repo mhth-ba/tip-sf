@@ -11,7 +11,7 @@ import {
 
   createHlavnyZaznamEvidencie,
 
-  updateHlavnyZaznamEvidencie,
+  updateHlavny,
 
   deleteHlavnyZaznamEvidencie,
 } from './actions'
@@ -27,7 +27,7 @@ function* mySaga() {
 
     takeEvery(TYPES.CREATE_HLAVNY_ZAZNAM_EVIDENCIE_REQUEST, createHlavnyZaznamEvidencie),
 
-    takeEvery(TYPES.UPDATE_HLAVNY_ZAZNAM_EVIDENCIE_REQUEST, updateHlavnyZaznamEvidencie),
+    takeEvery(TYPES.UPDATE_HLAVNY_REQUEST, updateHlavny),
 
     takeEvery(TYPES.DELETE_HLAVNY_ZAZNAM_EVIDENCIE_REQUEST, deleteHlavnyZaznamEvidencie)
   ])

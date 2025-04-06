@@ -158,7 +158,7 @@ class Vylucene extends React.Component {
       dataField: 'om',
       text: 'OM',
       sort: true,
-      filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
+      // filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
       editable: false,
       headerStyle: (col, ix) => {
         return { width: '90px' }
@@ -167,7 +167,7 @@ class Vylucene extends React.Component {
       dataField: 'ost',
       text: 'OST',
       sort: true,
-      filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
+      // filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
       editable: false,
       headerStyle: (col, ix) => {
         return { width: '60px' }
@@ -176,7 +176,7 @@ class Vylucene extends React.Component {
       dataField: 'mp',
       text: 'OM',
       sort: true,
-      filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
+      // filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
       editable: false,
       headerStyle: (col, ix) => {
         return { width: '80px' }
@@ -186,7 +186,7 @@ class Vylucene extends React.Component {
       dataField: 'adresa',
       text: 'Adresa',
       sort: true,
-      filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
+      // filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
       editable: false,
       headerStyle: (col, ix) => {
         return { width: '180px' }
@@ -195,7 +195,7 @@ class Vylucene extends React.Component {
       dataField: 'odberatel',
       text: 'Odberateľ',
       sort: true,
-      filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
+      // filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
       editable: false,
       headerStyle: (col, ix) => {
         return { width: '200px' }
@@ -204,7 +204,7 @@ class Vylucene extends React.Component {
       dataField: 'vc',
       text: 'Sériové číslo',
       sort: true,
-      filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
+      // filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
       editable: false,
       headerStyle: (col, ix) => {
         return { width: '120px' }
@@ -214,7 +214,7 @@ class Vylucene extends React.Component {
       dataField: 'tarifa',
       text: 'Tarifa',
       sort: true,
-      filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
+      // filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
       editable: false,
       headerStyle: (col, ix) => {
         return { width: '80px' }
@@ -261,7 +261,7 @@ class Vylucene extends React.Component {
       dataField: 'poznamka',
       text: 'Poznámka',
       sort: true,
-      filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
+      // filter: textFilter({ placeholder: '...', className: 'form-control-sm' }),
       editable: true,
       headerStyle: (col, ix) => {
         return { width: '120px' }

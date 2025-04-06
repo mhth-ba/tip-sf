@@ -46,6 +46,14 @@ let dateTimeSmall = (date, formatStr = 'DoMoYYYY HH:mm:ss') => {
   })
 }
 
+let dateTimeSmallHhmm = (date, formatStr = 'DoMoYYYY HH:mm') => {
+  const dateObject = new Date(date * 1000)
+
+  return format(dateObject, formatStr, {
+    locale: require('date-fns/locale/sk')
+  })
+}
+
 let dateMonthYear = (date, formatStr = 'MMMM YYYY') => {
   const dateObject = new Date(date * 1000)
 
@@ -57,6 +65,16 @@ let dateMonthYear = (date, formatStr = 'MMMM YYYY') => {
 }
 
 let dateYearMonth = (date, formatStr = 'YYYY MMMM') => {
+  const dateObject = new Date(date * 1000)
+
+  if (date === null) return null
+
+  return format(dateObject, formatStr, {
+    locale: require('date-fns/locale/sk')
+  })
+}
+
+let dateYear = (date, formatStr = 'YYYY') => {
   const dateObject = new Date(date * 1000)
 
   if (date === null) return null
@@ -94,4 +112,4 @@ let number = (number, decimals = 0, type = 'text') => {
 //exports.default = dateTime
 //module.exports = exports['default']
 
-module.exports = { dateTime, date, dateShort, dateSmall, dateTimeSmall, dateMonthYear, dateYearMonth, dateYearDayMonthDayname, dateDayname, number }
+module.exports = { dateTime, date, dateShort, dateSmall, dateTimeSmall, dateTimeSmallHhmm, dateMonthYear, dateYearMonth, dateYear, dateYearDayMonthDayname, dateDayname, number }

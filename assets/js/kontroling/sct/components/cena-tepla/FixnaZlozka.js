@@ -45,7 +45,7 @@ class FixnaZlozka extends React.Component {
 
     const ct = this.props.ct
     const vypocet = this.props.vypocet
-    const decimal = this.props.nastroje.decimal_ctvz
+    const decimal = this.props.nastroje.decimal_ctfz
 
     numF = {
       ...numF,
@@ -220,7 +220,7 @@ class FixnaZlozka extends React.Component {
 
         </CardBody>
         <CardFooter>
-          <DecimalScale id={'ctvz'} />
+          <DecimalScale id={'ctfz'} />
         </CardFooter>
       </Card>
     )

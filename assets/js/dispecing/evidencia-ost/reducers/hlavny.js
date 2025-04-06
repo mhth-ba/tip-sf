@@ -75,13 +75,13 @@ export default (state = initState, action) => {
     case TYPES.FETCH_HLAVNE_ZAZNAMY_EVIDENCIE_ERROR:
       return {...state, loading: false, error: action.data}
 
-    case TYPES.UPDATE_HLAVNY_ZAZNAM_EVIDENCIE_REQUEST:
+    case TYPES.UPDATE_HLAVNY_REQUEST:
       return {...state, updating: true}
 
-    case TYPES.UPDATE_HLAVNY_ZAZNAM_EVIDENCIE_SUCCESS:
+    case TYPES.UPDATE_HLAVNY_SUCCESS:
       return {...state, ...action.data, updating: false}
 
-    case TYPES.UPDATE_HLAVNY_ZAZNAM_EVIDENCIE_ERROR:
+    case TYPES.UPDATE_HLAVNY_ERROR:
       return {...state, error: action.data, updating: false}
 
     default:

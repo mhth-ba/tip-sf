@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Alert } from 'reactstrap'
+import FontAwesome from 'react-fontawesome'
 
 import OcakavaneNaklady from './teplo-a-elektrina/OcakavaneNaklady'
 
@@ -44,12 +45,12 @@ class SpolocneNaklady extends React.Component {
 
           <Row>
             <Col>
-              <p>
-                <em>
-                  Pre zobrazenie grafov je potrebné prepojiť vyhodnotenie ceny tepla
-                  so záznamom návrhu ceny tepla a záznamom skutočnej ceny tepla
-                </em>
-              </p>
+              <Alert color={'info'}>
+                <FontAwesome name={'info-circle'} />
+                &nbsp;
+                Pre zobrazenie grafov je potrebné prepojiť vyhodnotenie ceny tepla
+                so záznamom návrhu ceny tepla a záznamom skutočnej ceny tepla v karte hlavných údajov.
+              </Alert>
             </Col>
           </Row>
         }

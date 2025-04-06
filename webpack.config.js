@@ -47,12 +47,25 @@ const webpackConfig = {
   entry: {
     layout: ['./assets/js/layout.js', onlyDevServer, devServerClient],
     home: './assets/js/home/index.js',
+    anm: './assets/js/meranie-a-odpocty/anm/index.js',
     rm: './assets/js/meranie-a-odpocty/rm/index.js',
-    dpp: './assets/js/efektivnost/dpp/index.js',
+    dpp: ['./assets/js/efektivnost/dpp/index.js', onlyDevServer, devServerClient],
     scztv: './assets/js/dispecing/scztv/index.js',
     scztz: './assets/js/dispecing/scztz/index.js',
+    scztost: './assets/js/dispecing/scztost/index.js',
+    ds: './assets/js/dispecing/doplnovanie-siet/index.js',
+    doo: './assets/js/dispecing/doplnovanie-ost/index.js',
     vco: './assets/js/dispecing/vychladenie-ost/index.js',
+    deo: ['./assets/js/dispecing/evidencia-ost/index.js', onlyDevServer, devServerClient],
+    ddhost: ['./assets/js/dispecing/ddh-ost/index.js'],
+    ddhhv: ['./assets/js/dispecing/ddh-hv/index.js',],
+    mpptpv: './assets/js/prevadzka/mpp-tpv/index.js',
+    mpptpz: './assets/js/prevadzka/mpp-tpz/index.js',
+    mppvhj: './assets/js/prevadzka/mpp-vhj/index.js',
     sct: ['./assets/js/kontroling/sct/index.js', onlyDevServer, devServerClient],
+    vct: ['./assets/js/kontroling/vct/index.js', onlyDevServer, devServerClient],
+    dp: ['./assets/js/uctovnictvo/dp/index.js', onlyDevServer, devServerClient],
+    prj: './assets/js/projekty/index.js',
     admin: './assets/js/admin/index.js',
   },
 
@@ -170,7 +183,7 @@ const webpackConfig = {
     // library packages are separated into library.dll.js
     new webpack.DllReferencePlugin({
       context: __dirname,
-      manifest: require('./web/build/library/library.json')
+      manifest: require('./web/build/library/library5.json')
     }),
 
     // hot module replacement
@@ -206,8 +219,9 @@ const webpackConfig = {
         }),
         onProxyRes: (proxyRes, req, res) => {
           let key = 'www-authenticate';
+          console.log({...proxyRes.headers})
           proxyRes.headers[key] = proxyRes.headers[key] && proxyRes.headers[key].split(',');
-          console.log(proxyRes.headers[key])
+          //console.log(proxyRes.headers[key])
         }
       }
     },

@@ -22,6 +22,7 @@ export const SET_DECIMAL_SCALE = 'SET_DECIMAL_SCALE'
 
 export const SET_ROK = 'SET_ROK'
 export const SET_MESIAC = 'SET_MESIAC'
+export const SET_DNI = 'SET_DNI'
 
 // LOAD MAIN ENTRY
 export const LOAD_MAIN_ENTRY_REQUEST = 'LOAD_MAIN_ENTRY_REQUEST'

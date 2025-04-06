@@ -36,8 +36,13 @@ export const createHlavnyZaznamEvidencieRequest = () => ({
   type: TYPES.CREATE_HLAVNY_ZAZNAM_EVIDENCIE_REQUEST
 })
 
-export const updateHlavnyZaznamEvidencieRequest = (data) => ({
-  type: TYPES.UPDATE_HLAVNY_ZAZNAM_EVIDENCIE_REQUEST,
+export const updateHlavnyRequest = (data) => ({
+  type: TYPES.UPDATE_HLAVNY_REQUEST,
+  data
+})
+
+export const updatePostupenieRequest = (data) => ({
+  type: TYPES.UPDATE_POSTUPENIE_REQUEST,
   data
 })
 
@@ -116,7 +121,7 @@ export function* createHlavnyZaznamEvidencie(action) {
   }
 }
 
-export function* updateHlavnyZaznamEvidencie(action) {
+export function* updateHlavny(action) {
   const url = Routing.generate('deo_hlavny_update')
   const data = action.data
   const id = data.id
@@ -126,14 +131,36 @@ export function* updateHlavnyZaznamEvidencie(action) {
     const update = yield call(Api.patch, `${url}/${id}`, data)
 
     yield put({
-      type: TYPES.UPDATE_HLAVNY_ZAZNAM_EVIDENCIE_SUCCESS,
+      type: TYPES.UPDATE_HLAVNY_SUCCESS,
       data: {
         [key]: update
       }
     })
 
   } catch (e) {
-    yield put({type: TYPES.UPDATE_HLAVNY_ZAZNAM_EVIDENCIE_ERROR, data: e})
+    yield put({type: TYPES.UPDATE_HLAVNY_ERROR, data: e})
+    console.error(e)
+  }
+}
+
+export function* updatePostupenie(action) {
+  const url = Routing.generate('deo_postupenie_update')
+  const data = action.data
+  const id = data.id
+  const key = data.key
+
+  try {
+    const update = yield call(Api.patch, `${url}/${id}`, data)
+
+    yield put({
+      type: TYPES.UPDATE_POSTUPENIE_SUCCESS,
+      data: {
+        [key]: update
+      }
+    })
+
+  } catch (e) {
+    yield put({type: TYPES.UPDATE_POSTUPENIE_ERROR, data: e})
     console.error(e)
   }
 }

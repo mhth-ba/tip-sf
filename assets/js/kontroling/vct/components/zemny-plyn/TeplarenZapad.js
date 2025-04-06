@@ -87,116 +87,126 @@ class TeplarenZapad extends React.Component {
       <Card key={'zp-spotreba-zapad'}>
         <CardHeader className="bg-primary text-white">Tepláreň Západ | Spotreba zemného plynu</CardHeader>
         <CardBody>
-          { hlavny.sct !== null ?
-            <Table size={'sm'} bordered>
-              <thead>
-              <tr className="text-center">
-                <th>Mesiac</th>
-                <th>Množstvo <Jednotka unit={'MWh'} /></th>
-                <th>Celkové náklady <Jednotka unit={'€'} /></th>
-                <th>Priemerná cena <Jednotka unit={'€/MWh'} /></th>
-              </tr>
-              </thead>
-              <tbody className="text-right">
+          <Table size={'sm'} bordered>
+            <thead>
+            <tr className="text-center">
+              <th>Mesiac</th>
+              <th>Množstvo <Jednotka unit={'MWh'} /></th>
+              <th>Celkové náklady <Jednotka unit={'€'} /></th>
+              <th>Priemerná cena <Jednotka unit={'€/MWh'} /></th>
+            </tr>
+            </thead>
+            <tbody className="text-right">
 
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
 
-              { spotreba.skutocnost.filter(x => x.zdroj === 3)
-                .map((item, ix) => (
-                  <tr key={ix}>
-                    <td className="text-left">{ mesiac(item.mesiac) }</td>
-                    <td><NumberFormat {...nFor_zpz} value={item.mwh} /> MWh</td>
-                    <td><NumberFormat {...nFor_zpz} value={item.celkove} /> €</td>
-                    <td><NumberFormat {...nFor_zpz} value={item.cena} decimalScale={4} /> €/MWh</td>
-                  </tr>
-                )) }
-
-              <tr className="bg-lime">
-                <td className="text-left">Spolu za január - {mesiac(hlavny.mesiac).toLowerCase()}</td>
-                <td><NumberFormat {...nFor_zpz} value={cena.skutocnost.find(x => x.zdroj === 3).mwh} /> MWh</td>
-                <td><NumberFormat {...nFor_zpz} value={cena.skutocnost.find(x => x.zdroj === 3).celkove} /> €</td>
-                <td></td>
-              </tr>
-
-              <tr className="font-weight-bold">
-                <td colSpan={3} className="text-left">Skutočná priemerná cena za január - {mesiac(hlavny.mesiac).toLowerCase()}</td>
-                <td><NumberFormat {...nFor_zpz} value={cena.skutocnost.find(x => x.zdroj === 3).cena} decimalScale={4} /> €/MWh</td>
-              </tr>
-
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-
-              { spotreba.plan.filter(x => x.zdroj === 3)
-                .map((item, ix) => (
-                  <tr key={ix}>
-                    <td className="text-left">{ mesiac(item.mesiac) }</td>
-                    <td><NumberFormat {...nFor_zpz} value={item.mwh} /> MWh</td>
-                    <td><NumberFormat {...nFor_zpz} value={item.celkove} /> €</td>
-                    <td><NumberFormat {...nFor_zpz} value={item.cena} decimalScale={4} /> €/MWh</td>
-                  </tr>
-                )) }
-
-              <tr className="bg-yellow">
-                <td className="text-left">Spolu za celý rok</td>
-                <td><NumberFormat {...nFor_zpz} value={cena.ocakavana.find(x => x.zdroj === 3).mwh} /> MWh</td>
-                <td><NumberFormat {...nFor_zpz} value={cena.ocakavana.find(x => x.zdroj === 3).celkove} /> €</td>
-                <td></td>
-              </tr>
-
-              <tr className="font-weight-bold">
-                <td colSpan={3} className="text-left">Očakávaná priemerná cena za celý rok</td>
-                <td><NumberFormat {...nFor_zpz} value={cena.ocakavana.find(x => x.zdroj === 3).cena} decimalScale={4} /> €/MWh</td>
-              </tr>
-
-              { varianty_zp.length > 0 &&
-              [ <tr key={'v1'} className="bg-light">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>,
-                <tr key={'v2'} className="text-center">
-                  <td></td>
-                  <th colSpan={3}>Očakávané hodnoty pre jednotlivé varianty</th>
-                </tr> ]
-              }
-
-              { varianty_zp.map((item, ix) => [
-                <tr key={ix+'a'} className="text-muted">
-                  <td>
-                    <span className="pull-left text-info">Variant #{ix+1} - {item.zapad_percento}%</span>
-                    <span>do konca roka</span>
-                  </td>
-                  <td><NumberFormat {...nFor_zpz} value={item.zapad_mwh_kr} /> MWh</td>
-                  <td><NumberFormat {...nFor_zpz} value={item.zapad_naklady_kr} /> €</td>
-                  <td><NumberFormat {...nFor_zpz} value={item.zapad_cena_kr} decimalScale={4} /> €/MWh</td>
-                </tr>,
-                <tr key={ix+'b'} className="text-muted">
-                  <td>
-                    <span>za celý rok</span>
-                  </td>
-                  <td><NumberFormat {...nFor_zpz} value={item.zapad_mwh_cr} /> MWh</td>
-                  <td><NumberFormat {...nFor_zpz} value={item.zapad_naklady_cr} /> €</td>
-                  <td><NumberFormat {...nFor_zpz} value={item.zapad_cena_cr} decimalScale={4} /> €/MWh</td>
+            { spotreba.skutocnost.filter(x => x.zdroj === 3)
+              .map((item, ix) => (
+                <tr key={ix}>
+                  <td className="text-left">{ mesiac(item.mesiac) }</td>
+                  <td><NumberFormat {...nFor_zpz} value={item.mwh} /> MWh</td>
+                  <td><NumberFormat {...nFor_zpz} value={item.celkove} /> €</td>
+                  <td><NumberFormat {...nFor_zpz} value={item.cena} decimalScale={4} /> €/MWh</td>
                 </tr>
-              ]) }
+              )) }
 
-              </tbody>
-            </Table>
+            { hlavny.sct !== null && cena.skutocnost.length > 0 ?
+              [
+                <tr key={Math.random()} className="bg-lime">
+                  <td className="text-left">Spolu za január - {mesiac(hlavny.mesiac).toLowerCase()}</td>
+                  <td><NumberFormat {...nFor_zpz} value={cena.skutocnost.find(x => x.zdroj === 3).mwh} /> MWh</td>
+                  <td><NumberFormat {...nFor_zpz} value={cena.skutocnost.find(x => x.zdroj === 3).celkove} /> €</td>
+                  <td></td>
+                </tr>,
 
-            :
+                <tr key={Math.random()} className="font-weight-bold">
+                  <td colSpan={3} className="text-left">Skutočná priemerná cena za január - {mesiac(hlavny.mesiac).toLowerCase()}</td>
+                  <td><NumberFormat {...nFor_zpz} value={cena.skutocnost.find(x => x.zdroj === 3).cena} decimalScale={4} /> €/MWh</td>
+                </tr>
+              ]
+              :
+              <tr className="bg-lime">
+                <td className="text-center" colSpan={4}><em>Je potrebné prepojiť vyhodnotenie ceny tepla so záznamom skutočnej ceny tepla</em></td>
+              </tr>
+            }
 
-            <p><em>Je potrebné prepojiť vyhodnotenie ceny tepla so záznamom skutočnej ceny tepla</em></p>
-          }
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            { spotreba.plan.filter(x => x.zdroj === 3)
+              .map((item, ix) => (
+                <tr key={ix}>
+                  <td className="text-left">{ mesiac(item.mesiac) }</td>
+                  <td><NumberFormat {...nFor_zpz} value={item.mwh} /> MWh</td>
+                  <td><NumberFormat {...nFor_zpz} value={item.celkove} /> €</td>
+                  <td><NumberFormat {...nFor_zpz} value={item.cena} decimalScale={4} /> €/MWh</td>
+                </tr>
+              )) }
+
+            { hlavny.nct !== null && cena.ocakavana.length > 0 ?
+              [
+                <tr key={Math.random()} className="bg-yellow">
+                  <td className="text-left">Spolu za celý rok</td>
+                  <td><NumberFormat {...nFor_zpz} value={cena.ocakavana.find(x => x.zdroj === 3).mwh} /> MWh</td>
+                  <td><NumberFormat {...nFor_zpz} value={cena.ocakavana.find(x => x.zdroj === 3).celkove} /> €</td>
+                  <td></td>
+                </tr>,
+
+                <tr key={Math.random()} className="font-weight-bold">
+                  <td colSpan={3} className="text-left">Očakávaná priemerná cena za celý rok</td>
+                  <td><NumberFormat {...nFor_zpz} value={cena.ocakavana.find(x => x.zdroj === 3).cena} decimalScale={4} /> €/MWh</td>
+                </tr>
+              ]
+              :
+              <tr className="bg-yellow">
+                <td className="text-center" colSpan={4}><em>Je potrebné prepojiť vyhodnotenie ceny tepla so záznamom návrhu ceny tepla</em></td>
+              </tr>
+            }
+
+            { varianty_zp.length > 0 &&
+            [ <tr key={'v1'} className="bg-light">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>,
+              <tr key={'v2'} className="text-center">
+                <td></td>
+                <th colSpan={3}>Očakávané hodnoty pre jednotlivé varianty</th>
+              </tr> ]
+            }
+
+            { varianty_zp.map((item, ix) => [
+              <tr key={ix+'a'} className="text-muted">
+                <td>
+                  <span className="pull-left text-info">Variant #{ix+1} - {item.zapad_percento}%</span>
+                  <span>do konca roka</span>
+                </td>
+                <td><NumberFormat {...nFor_zpz} value={item.zapad_mwh_kr} /> MWh</td>
+                <td><NumberFormat {...nFor_zpz} value={item.zapad_naklady_kr} /> €</td>
+                <td><NumberFormat {...nFor_zpz} value={item.zapad_cena_kr} decimalScale={4} /> €/MWh</td>
+              </tr>,
+              <tr key={ix+'b'} className="text-muted">
+                <td>
+                  <span>za celý rok</span>
+                </td>
+                <td><NumberFormat {...nFor_zpz} value={item.zapad_mwh_cr} /> MWh</td>
+                <td><NumberFormat {...nFor_zpz} value={item.zapad_naklady_cr} /> €</td>
+                <td><NumberFormat {...nFor_zpz} value={item.zapad_cena_cr} decimalScale={4} /> €/MWh</td>
+              </tr>
+            ]) }
+
+            </tbody>
+          </Table>
         </CardBody>
         <CardFooter>
           <DecimalScale id={'zpz'} />

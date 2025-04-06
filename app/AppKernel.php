@@ -22,7 +22,8 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
 
-            new AppBundle\AppBundle()
+            new AppBundle\AppBundle(),
+            new AktionBundle\AktionBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
