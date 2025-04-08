@@ -21,7 +21,7 @@ html {
 
 #head-top {
   height: 54px;
-  background-image: url("../static/top11.jpg");
+  background-image: url("../static/top7.jpg");
   background-position-x: center;
   //background-position-y: 10px;
 }
@@ -36,7 +36,7 @@ html {
 #head-top-particles {
   height: 54px;
   //background-color: #2e3133;
-  background: url("../static/top8.jpg") repeat-x;
+  background: url("../static/top7.jpg") repeat-x;
 }
 
 #particles-js {
@@ -98,6 +98,7 @@ $h: -(42px / 2);
 
 h1 {
   text-shadow: 4px 4px 7px #bfbfbf;
+  padding-top: 8px;
 }
 
 // profile tab
