@@ -12,7 +12,7 @@
     "start": "cross-env NODE_ENV=dev webpack-dev-server",
     "prod": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js"
   },
-  "author": "Juraj Martak <martak.juraj@gmail.com>",
+  "author": "Dorien May <dorien.may@mhth.sk>",
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
