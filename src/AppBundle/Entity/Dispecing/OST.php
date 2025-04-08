@@ -17,14 +17,19 @@ class OST
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=10)
      */
     private $cislo;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=50)
      */
     private $adresa;
+
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $typ;
 
     public function getId()
     {
@@ -49,5 +54,15 @@ class OST
     public function setAdresa($adresa)
     {
         $this->adresa = $adresa;
+    }
+
+    public function getTyp()
+    {
+        return $this->typ;
+    }
+
+    public function setTyp($typ)
+    {
+        $this->typ = $typ;
     }
 }
