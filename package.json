@@ -1,5 +1,5 @@
 {
-  "name": "TIP-SF",
+  "name": "tip-sf",
   "version": "6.0.0",
   "description": "TI Portal | built on Symfony 3.4",
   "main": "layout.js",
@@ -44,6 +44,7 @@
     "lodash": "4.17.5",
     "node-sass": "4.5.3",
     "popper.js": "1.14.4",
+    "prettier": "1.19.1",
     "prop-types": "15.6.0",
     "resolve-url-loader": "2.1.1",
     "sass-loader": "6.0.6",
