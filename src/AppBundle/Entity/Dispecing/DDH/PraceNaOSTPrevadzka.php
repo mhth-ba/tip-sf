@@ -27,7 +27,7 @@ class PraceNaOSTPrevadzka extends BaseEntity
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $OST;
+    private $ost;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -37,7 +37,7 @@ class PraceNaOSTPrevadzka extends BaseEntity
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $datum_cas_ukoncenia;
+    private $datum_cas_ukoncenie;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -94,14 +94,14 @@ class PraceNaOSTPrevadzka extends BaseEntity
         $this->hlavny = $hlavny;
     }
 
-    public function getOST()
+    public function getOst()
     {
-        return $this->OST;
+        return $this->ost;
     }
 
-    public function setOST($OST)
+    public function setOst($ost)
     {
-        $this->OST = $OST;
+        $this->ost = $ost;
     }
 
     public function getDatumCasZaciatok()
@@ -114,14 +114,14 @@ class PraceNaOSTPrevadzka extends BaseEntity
         $this->datum_cas_zaciatok = $datum_cas_zaciatok;
     }
 
-    public function getDatumCasUkoncenia()
+    public function getDatumCasUkoncenie()
     {
-        return $this->getTimestampWithoutOffset($this->datum_cas_ukoncenia);
+        return $this->getTimestampWithoutOffset($this->datum_cas_ukoncenie);
     }
 
-    public function setDatumCasUkoncenia($datum_cas_ukoncenia)
+    public function setDatumCasUkoncenie($datum_cas_ukoncenie)
     {
-        $this->datum_cas_ukoncenia = $datum_cas_ukoncenia;
+        $this->datum_cas_ukoncenie = $datum_cas_ukoncenie;
     }
 
     public function getVplyvNaDodavku()
