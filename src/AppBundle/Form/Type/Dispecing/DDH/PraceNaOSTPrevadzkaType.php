@@ -27,13 +27,13 @@ class PraceNaOSTPrevadzkaType extends AbstractType
                 'required' => false
             ])
             ->add('datum_cas_zaciatok', DateTimeType::class, [
-                'label' => 'Začiatok prác',
                 'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
                 'required' => false
             ])
             ->add('datum_cas_ukoncenia', DateTimeType::class, [
-                'label' => 'Ukončenie prác',
                 'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
                 'required' => false
             ])
             ->add('vplyv_na_dodavku', ChoiceType::class, [

@@ -147,12 +147,25 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
      * @Method("PATCH")
      * @Security("has_role('ROLE_DDH')")
      */
-    public function updatePraceAction($id, Request $request)
+    public function updatePraceNaOSTPrevadzkaAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $prace = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka')->find($id);
-        if (!$prace) {
+        $praca = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka')->find($id);
+        if (!$praca) {
             throw $this->createNotFoundException(sprintf('Práca na OST - prevádzka s id %s sa nenašla', $id));
+        }
+
+        // Convert the "datum_cas_zaciatok" field if it is a numeric timestamp:
+        if ($praca->getDatumCasZaciatok() && is_numeric($praca->getDatumCasZaciatok())) {
+            // Create DateTime object from Unix timestamp (ensure proper timezone if needed)
+            $praca->setDatumCasZaciatok(new \DateTime('@' . $praca->getDatumCasZaciatok()));
+        }
+
+        // keep it null if it is not a numeric timestamp
+
+        // Convert the "datum_cas_ukoncenia" field similarly:
+        if ($praca->getDatumCasUkoncenia() && is_numeric($praca->getDatumCasUkoncenia())) {
+            $praca->setDatumCasUkoncenia(new \DateTime('@' . $praca->getDatumCasUkoncenia()));
         }
 
         return $this->updateDatabase(
