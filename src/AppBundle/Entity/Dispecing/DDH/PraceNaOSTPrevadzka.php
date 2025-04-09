@@ -106,7 +106,7 @@ class PraceNaOSTPrevadzka extends BaseEntity
 
     public function getDatumCasZaciatok()
     {
-        return $this->getTimestampWithOffset($this->datum_cas_zaciatok);
+        return $this->getTimestampWithoutOffset($this->datum_cas_zaciatok);
     }
 
     public function setDatumCasZaciatok($datum_cas_zaciatok)
@@ -116,7 +116,7 @@ class PraceNaOSTPrevadzka extends BaseEntity
 
     public function getDatumCasUkoncenia()
     {
-        return $this->getTimestampWithOffset($this->datum_cas_ukoncenia);
+        return $this->getTimestampWithoutOffset($this->datum_cas_ukoncenia);
     }
 
     public function setDatumCasUkoncenia($datum_cas_ukoncenia)
