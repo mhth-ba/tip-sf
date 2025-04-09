@@ -16,26 +16,13 @@ class PraceNaOSTPrevadzkaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('ost', TextType::class, [
-                'required' => false
-            ])
+            ->add('ost', TextType::class)
             // Explicitly exclude date fields from form handling
-            ->add('vplyv_na_dodavku', TextType::class, [
-                'required' => false
-            ])
-            ->add('vyvod', TextType::class, [
-                'required' => false
-            ])
-            ->add('poznamka', TextareaType::class, [
-                'label' => 'Poznámka',
-                'required' => false
-            ])
-            ->add('stav', TextType::class, [
-                'required' => false
-            ])
-            ->add('vybavuje', TextType::class, [
-                'required' => false
-            ])
+            ->add('vplyv_na_dodavku', TextType::class)
+            ->add('vyvod', TextType::class)
+            ->add('poznamka', TextareaType::class)
+            ->add('stav', TextType::class)
+            ->add('vybavuje', TextType::class)
             // priloha is omitted for now.
             // valid can be omitted or set default.
         ;
