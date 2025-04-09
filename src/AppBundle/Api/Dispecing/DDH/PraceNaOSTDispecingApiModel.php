@@ -8,9 +8,11 @@ class PraceNaOSTDispecingApiModel extends DefaultApiModel
 {
     public $id;
 
+    public $ost;
+
     public $datum_cas_zaciatok;
 
-    public $datum_cas_ukoncenia;
+    public $datum_cas_ukoncenie;
 
     public $vplyv_na_dodavku;
 
