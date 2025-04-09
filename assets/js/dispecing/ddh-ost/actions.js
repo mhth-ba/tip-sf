@@ -37,13 +37,6 @@ export const updatePraceNaOSTPrevadzkaRequest = data => ({
   data
 })
 
-export const updatePraceNaOSTPrevadzkaFormField = (index, field, value) => ({
-  type: TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_FORMFIELD,
-  index,
-  field,
-  value
-})
-
 export function* fetchDenneDispecerskeHlasenieOST(action) {
   const url = Routing.generate('ddh_ost_hlavicka_get', { date: action.date })
 
