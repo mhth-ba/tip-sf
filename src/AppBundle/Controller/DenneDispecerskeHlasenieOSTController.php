@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Api\Dispecing\OSTApiModel;
+use AppBundle\Entity\Dispecing\OST;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -13,6 +15,40 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     public function indexAction()
     {
         return $this->render('disp/ddh-ost/index.html.twig');
+    }
+
+    /**
+     * @Route("ee/ddh-ost/zoznam-ost", name="ddh_ost_zoznam_ost_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getZoznamAction()
+    {
+        $repository = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Dispecing\OST');
+
+        $zoznam = $repository->getZoznam();
+
+        $models = [];
+        foreach ($zoznam as $ost) {
+            $models[] = $this->createOSTApiModel($ost);
+        }
+
+        return $this->createApiResponse($models);
+    }
+
+    private function createOSTApiModel(OST $ost): OSTApiModel
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $id = $ost->getId();
+
+        $model = new OSTApiModel();
+        $model->id = $id;
+        $model->cislo = $ost->getCislo();
+        $model->adresa = $ost->getAdresa();
+        $model->typ = $ost->getTyp();
+
+        return $model;
     }
 
     /**
