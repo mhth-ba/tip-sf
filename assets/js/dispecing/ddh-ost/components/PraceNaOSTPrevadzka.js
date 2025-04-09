@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Row, Col, FormText } from 'reactstrap'
-import moment from 'moment' // for date/time parsing/formatting
+import moment from 'moment'
+import debounce from '../../../utils/debounce'
 import {
   createPraceNaOSTPrevadzkaRequest,
   updatePraceNaOSTPrevadzkaRequest,
@@ -12,10 +13,36 @@ class PraceNaOSTPrevadzka extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ostFilter: ''
+      ostFilter: '',
+      // Store local entry values for optimistic updates
+      localEntries: {},
+      // Store debounced update functions for each entry by ID
+      debouncedUpdates: {}
     }
+
     this.handleOstFilterChange = this.handleOstFilterChange.bind(this)
     this.handleAddForm = this.handleAddForm.bind(this)
+  }
+
+  componentDidUpdate(prevProps) {
+    // When entries are loaded or updated from the server, update our local state
+    if (prevProps.prace.entries !== this.props.prace.entries) {
+      const localEntries = {}
+      this.props.prace.entries.forEach(entry => {
+        localEntries[entry.id] = { ...entry }
+      })
+      this.setState({ localEntries })
+    }
+
+    // If there's an error, we need to check which update caused it
+    if (!prevProps.prace.error && this.props.prace.error) {
+      // Error handling could be implemented here if needed
+      console.error('Operation failed:', this.props.prace.error)
+    }
+  }
+
+  handleOstFilterChange(e) {
+    this.setState({ ostFilter: e.target.value })
   }
 
   handleAddForm() {
@@ -35,34 +62,150 @@ class PraceNaOSTPrevadzka extends React.Component {
       })
   }
 
-  handleOstFilterChange(e) {
-    this.setState({ ostFilter: e.target.value })
+  // Get or create a debounced update function for a specific entry
+  getDebouncedUpdate(entryId, fieldName) {
+    const key = `${entryId}-${fieldName}`
+
+    if (!this.state.debouncedUpdates[key]) {
+      const debouncedFn = debounce(value => {
+        // Save the previous value before sending the update
+        const entry = this.props.prace.entries.find(e => e.id === entryId)
+        const previousValue = entry ? entry[fieldName] : undefined
+
+        // Create rollback function for sagas
+        const rollbackCallback = () => {
+          this.setState(prevState => ({
+            localEntries: {
+              ...prevState.localEntries,
+              [entryId]: {
+                ...prevState.localEntries[entryId],
+                [fieldName]: previousValue
+              }
+            }
+          }))
+        }
+
+        // Send the update request
+        this.props.updatePraceNaOSTPrevadzkaRequest(
+          {
+            id: entryId,
+            [fieldName]: value
+          },
+          rollbackCallback
+        )
+      }, 2000)
+
+      // Store the debounced function
+      this.setState(prevState => ({
+        debouncedUpdates: {
+          ...prevState.debouncedUpdates,
+          [key]: debouncedFn
+        }
+      }))
+
+      return debouncedFn
+    }
+
+    return this.state.debouncedUpdates[key]
   }
 
-  // Add this method to your component class
+  // Modify the handleChangeField method
   handleChangeField = (entry, fieldName, value) => {
+    // First, update local state for immediate visual feedback
+    this.setState(prevState => ({
+      localEntries: {
+        ...prevState.localEntries,
+        [entry.id]: {
+          ...prevState.localEntries[entry.id],
+          [fieldName]: value
+        }
+      }
+    }))
+
     // Handle dates specially
     if (fieldName === 'datum_cas_zaciatok' || fieldName === 'datum_cas_ukoncenie') {
       this.handleDateChange(entry, fieldName, value)
       return
     }
 
-    // For non-date fields, only send the ID and the changed field
-    // This matches the expected format for logging
-    this.props.updatePraceNaOSTPrevadzkaRequest({
-      id: entry.id,
-      [fieldName]: value
-    })
+    const inputType =
+      fieldName === 'poznamka'
+        ? 'textarea'
+        : ['ost', 'vplyv_na_dodavku', 'vyvod', 'stav', 'vybavuje'].includes(fieldName)
+        ? 'select'
+        : 'text'
+
+    // For select fields, update immediately
+    if (inputType === 'select') {
+      // Save the previous value for possible rollback
+      const previousValue = entry[fieldName]
+
+      // Create rollback function for sagas
+      const rollbackCallback = () => {
+        this.setState(prevState => ({
+          localEntries: {
+            ...prevState.localEntries,
+            [entry.id]: {
+              ...prevState.localEntries[entry.id],
+              [fieldName]: previousValue
+            }
+          }
+        }))
+      }
+
+      this.props.updatePraceNaOSTPrevadzkaRequest(
+        {
+          id: entry.id,
+          [fieldName]: value
+        },
+        rollbackCallback
+      )
+    }
+    // For text fields and textareas, use debounce
+    else {
+      // Get the debounced function for this entry and field
+      const debouncedUpdate = this.getDebouncedUpdate(entry.id, fieldName)
+      debouncedUpdate(value)
+    }
   }
 
-  // Update your handleDateChange method to follow the same pattern
   handleDateChange = (entry, fieldName, newValue) => {
+    // First, update local state for immediate visual feedback
+    this.setState(prevState => ({
+      localEntries: {
+        ...prevState.localEntries,
+        [entry.id]: {
+          ...prevState.localEntries[entry.id],
+          [fieldName]: newValue // For date fields, store the date string locally
+        }
+      }
+    }))
+
+    // Store previous value for possible rollback
+    const previousValue = entry[fieldName]
+
+    // Create rollback function for sagas
+    const rollbackCallback = () => {
+      this.setState(prevState => ({
+        localEntries: {
+          ...prevState.localEntries,
+          [entry.id]: {
+            ...prevState.localEntries[entry.id],
+            [fieldName]: previousValue
+          }
+        }
+      }))
+    }
+
     // If user clears the field, send null
     if (!newValue) {
-      this.props.updatePraceNaOSTPrevadzkaRequest({
-        id: entry.id,
-        [fieldName]: null
-      })
+      this.props.updatePraceNaOSTPrevadzkaRequest(
+        {
+          id: entry.id,
+          [fieldName]: null
+        },
+        rollbackCallback
+      )
       return
     }
 
@@ -74,10 +217,13 @@ class PraceNaOSTPrevadzka extends React.Component {
       const timestamp = Math.floor(dateObj.getTime() / 1000) // Convert to seconds
 
       // Only send the ID and the changed field
-      this.props.updatePraceNaOSTPrevadzkaRequest({
-        id: entry.id,
-        [fieldName]: timestamp
-      })
+      this.props.updatePraceNaOSTPrevadzkaRequest(
+        {
+          id: entry.id,
+          [fieldName]: timestamp
+        },
+        rollbackCallback
+      )
     } catch (err) {
       console.error(`Error converting date: ${newValue}`, err)
     }
@@ -96,6 +242,9 @@ class PraceNaOSTPrevadzka extends React.Component {
   }
 
   renderEntry(entry) {
+    // Get the local entry data for optimistic updates
+    const localEntry = this.state.localEntries[entry.id] || entry
+
     // For the OST filter
     const allOstOptions = [
       { value: 'OST 750', label: 'OST 750' },
@@ -106,8 +255,9 @@ class PraceNaOSTPrevadzka extends React.Component {
     const filteredOstOptions = allOstOptions.filter(opt => opt.label.toLowerCase().includes(ostFilter.toLowerCase()))
 
     // Convert the DB/stored date/time into the format needed by <input type="datetime-local">
-    const startDateDisplay = this.getDisplayDate(entry.datum_cas_zaciatok)
-    const endDateDisplay = this.getDisplayDate(entry.datum_cas_ukoncenie)
+    // Use local entry data for display to implement optimistic updates
+    const startDateDisplay = this.getDisplayDate(localEntry.datum_cas_zaciatok)
+    const endDateDisplay = this.getDisplayDate(localEntry.datum_cas_ukoncenie)
 
     return (
       <Form key={entry.id} className="mt-4">
@@ -117,7 +267,7 @@ class PraceNaOSTPrevadzka extends React.Component {
               <Label>Objekt OST/PK</Label>
               <Input
                 type="select"
-                value={entry.ost || ''}
+                value={localEntry.ost || ''}
                 onChange={e => this.handleChangeField(entry, 'ost', e.target.value)}
               >
                 <option value="">-- Vyberte --</option>
@@ -163,7 +313,7 @@ class PraceNaOSTPrevadzka extends React.Component {
               <Label>Vplyv na dodávku</Label>
               <Input
                 type="select"
-                value={entry.vplyv_na_dodavku || ''}
+                value={localEntry.vplyv_na_dodavku || ''}
                 onChange={e => this.handleChangeField(entry, 'vplyv_na_dodavku', e.target.value)}
               >
                 <option value="">-- Vyberte --</option>
@@ -177,7 +327,7 @@ class PraceNaOSTPrevadzka extends React.Component {
               <Label>Vývod</Label>
               <Input
                 type="select"
-                value={entry.vyvod || ''}
+                value={localEntry.vyvod || ''}
                 onChange={e => this.handleChangeField(entry, 'vyvod', e.target.value)}
               >
                 <option value="">-- Vyberte --</option>
@@ -199,7 +349,7 @@ class PraceNaOSTPrevadzka extends React.Component {
               <Label>Poznámka</Label>
               <Input
                 type="textarea"
-                value={entry.poznamka || ''}
+                value={localEntry.poznamka || ''}
                 onChange={e => this.handleChangeField(entry, 'poznamka', e.target.value)}
               />
             </FormGroup>
@@ -212,11 +362,11 @@ class PraceNaOSTPrevadzka extends React.Component {
               <Label>Stav</Label>
               <Input
                 type="select"
-                value={entry.stav || ''}
+                value={localEntry.stav || ''}
                 onChange={e => this.handleChangeField(entry, 'stav', e.target.value)}
               >
                 <option value="">-- Vyberte --</option>
-                <option value="V riečení">V riešení</option>
+                <option value="V riešení">V riešení</option>
                 <option value="Provizórne vyriešené">Provizórne vyriešené</option>
                 <option value="Vyriešené">Vyriešené</option>
               </Input>
@@ -227,7 +377,7 @@ class PraceNaOSTPrevadzka extends React.Component {
               <Label>Vybavuje</Label>
               <Input
                 type="select"
-                value={entry.vybavuje || ''}
+                value={localEntry.vybavuje || ''}
                 onChange={e => this.handleChangeField(entry, 'vybavuje', e.target.value)}
               >
                 <option value="">-- Vyberte --</option>
@@ -280,7 +430,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   createPraceNaOSTPrevadzkaRequest: hlavnyId => dispatch(createPraceNaOSTPrevadzkaRequest(hlavnyId)),
-  updatePraceNaOSTPrevadzkaRequest: data => dispatch(updatePraceNaOSTPrevadzkaRequest(data)),
+  updatePraceNaOSTPrevadzkaRequest: (data, rollbackCallback) =>
+    dispatch(updatePraceNaOSTPrevadzkaRequest(data, rollbackCallback)),
   fetchPraceNaOSTPrevadzka: hlavnyId => dispatch(fetchPraceNaOSTPrevadzkaRequest(hlavnyId))
 })
 

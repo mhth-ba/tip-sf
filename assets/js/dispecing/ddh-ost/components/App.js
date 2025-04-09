@@ -9,7 +9,6 @@ import PraceNaOSTDispecing from './PraceNaOSTDispecing'
 import PlanovanePraceAOdstavkyNaOST from './PlanovanePraceAOdstavkyNaOST'
 import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
 import Poznamky from './Poznamky'
-import UlozitButton from './Ulozit'
 
 import { hot } from 'react-hot-loader'
 import MainContent from './MainContent'

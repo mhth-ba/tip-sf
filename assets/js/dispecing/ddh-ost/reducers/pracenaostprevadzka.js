@@ -40,6 +40,9 @@ export default (state = initState, action) => {
     case TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_ERROR:
       return { ...state, loading: false, error: action.data }
 
+    case TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_FORMFIELD:
+      return { ...state, [action.field]: action.value }
+
     default:
       return state
   }

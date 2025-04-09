@@ -8,7 +8,6 @@ import PraceNaOSTDispecing from './PraceNaOSTDispecing'
 import PlanovanePraceAOdstavkyNaOST from './PlanovanePraceAOdstavkyNaOST'
 import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
 import Poznamky from './Poznamky'
-import UlozitButton from './Ulozit'
 
 const MainContent = ({ hlavny }) => {
   if (!hlavny.initialized) {
@@ -46,17 +45,11 @@ const MainContent = ({ hlavny }) => {
       </Row>
       <br />
       <Row>
-        <Col>
+        <Col md={6}>
           <Poznamky />
         </Col>
-        <Col></Col>
       </Row>
       <br />
-      <Row>
-        <Col>
-          <UlozitButton />
-        </Col>
-      </Row>
     </div>
   )
 }

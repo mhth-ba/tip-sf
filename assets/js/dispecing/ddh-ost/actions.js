@@ -11,9 +11,10 @@ export const fetchDenneDispecerskeHlasenieOSTRequest = date => ({
   date
 })
 
-export const updateOSTHlavnyRequest = data => ({
+export const updateOSTHlavnyRequest = (data, rollbackCallback) => ({
   type: TYPES.UPDATE_OSTHLAVNY_REQUEST,
-  data
+  data,
+  rollbackCallback
 })
 
 export const updateOSTHlavnyFormField = (field, value) => ({
@@ -52,7 +53,6 @@ export function* fetchDenneDispecerskeHlasenieOST(action) {
 
 export function* updateOSTHlavny(action) {
   const url = Routing.generate('ddh_ost_hlavicka_update', { id: action.data.id })
-  console.log(url)
   const data = action.data
 
   try {
@@ -68,6 +68,18 @@ export function* updateOSTHlavny(action) {
     )
   } catch (e) {
     yield put({ type: TYPES.UPDATE_OSTHLAVNY_ERROR, data: e })
+
+    if (action.rollbackCallback) {
+      action.rollbackCallback()
+    }
+
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri ukladaní',
+        autoDismiss: 5
+      })
+    )
+
     console.error(e)
   }
 }

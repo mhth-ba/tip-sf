@@ -1,34 +1,128 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap'
-import FontAwesome from 'react-fontawesome'
-import classnames from 'classnames'
-import { updateOSTHlavnyFormField } from '../actions' // adjust path as needed
+import debounce from '../../../utils/debounce'
+import { updateOSTHlavnyFormField, updateOSTHlavnyRequest } from '../actions'
 
 class Hlavicka extends React.Component {
   constructor(props) {
     super(props)
+
+    // Initialize localHlavny with props.hlavny if available + optimistic udpates
+    this.state = {
+      localHlavny: props.hlavny || {}
+    }
+
+    // Create debounced update functions for each field type
+    this.debouncedUpdateField = {}
+
+    // Fields that need debouncing
+    const textFields = ['teplota_letisko', 'teplota_tpv', 'teplota_tpz', 'doplnovanie_tpv', 'doplnovanie_tpz']
+
+    // Create a debounced update function for each text field
+    textFields.forEach(field => {
+      this.debouncedUpdateField[field] = debounce(value => {
+        if (this.props.hlavny && this.props.hlavny.id) {
+          const updateData = {
+            id: this.props.hlavny.id,
+            [field]: value
+          }
+
+          // Define rollback callback
+          const rollbackCallback = () => {
+            this.setState(prevState => ({
+              localHlavny: {
+                ...prevState.localHlavny,
+                [field]: this.props.hlavny[field]
+              }
+            }))
+          }
+
+          this.props.updateOSTHlavnyRequest(updateData, rollbackCallback)
+        }
+      }, 2000)
+    })
+
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentDidMount() {
+    // Initialize local state with props if available
+    if (this.props.hlavny) {
+      this.setState({
+        localHlavny: { ...this.props.hlavny }
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // When hlavny changes or is loaded initially
+    if (prevProps.hlavny !== this.props.hlavny && this.props.hlavny) {
+      this.setState({
+        localHlavny: { ...this.props.hlavny }
+      })
+    }
+  }
+
   handleChange(e) {
-    const { name, value } = e.target
-    // Dispatch an action to update the specific form field in Redux
+    const { name, value, type } = e.target
+
+    // Update local state for immediate visual feedback
+    this.setState(prevState => ({
+      localHlavny: {
+        ...prevState.localHlavny,
+        [name]: value
+      }
+    }))
+
+    // Update the field in Redux store immediately for visual feedback
     this.props.updateOSTHlavnyFormField(name, value)
+
+    // For select fields, update immediately
+    if (type === 'select-one') {
+      if (this.props.hlavny && this.props.hlavny.id) {
+        const updateData = {
+          id: this.props.hlavny.id,
+          [name]: value
+        }
+
+        // Define rollback callback
+        const rollbackCallback = () => {
+          this.setState(prevState => ({
+            localHlavny: {
+              ...prevState.localHlavny,
+              [name]: this.props.hlavny[name]
+            }
+          }))
+        }
+
+        this.props.updateOSTHlavnyRequest(updateData, rollbackCallback)
+      }
+    }
+    // For text inputs, use debounced update
+    else if (type === 'text' || type === 'textarea') {
+      if (this.debouncedUpdateField[name]) {
+        this.debouncedUpdateField[name](value)
+      }
+    }
   }
 
   render() {
+    const hlavny = this.props.hlavny || {}
+    const { loading } = hlavny
+
+    // Get values from local state first, falling back to props, then to empty values
     const {
-      dispecer_1,
-      dispecer_2,
-      poruchovka_1,
-      poruchovka_2,
-      teplota_letisko,
-      teplota_tpv,
-      teplota_tpz,
-      doplnovanie_tpv,
-      doplnovanie_tpz
-    } = this.props.hlavny || {}
+      dispecer_1 = '',
+      dispecer_2 = '',
+      poruchovka_1 = '',
+      poruchovka_2 = '',
+      teplota_letisko = '',
+      teplota_tpv = '',
+      teplota_tpz = '',
+      doplnovanie_tpv = '',
+      doplnovanie_tpz = ''
+    } = this.state.localHlavny || this.props.hlavny || {}
 
     return (
       <Row>
@@ -220,11 +314,16 @@ class Hlavicka extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  hlavny: state.hlavny // Mapping the hlavny slice from Redux store.
+  hlavny: state.hlavny
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updateOSTHlavnyFormField: (field, value) => dispatch(updateOSTHlavnyFormField(field, value))
+  updateOSTHlavnyFormField: (field, value) => {
+    dispatch(updateOSTHlavnyFormField(field, value))
+  },
+  updateOSTHlavnyRequest: (data, rollbackCallback) => {
+    dispatch(updateOSTHlavnyRequest(data, rollbackCallback))
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Hlavicka)
