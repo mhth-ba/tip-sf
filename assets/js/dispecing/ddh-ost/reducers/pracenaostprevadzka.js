@@ -21,11 +21,8 @@ export default (state = initState, action) => {
       return { ...state, loading: true }
 
     case TYPES.CREATE_PRACE_NA_OST_PREVADZKA_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        entries: [...state.entries, action.data]
-      }
+      // Option 1: Append the new entry to the list.
+      return { ...state, loading: false, entries: [...state.entries, action.data] }
 
     case TYPES.CREATE_PRACE_NA_OST_PREVADZKA_ERROR:
       return { ...state, loading: false, error: action.data }
@@ -42,15 +39,6 @@ export default (state = initState, action) => {
 
     case TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_ERROR:
       return { ...state, loading: false, error: action.data }
-
-    case TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_FORMFIELD:
-      const newEntries = state.entries.map((entry, i) => {
-        if (i === action.index) {
-          return { ...entry, [action.field]: action.value }
-        }
-        return entry
-      })
-      return { ...state, entries: newEntries }
 
     default:
       return state
