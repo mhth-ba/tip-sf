@@ -94,9 +94,9 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         foreach ($entries as $entry) {
             $model = new \AppBundle\Api\Dispecing\DDH\PraceNaOSTPrevadzkaApiModel();
             $model->id = $entry->getId();
-            $model->ost = $entry->getOST();
+            $model->ost = $entry->getOst();
             $model->datum_cas_zaciatok = $entry->getDatumCasZaciatok();
-            $model->datum_cas_ukoncenia = $entry->getDatumCasUkoncenia();
+            $model->datum_cas_ukoncenie = $entry->getDatumCasUkoncenie();
             $model->vplyv_na_dodavku = $entry->getVplyvNaDodavku();
             $model->vyvod = $entry->getVyvod();
             $model->poznamka = $entry->getPoznamka();
@@ -155,19 +155,38 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             throw $this->createNotFoundException(sprintf('Práca na OST - prevádzka s id %s sa nenašla', $id));
         }
 
-        // Convert the "datum_cas_zaciatok" field if it is a numeric timestamp:
-        if ($praca->getDatumCasZaciatok() && is_numeric($praca->getDatumCasZaciatok())) {
-            // Create DateTime object from Unix timestamp (ensure proper timezone if needed)
-            $praca->setDatumCasZaciatok(new \DateTime('@' . $praca->getDatumCasZaciatok()));
+        // Get data from the request
+        $data = json_decode($request->getContent(), true);
+
+        // Find the field being updated (the one that's not id)
+        $fieldName = null;
+        $fieldValue = null;
+        foreach ($data as $key => $value) {
+            if ($key !== 'id') {
+                $fieldName = $key;
+                $fieldValue = $value;
+                break;
+            }
         }
 
-        // keep it null if it is not a numeric timestamp
+        // Handle datetime fields directly before form processing
+        if (($fieldName === 'datum_cas_zaciatok' || $fieldName === 'datum_cas_ukoncenie') && is_numeric($fieldValue)) {
+            $dateObj = new \DateTime();
+            $dateObj->setTimestamp($fieldValue);
 
-        // Convert the "datum_cas_ukoncenia" field similarly:
-        if ($praca->getDatumCasUkoncenia() && is_numeric($praca->getDatumCasUkoncenia())) {
-            $praca->setDatumCasUkoncenia(new \DateTime('@' . $praca->getDatumCasUkoncenia()));
+            // Set directly on the entity
+            if ($fieldName === 'datum_cas_zaciatok') {
+                $praca->setDatumCasZaciatok($dateObj);
+            } else {
+                $praca->setDatumCasUkoncenie($dateObj);
+            }
+
+            // Save the changes directly
+            $em->persist($praca);
+            $em->flush();
         }
 
+        // Use updateDatabase for the standard processing and logging
         return $this->updateDatabase(
             $id,
             'AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka',
