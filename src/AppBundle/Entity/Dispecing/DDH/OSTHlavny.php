@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\DDH\OSTHlavnyRepository")
  * @ORM\Table(name="DDH_OST_Hlavny", schema="Dispecing")
  */
-class Hlavny extends BaseEntity
+class OSTHlavny extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -68,15 +68,6 @@ class Hlavny extends BaseEntity
      */
     private $doplnovanie_tpz;
 
-    /**
-     * Set the default values
-     * This works as the constructor of a persisted class is not called upon hydration.
-     */
-    public function __construct()
-    {
-        $this->datum = new \Date();
-    }
-
     public function getId()
     {
         return $this->id;
@@ -84,7 +75,7 @@ class Hlavny extends BaseEntity
 
     public function getDatum()
     {
-        return $this->getTimestampWithoutOffset($this->datum);
+        return $this->getTimestampWithOffset($this->datum);
     }
 
     public function getDispecer1()

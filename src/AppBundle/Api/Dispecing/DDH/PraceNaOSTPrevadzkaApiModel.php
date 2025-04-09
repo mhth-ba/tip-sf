@@ -4,7 +4,7 @@ namespace AppBundle\Api\Dispecing\DDH;
 
 use AppBundle\Api\DefaultApiModel;
 
-class OSTPraceNaOSTPrevadzkaApiModel extends DefaultApiModel
+class PraceNaOSTPrevadzkaApiModel extends DefaultApiModel
 {
     public $id;
 
