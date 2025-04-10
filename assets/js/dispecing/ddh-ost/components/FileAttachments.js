@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Table, Button, Alert } from 'reactstrap'
+import { Table, Button, Alert, Badge } from 'reactstrap'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import { fetchPrilohyRequest, deletePrilohaRequest } from '../actions'
@@ -15,9 +15,14 @@ class FileAttachments extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { entryId, fetchPrilohy } = this.props
-    if (entryId && entryId !== prevProps.entryId) {
-      fetchPrilohy(entryId)
+    // Check if the entry ID has changed
+    if (this.props.entryId !== prevProps.entryId) {
+      this.props.fetchPrilohy(this.props.entryId)
+    }
+
+    // Add this check for when the main data is reloaded (e.g., when changing dates)
+    if (this.props.hlavny && prevProps.hlavny && this.props.hlavny.id !== prevProps.hlavny.id) {
+      this.props.fetchPrilohy(this.props.entryId)
     }
   }
 
@@ -27,8 +32,42 @@ class FileAttachments extends React.Component {
     }
   }
 
+  // New compact view for table cells
+  renderCompactView() {
+    const { prilohy } = this.props
+
+    if (!prilohy || prilohy.length === 0) {
+      return <span className="text-muted">-</span>
+    }
+
+    return (
+      <div>
+        {prilohy.map(priloha => (
+          <div key={priloha.id} className="mb-1 text-nowrap">
+            <a
+              href={Routing.generate('ddh_ost_prilohy_download', { id: priloha.id })}
+              target="_blank"
+              title={`Nahral: ${priloha.nahral} (${moment.unix(priloha.datum).format('DD.MM.YYYY HH:mm')})`}
+            >
+              <FontAwesome name="file" className="mr-1" />
+              {priloha.original}
+            </a>
+          </div>
+        ))}
+        {/*<Badge color="info" pill className="mt-1" title="Počet príloh">
+          {prilohy.length}
+        </Badge>*/}
+      </div>
+    )
+  }
+
   renderPrilohy() {
-    const { prilohy, readOnly } = this.props
+    const { prilohy, readOnly, compact } = this.props
+
+    // If compact view is requested (for table cells)
+    if (compact) {
+      return this.renderCompactView()
+    }
 
     if (!prilohy || prilohy.length === 0) {
       return (
@@ -80,7 +119,8 @@ class FileAttachments extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const entryId = ownProps.entryId
   return {
-    prilohy: state.prilohy.byEntryId[entryId] || []
+    prilohy: state.prilohy.byEntryId[entryId] || [],
+    hlavny: state.hlavny
   }
 }
 

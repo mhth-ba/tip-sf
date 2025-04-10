@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -21,6 +22,156 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     public function indexAction()
     {
         return $this->render('disp/ddh-ost/index.html.twig');
+    }
+
+    /**
+     * @Route("disp/ddh-ost/prilohy/{entryId}", name="ddh_ost_prilohy_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getPrilohyAction($entryId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Dispecing\DDH\PrilohyOST');
+
+        // Get all attachments for this entry
+        $prilohy = $repository->createQueryBuilder('p')
+            ->andWhere('p.sekcia = :sekcia AND p.entry_id = :entryId')
+            ->setParameter('sekcia', 1) // 1 = PraceNaOSTPrevadzka
+            ->setParameter('entryId', $entryId)
+            ->orderBy('p.datum', 'desc')
+            ->getQuery()
+            ->getResult();
+
+        $result = [];
+        foreach ($prilohy as $priloha) {
+            $model = new \AppBundle\Api\Dispecing\DDH\PrilohyOSTApiModel();
+            $model->id = $priloha->getId();
+            $model->datum = $priloha->getDatum()->getTimestamp();
+            $model->hlavny_id = $priloha->getHlavny()->getId();
+            $model->sekcia = $priloha->getSekcia();
+            $model->entry_id = $priloha->getEntryId();
+            $model->original = $priloha->getOriginal();
+            $model->subor = $priloha->getSubor();
+            $model->nahral = $priloha->getNahral() ? $priloha->getNahral()->getFullname() : null;
+
+            $result[] = $model;
+        }
+
+        return $this->createApiResponse($result);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/prilohy-upload", name="ddh_ost_prilohy_upload", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function uploadPrilohaAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+
+        if (!isset($data['hlavny_id']) || !isset($data['entry_id']) || !isset($data['original']) || !isset($data['subor'])) {
+            throw new BadRequestHttpException('Missing required fields');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        // Find the hlavny record
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
+        if (!$hlavny) {
+            throw $this->createNotFoundException('Hlavny record not found');
+        }
+
+        // Create new attachment record
+        $priloha = new \AppBundle\Entity\Dispecing\DDH\PrilohyOST();
+        $priloha->setHlavny($hlavny);
+        $priloha->setSekcia(1); // 1 = PraceNaOSTPrevadzka
+        $priloha->setEntryId($data['entry_id']);
+        $priloha->setOriginal($data['original']);
+        $priloha->setSubor($data['subor']);
+
+        // Set the current user as uploader
+        $userId = $this->getUser()->getId();
+        $user = $em->getRepository('AppBundle:App\User')->find($userId);
+        $priloha->setNahral($user);
+
+        $em->persist($priloha);
+        $em->flush();
+
+        $this->logUploadFileActivity(
+            $priloha->getId(),
+            'AppBundle:Dispecing\DDH\PrilohyOST'
+        );
+
+        // Create and return API model
+        $model = new \AppBundle\Api\Dispecing\DDH\PrilohyOSTApiModel();
+        $model->id = $priloha->getId();
+        $model->datum = $priloha->getDatum()->getTimestamp();
+        $model->hlavny_id = $priloha->getHlavny()->getId();
+        $model->sekcia = $priloha->getSekcia();
+        $model->entry_id = $priloha->getEntryId();
+        $model->original = $priloha->getOriginal();
+        $model->subor = $priloha->getSubor();
+        $model->nahral = $priloha->getNahral() ? $priloha->getNahral()->getFullname() : null;
+
+        return $this->createApiResponse($model, 201);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/prilohy-download/{id}", name="ddh_ost_prilohy_download", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function downloadPrilohaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $priloha = $em->getRepository('AppBundle:Dispecing\DDH\PrilohyOST')->find($id);
+
+        if (!$priloha) {
+            throw $this->createNotFoundException('Attachment not found');
+        }
+
+        $sub = 'dispecing';
+        $file = $priloha->getSubor();
+        $orig = $priloha->getOriginal();
+
+        return $this->downloadFile($sub, $file, $orig, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/prilohy/{id}", name="ddh_ost_prilohy_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function deletePrilohaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $priloha = $em->getRepository('AppBundle:Dispecing\DDH\PrilohyOST')->find($id);
+
+        if (!$priloha) {
+            throw $this->createNotFoundException('Attachment not found');
+        }
+
+        // Delete the file from filesystem
+        $filesystem = new \Symfony\Component\Filesystem\Filesystem();
+        $filePath = $this->get('kernel')->getProjectDir() . '/web/uploads/dispecing/' . $priloha->getSubor();
+
+        if ($filesystem->exists($filePath)) {
+            $filesystem->remove($filePath);
+        }
+
+        $metadata = $em->getClassMetadata('AppBundle:Dispecing\DDH\PrilohyOST');
+        $this->logDeleteFileActivity(
+            $priloha->getId(),
+            $metadata
+        );
+
+        // Remove from database
+        $em->remove($priloha);
+        $em->flush();
+
+        return new Response('', 204);
     }
 
     /**
@@ -183,7 +334,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         }
 
         $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('AppBundle:Dispecing\DDH\OSTHlavny');
+        $repository = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST');
         $ostHlavny = $repository->findOneBy(['datum' => $dateObj]);
 
         $apiModel = new \AppBundle\Api\Dispecing\DDH\OSTHlavnyApiModel();
@@ -213,7 +364,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $hlavicka = $em->getRepository('AppBundle:Dispecing\DDH\OSTHlavny')->find($id);
+        $hlavicka = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($id);
 
         if (!$hlavicka) {
             throw $this->createNotFoundException(sprintf('Hlavný záznam s id %s sa nenašiel', $id));
@@ -221,7 +372,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
 
         return $this->updateDatabase(
             $id,
-            'AppBundle:Dispecing\DDH\OSTHlavny',
+            'AppBundle:Dispecing\DDH\HlavnyOST',
             \AppBundle\Form\Type\Dispecing\DDH\OSTHlavnyType::class,
             $request
         );
@@ -277,7 +428,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         }
 
         $em = $this->getDoctrine()->getManager();
-        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\OSTHlavny')->find($data['hlavny_id']);
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
         if (!$hlavny) {
             throw $this->createNotFoundException('Hlavny record not found.');
         }

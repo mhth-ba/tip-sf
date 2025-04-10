@@ -5,11 +5,16 @@ import moment from 'moment'
 import debounce from '../../../utils/debounce'
 import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
 import {
+  uploadPrilohaRequest,
   createPraceNaOSTPrevadzkaRequest,
   updatePraceNaOSTPrevadzkaRequest,
   fetchPraceNaOSTPrevadzkaRequest,
-  deletePraceNaOSTPrevadzkaRequest
+  deletePraceNaOSTPrevadzkaRequest,
+  fetchPrilohyRequest
 } from '../actions'
+
+import DropzoneComponent from 'react-dropzone-component'
+import FileAttachments from './FileAttachments'
 
 class PraceNaOSTPrevadzka extends React.Component {
   constructor(props) {
@@ -20,10 +25,34 @@ class PraceNaOSTPrevadzka extends React.Component {
       // Store local entry values for optimistic updates
       localEntries: {},
       // Store debounced update functions for each entry by ID
-      debouncedUpdates: {}
+      debouncedUpdates: {},
+      // File upload configuration
+      componentConfig: {
+        //iconFiletypes: ['.pdf', '.jpg', '.png', '.doc', '.docx', '.xls', '.xlsx'],
+        showFiletypeIcon: true,
+        postUrl: $('#uploader').data('endpoint'),
+        maxFilesize: 1000 // MB
+      },
+      djsConfig: {
+        autoProcessQueue: true,
+        // You can customize the dropzone.js configuration here
+        dictDefaultMessage: 'Presuňte súbory sem, alebo kliknite pre nahratie',
+        dictInvalidFileType: 'Neplatný typ súboru'
+      }
     }
 
     this.handleAddForm = this.handleAddForm.bind(this)
+    this.handleAddedFile = this.handleAddedFile.bind(this)
+    this.handleUpload = this.handleUpload.bind(this)
+  }
+
+  componentDidMount() {
+    // Add this to fetch attachments for all entries when the component mounts
+    if (this.props.prace && this.props.prace.entries) {
+      this.props.prace.entries.forEach(entry => {
+        this.props.fetchPrilohy(entry.id)
+      })
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -41,6 +70,32 @@ class PraceNaOSTPrevadzka extends React.Component {
       // Error handling could be implemented here if needed
       console.error('Operation failed:', this.props.prace.error)
     }
+  }
+
+  handleAddedFile(file) {
+    // This method is called when a file is added to the dropzone
+    // You can use it for UI feedback if needed
+  }
+
+  handleUpload(file, entry) {
+    const { hlavny } = this.props
+
+    if (!hlavny || !hlavny.id) {
+      alert('Hlavný záznam nie je načítaný.')
+      return
+    }
+
+    const original = file.name
+    const filename = JSON.parse(file.xhr.response).filename
+
+    const data = {
+      hlavny_id: hlavny.id,
+      entry_id: entry.id,
+      original: original,
+      subor: filename
+    }
+
+    this.props.uploadPriloha(data)
   }
 
   // Handle OST filter change for a specific entry
@@ -268,6 +323,28 @@ class PraceNaOSTPrevadzka extends React.Component {
     return moment(value, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm']).format('YYYY-MM-DDTHH:mm')
   }
 
+  renderFileUpload(entry) {
+    return (
+      <Row>
+        <Col md="12">
+          <FormGroup>
+            <Label>Prílohy</Label>
+            <FileAttachments entryId={entry.id} />
+            <DropzoneComponent
+              config={this.state.componentConfig}
+              djsConfig={this.state.djsConfig}
+              eventHandlers={{
+                addedfile: file => this.handleAddedFile(file),
+                complete: file => this.handleUpload(file, entry)
+              }}
+            />
+            <FormText color="muted">Nahrajte súbory súvisiace s touto prácou (max. 10MB na súbor)</FormText>
+          </FormGroup>
+        </Col>
+      </Row>
+    )
+  }
+
   renderEntry(entry) {
     // Get the local entry data for optimistic updates
     const localEntry = this.state.localEntries[entry.id] || entry
@@ -344,7 +421,7 @@ class PraceNaOSTPrevadzka extends React.Component {
     return (
       <Form key={entry.id} className="mt-4">
         <Row>
-          <Col md="10">
+          <Col md="12">
             <FormGroup>
               <Label>Filter OST pre tento záznam</Label>
               <Input
@@ -355,11 +432,6 @@ class PraceNaOSTPrevadzka extends React.Component {
               />
               <FormText color="muted">Filter funguje aj bez diakritiky a na veľkosti písmen nezáleží.</FormText>
             </FormGroup>
-          </Col>
-          <Col md="2" className="d-flex align-items-center justify-content-center">
-            <Button color="danger" onClick={() => this.handleDeleteEntry(entry.id)} className="mb-3">
-              Odstrániť
-            </Button>
           </Col>
         </Row>
 
@@ -497,7 +569,19 @@ class PraceNaOSTPrevadzka extends React.Component {
             </FormGroup>
           </Col>
         </Row>
-        <hr style={{ marginTop: '40px' }} />
+
+        {/* File upload section */}
+        {this.renderFileUpload(entry)}
+
+        <Row className="mt-4 mb-3">
+          <Col className="text-center">
+            <Button color="danger" onClick={() => this.handleDeleteEntry(entry.id)} className="px-4">
+              Odstrániť
+            </Button>
+          </Col>
+        </Row>
+
+        <hr style={{ marginTop: '20px' }} />
       </Form>
     )
   }
@@ -537,6 +621,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  uploadPriloha: data => dispatch(uploadPrilohaRequest(data)),
+  fetchPrilohy: entryId => dispatch(fetchPrilohyRequest(entryId)),
   createPraceNaOSTPrevadzkaRequest: hlavnyId => dispatch(createPraceNaOSTPrevadzkaRequest(hlavnyId)),
   updatePraceNaOSTPrevadzkaRequest: (data, rollbackCallback) =>
     dispatch(updatePraceNaOSTPrevadzkaRequest(data, rollbackCallback)),

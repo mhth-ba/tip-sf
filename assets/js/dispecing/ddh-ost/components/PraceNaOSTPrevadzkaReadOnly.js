@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Card, CardHeader, CardBody, Row, Col, Table, Badge } from 'reactstrap'
 import moment from 'moment'
 import ReadOnlyBadge from './ReadOnlyBadge'
+import FileAttachments from './FileAttachments'
 
 // Read-only view component for PraceNaOSTPrevadzka
 class PraceNaOSTPrevadzkaReadOnly extends React.Component {
@@ -102,6 +103,15 @@ class PraceNaOSTPrevadzkaReadOnly extends React.Component {
               {entry.vybavuje || '-'}
             </Col>
           </Row>
+
+          <Row className="mb-3">
+            <Col xs="12" className="text-muted">
+              Prílohy:
+            </Col>
+            <Col xs="12">
+              <FileAttachments entryId={entry.id} readOnly={true} />
+            </Col>
+          </Row>
         </CardBody>
       </Card>
     )
@@ -121,6 +131,7 @@ class PraceNaOSTPrevadzkaReadOnly extends React.Component {
             <th>Poznámka</th>
             <th>Stav</th>
             <th>Vybavuje</th>
+            <th>Prílohy</th>
           </tr>
         </thead>
         <tbody>
@@ -160,6 +171,9 @@ class PraceNaOSTPrevadzkaReadOnly extends React.Component {
                 )}
               </td>
               <td>{entry.vybavuje || '-'}</td>
+              <td>
+                <FileAttachments entryId={entry.id} readOnly={true} compact={true} />
+              </td>
             </tr>
           ))}
         </tbody>

@@ -48,7 +48,7 @@ class AuditLog extends BaseEntity
     private $pouzivatel;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Uctovnictvo\DP\Hlavny")
+     * @ORM\Column(type="integer", name="hlavny_id")
      */
     private $hlavny;
 

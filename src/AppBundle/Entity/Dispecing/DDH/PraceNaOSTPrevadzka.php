@@ -19,7 +19,7 @@ class PraceNaOSTPrevadzka extends BaseEntity
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Dispecing\DDH\OSTHlavny")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Dispecing\DDH\HlavnyOST")
      * @ORM\JoinColumn(name="hlavny_id", referencedColumnName="id", nullable=true)
      */
     private $hlavny;

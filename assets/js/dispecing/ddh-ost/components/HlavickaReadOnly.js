@@ -121,11 +121,11 @@ class HlavickaReadOnly extends React.Component {
                 <Row>
                   <Col xs="6">
                     <div className="text-muted small">Doplňovanie TpV</div>
-                    <div className="font-weight-bold">{doplnovanie_tpv || '-'}</div>
+                    <div className="font-weight-bold">{doplnovanie_tpv || '-'} t/h</div>
                   </Col>
                   <Col xs="6">
                     <div className="text-muted small">Doplňovanie TpZ</div>
-                    <div className="font-weight-bold">{doplnovanie_tpz || '-'}</div>
+                    <div className="font-weight-bold">{doplnovanie_tpz || '-'} t/h</div>
                   </Col>
                 </Row>
               </div>

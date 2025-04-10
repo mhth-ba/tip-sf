@@ -1,50 +1,51 @@
-const webpack = require('webpack');
-const path = require('path');
+const webpack = require('webpack')
+const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const WebpackChunkHash = require('webpack-chunk-hash');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
+const WebpackChunkHash = require('webpack-chunk-hash')
 
-const useVersioning = true;
+const useVersioning = true
 const publicPath = '/build/'
-const isProduction = process.env.NODE_ENV === 'production';
-const useSourcemaps = !isProduction;
+const isProduction = process.env.NODE_ENV === 'production'
+const useSourcemaps = !isProduction
 
 const styleLoader = {
   loader: 'style-loader',
   options: {
     sourceMap: useSourcemaps
   }
-};
+}
 const cssLoader = {
   loader: 'css-loader',
   options: {
     sourceMap: useSourcemaps,
     minimize: true
   }
-};
+}
 const sassLoader = {
   loader: 'sass-loader',
   options: {
     sourceMap: true
   }
-};
+}
 const resolveUrlLoader = {
   loader: 'resolve-url-loader',
   options: {
     sourceMap: useSourcemaps
   }
-};
+}
 
 const webpackConfig = {
-
   entry: {
     layout: './assets/js/layout.js',
     home: './assets/js/home/index.js',
     anm: './assets/js/meranie-a-odpocty/anm/index.js',
     rm: './assets/js/meranie-a-odpocty/rm/index.js',
     dpp: './assets/js/efektivnost/dpp/index.js',
+    ddhost: './assets/js/dispecing/ddh-ost/index.js',
+    ddhhv: './assets/js/dispecing/ddh-hv/index.js',
     scztv: './assets/js/dispecing/scztv/index.js',
     scztz: './assets/js/dispecing/scztz/index.js',
     scztost: './assets/js/dispecing/scztost/index.js',
@@ -59,18 +60,18 @@ const webpackConfig = {
     vct: './assets/js/kontroling/vct/index.js',
     dp: './assets/js/uctovnictvo/dp/index.js',
     prj: './assets/js/projekty/index.js',
-    admin: './assets/js/admin/index.js',
+    admin: './assets/js/admin/index.js'
   },
 
   output: {
     path: path.resolve(__dirname, 'web', 'build'),
     filename: useVersioning ? '[name].[chunkhash:6].js' : '[name].js',
-    publicPath: publicPath,
+    publicPath: publicPath
   },
 
   resolve: {
     alias: {
-      'react': path.resolve(__dirname, './node_modules', 'react')
+      react: path.resolve(__dirname, './node_modules', 'react')
     }
   },
 
@@ -78,23 +79,29 @@ const webpackConfig = {
     rules: [
       {
         test: require.resolve('jquery'),
-        use: [{
-          loader: 'expose-loader',
-          options: 'jQuery'
-        }, {
-          loader: 'expose-loader',
-          options: '$'
-        }, {
-          loader: 'expose-loader',
-          options: 'window.jQuery'
-        }]
+        use: [
+          {
+            loader: 'expose-loader',
+            options: 'jQuery'
+          },
+          {
+            loader: 'expose-loader',
+            options: '$'
+          },
+          {
+            loader: 'expose-loader',
+            options: 'window.jQuery'
+          }
+        ]
       },
       {
         test: require.resolve('popper.js'),
-        use: [{
-          loader: 'expose-loader',
-          options: 'Popper'
-        }]
+        use: [
+          {
+            loader: 'expose-loader',
+            options: 'Popper'
+          }
+        ]
       },
       {
         test: /\.js$/,
@@ -109,23 +116,17 @@ const webpackConfig = {
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
-            use: [
-                cssLoader
-            ],
-            // use this, if CSS isn't extracted
-            fallback: styleLoader
-        }),
+          use: [cssLoader],
+          // use this, if CSS isn't extracted
+          fallback: styleLoader
+        })
       },
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
-            use: [
-                cssLoader,
-                resolveUrlLoader,
-                sassLoader,
-            ],
-            fallback: styleLoader
-        }),
+          use: [cssLoader, resolveUrlLoader, sassLoader],
+          fallback: styleLoader
+        })
       },
       {
         test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
@@ -136,7 +137,7 @@ const webpackConfig = {
               name: '[name]-[hash:6].[ext]',
               publicPath: './',
               outputPath: 'images/'
-            },
+            }
           }
         ]
       },
@@ -149,7 +150,7 @@ const webpackConfig = {
               name: '[name]-[hash:6].[ext]',
               publicPath: './',
               outputPath: 'fonts/'
-            },
+            }
           }
         ]
       }
@@ -157,7 +158,6 @@ const webpackConfig = {
   },
 
   plugins: [
-
     // commented out becase of 'expose-loader'
     /*new webpack.ProvidePlugin({
         jQuery: 'jquery',
@@ -185,9 +185,7 @@ const webpackConfig = {
         minChunks: Infinity
     }),*/
 
-    new ExtractTextPlugin(
-      useVersioning ? '[name].[contenthash:6].css' : '[name].css'
-    ),
+    new ExtractTextPlugin(useVersioning ? '[name].[contenthash:6].css' : '[name].css'),
 
     new ManifestPlugin({
       basePath: 'build/',
@@ -234,6 +232,6 @@ const webpackConfig = {
       'Access-Control-Allow-Origin': '*'
     }
   }
-};
+}
 
-module.exports = webpackConfig;
+module.exports = webpackConfig

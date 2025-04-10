@@ -3,6 +3,9 @@ import { put, takeEvery, takeLatest, all, call } from 'redux-saga/effects'
 
 import * as TYPES from '../../services/ActionTypes'
 import {
+  fetchPrilohy,
+  uploadPriloha,
+  deletePriloha,
   fetchOpravnenia,
   fetchZoznamOST,
   fetchZoznamDispecerov,
@@ -21,6 +24,10 @@ import {
 
 function* mySaga() {
   yield all([
+    takeEvery(TYPES.FETCH_PRILOHY_REQUEST, fetchPrilohy),
+    takeLatest(TYPES.UPLOAD_PRILOHA_REQUEST, uploadPriloha),
+    takeLatest(TYPES.DELETE_PRILOHA_REQUEST, deletePriloha),
+
     takeLatest(TYPES.FETCH_OPRAVNENIA_REQUEST, fetchOpravnenia),
     takeLatest(TYPES.FETCH_ZOZNAM_OST_REQUEST, fetchZoznamOST),
     takeLatest(TYPES.FETCH_ZOZNAM_DISPECEROV_REQUEST, fetchZoznamDispecerov),

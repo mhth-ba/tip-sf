@@ -4,7 +4,7 @@ namespace AppBundle\Repository\Dispecing\DDH;
 
 use Doctrine\ORM\EntityRepository;
 
-class HVHlavnyRepository extends EntityRepository
+class HlavnyHVRepository extends EntityRepository
 {
     public function getZoznam()
     {

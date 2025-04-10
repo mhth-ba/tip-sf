@@ -6,6 +6,21 @@ import Notifications from 'react-notification-system-redux'
 
 import Routing from '../../Components/Routing'
 
+export const fetchPrilohyRequest = entryId => ({
+  type: TYPES.FETCH_PRILOHY_REQUEST,
+  entryId
+})
+
+export const uploadPrilohaRequest = data => ({
+  type: TYPES.UPLOAD_PRILOHA_REQUEST,
+  data
+})
+
+export const deletePrilohaRequest = id => ({
+  type: TYPES.DELETE_PRILOHA_REQUEST,
+  id
+})
+
 export const fetchOpravneniaRequest = () => ({
   type: TYPES.FETCH_OPRAVNENIA_REQUEST
 })
@@ -63,6 +78,67 @@ export const deletePraceNaOSTPrevadzkaRequest = id => ({
   type: TYPES.DELETE_PRACE_NA_OST_PREVADZKA_REQUEST,
   id
 })
+
+export function* fetchPrilohy(action) {
+  const url = Routing.generate('ddh_ost_prilohy_list', { entryId: action.entryId })
+
+  try {
+    const prilohy = yield call(Api.fetch, url)
+    yield put({ type: TYPES.FETCH_PRILOHY_SUCCESS, entryId: action.entryId, data: prilohy })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_PRILOHY_ERROR, entryId: action.entryId, data: e })
+    console.error(e)
+  }
+}
+
+export function* uploadPriloha(action) {
+  const url = Routing.generate('ddh_ost_prilohy_upload')
+  const data = action.data
+
+  try {
+    const priloha = yield call(Api.post, url, data)
+    yield put({ type: TYPES.UPLOAD_PRILOHA_SUCCESS, data: priloha })
+    yield put(
+      Notifications.success({
+        message: 'Súbor bol úspešne nahraný',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.UPLOAD_PRILOHA_ERROR, data: e })
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri nahrávaní súboru',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
+
+export function* deletePriloha(action) {
+  const url = Routing.generate('ddh_ost_prilohy_delete', { id: action.id })
+
+  try {
+    yield call(Api.delete, url)
+    yield put({ type: TYPES.DELETE_PRILOHA_SUCCESS, id: action.id })
+    yield put(
+      Notifications.success({
+        message: 'Príloha bola úspešne odstránená',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.DELETE_PRILOHA_ERROR, data: e })
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri odstraňovaní prílohy',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
 
 export function* fetchOpravnenia(action) {
   const url = Routing.generate('ddh_ost_opravnenia')

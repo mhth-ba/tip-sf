@@ -6,10 +6,10 @@ use AppBundle\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\DDH\OSTHlavnyRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\DDH\HlavnyOSTRepository")
  * @ORM\Table(name="DDH_OST_Hlavny", schema="Dispecing")
  */
-class OSTHlavny extends BaseEntity
+class HlavnyOST extends BaseEntity
 {
     /**
      * @ORM\Id

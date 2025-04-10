@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Type\Dispecing\DDH;
 
-use AppBundle\Entity\Dispecing\DDH\OSTHlavny;
+use AppBundle\Entity\Dispecing\DDH\HlavnyOST;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -29,7 +29,7 @@ class OSTHlavnyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => OSTHlavny::class,
+            'data_class' => HlavnyOST::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ]);
