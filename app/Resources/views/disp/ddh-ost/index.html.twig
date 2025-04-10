@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-{#    <link rel="stylesheet" href="{{ asset('build/ddh.css') }}">#}
+    <link rel="stylesheet" href="{{ asset('build/ddhost.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -22,6 +22,9 @@
                 <div id="ddh-ost"></div>
             </div>
         </div>
+
+        {#https://github.com/1up-lab/OneupUploaderBundle/issues/143#}
+        <div id="uploader" data-endpoint="{{ oneup_uploader_endpoint('dispecing') }}"></div>
     </div>
 {% endblock %}
 

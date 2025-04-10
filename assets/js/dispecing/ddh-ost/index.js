@@ -4,11 +4,11 @@ import { Provider } from 'react-redux'
 import App from './components/App'
 import store from './store'
 
-// import '../../../css/ddh.scss'
+import '../../../css/ddhost.scss'
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>,
   document.getElementById('ddh-ost')
 )
