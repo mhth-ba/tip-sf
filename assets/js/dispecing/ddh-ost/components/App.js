@@ -3,15 +3,10 @@ import { Row, Col } from 'reactstrap'
 import Notification from '../../../components/Notification'
 
 import Calendar from './Calendar'
-import Hlavicka from './Hlavicka'
-import PraceNaOSTPrevadzka from './PraceNaOSTPrevadzka'
-import PraceNaOSTDispecing from './PraceNaOSTDispecing'
-import PlanovanePraceAOdstavkyNaOST from './PlanovanePraceAOdstavkyNaOST'
-import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
-import Poznamky from './Poznamky'
+import AuditLog from './AuditLog'
+import MainContent from './MainContent'
 
 import { hot } from 'react-hot-loader'
-import MainContent from './MainContent'
 
 class App extends React.Component {
   render() {
@@ -19,8 +14,11 @@ class App extends React.Component {
       <div>
         <Notification />
         <Row>
-          <Col>
+          <Col md={6} sm={12}>
             <Calendar />
+          </Col>
+          <Col md={6} sm={12}>
+            <AuditLog />
           </Col>
         </Row>
         <br />

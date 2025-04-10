@@ -12,16 +12,19 @@ export const canEditData = (hlavny, opravnenia) => {
     return false
   }
 
-  // Now check if date is today
+  // Now check if date is within the allowed range (today, yesterday, or day before yesterday)
   if (!hlavny || !hlavny.datum) {
     // If no date available, default to read-only
     return false
   }
 
-  // Convert both dates to YYYY-MM-DD format for comparison
-  const entryDate = moment.unix(hlavny.datum).format('YYYY-MM-DD')
-  const todayDate = moment().format('YYYY-MM-DD')
+  // Convert entry date to moment object
+  const entryDate = moment.unix(hlavny.datum)
+  const today = moment().startOf('day')
 
-  // Allow editing only if date is today
-  return entryDate === todayDate
+  // Calculate the difference in days
+  const daysDifference = today.diff(entryDate.startOf('day'), 'days')
+
+  // Allow editing only if date is today, yesterday, or day before yesterday (0, 1, or 2 days ago)
+  return daysDifference >= 0 && daysDifference <= 2
 }

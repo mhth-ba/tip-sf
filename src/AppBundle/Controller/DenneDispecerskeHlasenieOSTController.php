@@ -136,6 +136,38 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     }
 
     /**
+     * @Route("disp/ddh-ost/aktivita", name="ddh_ost_aktivita_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getAktivitaAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $aktivita = $em->getRepository('AppBundle:Dispecing\DDH\AuditLog')
+            ->findUserActivityAll();
+
+        return $this->createApiResponse([
+            'udaje_vsetky' => $aktivita,
+        ]);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/aktivita/{id}", name="ddh_ost_aktivita_hlavny_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getAktivitaByHlavnyAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $aktivita = $em->getRepository('AppBundle:Dispecing\DDH\AuditLog')
+            ->findUserActivityByHlavny($id);
+
+        return $this->createApiResponse([
+            'udaje_hlavny' => $aktivita,
+        ]);
+    }
+
+    /**
      * @Route("disp/ddh-ost/hlavicka/{date}", name="ddh_ost_hlavicka_get", options={"expose"=true})
      * @Method("GET")
      */

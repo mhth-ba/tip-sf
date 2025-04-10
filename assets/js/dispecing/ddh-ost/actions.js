@@ -22,6 +22,11 @@ export const fetchZoznamPoruchovkaRequest = () => ({
   type: TYPES.FETCH_ZOZNAM_PORUCHOVKA_REQUEST
 })
 
+export const fetchAuditlogRequest = id => ({
+  type: TYPES.FETCH_AUDIT_LOG_REQUEST,
+  id
+})
+
 export const fetchDenneDispecerskeHlasenieOSTRequest = date => ({
   type: TYPES.LOAD_OSTHLAVNY_REQUEST,
   date
@@ -101,6 +106,29 @@ export function* fetchZoznamPoruchovka(action) {
     yield put({ type: TYPES.FETCH_ZOZNAM_PORUCHOVKA_SUCCESS, data })
   } catch (e) {
     yield put({ type: TYPES.FETCH_ZOZNAM_PORUCHOVKA_ERROR, data: e })
+    console.error(e)
+  }
+}
+
+export function* fetchAuditlog(action) {
+  let url
+  const id = action.id
+
+  if (id === undefined) {
+    // ID hlavného záznamu nie je definované, načítať aktivitu vo všetkých záznamoch
+    url = Routing.generate('ddh_ost_aktivita_get')
+  } else {
+    // ID hlavného záznmu je definované, načítať aktivitu iba v hlavnom zázname
+    url = Routing.generate('ddh_ost_aktivita_hlavny_get')
+    url = `${url}/${id}`
+  }
+
+  try {
+    const udaje = yield call(Api.fetch, url)
+
+    yield put({ type: TYPES.FETCH_AUDIT_LOG_SUCCESS, data: udaje })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_AUDIT_LOG_ERROR, data: e })
     console.error(e)
   }
 }

@@ -61,11 +61,11 @@ class HlavickaReadOnly extends React.Component {
                     </tr>
                     <tr>
                       <th>Doplňovanie TpV:</th>
-                      <td>{doplnovanie_tpv || '-'}</td>
+                      <td>{doplnovanie_tpv || '-'} t/h</td>
                     </tr>
                     <tr>
                       <th>Doplňovanie TpZ:</th>
-                      <td>{doplnovanie_tpz || '-'}</td>
+                      <td>{doplnovanie_tpz || '-'} t/h</td>
                     </tr>
                   </tbody>
                 </Table>

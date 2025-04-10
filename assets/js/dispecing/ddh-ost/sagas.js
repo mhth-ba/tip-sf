@@ -7,6 +7,7 @@ import {
   fetchZoznamOST,
   fetchZoznamDispecerov,
   fetchZoznamPoruchovka,
+  fetchAuditlog,
   fetchDenneDispecerskeHlasenieOST,
   updateOSTHlavny,
   fetchPraceNaOSTPrevadzka,
@@ -24,6 +25,7 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_ZOZNAM_OST_REQUEST, fetchZoznamOST),
     takeLatest(TYPES.FETCH_ZOZNAM_DISPECEROV_REQUEST, fetchZoznamDispecerov),
     takeLatest(TYPES.FETCH_ZOZNAM_PORUCHOVKA_REQUEST, fetchZoznamPoruchovka),
+    takeLatest(TYPES.FETCH_AUDIT_LOG_REQUEST, fetchAuditlog),
 
     takeLatest(TYPES.LOAD_OSTHLAVNY_REQUEST, fetchDenneDispecerskeHlasenieOST),
     takeLatest(TYPES.FETCH_PRACE_NA_OST_PREVADZKA_REQUEST, fetchPraceNaOSTPrevadzka),

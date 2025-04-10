@@ -4,6 +4,7 @@ import opravnenia from './opravnenia'
 import ost from './ost'
 import dispeceri from './dispeceri'
 import poruchovka from './poruchovka'
+import auditlog from './auditlog'
 import hlavny from './hlavny'
 import pracenaostprevadzka from './pracenaostprevadzka'
 
@@ -14,6 +15,7 @@ export default combineReducers({
   ost,
   dispeceri,
   poruchovka,
+  auditlog,
   hlavny,
   pracenaostprevadzka,
 
