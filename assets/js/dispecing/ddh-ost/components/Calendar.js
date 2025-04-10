@@ -2,7 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Card, CardHeader, CardBody, Button, Row, Col, Table } from 'reactstrap'
 import moment from 'moment'
-import { fetchDenneDispecerskeHlasenieOSTRequest, fetchPraceNaOSTPrevadzkaRequest } from '../actions'
+import {
+  fetchOpravneniaRequest,
+  fetchZoznamOSTRequest,
+  fetchZoznamDispecerovRequest,
+  fetchZoznamPoruchovkaRequest,
+  fetchDenneDispecerskeHlasenieOSTRequest,
+  fetchPraceNaOSTPrevadzkaRequest
+} from '../actions'
 import * as TYPES from '../../../services/ActionTypes'
 
 class Calendar extends React.Component {
@@ -25,6 +32,11 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
+    // Load permissions
+    this.props.fetchOpravnenia()
+    this.props.fetchZoznamOST()
+    this.props.fetchDispeceri()
+    this.props.fetchPoruchovka()
     // On mount, load today's main entry.
     const today = new Date()
     const dateString = moment(today).format('YYYY-MM-DD')
@@ -257,6 +269,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  fetchOpravnenia: () => dispatch(fetchOpravneniaRequest()),
+  fetchZoznamOST: () => dispatch(fetchZoznamOSTRequest()),
+  fetchDispeceri: () => dispatch(fetchZoznamDispecerovRequest()),
+  fetchPoruchovka: () => dispatch(fetchZoznamPoruchovkaRequest()),
   fetchDenneDispecerskeHlasenieOST: date => dispatch(fetchDenneDispecerskeHlasenieOSTRequest(date)),
   fetchPraceNaOSTPrevadzka: hlavnyId => dispatch({ type: TYPES.FETCH_PRACE_NA_OST_PREVADZKA_REQUEST, hlavnyId })
 })

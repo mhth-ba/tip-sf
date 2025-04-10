@@ -1,9 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Hlavicka from './Hlavicka'
 import NoDataAlert from './NoDataAlert'
 import { Col, Row } from 'reactstrap'
-import PraceNaOSTPrevadzka from './PraceNaOSTPrevadzka'
+import moment from 'moment'
+import { Alert } from 'reactstrap'
+import HlavickaWrapper from './HlavickaWrapper'
+import PraceNaOSTPrevadzkaWrapper from './PraceNaOSTPrevadzkaWrapper'
 import PraceNaOSTDispecing from './PraceNaOSTDispecing'
 import PlanovanePraceAOdstavkyNaOST from './PlanovanePraceAOdstavkyNaOST'
 import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
@@ -18,28 +20,42 @@ const MainContent = ({ hlavny }) => {
     return <NoDataAlert />
   }
 
+  const isHistoricalData =
+    hlavny.datum && moment.unix(hlavny.datum).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
+
   return (
     <div>
+      {isHistoricalData && (
+        <Row>
+          <Col>
+            <Alert color="info" className="mb-3">
+              <i className="fa fa-info-circle mr-2"></i>
+              Zobrazujete historické údaje z {moment.unix(hlavny.datum).format('DD.MM.YYYY')}. Zmeny nie sú povolené pre
+              minulé dni.
+            </Alert>
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col>
-          <Hlavicka />
+          <HlavickaWrapper />
         </Col>
       </Row>
       <br />
       <Row>
-        <Col>
-          <PraceNaOSTPrevadzka />
+        <Col md={6} sm={12}>
+          <PraceNaOSTPrevadzkaWrapper />
         </Col>
-        <Col>
+        <Col md={6} sm={12}>
           <PraceNaOSTDispecing />
         </Col>
       </Row>
       <br />
       <Row>
-        <Col>
+        <Col md={6} sm={12}>
           <PlanovanePraceAOdstavkyNaOST />
         </Col>
-        <Col>
+        <Col md={6} sm={12}>
           <OdstavkyOSTNad24Hod />
         </Col>
       </Row>

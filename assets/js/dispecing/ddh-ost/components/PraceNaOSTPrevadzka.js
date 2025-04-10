@@ -3,28 +3,30 @@ import { connect } from 'react-redux'
 import { Button, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Row, Col, FormText } from 'reactstrap'
 import moment from 'moment'
 import debounce from '../../../utils/debounce'
+import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
 import {
   createPraceNaOSTPrevadzkaRequest,
   updatePraceNaOSTPrevadzkaRequest,
-  fetchPraceNaOSTPrevadzkaRequest
+  fetchPraceNaOSTPrevadzkaRequest,
+  deletePraceNaOSTPrevadzkaRequest
 } from '../actions'
 
 class PraceNaOSTPrevadzka extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ostFilter: '',
+      // Store per-entry OST filters
+      entryOstFilters: {},
       // Store local entry values for optimistic updates
       localEntries: {},
       // Store debounced update functions for each entry by ID
       debouncedUpdates: {}
     }
 
-    this.handleOstFilterChange = this.handleOstFilterChange.bind(this)
     this.handleAddForm = this.handleAddForm.bind(this)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     // When entries are loaded or updated from the server, update our local state
     if (prevProps.prace.entries !== this.props.prace.entries) {
       const localEntries = {}
@@ -41,8 +43,14 @@ class PraceNaOSTPrevadzka extends React.Component {
     }
   }
 
-  handleOstFilterChange(e) {
-    this.setState({ ostFilter: e.target.value })
+  // Handle OST filter change for a specific entry
+  handleOstFilterChange = (entryId, value) => {
+    this.setState(prevState => ({
+      entryOstFilters: {
+        ...prevState.entryOstFilters,
+        [entryId]: value
+      }
+    }))
   }
 
   handleAddForm() {
@@ -51,15 +59,34 @@ class PraceNaOSTPrevadzka extends React.Component {
       alert('Hlavný záznam nie je načítaný.')
       return
     }
+
     // Dispatch create action
     createPraceNaOSTPrevadzkaRequest(hlavny.id)
-      .then(() => {
-        // Re-fetch all entries after creation, so the new entry appears
+
+    // Re-fetch all entries after creation
+    fetchPraceNaOSTPrevadzka(hlavny.id)
+  }
+
+  // Handle the delete button click
+  handleDeleteEntry = entryId => {
+    const { hlavny, deletePraceNaOSTPrevadzkaRequest, fetchPraceNaOSTPrevadzka } = this.props
+
+    if (window.confirm('Naozaj chcete odstrániť túto položku?')) {
+      // First remove from local state for immediate UI update
+      this.setState(prevState => {
+        const newLocalEntries = { ...prevState.localEntries }
+        delete newLocalEntries[entryId]
+        return { localEntries: newLocalEntries }
+      })
+
+      // Then send the delete request to the server
+      deletePraceNaOSTPrevadzkaRequest(entryId)
+
+      // After deletion, refresh the list
+      if (hlavny && hlavny.id) {
         fetchPraceNaOSTPrevadzka(hlavny.id)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+      }
+    }
   }
 
   // Get or create a debounced update function for a specific entry
@@ -109,7 +136,7 @@ class PraceNaOSTPrevadzka extends React.Component {
     return this.state.debouncedUpdates[key]
   }
 
-  // Modify the handleChangeField method
+  // Modified handleChangeField method
   handleChangeField = (entry, fieldName, value) => {
     // First, update local state for immediate visual feedback
     this.setState(prevState => ({
@@ -245,14 +272,69 @@ class PraceNaOSTPrevadzka extends React.Component {
     // Get the local entry data for optimistic updates
     const localEntry = this.state.localEntries[entry.id] || entry
 
-    // For the OST filter
-    const allOstOptions = [
-      { value: 'OST 750', label: 'OST 750' },
-      { value: 'OST 770', label: 'OST 770' },
-      { value: 'OST 850', label: 'OST 850' }
-    ]
-    const { ostFilter } = this.state
-    const filteredOstOptions = allOstOptions.filter(opt => opt.label.toLowerCase().includes(ostFilter.toLowerCase()))
+    // Get the OST filter for this specific entry
+    const ostFilter = this.state.entryOstFilters[entry.id] || ''
+
+    // Group OST options by type
+    const ostByType = {}
+
+    if (this.props.ost && this.props.ost.length > 0) {
+      this.props.ost.forEach(ost => {
+        if (!ostByType[ost.typ]) {
+          ostByType[ost.typ] = []
+        }
+
+        // Create the option with the format "cislo + space + adresa"
+        const ostOption = {
+          value: `${ost.cislo} ${ost.adresa}`,
+          label: `${ost.cislo} ${ost.adresa}`,
+          cislo: ost.cislo,
+          adresa: ost.adresa
+        }
+
+        ostByType[ost.typ].push(ostOption)
+      })
+    }
+
+    // Filter OST options based on the entry-specific filter using diacritic-insensitive filtering
+    const filteredOstOptions = {}
+    Object.keys(ostByType).forEach(typ => {
+      // Use diacriticFilter function for each type group
+      if (ostFilter) {
+        const filtered = ostByType[typ].filter(
+          ost =>
+            diacriticMatch(ost.label, ostFilter) ||
+            diacriticMatch(ost.cislo, ostFilter) ||
+            diacriticMatch(ost.adresa, ostFilter)
+        )
+        if (filtered.length > 0) {
+          filteredOstOptions[typ] = filtered
+        }
+      } else {
+        filteredOstOptions[typ] = ostByType[typ]
+      }
+    })
+
+    // Custom sort order for option groups: OŠ, PK, OST, OOST, then others alphabetically
+    const customSortOrder = {
+      OŠ: 1,
+      PK: 2,
+      OST: 3,
+      OOST: 4
+    }
+
+    // Sort the keys (typ) according to custom order
+    const sortedTypes = Object.keys(filteredOstOptions).sort((a, b) => {
+      const orderA = customSortOrder[a] || 100 // Default high value for types not in the custom order
+      const orderB = customSortOrder[b] || 100
+
+      if (orderA === orderB) {
+        // If both are in the "others" category (or the same category), sort alphabetically
+        return a.localeCompare(b)
+      }
+
+      return orderA - orderB
+    })
 
     // Convert the DB/stored date/time into the format needed by <input type="datetime-local">
     // Use local entry data for display to implement optimistic updates
@@ -261,6 +343,26 @@ class PraceNaOSTPrevadzka extends React.Component {
 
     return (
       <Form key={entry.id} className="mt-4">
+        <Row>
+          <Col md="10">
+            <FormGroup>
+              <Label>Filter OST pre tento záznam</Label>
+              <Input
+                type="text"
+                value={ostFilter}
+                onChange={e => this.handleOstFilterChange(entry.id, e.target.value)}
+                placeholder="Zadajte filter pre OST..."
+              />
+              <FormText color="muted">Filter funguje aj bez diakritiky a na veľkosti písmen nezáleží.</FormText>
+            </FormGroup>
+          </Col>
+          <Col md="2" className="d-flex align-items-center justify-content-center">
+            <Button color="danger" onClick={() => this.handleDeleteEntry(entry.id)} className="mb-3">
+              Odstrániť
+            </Button>
+          </Col>
+        </Row>
+
         <Row>
           <Col md="6">
             <FormGroup>
@@ -271,13 +373,19 @@ class PraceNaOSTPrevadzka extends React.Component {
                 onChange={e => this.handleChangeField(entry, 'ost', e.target.value)}
               >
                 <option value="">-- Vyberte --</option>
-                {filteredOstOptions.map(opt => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
+
+                {/* Render grouped OST options in custom sort order */}
+                {sortedTypes.map(typ => (
+                  <optgroup key={typ} label={typ}>
+                    {filteredOstOptions[typ].map(opt => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </optgroup>
                 ))}
               </Input>
-              <FormText color="muted">Filtrujte názvy OST podľa poľa "Filter OST" hore.</FormText>
+              <FormText color="muted">Použite filter OST vyššie pre zúženie výberu.</FormText>
             </FormGroup>
           </Col>
         </Row>
@@ -389,14 +497,17 @@ class PraceNaOSTPrevadzka extends React.Component {
             </FormGroup>
           </Col>
         </Row>
-        <hr />
+        <hr style={{ marginTop: '40px' }} />
       </Form>
     )
   }
 
   render() {
-    const { ostFilter } = this.state
-    const persistedEntries = this.props.prace && this.props.prace.entries ? this.props.prace.entries : []
+    // Filter entries to show only those that are valid
+    const validEntries =
+      this.props.prace && this.props.prace.entries
+        ? this.props.prace.entries.filter(entry => entry.valid !== false)
+        : []
 
     return (
       <Card>
@@ -405,18 +516,14 @@ class PraceNaOSTPrevadzka extends React.Component {
           <Button color="success" onClick={this.handleAddForm}>
             Pridať
           </Button>
-          <FormGroup className="mt-2">
-            <Label for="ostFilter">Filter OST</Label>
-            <Input
-              type="text"
-              id="ostFilter"
-              value={ostFilter}
-              onChange={this.handleOstFilterChange}
-              placeholder="Zadajte filter pre OST..."
-            />
-          </FormGroup>
 
-          {persistedEntries.map(entry => this.renderEntry(entry))}
+          {validEntries.map(entry => this.renderEntry(entry))}
+
+          {validEntries.length === 0 && (
+            <div className="text-center mt-4">
+              <p>Žiadne záznamy. Kliknite na "Pridať" pre vytvorenie nového záznamu.</p>
+            </div>
+          )}
         </CardBody>
       </Card>
     )
@@ -425,14 +532,16 @@ class PraceNaOSTPrevadzka extends React.Component {
 
 const mapStateToProps = state => ({
   hlavny: state.hlavny,
-  prace: state.pracenaostprevadzka
+  prace: state.pracenaostprevadzka,
+  ost: (state.ost && state.ost.entries) || []
 })
 
 const mapDispatchToProps = dispatch => ({
   createPraceNaOSTPrevadzkaRequest: hlavnyId => dispatch(createPraceNaOSTPrevadzkaRequest(hlavnyId)),
   updatePraceNaOSTPrevadzkaRequest: (data, rollbackCallback) =>
     dispatch(updatePraceNaOSTPrevadzkaRequest(data, rollbackCallback)),
-  fetchPraceNaOSTPrevadzka: hlavnyId => dispatch(fetchPraceNaOSTPrevadzkaRequest(hlavnyId))
+  fetchPraceNaOSTPrevadzka: hlavnyId => dispatch(fetchPraceNaOSTPrevadzkaRequest(hlavnyId)),
+  deletePraceNaOSTPrevadzkaRequest: id => dispatch(deletePraceNaOSTPrevadzkaRequest(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PraceNaOSTPrevadzka)

@@ -2,13 +2,19 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Api\Dispecing\DispecerApiModel;
 use AppBundle\Api\Dispecing\OSTApiModel;
+use AppBundle\Api\Dispecing\PoruchovkaApiModel;
+use AppBundle\Entity\Dispecing\Dispecer;
 use AppBundle\Entity\Dispecing\OST;
+use AppBundle\Entity\Dispecing\Poruchovka;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class DenneDispecerskeHlasenieOSTController extends BaseController
 {
@@ -18,28 +24,46 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     }
 
     /**
-     * @Route("ee/ddh-ost/zoznam-ost", name="ddh_ost_zoznam_ost_list", options={"expose"=true})
+     * @Route("disp/ddh-ost/opravnenia", name="ddh_ost_opravnenia", options={"expose"=true})
      * @Method("GET")
      */
-    public function getZoznamAction()
+    public function getOpravneniaAction(UserInterface $user)
+    {
+        $guid = $user->getId();
+
+        $grants = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:App\Grant')
+            ->findGrantedRolesToUser($guid);
+
+        $roles = [];
+        foreach ($grants as $grant) {
+            $roles[] = $grant->getRoles()->getRole();
+        }
+
+        return $this->createApiResponse($roles);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/zoznam-ost", name="ddh_ost_zoznam_ost_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getZoznamOSTAction()
     {
         $repository = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Dispecing\OST');
 
         $zoznam = $repository->getZoznam();
 
-        $models = [];
+        $result = [];
         foreach ($zoznam as $ost) {
-            $models[] = $this->createOSTApiModel($ost);
+            $result[] = $this->createOSTApiModel($ost);
         }
 
-        return $this->createApiResponse($models);
+        return $this->createApiResponse($result);
     }
 
     private function createOSTApiModel(OST $ost): OSTApiModel
     {
-        $em = $this->getDoctrine()->getManager();
-
         $id = $ost->getId();
 
         $model = new OSTApiModel();
@@ -47,6 +71,66 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         $model->cislo = $ost->getCislo();
         $model->adresa = $ost->getAdresa();
         $model->typ = $ost->getTyp();
+
+        return $model;
+    }
+
+    /**
+     * @Route("disp/ddh-ost/dispeceri", name="ddh_ost_dispeceri_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getZoznamDispecerovAction()
+    {
+        $repository = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Dispecing\Dispecer');
+
+        $zoznam = $repository->getZoznam();
+
+        $result = [];
+        foreach ($zoznam as $dispecer) {
+            $result[] = $this->createDispecerApiModel($dispecer);
+        }
+
+        return $this->createApiResponse($result);
+    }
+
+    private function createDispecerApiModel(Dispecer $dispecer): DispecerApiModel
+    {
+        $id = $dispecer->getId();
+
+        $model = new DispecerApiModel();
+        $model->id = $id;
+        $model->meno = $dispecer->getMeno();
+
+        return $model;
+    }
+
+    /**
+     * @Route("disp/ddh-ost/poruchovka", name="ddh_ost_poruchovka_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getZoznamPoruchovkaAction()
+    {
+        $repository = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Dispecing\Poruchovka');
+
+        $zoznam = $repository->getZoznam();
+
+        $result = [];
+        foreach ($zoznam as $poruchovka) {
+            $result[] = $this->createPoruchovkaApiModel($poruchovka);
+        }
+
+        return $this->createApiResponse($result);
+    }
+
+    private function createPoruchovkaApiModel(Poruchovka $poruchovka): PoruchovkaApiModel
+    {
+        $id = $poruchovka->getId();
+
+        $model = new PoruchovkaApiModel();
+        $model->id = $id;
+        $model->meno = $poruchovka->getMeno();
 
         return $model;
     }
@@ -166,14 +250,20 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             throw $this->createNotFoundException('Hlavny record not found.');
         }
 
-        $prac = new \AppBundle\Entity\Dispecing\DDH\PraceNaOSTPrevadzka();
-        $prac->setHlavny($hlavny);
+        $praca = new \AppBundle\Entity\Dispecing\DDH\PraceNaOSTPrevadzka();
+        $praca->setHlavny($hlavny);
+        $praca->setValid(true);
         // Other fields remain null.
-        $em->persist($prac);
+        $em->persist($praca);
         $em->flush();
 
+        $this->logCreateActivity(
+            $praca->getId(),
+            'AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka'
+        );
+
         $apiModel = new \AppBundle\Api\Dispecing\DDH\PraceNaOSTPrevadzkaApiModel();
-        $apiModel->id = $prac->getId();
+        $apiModel->id = $praca->getId();
         // All other fields are null.
         return $this->createApiResponse($apiModel, 201);
     }
@@ -206,23 +296,31 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         }
 
         // Handle datetime fields directly before form processing
-        if (($fieldName === 'datum_cas_zaciatok' || $fieldName === 'datum_cas_ukoncenie') && is_numeric($fieldValue)) {
-            $dateObj = new \DateTime();
-            $dateObj->setTimestamp($fieldValue);
+        if (($fieldName === 'datum_cas_zaciatok' || $fieldName === 'datum_cas_ukoncenie')) {
 
-            // Set directly on the entity
-            if ($fieldName === 'datum_cas_zaciatok') {
-                $praca->setDatumCasZaciatok($dateObj);
-            } else {
-                $praca->setDatumCasUkoncenie($dateObj);
+            // If value is null, set the datetime field to null
+            if ($fieldValue === null) {
+                if ($fieldName === 'datum_cas_zaciatok') {
+                    $praca->setDatumCasZaciatok(null);
+                } else {
+                    $praca->setDatumCasUkoncenie(null);
+                }
+            } else if (is_numeric($fieldValue)) {
+                $dateObj = new \DateTime();
+                $dateObj->setTimestamp($fieldValue);
+
+                // Set directly on the entity
+                if ($fieldName === 'datum_cas_zaciatok') {
+                    $praca->setDatumCasZaciatok($dateObj);
+                } else {
+                    $praca->setDatumCasUkoncenie($dateObj);
+                }
             }
-
-            // Save the changes directly
-            $em->persist($praca);
-            $em->flush();
         }
 
-        // Use updateDatabase for the standard processing and logging
+        $em->persist($praca);
+        $em->flush();
+
         return $this->updateDatabase(
             $id,
             'AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka',
@@ -231,4 +329,29 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         );
     }
 
+    /**
+     * @Route("disp/ddh-ost/prace-na-ost-prevadzka/{id}", name="ddh_ost_prace_na_ost_prevadzka_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function deletePraceNaOSTPrevadzkaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $praca = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka')->find($id);
+
+        if (!$praca) {
+            throw $this->createNotFoundException(sprintf('Práca na OST - prevádzka s id %s sa nenašla', $id));
+        }
+
+        // Soft delete - set valid to false
+        $praca->setValid(false);
+        $em->persist($praca);
+        $em->flush();
+
+        // Log the action
+        $metadata = $em->getClassMetadata('AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka');
+        $this->logDeleteActivity($metadata, $id);
+
+        return new Response('',204); // Return 204 No Content on success
+    }
 }

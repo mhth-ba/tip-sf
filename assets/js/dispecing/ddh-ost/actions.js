@@ -6,15 +6,30 @@ import Notifications from 'react-notification-system-redux'
 
 import Routing from '../../Components/Routing'
 
+export const fetchOpravneniaRequest = () => ({
+  type: TYPES.FETCH_OPRAVNENIA_REQUEST
+})
+
+export const fetchZoznamOSTRequest = () => ({
+  type: TYPES.FETCH_ZOZNAM_OST_REQUEST
+})
+
+export const fetchZoznamDispecerovRequest = () => ({
+  type: TYPES.FETCH_ZOZNAM_DISPECEROV_REQUEST
+})
+
+export const fetchZoznamPoruchovkaRequest = () => ({
+  type: TYPES.FETCH_ZOZNAM_PORUCHOVKA_REQUEST
+})
+
 export const fetchDenneDispecerskeHlasenieOSTRequest = date => ({
   type: TYPES.LOAD_OSTHLAVNY_REQUEST,
   date
 })
 
-export const updateOSTHlavnyRequest = (data, rollbackCallback) => ({
+export const updateOSTHlavnyRequest = data => ({
   type: TYPES.UPDATE_OSTHLAVNY_REQUEST,
-  data,
-  rollbackCallback
+  data
 })
 
 export const updateOSTHlavnyFormField = (field, value) => ({
@@ -33,10 +48,62 @@ export const createPraceNaOSTPrevadzkaRequest = hlavnyId => ({
   hlavnyId
 })
 
-export const updatePraceNaOSTPrevadzkaRequest = data => ({
+export const updatePraceNaOSTPrevadzkaRequest = (data, rollbackCallback) => ({
   type: TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_REQUEST,
-  data
+  data,
+  rollbackCallback
 })
+
+export const deletePraceNaOSTPrevadzkaRequest = id => ({
+  type: TYPES.DELETE_PRACE_NA_OST_PREVADZKA_REQUEST,
+  id
+})
+
+export function* fetchOpravnenia(action) {
+  const url = Routing.generate('ddh_ost_opravnenia')
+
+  try {
+    const opravnenia = yield call(Api.fetch, url)
+
+    yield put({ type: TYPES.FETCH_OPRAVNENIA_SUCCESS, data: opravnenia })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_OPRAVNENIA_ERROR, data: e })
+    console.log(e)
+  }
+}
+
+export function* fetchZoznamOST(action) {
+  const url = Routing.generate('ddh_ost_zoznam_ost_list')
+  try {
+    const data = yield call(Api.fetch, url)
+    yield put({ type: TYPES.FETCH_ZOZNAM_OST_SUCCESS, data })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_ZOZNAM_OST_ERROR, data: e })
+    console.error(e)
+  }
+}
+
+export function* fetchZoznamDispecerov(action) {
+  const url = Routing.generate('ddh_ost_dispeceri_list')
+  try {
+    const data = yield call(Api.fetch, url)
+    yield put({ type: TYPES.FETCH_ZOZNAM_DISPECEROV_SUCCESS, data })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_ZOZNAM_DISPECEROV_ERROR, data: e })
+    console.error(e)
+  }
+}
+
+export function* fetchZoznamPoruchovka(action) {
+  const url = Routing.generate('ddh_ost_poruchovka_list')
+  try {
+    const data = yield call(Api.fetch, url)
+    yield put({ type: TYPES.FETCH_ZOZNAM_PORUCHOVKA_SUCCESS, data })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_ZOZNAM_PORUCHOVKA_ERROR, data: e })
+    console.error(e)
+  }
+}
 
 export function* fetchDenneDispecerskeHlasenieOST(action) {
   const url = Routing.generate('ddh_ost_hlavicka_get', { date: action.date })
@@ -68,18 +135,6 @@ export function* updateOSTHlavny(action) {
     )
   } catch (e) {
     yield put({ type: TYPES.UPDATE_OSTHLAVNY_ERROR, data: e })
-
-    if (action.rollbackCallback) {
-      action.rollbackCallback()
-    }
-
-    yield put(
-      Notifications.error({
-        message: 'Chyba pri ukladaní',
-        autoDismiss: 5
-      })
-    )
-
     console.error(e)
   }
 }
@@ -125,9 +180,38 @@ export function* updatePraceNaOSTPrevadzka(action) {
     )
   } catch (e) {
     yield put({ type: TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_ERROR, data: e })
+
+    // If a rollback callback was provided, call it to restore the old value in the UI
+    if (action.rollbackCallback && typeof action.rollbackCallback === 'function') {
+      action.rollbackCallback()
+    }
+
     yield put(
       Notifications.error({
         message: 'Chyba pri ukladaní',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
+
+export function* deletePraceNaOSTPrevadzka(action) {
+  const url = Routing.generate('ddh_ost_prace_na_ost_prevadzka_delete', { id: action.id })
+  try {
+    yield call(Api.delete, url)
+    yield put({ type: TYPES.DELETE_PRACE_NA_OST_PREVADZKA_SUCCESS, id: action.id })
+    yield put(
+      Notifications.success({
+        message: 'Záznam bol úspešne vymazaný',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.DELETE_PRACE_NA_OST_PREVADZKA_ERROR, data: e })
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri mazaní záznamu',
         autoDismiss: 5
       })
     )

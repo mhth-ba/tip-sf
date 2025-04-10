@@ -107,9 +107,27 @@ class Hlavicka extends React.Component {
     }
   }
 
+  renderOption(option) {
+    if (typeof option === 'string') {
+      return (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      )
+    } else if (option && typeof option === 'object' && option.meno) {
+      return (
+        <option key={option.id || option.meno} value={option.meno}>
+          {option.meno}
+        </option>
+      )
+    }
+    return null
+  }
+
   render() {
     const hlavny = this.props.hlavny || {}
     const { loading } = hlavny
+    const { dispeceri = [], poruchovka = [] } = this.props
 
     // Get values from local state first, falling back to props, then to empty values
     const {
@@ -123,6 +141,10 @@ class Hlavicka extends React.Component {
       doplnovanie_tpv = '',
       doplnovanie_tpz = ''
     } = this.state.localHlavny || this.props.hlavny || {}
+
+    // Check if data is still loading
+    const dispeceriLoading = this.props.dispeceriLoading
+    const poruchovkaLoading = this.props.poruchovkaLoading
 
     return (
       <Row>
@@ -142,19 +164,10 @@ class Hlavicka extends React.Component {
                         id="dispecerDenna"
                         value={dispecer_1 || ''}
                         onChange={this.handleChange}
+                        disabled={dispeceriLoading}
                       >
                         <option value="">-- Vyberte --</option>
-                        <option value="Sochovič Peter">Sochovič Peter</option>
-                        <option value="Ušjak Daniel">Ušjak Daniel</option>
-                        <option value="Medlen Radovan">Medlen Radovan</option>
-                        <option value="Szabo Ivan">Szabo Ivan</option>
-                        <option value="Korienek Martin">Korienek Martin</option>
-                        <option value="Lalúch Michal">Lalúch Michal</option>
-                        <option value="Závracký Miroslav">Závracký Miroslav</option>
-                        <option value="Miartuš Ján">Miartuš Ján</option>
-                        <option value="Zeman Rastislav">Zeman Rastislav</option>
-                        <option value="Strašifták Lukáš">Strašifták Lukáš</option>
-                        <option value="Čerhit Miroslav">Čerhit Miroslav</option>
+                        {dispeceri.map(dispecer => this.renderOption(dispecer))}
                       </Input>
                     </FormGroup>
                   </Col>
@@ -167,19 +180,10 @@ class Hlavicka extends React.Component {
                         id="dispecerNocna"
                         value={dispecer_2 || ''}
                         onChange={this.handleChange}
+                        disabled={dispeceriLoading}
                       >
                         <option value="">-- Vyberte --</option>
-                        <option value="Sochovič Peter">Sochovič Peter</option>
-                        <option value="Ušjak Daniel">Ušjak Daniel</option>
-                        <option value="Medlen Radovan">Medlen Radovan</option>
-                        <option value="Szabo Ivan">Szabo Ivan</option>
-                        <option value="Korienek Martin">Korienek Martin</option>
-                        <option value="Lalúch Michal">Lalúch Michal</option>
-                        <option value="Závracký Miroslav">Závracký Miroslav</option>
-                        <option value="Miartuš Ján">Miartuš Ján</option>
-                        <option value="Zeman Rastislav">Zeman Rastislav</option>
-                        <option value="Strašifták Lukáš">Strašifták Lukáš</option>
-                        <option value="Čerhit Miroslav">Čerhit Miroslav</option>
+                        {dispeceri.map(dispecer => this.renderOption(dispecer))}
                       </Input>
                     </FormGroup>
                   </Col>
@@ -196,18 +200,11 @@ class Hlavicka extends React.Component {
                         id="poruchovaDenna"
                         value={poruchovka_1 || ''}
                         onChange={this.handleChange}
+                        disabled={poruchovkaLoading}
                       >
                         <option value="">-- Vyberte --</option>
-                        <option value="Rojček Lukáš">Rojček Lukáš</option>
-                        <option value="Monosi Tibor">Monosi Tibor</option>
-                        <option value="Vícen Peter">Vícen Peter</option>
-                        <option value="Tóth Štefan">Tóth Štefan</option>
-                        <option value="Čech Jaromír">Čech Jaromír</option>
-                        <option value="Ďurica Juraj">Ďurica Juraj</option>
-                        <option value="Vizváry Ľubomír">Vizváry Ľubomír</option>
-                        <option value="Nagy Roman">Nagy Roman</option>
-                        <option value="Župánek Filip">Župánek Filip</option>
-                        <option value="Ivan Ján">Ivan Ján</option>
+                        <option value="- Žiadna osoba -">- Žiadna osoba -</option>
+                        {poruchovka.map(osoba => this.renderOption(osoba))}
                       </Input>
                     </FormGroup>
                   </Col>
@@ -220,18 +217,11 @@ class Hlavicka extends React.Component {
                         id="poruchovaNocna"
                         value={poruchovka_2 || ''}
                         onChange={this.handleChange}
+                        disabled={poruchovkaLoading}
                       >
                         <option value="">-- Vyberte --</option>
-                        <option value="Rojček Lukáš">Rojček Lukáš</option>
-                        <option value="Monosi Tibor">Monosi Tibor</option>
-                        <option value="Vícen Peter">Vícen Peter</option>
-                        <option value="Tóth Štefan">Tóth Štefan</option>
-                        <option value="Čech Jaromír">Čech Jaromír</option>
-                        <option value="Ďurica Juraj">Ďurica Juraj</option>
-                        <option value="Vizváry Ľubomír">Vizváry Ľubomír</option>
-                        <option value="Nagy Roman">Nagy Roman</option>
-                        <option value="Župánek Filip">Župánek Filip</option>
-                        <option value="Ivan Ján">Ivan Ján</option>
+                        <option value="- Žiadna osoba -">- Žiadna osoba -</option>
+                        {poruchovka.map(osoba => this.renderOption(osoba))}
                       </Input>
                     </FormGroup>
                   </Col>
@@ -314,7 +304,11 @@ class Hlavicka extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  hlavny: state.hlavny
+  hlavny: state.hlavny,
+  dispeceri: state.dispeceri ? state.dispeceri.entries : [],
+  poruchovka: state.poruchovka ? state.poruchovka.entries : [],
+  dispeceriLoading: state.dispeceri ? state.dispeceri.loading : false,
+  poruchovkaLoading: state.poruchovka ? state.poruchovka.loading : false
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
