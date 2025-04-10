@@ -324,7 +324,7 @@ class AuditLog extends React.Component {
 
     return (
       <Card>
-        <CardHeader className="bg-primary text-white">Audit Log Trail</CardHeader>
+        <CardHeader className="bg-primary text-white">Aktivita</CardHeader>
         <CardBody>
           <Nav tabs>
             <NavItem>
