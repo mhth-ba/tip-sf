@@ -108,6 +108,9 @@ doctrine_cache:
 
 oneup_uploader:
     mappings:
+        dispecing:
+            frontend: dropzone
+            namer: AppBundle\Uploader\Naming\FileNamer
         efektivnost:
             frontend: dropzone
             namer: AppBundle\Uploader\Naming\FileNamer
