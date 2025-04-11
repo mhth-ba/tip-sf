@@ -2,7 +2,9 @@
 {% set meranie = (url == '/smo/rm'
     or url == '/smo/anm') %}
 {% set efektivnost = url == '/ee/dpp' %}
-{% set dispecing = (url == '/disp/scztv'
+{% set dispecing = ( url == '/disp/ddh-ost'
+    or url == '/disp/ddh-hv'
+    or url == '/disp/scztv'
     or url == '/disp/scztz'
     or url == '/disp/scztost'
     or url == '/disp/ds'
@@ -112,6 +114,9 @@
                     Dispečing
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownDispecing">
+                    <a class="dropdown-item" href={{ path('ddh-ost') }}>Denné hlásenie OST</a>
+                    <a class="dropdown-item" href={{ path('ddh-hv') }}>Denné hlásenie HV</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href={{ path('sczt-vychod') }}>SCZT Východ</a>
                     <a class="dropdown-item" href={{ path('sczt-zapad') }}>SCZT Západ</a>
                     <a class="dropdown-item" href={{ path('sczt-ost') }}>SCZT OST</a>
