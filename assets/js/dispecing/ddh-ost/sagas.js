@@ -20,9 +20,11 @@ import {
   fetchPraceNaOSTDispecing,
   createPraceNaOSTDispecing,
   updatePraceNaOSTDispecing,
-  deletePraceNaOSTDispecing
-  // Prace na OST - dispečing a poruchová služba
-  // Plánované práce a odstávky na OST
+  deletePraceNaOSTDispecing,
+  fetchPlanovanePraceOdstavky,
+  createPlanovanePraceOdstavky,
+  updatePlanovanePraceOdstavky,
+  deletePlanovanePraceOdstavky
   // Poznámky
 } from './actions'
 
@@ -41,6 +43,7 @@ function* mySaga() {
     takeLatest(TYPES.LOAD_OSTHLAVNY_REQUEST, fetchDenneDispecerskeHlasenieOST),
     takeLatest(TYPES.FETCH_PRACE_NA_OST_PREVADZKA_REQUEST, fetchPraceNaOSTPrevadzka),
     takeLatest(TYPES.FETCH_PRACE_NA_OST_DISPECING_REQUEST, fetchPraceNaOSTDispecing),
+    takeLatest(TYPES.FETCH_PLANOVANE_PRACE_ODSTAVKY_REQUEST, fetchPlanovanePraceOdstavky),
 
     takeEvery(TYPES.UPDATE_OSTHLAVNY_REQUEST, updateOSTHlavny),
 
@@ -50,7 +53,11 @@ function* mySaga() {
 
     takeEvery(TYPES.CREATE_PRACE_NA_OST_DISPECING_REQUEST, createPraceNaOSTDispecing),
     takeEvery(TYPES.UPDATE_PRACE_NA_OST_DISPECING_REQUEST, updatePraceNaOSTDispecing),
-    takeEvery(TYPES.DELETE_PRACE_NA_OST_DISPECING_REQUEST, deletePraceNaOSTDispecing)
+    takeEvery(TYPES.DELETE_PRACE_NA_OST_DISPECING_REQUEST, deletePraceNaOSTDispecing),
+
+    takeEvery(TYPES.CREATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, createPlanovanePraceOdstavky),
+    takeEvery(TYPES.UPDATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, updatePlanovanePraceOdstavky),
+    takeEvery(TYPES.DELETE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, deletePlanovanePraceOdstavky)
   ])
 }
 

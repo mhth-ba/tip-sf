@@ -1,250 +1,472 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Button, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap'
+import moment from 'moment'
+import debounce from '../../../utils/debounce'
+import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
 import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  CardHeader,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Table,
-  Badge,
-  UncontrolledTooltip,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-  Row,
-  Col,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from 'reactstrap'
-import FontAwesome from 'react-fontawesome'
-import classnames from 'classnames'
+  createPlanovanePraceOdstavkyRequest,
+  updatePlanovanePraceOdstavkyRequest,
+  fetchPlanovanePraceOdstavkyRequest,
+  deletePlanovanePraceOdstavkyRequest
+} from '../actions'
 
 class PlanovanePraceOdstavkyOST extends React.Component {
   constructor(props) {
     super(props)
-
-    // Keep an array of form entries. Each entry is one "Plánované práce" record.
     this.state = {
-      forms: []
+      // Store per-entry OST filters
+      entryOstFilters: {},
+      // Store local entry values for optimistic updates
+      localEntries: {},
+      // Store debounced update functions for each entry by ID
+      debouncedUpdates: {}
     }
 
-    // A static list of OST options (for demonstration).
-    // In real usage, you might load this from props or an API.
-    this.ALL_OST_OPTIONS = ['OST 430', 'OST 435', 'OST 450', 'OST 530', 'OST 570', 'OST 690']
-
     this.handleAddForm = this.handleAddForm.bind(this)
-    this.handleRemoveForm = this.handleRemoveForm.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.toggleOstDropdown = this.toggleOstDropdown.bind(this)
-    this.handleSelectOstValue = this.handleSelectOstValue.bind(this)
   }
 
-  /**
-   * "Pridať" - Add a new empty form entry.
-   */
-  handleAddForm() {
+  componentDidMount() {
+    // If hlavny_id is available, fetch data
+    if (this.props.hlavny && this.props.hlavny.id) {
+      this.props.fetchPlanovanePraceOdstavky(this.props.hlavny.id)
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // When entries are loaded or updated from the server, update our local state
+    if (prevProps.planovane.entries !== this.props.planovane.entries) {
+      const localEntries = {}
+      this.props.planovane.entries.forEach(entry => {
+        localEntries[entry.id] = { ...entry }
+      })
+      this.setState({ localEntries })
+    }
+
+    // Check if hlavny_id has changed and fetch data if needed
+    if (prevProps.hlavny.id !== this.props.hlavny.id && this.props.hlavny.id) {
+      this.props.fetchPlanovanePraceOdstavky(this.props.hlavny.id)
+    }
+
+    // If there's an error, we need to check which update caused it
+    if (!prevProps.planovane.error && this.props.planovane.error) {
+      // Error handling could be implemented here if needed
+      console.error('Operation failed:', this.props.planovane.error)
+    }
+  }
+
+  // Handle OST filter change for a specific entry
+  handleOstFilterChange = (entryId, value) => {
     this.setState(prevState => ({
-      forms: [
-        ...prevState.forms,
-        {
-          datetime: '',
-          ostDropdownOpen: false,
-          ostFilter: '',
-          ostSelected: '',
-          ostDigits: '',
-          poznamka: ''
-        }
-      ]
+      entryOstFilters: {
+        ...prevState.entryOstFilters,
+        [entryId]: value
+      }
     }))
   }
 
-  /**
-   * "Odstrániť" - Remove the specified form entry by index.
-   */
-  handleRemoveForm(index) {
-    this.setState(prevState => {
-      const newForms = [...prevState.forms]
-      newForms.splice(index, 1)
-      return { forms: newForms }
-    })
+  handleAddForm() {
+    const { hlavny, createPlanovanePraceOdstavkyRequest, fetchPlanovanePraceOdstavky } = this.props
+    if (!hlavny || !hlavny.id) {
+      alert('Hlavný záznam nie je načítaný.')
+      return
+    }
+
+    // Dispatch create action
+    createPlanovanePraceOdstavkyRequest(hlavny.id)
+
+    // Re-fetch all entries after creation
+    fetchPlanovanePraceOdstavky(hlavny.id)
   }
 
-  /**
-   * Generic change handler for text/datetime inputs.
-   * Tied to each form entry by its index.
-   */
-  handleChange(index, e) {
-    const { name, value } = e.target
-    this.setState(prevState => {
-      const newForms = [...prevState.forms]
-      newForms[index][name] = value
-      return { forms: newForms }
-    })
+  // Handle the delete button click
+  handleDeleteEntry = entryId => {
+    const { hlavny, deletePlanovanePraceOdstavkyRequest, fetchPlanovanePraceOdstavky } = this.props
+
+    if (window.confirm('Naozaj chcete odstrániť túto položku?')) {
+      // First remove from local state for immediate UI update
+      this.setState(prevState => {
+        const newLocalEntries = { ...prevState.localEntries }
+        delete newLocalEntries[entryId]
+        return { localEntries: newLocalEntries }
+      })
+
+      // Then send the delete request to the server
+      deletePlanovanePraceOdstavkyRequest(entryId)
+
+      // After deletion, refresh the list
+      if (hlavny && hlavny.id) {
+        fetchPlanovanePraceOdstavky(hlavny.id)
+      }
+    }
   }
 
-  /**
-   * Toggles the OST dropdown open/closed for the form entry at `index`.
-   */
-  toggleOstDropdown(index) {
-    this.setState(prevState => {
-      const newForms = [...prevState.forms]
-      newForms[index].ostDropdownOpen = !newForms[index].ostDropdownOpen
-      return { forms: newForms }
-    })
+  // Get or create a debounced update function for a specific entry
+  getDebouncedUpdate(entryId, fieldName) {
+    const key = `${entryId}-${fieldName}`
+
+    if (!this.state.debouncedUpdates[key]) {
+      const debouncedFn = debounce(value => {
+        // Save the previous value before sending the update
+        const entry = this.props.planovane.entries.find(e => e.id === entryId)
+        const previousValue = entry ? entry[fieldName] : undefined
+
+        // Create rollback function for sagas
+        const rollbackCallback = () => {
+          this.setState(prevState => ({
+            localEntries: {
+              ...prevState.localEntries,
+              [entryId]: {
+                ...prevState.localEntries[entryId],
+                [fieldName]: previousValue
+              }
+            }
+          }))
+        }
+
+        // Send the update request
+        this.props.updatePlanovanePraceOdstavkyRequest(
+          {
+            id: entryId,
+            [fieldName]: value
+          },
+          rollbackCallback
+        )
+      }, 2000)
+
+      // Store the debounced function
+      this.setState(prevState => ({
+        debouncedUpdates: {
+          ...prevState.debouncedUpdates,
+          [key]: debouncedFn
+        }
+      }))
+
+      return debouncedFn
+    }
+
+    return this.state.debouncedUpdates[key]
   }
 
-  /**
-   * Called when a user clicks one of the filtered OST options in the dropdown.
-   * Sets `ostSelected` to that value and closes the dropdown.
-   */
-  handleSelectOstValue(index, value) {
-    this.setState(prevState => {
-      const newForms = [...prevState.forms]
-      newForms[index].ostSelected = value
-      newForms[index].ostDropdownOpen = false
-      return { forms: newForms }
+  // Modified handleChangeField method
+  handleChangeField = (entry, fieldName, value) => {
+    // First, update local state for immediate visual feedback
+    this.setState(prevState => ({
+      localEntries: {
+        ...prevState.localEntries,
+        [entry.id]: {
+          ...prevState.localEntries[entry.id],
+          [fieldName]: value
+        }
+      }
+    }))
+
+    // Handle dates specially
+    if (fieldName === 'datum_cas') {
+      this.handleDateChange(entry, fieldName, value)
+      return
+    }
+
+    const inputType = fieldName === 'poznamka' ? 'textarea' : fieldName === 'ost' ? 'select' : 'text'
+
+    // For select fields, update immediately
+    if (inputType === 'select') {
+      // Save the previous value for possible rollback
+      const previousValue = entry[fieldName]
+
+      // Create rollback function for sagas
+      const rollbackCallback = () => {
+        this.setState(prevState => ({
+          localEntries: {
+            ...prevState.localEntries,
+            [entry.id]: {
+              ...prevState.localEntries[entry.id],
+              [fieldName]: previousValue
+            }
+          }
+        }))
+      }
+
+      this.props.updatePlanovanePraceOdstavkyRequest(
+        {
+          id: entry.id,
+          [fieldName]: value
+        },
+        rollbackCallback
+      )
+    }
+    // For text fields and textareas, use debounce
+    else {
+      // Get the debounced function for this entry and field
+      const debouncedUpdate = this.getDebouncedUpdate(entry.id, fieldName)
+      debouncedUpdate(value)
+    }
+  }
+
+  handleDateChange = (entry, fieldName, newValue) => {
+    // First, update local state for immediate visual feedback
+    this.setState(prevState => ({
+      localEntries: {
+        ...prevState.localEntries,
+        [entry.id]: {
+          ...prevState.localEntries[entry.id],
+          [fieldName]: newValue // For date fields, store the date string locally
+        }
+      }
+    }))
+
+    // Store previous value for possible rollback
+    const previousValue = entry[fieldName]
+
+    // Create rollback function for sagas
+    const rollbackCallback = () => {
+      this.setState(prevState => ({
+        localEntries: {
+          ...prevState.localEntries,
+          [entry.id]: {
+            ...prevState.localEntries[entry.id],
+            [fieldName]: previousValue
+          }
+        }
+      }))
+    }
+
+    // If user clears the field, send null
+    if (!newValue) {
+      this.props.updatePlanovanePraceOdstavkyRequest(
+        {
+          id: entry.id,
+          [fieldName]: null
+        },
+        rollbackCallback
+      )
+      return
+    }
+
+    try {
+      // Create a date object from the input
+      const dateObj = new Date(newValue)
+
+      // Use timestamp for consistency across all date fields
+      const timestamp = Math.floor(dateObj.getTime() / 1000) // Convert to seconds
+
+      // Only send the ID and the changed field
+      this.props.updatePlanovanePraceOdstavkyRequest(
+        {
+          id: entry.id,
+          [fieldName]: timestamp
+        },
+        rollbackCallback
+      )
+    } catch (err) {
+      console.error(`Error converting date: ${newValue}`, err)
+    }
+  }
+
+  // Convert a numeric or string date from Redux to "YYYY-MM-DDTHH:mm" for <input type="datetime-local">
+  getDisplayDate = value => {
+    if (!value) return ''
+    // If value is numeric (a Unix timestamp), convert it.
+    if (typeof value === 'number') {
+      return moment.unix(value).format('YYYY-MM-DDTHH:mm')
+    }
+    // Otherwise, assume it's a string that can be parsed.
+    // Try to parse known formats and output in the proper format.
+    return moment(value, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm']).format('YYYY-MM-DDTHH:mm')
+  }
+
+  renderEntry(entry) {
+    // Get the local entry data for optimistic updates
+    const localEntry = this.state.localEntries[entry.id] || entry
+
+    // Get the OST filter for this specific entry
+    const ostFilter = this.state.entryOstFilters[entry.id] || ''
+
+    // Group OST options by type
+    const ostByType = {}
+
+    if (this.props.ost && this.props.ost.length > 0) {
+      this.props.ost.forEach(ost => {
+        if (!ostByType[ost.typ]) {
+          ostByType[ost.typ] = []
+        }
+
+        // Create the option with the format "cislo + space + adresa"
+        const ostOption = {
+          value: `${ost.cislo} ${ost.adresa}`,
+          label: `${ost.cislo} ${ost.adresa}`,
+          cislo: ost.cislo,
+          adresa: ost.adresa
+        }
+
+        ostByType[ost.typ].push(ostOption)
+      })
+    }
+
+    // Filter OST options based on the entry-specific filter using diacritic-insensitive filtering
+    const filteredOstOptions = {}
+    Object.keys(ostByType).forEach(typ => {
+      // Use diacriticFilter function for each type group
+      if (ostFilter) {
+        const filtered = ostByType[typ].filter(
+          ost =>
+            diacriticMatch(ost.label, ostFilter) ||
+            diacriticMatch(ost.cislo, ostFilter) ||
+            diacriticMatch(ost.adresa, ostFilter)
+        )
+        if (filtered.length > 0) {
+          filteredOstOptions[typ] = filtered
+        }
+      } else {
+        filteredOstOptions[typ] = ostByType[typ]
+      }
     })
+
+    // Custom sort order for option groups: OŠ, PK, OST, OOST, then others alphabetically
+    const customSortOrder = {
+      OŠ: 1,
+      PK: 2,
+      OST: 3,
+      OOST: 4
+    }
+
+    // Sort the keys (typ) according to custom order
+    const sortedTypes = Object.keys(filteredOstOptions).sort((a, b) => {
+      const orderA = customSortOrder[a] || 100 // Default high value for types not in the custom order
+      const orderB = customSortOrder[b] || 100
+
+      if (orderA === orderB) {
+        // If both are in the "others" category (or the same category), sort alphabetically
+        return a.localeCompare(b)
+      }
+
+      return orderA - orderB
+    })
+
+    // Convert the DB/stored date/time into the format needed by <input type="datetime-local">
+    const dateDisplay = this.getDisplayDate(localEntry.datum_cas)
+
+    return (
+      <Form key={entry.id} className="mt-4">
+        <Row>
+          <Col md="12">
+            <FormGroup>
+              <Label>Filter OST pre tento záznam</Label>
+              <Input
+                type="text"
+                value={ostFilter}
+                onChange={e => this.handleOstFilterChange(entry.id, e.target.value)}
+                placeholder="Zadajte filter pre OST..."
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <FormGroup>
+              <Label>Dátum a čas</Label>
+              <Input
+                type="datetime-local"
+                value={dateDisplay}
+                onChange={e => this.handleChangeField(entry, 'datum_cas', e.target.value)}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="6">
+            <FormGroup>
+              <Label>Objekt OST/PK</Label>
+              <Input
+                type="select"
+                value={localEntry.ost || ''}
+                onChange={e => this.handleChangeField(entry, 'ost', e.target.value)}
+              >
+                <option value="">-- Vyberte --</option>
+
+                {/* Render grouped OST options in custom sort order */}
+                {sortedTypes.map(typ => (
+                  <optgroup key={typ} label={typ}>
+                    {filteredOstOptions[typ].map(opt => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </Input>
+            </FormGroup>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="12">
+            <FormGroup>
+              <Label>Poznámka</Label>
+              <Input
+                type="textarea"
+                value={localEntry.poznamka || ''}
+                onChange={e => this.handleChangeField(entry, 'poznamka', e.target.value)}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+
+        <Row className="mt-4 mb-3">
+          <Col className="text-center">
+            <Button color="danger" onClick={() => this.handleDeleteEntry(entry.id)} className="px-4">
+              Odstrániť
+            </Button>
+          </Col>
+        </Row>
+
+        <hr style={{ marginTop: '20px' }} />
+      </Form>
+    )
   }
 
   render() {
+    // Filter entries to show only those that are valid
+    const validEntries =
+      this.props.planovane && this.props.planovane.entries
+        ? this.props.planovane.entries.filter(entry => entry.valid !== false)
+        : []
+
     return (
       <Card>
         <CardHeader className="bg-primary text-white">Plánované práce a odstávky na OST</CardHeader>
         <CardBody>
-          {/* Button to add a new form entry */}
           <Button color="success" onClick={this.handleAddForm}>
             Pridať
           </Button>
 
-          {this.state.forms.map((entry, i) => {
-            // Filter OST options based on `ostFilter`.
-            const filteredOstOptions = this.ALL_OST_OPTIONS.filter(ost =>
-              ost.toLowerCase().includes(entry.ostFilter.toLowerCase())
-            )
+          {validEntries.map(entry => this.renderEntry(entry))}
 
-            return (
-              <Form key={i} className="mt-4">
-                {/* Dátum a čas */}
-                <Row>
-                  <Col md="6">
-                    <FormGroup>
-                      <Label for={`datetime-${i}`}>Dátum a čas</Label>
-                      <Input
-                        type="datetime-local"
-                        id={`datetime-${i}`}
-                        name="datetime"
-                        value={entry.datetime}
-                        onChange={e => this.handleChange(i, e)}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                {/* OST dropdown with in-menu filter + a 3-digit code input */}
-                <Row>
-                  <Col md="4">
-                    <FormGroup>
-                      <Label>Objekt OST/PK</Label>
-                      <Dropdown isOpen={entry.ostDropdownOpen} toggle={() => this.toggleOstDropdown(i)}>
-                        <DropdownToggle caret>
-                          {entry.ostSelected ? entry.ostSelected : '-- Vyberte OST --'}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          {/* Input for filtering inside the dropdown */}
-                          <DropdownItem header>
-                            <Input
-                              type="text"
-                              placeholder="Filter OST..."
-                              name="ostFilter"
-                              value={entry.ostFilter}
-                              onChange={e => this.handleChange(i, e)}
-                            />
-                          </DropdownItem>
-                          <DropdownItem divider />
-
-                          {/* Display filtered options */}
-                          {filteredOstOptions.length > 0 ? (
-                            filteredOstOptions.map(option => (
-                              <DropdownItem key={option} onClick={() => this.handleSelectOstValue(i, option)}>
-                                {option}
-                              </DropdownItem>
-                            ))
-                          ) : (
-                            <DropdownItem disabled>Žiadne záznamy</DropdownItem>
-                          )}
-                        </DropdownMenu>
-                      </Dropdown>
-                    </FormGroup>
-                  </Col>
-
-                  <Col md="2">
-                    <FormGroup>
-                      <Label for={`ostDigits-${i}`}>3-číslie OM</Label>
-                      <Input
-                        type="text"
-                        id={`ostDigits-${i}`}
-                        name="ostDigits"
-                        placeholder="xyz"
-                        maxLength={3}
-                        value={entry.ostDigits}
-                        onChange={e => this.handleChange(i, e)}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                {/* Poznámka */}
-                <Row>
-                  <Col md="12">
-                    <FormGroup>
-                      <Label for={`poznamka-${i}`}>Poznámka</Label>
-                      <Input
-                        type="textarea"
-                        id={`poznamka-${i}`}
-                        name="poznamka"
-                        value={entry.poznamka}
-                        onChange={e => this.handleChange(i, e)}
-                      />
-                    </FormGroup>
-                  </Col>
-                </Row>
-
-                {/* Button to remove this form entry */}
-                <Button color="danger" onClick={() => this.handleRemoveForm(i)} className="mb-3">
-                  Odstrániť
-                </Button>
-                <hr />
-              </Form>
-            )
-          })}
+          {validEntries.length === 0 && (
+            <div className="text-center mt-4">
+              <p>Žiadne záznamy. Kliknite na "Pridať" pre vytvorenie nového záznamu.</p>
+            </div>
+          )}
         </CardBody>
       </Card>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  // zoznam: state.zoznam,
+const mapStateToProps = state => ({
+  hlavny: state.hlavny,
+  planovane: state.planovanepraceodstavky,
+  ost: (state.ost && state.ost.entries) || []
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  // update: (id, val, row, col) => dispatch(updatePoznamkyRequest(id, val, row, col))
+const mapDispatchToProps = dispatch => ({
+  createPlanovanePraceOdstavkyRequest: hlavnyId => dispatch(createPlanovanePraceOdstavkyRequest(hlavnyId)),
+  updatePlanovanePraceOdstavkyRequest: (data, rollbackCallback) =>
+    dispatch(updatePlanovanePraceOdstavkyRequest(data, rollbackCallback)),
+  fetchPlanovanePraceOdstavky: hlavnyId => dispatch(fetchPlanovanePraceOdstavkyRequest(hlavnyId)),
+  deletePlanovanePraceOdstavkyRequest: id => dispatch(deletePlanovanePraceOdstavkyRequest(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlanovanePraceOdstavkyOST)

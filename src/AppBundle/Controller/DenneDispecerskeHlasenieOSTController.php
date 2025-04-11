@@ -697,4 +697,150 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
 
         return new Response('',204); // Return 204 No Content on success
     }
+
+    /**
+     * @Route("disp/ddh-ost/planovane-prace-odstavky", name="ddh_ost_planovane_prace_odstavky_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getPlanovanePraceOdstavkyOSTListAction(Request $request)
+    {
+        $hlavnyId = $request->query->get('hlavny_id');
+        if (!$hlavnyId) {
+            throw new BadRequestHttpException('Missing hlavny_id parameter.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Dispecing\DDH\PlanovanePraceOdstavkyOST');
+        $entries = $repository->getByHlavnyId($hlavnyId);
+
+        $apiModels = [];
+        foreach ($entries as $entry) {
+            $model = new \AppBundle\Api\Dispecing\DDH\PlanovanePraceOdstavkyApiModel();
+            $model->id = $entry->getId();
+            $model->datum_cas = $entry->getDatumCas();
+            $model->ost = $entry->getOst();
+            $model->poznamka = $entry->getPoznamka();
+
+            // Only return valid entries
+            if ($entry->getValid() !== false) {
+                $apiModels[] = $model;
+            }
+        }
+        return $this->createApiResponse($apiModels);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/planovane-prace-odstavky", name="ddh_ost_planovane_prace_odstavky_create", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function createPlanovanePraceOdstavkyOSTAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+        if (!isset($data['hlavny_id'])) {
+            throw new BadRequestHttpException('Missing hlavny_id');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
+        if (!$hlavny) {
+            throw $this->createNotFoundException('Hlavny record not found.');
+        }
+
+        $planovana = new \AppBundle\Entity\Dispecing\DDH\PlanovanePraceOdstavkyOST();
+        $planovana->setHlavny($hlavny);
+        $planovana->setValid(true);
+        // Other fields remain null
+        $em->persist($planovana);
+        $em->flush();
+
+        $this->logCreateActivity(
+            $planovana->getId(),
+            'AppBundle:Dispecing\DDH\PlanovanePraceOdstavkyOST'
+        );
+
+        $apiModel = new \AppBundle\Api\Dispecing\DDH\PlanovanePraceOdstavkyApiModel();
+        $apiModel->id = $planovana->getId();
+        // All other fields are null
+        return $this->createApiResponse($apiModel, 201);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/planovane-prace-odstavky/{id}", name="ddh_ost_planovane_prace_odstavky_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function updatePlanovanePraceOdstavkyOSTAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $planovana = $em->getRepository('AppBundle:Dispecing\DDH\PlanovanePraceOdstavkyOST')->find($id);
+        if (!$planovana) {
+            throw $this->createNotFoundException(sprintf('Plánované práce a odstávky na OST s id %s sa nenašli', $id));
+        }
+
+        // Get data from the request
+        $data = json_decode($request->getContent(), true);
+
+        // Find the field being updated (the one that's not id)
+        $fieldName = null;
+        $fieldValue = null;
+        foreach ($data as $key => $value) {
+            if ($key !== 'id') {
+                $fieldName = $key;
+                $fieldValue = $value;
+                break;
+            }
+        }
+
+        // Handle datetime field directly before form processing
+        if ($fieldName === 'datum_cas') {
+            // If value is null, set the datetime field to null
+            if ($fieldValue === null) {
+                $planovana->setDatumCas(null);
+            } else if (is_numeric($fieldValue)) {
+                $dateObj = new \DateTime();
+                $dateObj->setTimestamp($fieldValue);
+                $planovana->setDatumCas($dateObj);
+            }
+
+            $em->persist($planovana);
+            $em->flush();
+        }
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Dispecing\DDH\PlanovanePraceOdstavkyOST',
+            \AppBundle\Form\Type\Dispecing\DDH\PlanovanePraceOdstavkyOSTType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("disp/ddh-ost/planovane-prace-odstavky/{id}", name="ddh_ost_planovane_prace_odstavky_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function deletePlanovanePraceOdstavkyOSTAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $planovana = $em->getRepository('AppBundle:Dispecing\DDH\PlanovanePraceOdstavkyOST')->find($id);
+
+        if (!$planovana) {
+            throw $this->createNotFoundException(sprintf('Plánované práce a odstávky na OST s id %s sa nenašli', $id));
+        }
+
+        // Soft delete - set valid to false
+        $planovana->setValid(false);
+        $em->persist($planovana);
+        $em->flush();
+
+        // Log the action
+        $metadata = $em->getClassMetadata('AppBundle:Dispecing\DDH\PlanovanePraceOdstavkyOST');
+        $this->logDeleteActivity($metadata, $id);
+
+        return new Response('', 204); // Return 204 No Content on success
+    }
 }

@@ -7,7 +7,7 @@ import { Alert } from 'reactstrap'
 import HlavickaWrapper from './HlavickaWrapper'
 import PraceNaOSTPrevadzkaWrapper from './PraceNaOSTPrevadzkaWrapper'
 import PraceNaOSTDispecingWrapper from './PraceNaOSTDispecingWrapper'
-import PlanovanePraceOdstavkyOST from './PlanovanePraceOdstavkyOST'
+import PlanovanePraceOdstavkyOSTWrapper from './PlanovanePraceOdstavkyOSTWrapper'
 import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
 import Poznamky from './Poznamky'
 
@@ -66,7 +66,7 @@ const MainContent = ({ hlavny }) => {
       <br />
       <Row>
         <Col md={6} sm={12}>
-          <PlanovanePraceOdstavkyOST />
+          <PlanovanePraceOdstavkyOSTWrapper />
         </Col>
         <Col md={6} sm={12}>
           <OdstavkyOSTNad24Hod />

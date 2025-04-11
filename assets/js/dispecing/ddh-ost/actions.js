@@ -100,6 +100,27 @@ export const deletePraceNaOSTDispecingRequest = id => ({
   id
 })
 
+export const fetchPlanovanePraceOdstavkyRequest = hlavnyId => ({
+  type: TYPES.FETCH_PLANOVANE_PRACE_ODSTAVKY_REQUEST,
+  hlavnyId
+})
+
+export const createPlanovanePraceOdstavkyRequest = hlavnyId => ({
+  type: TYPES.CREATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST,
+  hlavnyId
+})
+
+export const updatePlanovanePraceOdstavkyRequest = (data, rollbackCallback) => ({
+  type: TYPES.UPDATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST,
+  data,
+  rollbackCallback
+})
+
+export const deletePlanovanePraceOdstavkyRequest = id => ({
+  type: TYPES.DELETE_PLANOVANE_PRACE_ODSTAVKY_REQUEST,
+  id
+})
+
 export function* fetchPrilohy(action) {
   const url = Routing.generate('ddh_ost_prilohy_list', { entryId: action.entryId })
 
@@ -414,6 +435,86 @@ export function* deletePraceNaOSTDispecing(action) {
     )
   } catch (e) {
     yield put({ type: TYPES.DELETE_PRACE_NA_OST_DISPECING_ERROR, data: e })
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri mazaní záznamu',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
+
+export function* fetchPlanovanePraceOdstavky(action) {
+  const url = Routing.generate('ddh_ost_planovane_prace_odstavky_list') + '?hlavny_id=' + action.hlavnyId
+  try {
+    const data = yield call(Api.fetch, url)
+    yield put({ type: TYPES.FETCH_PLANOVANE_PRACE_ODSTAVKY_SUCCESS, data })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_PLANOVANE_PRACE_ODSTAVKY_ERROR, data: e })
+    console.error(e)
+  }
+}
+
+export function* createPlanovanePraceOdstavky(action) {
+  const url = Routing.generate('ddh_ost_planovane_prace_odstavky_create')
+  try {
+    const data = yield call(Api.post, url, { hlavny_id: action.hlavnyId })
+    yield put({ type: TYPES.CREATE_PLANOVANE_PRACE_ODSTAVKY_SUCCESS, data })
+    yield put(
+      Notifications.success({
+        message: 'Nový záznam "Plánované práce a odstávky na OST" bol vytvorený',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.CREATE_PLANOVANE_PRACE_ODSTAVKY_ERROR, data: e })
+    console.error(e)
+  }
+}
+
+export function* updatePlanovanePraceOdstavky(action) {
+  const url = Routing.generate('ddh_ost_planovane_prace_odstavky_update', { id: action.data.id })
+  try {
+    const data = yield call(Api.patch, url, action.data)
+    yield put({ type: TYPES.UPDATE_PLANOVANE_PRACE_ODSTAVKY_SUCCESS, data })
+    yield put(
+      Notifications.success({
+        message: 'Úspešne uložené',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.UPDATE_PLANOVANE_PRACE_ODSTAVKY_ERROR, data: e })
+
+    // If a rollback callback was provided, call it to restore the old value in the UI
+    if (action.rollbackCallback && typeof action.rollbackCallback === 'function') {
+      action.rollbackCallback()
+    }
+
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri ukladaní',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
+
+export function* deletePlanovanePraceOdstavky(action) {
+  const url = Routing.generate('ddh_ost_planovane_prace_odstavky_delete', { id: action.id })
+  try {
+    yield call(Api.delete, url)
+    yield put({ type: TYPES.DELETE_PLANOVANE_PRACE_ODSTAVKY_SUCCESS, id: action.id })
+    yield put(
+      Notifications.success({
+        message: 'Záznam bol úspešne vymazaný',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.DELETE_PLANOVANE_PRACE_ODSTAVKY_ERROR, data: e })
     yield put(
       Notifications.error({
         message: 'Chyba pri mazaní záznamu',
