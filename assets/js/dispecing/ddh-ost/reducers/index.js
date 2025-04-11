@@ -8,6 +8,7 @@ import poruchovka from './poruchovka'
 import auditlog from './auditlog'
 import hlavny from './hlavny'
 import pracenaostprevadzka from './pracenaostprevadzka'
+import pracenaostdispecing from './pracenaostdispecing'
 
 import { reducer as notifications } from 'react-notification-system-redux'
 
@@ -20,6 +21,7 @@ export default combineReducers({
   auditlog,
   hlavny,
   pracenaostprevadzka,
+  pracenaostdispecing,
 
   notifications
 })

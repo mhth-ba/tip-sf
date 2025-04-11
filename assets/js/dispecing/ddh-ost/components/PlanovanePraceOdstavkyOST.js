@@ -1,17 +1,41 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import {
-  Button, Modal, ModalHeader, ModalBody, ModalFooter,
-  Card, CardImg, CardText, CardBody, CardTitle, CardFooter, CardHeader,
-  Form, FormGroup, Label, Input, Table, Badge, UncontrolledTooltip,
-  Nav, NavItem, NavLink, TabContent, TabPane,
-  Row, Col,
-  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  CardFooter,
+  CardHeader,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Table,
+  Badge,
+  UncontrolledTooltip,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
+  Row,
+  Col,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap'
 import FontAwesome from 'react-fontawesome'
 import classnames from 'classnames'
 
-class PlanovanePraceAOdstavkyNaOST extends React.Component {
+class PlanovanePraceOdstavkyOST extends React.Component {
   constructor(props) {
     super(props)
 
@@ -35,7 +59,7 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
    * "Pridať" - Add a new empty form entry.
    */
   handleAddForm() {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       forms: [
         ...prevState.forms,
         {
@@ -54,7 +78,7 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
    * "Odstrániť" - Remove the specified form entry by index.
    */
   handleRemoveForm(index) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const newForms = [...prevState.forms]
       newForms.splice(index, 1)
       return { forms: newForms }
@@ -67,7 +91,7 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
    */
   handleChange(index, e) {
     const { name, value } = e.target
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const newForms = [...prevState.forms]
       newForms[index][name] = value
       return { forms: newForms }
@@ -78,7 +102,7 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
    * Toggles the OST dropdown open/closed for the form entry at `index`.
    */
   toggleOstDropdown(index) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const newForms = [...prevState.forms]
       newForms[index].ostDropdownOpen = !newForms[index].ostDropdownOpen
       return { forms: newForms }
@@ -90,7 +114,7 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
    * Sets `ostSelected` to that value and closes the dropdown.
    */
   handleSelectOstValue(index, value) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const newForms = [...prevState.forms]
       newForms[index].ostSelected = value
       newForms[index].ostDropdownOpen = false
@@ -99,7 +123,6 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
   }
 
   render() {
-
     return (
       <Card>
         <CardHeader className="bg-primary text-white">Plánované práce a odstávky na OST</CardHeader>
@@ -111,7 +134,7 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
 
           {this.state.forms.map((entry, i) => {
             // Filter OST options based on `ostFilter`.
-            const filteredOstOptions = this.ALL_OST_OPTIONS.filter((ost) =>
+            const filteredOstOptions = this.ALL_OST_OPTIONS.filter(ost =>
               ost.toLowerCase().includes(entry.ostFilter.toLowerCase())
             )
 
@@ -127,7 +150,7 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
                         id={`datetime-${i}`}
                         name="datetime"
                         value={entry.datetime}
-                        onChange={(e) => this.handleChange(i, e)}
+                        onChange={e => this.handleChange(i, e)}
                       />
                     </FormGroup>
                   </Col>
@@ -138,14 +161,9 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
                   <Col md="4">
                     <FormGroup>
                       <Label>Objekt OST/PK</Label>
-                      <Dropdown
-                        isOpen={entry.ostDropdownOpen}
-                        toggle={() => this.toggleOstDropdown(i)}
-                      >
+                      <Dropdown isOpen={entry.ostDropdownOpen} toggle={() => this.toggleOstDropdown(i)}>
                         <DropdownToggle caret>
-                          {entry.ostSelected
-                            ? entry.ostSelected
-                            : '-- Vyberte OST --'}
+                          {entry.ostSelected ? entry.ostSelected : '-- Vyberte OST --'}
                         </DropdownToggle>
                         <DropdownMenu>
                           {/* Input for filtering inside the dropdown */}
@@ -155,27 +173,20 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
                               placeholder="Filter OST..."
                               name="ostFilter"
                               value={entry.ostFilter}
-                              onChange={(e) => this.handleChange(i, e)}
+                              onChange={e => this.handleChange(i, e)}
                             />
                           </DropdownItem>
                           <DropdownItem divider />
 
                           {/* Display filtered options */}
                           {filteredOstOptions.length > 0 ? (
-                            filteredOstOptions.map((option) => (
-                              <DropdownItem
-                                key={option}
-                                onClick={() =>
-                                  this.handleSelectOstValue(i, option)
-                                }
-                              >
+                            filteredOstOptions.map(option => (
+                              <DropdownItem key={option} onClick={() => this.handleSelectOstValue(i, option)}>
                                 {option}
                               </DropdownItem>
                             ))
                           ) : (
-                            <DropdownItem disabled>
-                              Žiadne záznamy
-                            </DropdownItem>
+                            <DropdownItem disabled>Žiadne záznamy</DropdownItem>
                           )}
                         </DropdownMenu>
                       </Dropdown>
@@ -192,7 +203,7 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
                         placeholder="xyz"
                         maxLength={3}
                         value={entry.ostDigits}
-                        onChange={(e) => this.handleChange(i, e)}
+                        onChange={e => this.handleChange(i, e)}
                       />
                     </FormGroup>
                   </Col>
@@ -208,18 +219,14 @@ class PlanovanePraceAOdstavkyNaOST extends React.Component {
                         id={`poznamka-${i}`}
                         name="poznamka"
                         value={entry.poznamka}
-                        onChange={(e) => this.handleChange(i, e)}
+                        onChange={e => this.handleChange(i, e)}
                       />
                     </FormGroup>
                   </Col>
                 </Row>
 
                 {/* Button to remove this form entry */}
-                <Button
-                  color="danger"
-                  onClick={() => this.handleRemoveForm(i)}
-                  className="mb-3"
-                >
+                <Button color="danger" onClick={() => this.handleRemoveForm(i)} className="mb-3">
                   Odstrániť
                 </Button>
                 <hr />
@@ -240,7 +247,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   // update: (id, val, row, col) => dispatch(updatePoznamkyRequest(id, val, row, col))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PlanovanePraceAOdstavkyNaOST)
+export default connect(mapStateToProps, mapDispatchToProps)(PlanovanePraceOdstavkyOST)

@@ -537,4 +537,164 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
 
         return new Response('',204); // Return 204 No Content on success
     }
+
+    /**
+     * @Route("disp/ddh-ost/prace-na-ost-dispecing", name="ddh_ost_prace_na_ost_dispecing_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getPraceNaOSTDispecingListAction(Request $request)
+    {
+        $hlavnyId = $request->query->get('hlavny_id');
+        if (!$hlavnyId) {
+            throw new BadRequestHttpException('Missing hlavny_id parameter.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTDispecing');
+        $entries = $repository->getByHlavnyId($hlavnyId);
+
+        $apiModels = [];
+        foreach ($entries as $entry) {
+            $model = new \AppBundle\Api\Dispecing\DDH\PraceNaOSTDispecingApiModel();
+            $model->id = $entry->getId();
+            $model->ost = $entry->getOst();
+            $model->datum_cas_zaciatok = $entry->getDatumCasZaciatok();
+            $model->datum_cas_ukoncenie = $entry->getDatumCasUkoncenie();
+            $model->vplyv_na_dodavku = $entry->getVplyvNaDodavku();
+            $model->vyvod = $entry->getVyvod();
+            $model->poznamka = $entry->getPoznamka();
+            $model->stav = $entry->getStav();
+            $model->vybavuje = $entry->getVybavuje();
+            $model->priloha = $entry->getPriloha();
+            $model->valid = $entry->getValid();
+            $apiModels[] = $model;
+        }
+        return $this->createApiResponse($apiModels);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/prace-na-ost-dispecing", name="ddh_ost_prace_na_ost_dispecing_create", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function createPraceNaOSTDispecingAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+        if (!isset($data['hlavny_id'])) {
+            throw new BadRequestHttpException('Missing hlavny_id');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
+        if (!$hlavny) {
+            throw $this->createNotFoundException('Hlavny record not found.');
+        }
+
+        $praca = new \AppBundle\Entity\Dispecing\DDH\PraceNaOSTDispecing();
+        $praca->setHlavny($hlavny);
+        $praca->setValid(true);
+        // Other fields remain null.
+        $em->persist($praca);
+        $em->flush();
+
+        $this->logCreateActivity(
+            $praca->getId(),
+            'AppBundle:Dispecing\DDH\PraceNaOSTDispecing'
+        );
+
+        $apiModel = new \AppBundle\Api\Dispecing\DDH\PraceNaOSTDispecingApiModel();
+        $apiModel->id = $praca->getId();
+        // All other fields are null.
+        return $this->createApiResponse($apiModel, 201);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/prace-na-ost-dispecing/{id}", name="ddh_ost_prace_na_ost_dispecing_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function updatePraceNaOSTDispecingAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $praca = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTDispecing')->find($id);
+        if (!$praca) {
+            throw $this->createNotFoundException(sprintf('Práca na OST - dispečing a poruchová služba s id %s sa nenašla', $id));
+        }
+
+        // Get data from the request
+        $data = json_decode($request->getContent(), true);
+
+        // Find the field being updated (the one that's not id)
+        $fieldName = null;
+        $fieldValue = null;
+        foreach ($data as $key => $value) {
+            if ($key !== 'id') {
+                $fieldName = $key;
+                $fieldValue = $value;
+                break;
+            }
+        }
+
+        // Handle datetime fields directly before form processing
+        if (($fieldName === 'datum_cas_zaciatok' || $fieldName === 'datum_cas_ukoncenie')) {
+
+            // If value is null, set the datetime field to null
+            if ($fieldValue === null) {
+                if ($fieldName === 'datum_cas_zaciatok') {
+                    $praca->setDatumCasZaciatok(null);
+                } else {
+                    $praca->setDatumCasUkoncenie(null);
+                }
+            } else if (is_numeric($fieldValue)) {
+                $dateObj = new \DateTime();
+                $dateObj->setTimestamp($fieldValue);
+
+                // Set directly on the entity
+                if ($fieldName === 'datum_cas_zaciatok') {
+                    $praca->setDatumCasZaciatok($dateObj);
+                } else {
+                    $praca->setDatumCasUkoncenie($dateObj);
+                }
+            }
+        }
+
+        $em->persist($praca);
+        $em->flush();
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Dispecing\DDH\PraceNaOSTDispecing',
+            \AppBundle\Form\Type\Dispecing\DDH\PraceNaOSTDispecingType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("disp/ddh-ost/prace-na-ost-dispecing/{id}", name="ddh_ost_prace_na_ost_dispecing_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function deletePraceNaOSTDispecingAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $praca = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTDispecing')->find($id);
+
+        if (!$praca) {
+            throw $this->createNotFoundException(sprintf('Práca na OST - dispečing a poruchová služba s id %s sa nenašla', $id));
+        }
+
+        // Soft delete - set valid to false
+        $praca->setValid(false);
+        $em->persist($praca);
+        $em->flush();
+
+        // Log the action
+        $metadata = $em->getClassMetadata('AppBundle:Dispecing\DDH\PraceNaOSTDispecing');
+        $this->logDeleteActivity($metadata, $id);
+
+        return new Response('',204); // Return 204 No Content on success
+    }
 }

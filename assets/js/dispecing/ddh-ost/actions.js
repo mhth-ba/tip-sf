@@ -79,6 +79,27 @@ export const deletePraceNaOSTPrevadzkaRequest = id => ({
   id
 })
 
+export const fetchPraceNaOSTDispecingRequest = hlavnyId => ({
+  type: TYPES.FETCH_PRACE_NA_OST_DISPECING_REQUEST,
+  hlavnyId
+})
+
+export const createPraceNaOSTDispecingRequest = hlavnyId => ({
+  type: TYPES.CREATE_PRACE_NA_OST_DISPECING_REQUEST,
+  hlavnyId
+})
+
+export const updatePraceNaOSTDispecingRequest = (data, rollbackCallback) => ({
+  type: TYPES.UPDATE_PRACE_NA_OST_DISPECING_REQUEST,
+  data,
+  rollbackCallback
+})
+
+export const deletePraceNaOSTDispecingRequest = id => ({
+  type: TYPES.DELETE_PRACE_NA_OST_DISPECING_REQUEST,
+  id
+})
+
 export function* fetchPrilohy(action) {
   const url = Routing.generate('ddh_ost_prilohy_list', { entryId: action.entryId })
 
@@ -313,6 +334,86 @@ export function* deletePraceNaOSTPrevadzka(action) {
     )
   } catch (e) {
     yield put({ type: TYPES.DELETE_PRACE_NA_OST_PREVADZKA_ERROR, data: e })
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri mazaní záznamu',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
+
+export function* fetchPraceNaOSTDispecing(action) {
+  const url = Routing.generate('ddh_ost_prace_na_ost_dispecing_list') + '?hlavny_id=' + action.hlavnyId
+  try {
+    const data = yield call(Api.fetch, url)
+    yield put({ type: TYPES.FETCH_PRACE_NA_OST_DISPECING_SUCCESS, data })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_PRACE_NA_OST_DISPECING_ERROR, data: e })
+    console.error(e)
+  }
+}
+
+export function* createPraceNaOSTDispecing(action) {
+  const url = Routing.generate('ddh_ost_prace_na_ost_dispecing_create')
+  try {
+    const data = yield call(Api.post, url, { hlavny_id: action.hlavnyId })
+    yield put({ type: TYPES.CREATE_PRACE_NA_OST_DISPECING_SUCCESS, data })
+    yield put(
+      Notifications.success({
+        message: 'Nový záznam "Práce na OST - dispečing a poruchová služba" bol vytvorený',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.CREATE_PRACE_NA_OST_DISPECING_ERROR, data: e })
+    console.error(e)
+  }
+}
+
+export function* updatePraceNaOSTDispecing(action) {
+  const url = Routing.generate('ddh_ost_prace_na_ost_dispecing_update', { id: action.data.id })
+  try {
+    const data = yield call(Api.patch, url, action.data)
+    yield put({ type: TYPES.UPDATE_PRACE_NA_OST_DISPECING_SUCCESS, data })
+    yield put(
+      Notifications.success({
+        message: 'Úspešne uložené',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.UPDATE_PRACE_NA_OST_DISPECING_ERROR, data: e })
+
+    // If a rollback callback was provided, call it to restore the old value in the UI
+    if (action.rollbackCallback && typeof action.rollbackCallback === 'function') {
+      action.rollbackCallback()
+    }
+
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri ukladaní',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
+
+export function* deletePraceNaOSTDispecing(action) {
+  const url = Routing.generate('ddh_ost_prace_na_ost_dispecing_delete', { id: action.id })
+  try {
+    yield call(Api.delete, url)
+    yield put({ type: TYPES.DELETE_PRACE_NA_OST_DISPECING_SUCCESS, id: action.id })
+    yield put(
+      Notifications.success({
+        message: 'Záznam bol úspešne vymazaný',
+        autoDismiss: 5
+      })
+    )
+  } catch (e) {
+    yield put({ type: TYPES.DELETE_PRACE_NA_OST_DISPECING_ERROR, data: e })
     yield put(
       Notifications.error({
         message: 'Chyba pri mazaní záznamu',

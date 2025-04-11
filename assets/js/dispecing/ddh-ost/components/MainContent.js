@@ -6,8 +6,8 @@ import moment from 'moment'
 import { Alert } from 'reactstrap'
 import HlavickaWrapper from './HlavickaWrapper'
 import PraceNaOSTPrevadzkaWrapper from './PraceNaOSTPrevadzkaWrapper'
-import PraceNaOSTDispecing from './PraceNaOSTDispecing'
-import PlanovanePraceAOdstavkyNaOST from './PlanovanePraceAOdstavkyNaOST'
+import PraceNaOSTDispecingWrapper from './PraceNaOSTDispecingWrapper'
+import PlanovanePraceOdstavkyOST from './PlanovanePraceOdstavkyOST'
 import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
 import Poznamky from './Poznamky'
 
@@ -60,13 +60,13 @@ const MainContent = ({ hlavny }) => {
           <PraceNaOSTPrevadzkaWrapper />
         </Col>
         <Col md={6} sm={12}>
-          <PraceNaOSTDispecing />
+          <PraceNaOSTDispecingWrapper />
         </Col>
       </Row>
       <br />
       <Row>
         <Col md={6} sm={12}>
-          <PlanovanePraceAOdstavkyNaOST />
+          <PlanovanePraceOdstavkyOST />
         </Col>
         <Col md={6} sm={12}>
           <OdstavkyOSTNad24Hod />

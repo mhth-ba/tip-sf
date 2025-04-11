@@ -16,7 +16,11 @@ import {
   fetchPraceNaOSTPrevadzka,
   createPraceNaOSTPrevadzka,
   updatePraceNaOSTPrevadzka,
-  deletePraceNaOSTPrevadzka
+  deletePraceNaOSTPrevadzka,
+  fetchPraceNaOSTDispecing,
+  createPraceNaOSTDispecing,
+  updatePraceNaOSTDispecing,
+  deletePraceNaOSTDispecing
   // Prace na OST - dispečing a poruchová služba
   // Plánované práce a odstávky na OST
   // Poznámky
@@ -36,12 +40,17 @@ function* mySaga() {
 
     takeLatest(TYPES.LOAD_OSTHLAVNY_REQUEST, fetchDenneDispecerskeHlasenieOST),
     takeLatest(TYPES.FETCH_PRACE_NA_OST_PREVADZKA_REQUEST, fetchPraceNaOSTPrevadzka),
+    takeLatest(TYPES.FETCH_PRACE_NA_OST_DISPECING_REQUEST, fetchPraceNaOSTDispecing),
 
     takeEvery(TYPES.UPDATE_OSTHLAVNY_REQUEST, updateOSTHlavny),
 
     takeEvery(TYPES.CREATE_PRACE_NA_OST_PREVADZKA_REQUEST, createPraceNaOSTPrevadzka),
     takeEvery(TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_REQUEST, updatePraceNaOSTPrevadzka),
-    takeEvery(TYPES.DELETE_PRACE_NA_OST_PREVADZKA_REQUEST, deletePraceNaOSTPrevadzka)
+    takeEvery(TYPES.DELETE_PRACE_NA_OST_PREVADZKA_REQUEST, deletePraceNaOSTPrevadzka),
+
+    takeEvery(TYPES.CREATE_PRACE_NA_OST_DISPECING_REQUEST, createPraceNaOSTDispecing),
+    takeEvery(TYPES.UPDATE_PRACE_NA_OST_DISPECING_REQUEST, updatePraceNaOSTDispecing),
+    takeEvery(TYPES.DELETE_PRACE_NA_OST_DISPECING_REQUEST, deletePraceNaOSTDispecing)
   ])
 }
 
