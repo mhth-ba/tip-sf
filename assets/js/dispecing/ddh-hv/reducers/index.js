@@ -1,12 +1,15 @@
 import { combineReducers } from 'redux'
 
-import data from './data'
+import opravnenia from './opravnenia'
+import dispeceri from './dispeceri'
+import hlavny from './hlavny'
 
-import {reducer as notifications} from 'react-notification-system-redux'
+import { reducer as notifications } from 'react-notification-system-redux'
 
 export default combineReducers({
-
-  data,
+  opravnenia,
+  dispeceri,
+  hlavny,
 
   notifications
 })

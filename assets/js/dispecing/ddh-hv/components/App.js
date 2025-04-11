@@ -2,40 +2,25 @@ import React from 'react'
 import { Row, Col } from 'reactstrap'
 import Notification from '../../../components/Notification'
 
-import Hlavicka from './Hlavicka'
+import Calendar from './Calendar'
+import MainContent from './MainContent'
 
 import { hot } from 'react-hot-loader'
-import ZmenaNaZdrojoch from "./ZmenaNaZdrojoch";
-import ZmenaNaHV from "./ZmenaNaHV";
-import StavZariadeni from "./StavZariadeni";
 
 class App extends React.Component {
   render() {
     return (
       <div>
-        <Notification/>
+        <Notification />
         <Row>
-          <Col>
-            <Hlavicka/>
+          <Col md={6} sm={12}>
+            <Calendar />
           </Col>
         </Row>
-        <br/>
-        <Row>
-          <Col>
-            <ZmenaNaZdrojoch/>
-          </Col>
-          <Col>
-            <ZmenaNaHV/>
-          </Col>
-        </Row>
-        <br/>
-        <Row>
-          <Col>
-            <StavZariadeni/>
-          </Col>
-        </Row>
-        <br/>
-        <br/>
+        <br />
+        <MainContent />
+        <br />
+        <br />
       </div>
     )
   }

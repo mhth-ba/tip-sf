@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Dispecing\DDH\HlavnyHVRepository")
- * @ORM\Table(name="DDH_OST_Hlavny", schema="Dispecing")
+ * @ORM\Table(name="DDH_HV_Hlavny", schema="Dispecing")
  */
 class HlavnyHV extends BaseEntity
 {
@@ -19,17 +19,17 @@ class HlavnyHV extends BaseEntity
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="integer", name="ost_hlavny_id")
      */
-    private $datum;
+    private $ost_hlavny_id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $dispecer_1;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $dispecer_2;
 
@@ -38,9 +38,14 @@ class HlavnyHV extends BaseEntity
         return $this->id;
     }
 
-    public function getDatum()
+    public function getOstHlavnyId()
     {
-        return $this->getTimestampWithOffset($this->datum);
+        return $this->ost_hlavny_id;
+    }
+
+    public function setOstHlavnyId($ost_hlavny_id)
+    {
+        $this->ost_hlavny_id = $ost_hlavny_id;
     }
 
     public function getDispecer1()

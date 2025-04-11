@@ -13,4 +13,6 @@ class HVHlavnyApiModel extends DefaultApiModel
     public $dispecer_1;
 
     public $dispecer_2;
+
+    public $ost_data; // To store read-only data from OST_Hlavny
 }
