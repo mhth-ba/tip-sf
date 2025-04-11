@@ -9,7 +9,7 @@ import PraceNaOSTPrevadzkaWrapper from './PraceNaOSTPrevadzkaWrapper'
 import PraceNaOSTDispecingWrapper from './PraceNaOSTDispecingWrapper'
 import PlanovanePraceOdstavkyOSTWrapper from './PlanovanePraceOdstavkyOSTWrapper'
 import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
-import Poznamky from './Poznamky'
+import PoznamkyWrapper from './PoznamkyWrapper'
 
 const MainContent = ({ hlavny }) => {
   if (!hlavny.initialized) {
@@ -75,7 +75,7 @@ const MainContent = ({ hlavny }) => {
       <br />
       <Row>
         <Col md={6}>
-          <Poznamky />
+          <PoznamkyWrapper />
         </Col>
       </Row>
       <br />

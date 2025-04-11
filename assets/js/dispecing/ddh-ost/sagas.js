@@ -24,8 +24,11 @@ import {
   fetchPlanovanePraceOdstavky,
   createPlanovanePraceOdstavky,
   updatePlanovanePraceOdstavky,
-  deletePlanovanePraceOdstavky
-  // Poznámky
+  deletePlanovanePraceOdstavky,
+  fetchPoznamky,
+  createPoznamka,
+  updatePoznamka,
+  deletePoznamka
 } from './actions'
 
 function* mySaga() {
@@ -44,6 +47,7 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_PRACE_NA_OST_PREVADZKA_REQUEST, fetchPraceNaOSTPrevadzka),
     takeLatest(TYPES.FETCH_PRACE_NA_OST_DISPECING_REQUEST, fetchPraceNaOSTDispecing),
     takeLatest(TYPES.FETCH_PLANOVANE_PRACE_ODSTAVKY_REQUEST, fetchPlanovanePraceOdstavky),
+    takeLatest(TYPES.FETCH_POZNAMKY_REQUEST, fetchPoznamky),
 
     takeEvery(TYPES.UPDATE_OSTHLAVNY_REQUEST, updateOSTHlavny),
 
@@ -57,7 +61,11 @@ function* mySaga() {
 
     takeEvery(TYPES.CREATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, createPlanovanePraceOdstavky),
     takeEvery(TYPES.UPDATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, updatePlanovanePraceOdstavky),
-    takeEvery(TYPES.DELETE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, deletePlanovanePraceOdstavky)
+    takeEvery(TYPES.DELETE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, deletePlanovanePraceOdstavky),
+
+    takeEvery(TYPES.CREATE_POZNAMKA_REQUEST, createPoznamka),
+    takeEvery(TYPES.UPDATE_POZNAMKA_REQUEST, updatePoznamka),
+    takeEvery(TYPES.DELETE_POZNAMKA_REQUEST, deletePoznamka)
   ])
 }
 

@@ -10,7 +10,9 @@ class OSTPoznamkaApiModel extends DefaultApiModel
 
     public $datum_cas;
 
-    public $OST;
+    public $ost;
 
     public $poznamka;
+
+    public $valid;
 }

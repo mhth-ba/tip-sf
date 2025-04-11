@@ -10,7 +10,8 @@ import {
   fetchDenneDispecerskeHlasenieOSTRequest,
   fetchPraceNaOSTPrevadzkaRequest,
   fetchPraceNaOSTDispecingRequest,
-  fetchPlanovanePraceOdstavkyRequest
+  fetchPlanovanePraceOdstavkyRequest,
+  fetchPoznamkyRequest
 } from '../actions'
 import * as TYPES from '../../../services/ActionTypes'
 
@@ -56,6 +57,7 @@ class Calendar extends React.Component {
         this.props.fetchPraceNaOSTPrevadzka(currentId)
         this.props.fetchPraceNaOSTDispecing(currentId)
         this.props.fetchPlanovanePraceOdstavky(currentId)
+        this.props.fetchPoznamky(currentId)
       } else {
         // Optionally, dispatch an action to clear related entries
         // this.props.clearPraceNaOSTPrevadzka();
@@ -280,7 +282,8 @@ const mapDispatchToProps = dispatch => ({
   fetchDenneDispecerskeHlasenieOST: date => dispatch(fetchDenneDispecerskeHlasenieOSTRequest(date)),
   fetchPraceNaOSTPrevadzka: hlavnyId => dispatch(fetchPraceNaOSTPrevadzkaRequest(hlavnyId)),
   fetchPraceNaOSTDispecing: hlavnyId => dispatch(fetchPraceNaOSTDispecingRequest(hlavnyId)),
-  fetchPlanovanePraceOdstavky: hlavnyId => dispatch(fetchPlanovanePraceOdstavkyRequest(hlavnyId))
+  fetchPlanovanePraceOdstavky: hlavnyId => dispatch(fetchPlanovanePraceOdstavkyRequest(hlavnyId)),
+  fetchPoznamky: hlavnyId => dispatch(fetchPoznamkyRequest(hlavnyId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar)

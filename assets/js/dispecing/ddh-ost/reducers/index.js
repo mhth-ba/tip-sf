@@ -10,6 +10,7 @@ import hlavny from './hlavny'
 import pracenaostprevadzka from './pracenaostprevadzka'
 import pracenaostdispecing from './pracenaostdispecing'
 import planovanepraceodstavky from './planovanepraceodstavky'
+import poznamky from './poznamky'
 
 import { reducer as notifications } from 'react-notification-system-redux'
 
@@ -24,6 +25,7 @@ export default combineReducers({
   pracenaostprevadzka,
   pracenaostdispecing,
   planovanepraceodstavky,
+  poznamky,
 
   notifications
 })

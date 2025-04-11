@@ -843,4 +843,151 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
 
         return new Response('', 204); // Return 204 No Content on success
     }
+
+    /**
+     * @Route("disp/ddh-ost/poznamky", name="ddh_ost_poznamky_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getPoznamkyListAction(Request $request)
+    {
+        $hlavnyId = $request->query->get('hlavny_id');
+        if (!$hlavnyId) {
+            throw new BadRequestHttpException('Missing hlavny_id parameter.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Dispecing\DDH\Poznamka');
+        $entries = $repository->getByHlavnyId($hlavnyId);
+
+        $apiModels = [];
+        foreach ($entries as $entry) {
+            $model = new \AppBundle\Api\Dispecing\DDH\OSTPoznamkaApiModel();
+            $model->id = $entry->getId();
+            $model->datum_cas = $entry->getDatumCas();
+            $model->ost = $entry->getOst();
+            $model->poznamka = $entry->getPoznamka();
+            $model->valid = $entry->getValid();
+
+            // Only return valid entries
+            if ($entry->getValid() !== false) {
+                $apiModels[] = $model;
+            }
+        }
+        return $this->createApiResponse($apiModels);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/poznamky", name="ddh_ost_poznamky_create", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function createPoznamkaAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+        if (!isset($data['hlavny_id'])) {
+            throw new BadRequestHttpException('Missing hlavny_id');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
+        if (!$hlavny) {
+            throw $this->createNotFoundException('Hlavny record not found.');
+        }
+
+        $poznamka = new \AppBundle\Entity\Dispecing\DDH\Poznamka();
+        $poznamka->setHlavny($hlavny);
+        $poznamka->setValid(true);
+        // Other fields remain null
+        $em->persist($poznamka);
+        $em->flush();
+
+        $this->logCreateActivity(
+            $poznamka->getId(),
+            'AppBundle:Dispecing\DDH\Poznamka'
+        );
+
+        $apiModel = new \AppBundle\Api\Dispecing\DDH\OSTPoznamkaApiModel();
+        $apiModel->id = $poznamka->getId();
+        // All other fields are null
+        return $this->createApiResponse($apiModel, 201);
+    }
+
+    /**
+     * @Route("disp/ddh-ost/poznamky/{id}", name="ddh_ost_poznamky_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function updatePoznamkaAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $poznamka = $em->getRepository('AppBundle:Dispecing\DDH\Poznamka')->find($id);
+        if (!$poznamka) {
+            throw $this->createNotFoundException(sprintf('Poznámka s id %s sa nenašla', $id));
+        }
+
+        // Get data from the request
+        $data = json_decode($request->getContent(), true);
+
+        // Find the field being updated (the one that's not id)
+        $fieldName = null;
+        $fieldValue = null;
+        foreach ($data as $key => $value) {
+            if ($key !== 'id') {
+                $fieldName = $key;
+                $fieldValue = $value;
+                break;
+            }
+        }
+
+        // Handle datetime field directly before form processing
+        if ($fieldName === 'datum_cas') {
+            // If value is null, set the datetime field to null
+            if ($fieldValue === null) {
+                $poznamka->setDatumCas(null);
+            } else if (is_numeric($fieldValue)) {
+                $dateObj = new \DateTime();
+                $dateObj->setTimestamp($fieldValue);
+                $poznamka->setDatumCas($dateObj);
+            }
+
+            $em->persist($poznamka);
+            $em->flush();
+        }
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Dispecing\DDH\Poznamka',
+            \AppBundle\Form\Type\Dispecing\DDH\PoznamkaType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("disp/ddh-ost/poznamky/{id}", name="ddh_ost_poznamky_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function deletePoznamkaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $poznamka = $em->getRepository('AppBundle:Dispecing\DDH\Poznamka')->find($id);
+
+        if (!$poznamka) {
+            throw $this->createNotFoundException(sprintf('Poznámka s id %s sa nenašla', $id));
+        }
+
+        // Soft delete - set valid to false
+        $poznamka->setValid(false);
+        $em->persist($poznamka);
+        $em->flush();
+
+        // Log the action
+        $metadata = $em->getClassMetadata('AppBundle:Dispecing\DDH\Poznamka');
+        $this->logDeleteActivity($metadata, $id);
+
+        return new Response('', 204); // Return 204 No Content on success
+    }
 }
