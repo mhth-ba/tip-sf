@@ -1,4 +1,3 @@
-// assets/js/dispecing/ddh-ost/components/AuditLog.js
 import React from 'react'
 import { connect } from 'react-redux'
 import {
