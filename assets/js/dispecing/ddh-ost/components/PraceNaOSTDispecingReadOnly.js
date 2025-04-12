@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Card, CardHeader, CardBody, Row, Col, Table, Badge } from 'reactstrap'
 import moment from 'moment'
-import ReadOnlyBadge from './ReadOnlyBadge'
+import ReadOnlyBadge from '../../../components/ReadOnlyBadge'
 import FileAttachments from './FileAttachments'
 
 // Read-only view component for PraceNaOSTDispecing

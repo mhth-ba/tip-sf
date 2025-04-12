@@ -123,7 +123,7 @@ class Hlavicka extends React.Component {
     return (
       <Row>
         <Col>
-          <Card>
+          <Card style={{ width: '480px' }}>
             <CardHeader className="bg-primary text-white">Hlavička</CardHeader>
             <CardBody>
               <Form>

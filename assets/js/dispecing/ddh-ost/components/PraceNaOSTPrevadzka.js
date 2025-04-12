@@ -392,12 +392,12 @@ class PraceNaOSTPrevadzka extends React.Component {
       }
     })
 
-    // Custom sort order for option groups: OŠ, PK, OST, OOST, then others alphabetically
+    // Custom sort order for option groups: PK, OST, OOST, OŠ, then others alphabetically
     const customSortOrder = {
-      OŠ: 1,
-      PK: 2,
-      OST: 3,
-      OOST: 4
+      PK: 1,
+      OST: 2,
+      OOST: 3,
+      OŠ: 4
     }
 
     // Sort the keys (typ) according to custom order

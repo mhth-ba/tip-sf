@@ -6,9 +6,11 @@ import ReadOnlyBadge from '../../../components/ReadOnlyBadge'
 class HlavickaReadOnly extends React.Component {
   render() {
     const hlavny = this.props.hlavny || {}
+    // Get values from props
+    const { dispecer_1 = '', dispecer_2 = '', ost_data = {} } = hlavny
+
+    // Extract the read-only values from OST_Hlavny
     const {
-      dispecer_1 = '',
-      dispecer_2 = '',
       poruchovka_1 = '',
       poruchovka_2 = '',
       teplota_letisko = '',
@@ -16,7 +18,7 @@ class HlavickaReadOnly extends React.Component {
       teplota_tpz = '',
       doplnovanie_tpv = '',
       doplnovanie_tpz = ''
-    } = hlavny
+    } = ost_data || {}
 
     return (
       <Row>
@@ -38,6 +40,11 @@ class HlavickaReadOnly extends React.Component {
                     <tr>
                       <th>Dispečer - nočná zmena:</th>
                       <td>{dispecer_2 || '-'}</td>
+                    </tr>
+                    <tr>
+                      <th colSpan="2" className="pt-3 pb-2">
+                        <h5>Údaje z OST:</h5>
+                      </th>
                     </tr>
                     <tr>
                       <th>Poruchová služba - denná zmena:</th>
@@ -81,6 +88,9 @@ class HlavickaReadOnly extends React.Component {
                   <div className="text-muted small">Dispečer - nočná zmena</div>
                   <div className="font-weight-bold">{dispecer_2 || '-'}</div>
                 </div>
+
+                <h5 className="mt-4 mb-2">Údaje z OST:</h5>
+
                 <div className="mb-3">
                   <div className="text-muted small">Poruchová služba - denná zmena</div>
                   <div className="font-weight-bold">{poruchovka_1 || '-'}</div>

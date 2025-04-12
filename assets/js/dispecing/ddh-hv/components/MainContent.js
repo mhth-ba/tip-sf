@@ -4,7 +4,7 @@ import NoDataAlert from './NoDataAlert'
 import { Col, Row } from 'reactstrap'
 import moment from 'moment'
 import { Alert } from 'reactstrap'
-import Hlavicka from './Hlavicka'
+import HlavickaWrapper from './HlavickaWrapper'
 import ZmenaNaZdrojoch from './ZmenaNaZdrojoch'
 import ZmenaNaHV from './ZmenaNaHV'
 import StavZariadeni from './StavZariadeni'
@@ -52,7 +52,7 @@ const MainContent = ({ hlavny }) => {
       )}
       <Row>
         <Col>
-          <Hlavicka />
+          <HlavickaWrapper />
         </Col>
       </Row>
       <br />

@@ -179,6 +179,23 @@ class DenneDispecerskeHlasenieHVController extends BaseController
         $apiModel->dispecer_1 = $hvHlavny->getDispecer1();
         $apiModel->dispecer_2 = $hvHlavny->getDispecer2();
 
+        // Get the OST_Hlavny data to include in the response
+        $ostHlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($hvHlavny->getOstHlavnyId());
+        if ($ostHlavny) {
+            $ostModel = new \AppBundle\Api\Dispecing\DDH\OSTHlavnyApiModel();
+            $ostModel->id = $ostHlavny->getId();
+            $ostModel->datum = $ostHlavny->getDatum();
+            $ostModel->poruchovka_1 = $ostHlavny->getPoruchovka1();
+            $ostModel->poruchovka_2 = $ostHlavny->getPoruchovka2();
+            $ostModel->teplota_letisko = $ostHlavny->getTeplotaLetisko();
+            $ostModel->teplota_tpv = $ostHlavny->getTeplotaTpv();
+            $ostModel->teplota_tpz = $ostHlavny->getTeplotaTpz();
+            $ostModel->doplnovanie_tpv = $ostHlavny->getDoplnovanieTpv();
+            $ostModel->doplnovanie_tpz = $ostHlavny->getDoplnovanieTpz();
+
+            $apiModel->ost_data = $ostModel;
+        }
+
         return $this->createApiResponse($apiModel);
     }
 }
