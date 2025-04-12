@@ -7,6 +7,8 @@ const initState = {
   dispecer_2: null,
   poruchovka_1: null,
   poruchovka_2: null,
+  poruchovka_3: null,
+  poruchovka_4: null,
   teplota_letisko: null,
   teplota_tpv: null,
   teplota_tpz: null,
@@ -41,12 +43,6 @@ export default (state = initState, action) => {
 
     case TYPES.UPDATE_OSTHLAVNY_FORMFIELD:
       return { ...state, [action.field]: action.value }
-
-    // add other events - loading of other modules, such as
-    // prace na ost - prevadzka
-    // prace na ost - dispecing a poruchova sluzba
-    // planovane prace a odstavky na OST
-    // poznamky
 
     default:
       return state

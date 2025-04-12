@@ -11,6 +11,8 @@ class HlavickaReadOnly extends React.Component {
       dispecer_2 = '',
       poruchovka_1 = '',
       poruchovka_2 = '',
+      poruchovka_3 = '',
+      poruchovka_4 = '',
       teplota_letisko = '',
       teplota_tpv = '',
       teplota_tpz = '',
@@ -46,6 +48,14 @@ class HlavickaReadOnly extends React.Component {
                     <tr>
                       <th>Poruchová služba - nočná zmena:</th>
                       <td>{poruchovka_2 || '-'}</td>
+                    </tr>
+                    <tr>
+                      <th>Poruchová služba - denná zmena:</th>
+                      <td>{poruchovka_3 || '-'}</td>
+                    </tr>
+                    <tr>
+                      <th>Poruchová služba - nočná zmena:</th>
+                      <td>{poruchovka_4 || '-'}</td>
                     </tr>
                     <tr>
                       <th>Priemerná denná teplota - letisko:</th>
@@ -88,6 +98,14 @@ class HlavickaReadOnly extends React.Component {
                 <div className="mb-3">
                   <div className="text-muted small">Poruchová služba - nočná zmena</div>
                   <div className="font-weight-bold">{poruchovka_2 || '-'}</div>
+                </div>
+                <div className="mb-3">
+                  <div className="text-muted small">Poruchová služba - denná zmena</div>
+                  <div className="font-weight-bold">{poruchovka_3 || '-'}</div>
+                </div>
+                <div className="mb-3">
+                  <div className="text-muted small">Poruchová služba - nočná zmena</div>
+                  <div className="font-weight-bold">{poruchovka_4 || '-'}</div>
                 </div>
 
                 <hr className="my-3" />

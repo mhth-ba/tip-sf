@@ -18,6 +18,10 @@ class OSTHlavnyApiModel extends DefaultApiModel
 
     public $poruchovka_2;
 
+    public $poruchovka_3;
+
+    public $poruchovka_4;
+
     public $teplota_letisko;
 
     public $teplota_tpv;

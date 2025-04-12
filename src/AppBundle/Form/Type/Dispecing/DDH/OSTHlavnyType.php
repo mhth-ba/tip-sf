@@ -19,6 +19,8 @@ class OSTHlavnyType extends AbstractType
             ->add('dispecer_2', TextType::class)
             ->add('poruchovka_1', TextType::class)
             ->add('poruchovka_2', TextType::class)
+            ->add('poruchovka_3', TextType::class)
+            ->add('poruchovka_4', TextType::class)
             ->add('teplota_letisko', NumberType::class)
             ->add('teplota_tpv', NumberType::class)
             ->add('teplota_tpz', NumberType::class)

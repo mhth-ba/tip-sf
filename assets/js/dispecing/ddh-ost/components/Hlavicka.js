@@ -135,6 +135,8 @@ class Hlavicka extends React.Component {
       dispecer_2 = '',
       poruchovka_1 = '',
       poruchovka_2 = '',
+      poruchovka_3 = '',
+      poruchovka_4 = '',
       teplota_letisko = '',
       teplota_tpv = '',
       teplota_tpz = '',
@@ -216,6 +218,40 @@ class Hlavicka extends React.Component {
                         name="poruchovka_2"
                         id="poruchovaNocna"
                         value={poruchovka_2 || ''}
+                        onChange={this.handleChange}
+                        disabled={poruchovkaLoading}
+                      >
+                        <option value="">-- Vyberte --</option>
+                        <option value="- Žiadna osoba -">- Žiadna osoba -</option>
+                        {poruchovka.map(osoba => this.renderOption(osoba))}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="6">
+                    <FormGroup>
+                      <Input
+                        type="select"
+                        name="poruchovka_3"
+                        id="poruchovaDenna2"
+                        value={poruchovka_3 || ''}
+                        onChange={this.handleChange}
+                        disabled={poruchovkaLoading}
+                      >
+                        <option value="">-- Vyberte --</option>
+                        <option value="- Žiadna osoba -">- Žiadna osoba -</option>
+                        {poruchovka.map(osoba => this.renderOption(osoba))}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col md="6">
+                    <FormGroup>
+                      <Input
+                        type="select"
+                        name="poruchovka_4"
+                        id="poruchovaNocna2"
+                        value={poruchovka_4 || ''}
                         onChange={this.handleChange}
                         disabled={poruchovkaLoading}
                       >

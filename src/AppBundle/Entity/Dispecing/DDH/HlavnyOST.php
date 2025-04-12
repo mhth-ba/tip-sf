@@ -44,6 +44,16 @@ class HlavnyOST extends BaseEntity
     private $poruchovka_2;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $poruchovka_3;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $poruchovka_4;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $teplota_letisko;
@@ -116,6 +126,26 @@ class HlavnyOST extends BaseEntity
     public function setPoruchovka2($poruchovka_2)
     {
         $this->poruchovka_2 = $poruchovka_2;
+    }
+
+    public function getPoruchovka3()
+    {
+        return $this->poruchovka_3;
+    }
+
+    public function setPoruchovka3($poruchovka_3)
+    {
+        $this->poruchovka_3 = $poruchovka_3;
+    }
+
+    public function getPoruchovka4()
+    {
+        return $this->poruchovka_4;
+    }
+
+    public function setPoruchovka4($poruchovka_4)
+    {
+        $this->poruchovka_4 = $poruchovka_4;
     }
 
     public function getTeplotaLetisko()

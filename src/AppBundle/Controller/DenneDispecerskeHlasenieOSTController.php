@@ -345,6 +345,8 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             $apiModel->dispecer_2 = $ostHlavny->getDispecer2();
             $apiModel->poruchovka_1 = $ostHlavny->getPoruchovka1();
             $apiModel->poruchovka_2 = $ostHlavny->getPoruchovka2();
+            $apiModel->poruchovka_3 = $ostHlavny->getPoruchovka3();
+            $apiModel->poruchovka_4 = $ostHlavny->getPoruchovka4();
             $apiModel->teplota_letisko = $ostHlavny->getTeplotaLetisko();
             $apiModel->teplota_tpv = $ostHlavny->getTeplotaTpv();
             $apiModel->teplota_tpz = $ostHlavny->getTeplotaTpz();
