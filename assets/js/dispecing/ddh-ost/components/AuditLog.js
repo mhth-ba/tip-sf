@@ -273,7 +273,7 @@ class AuditLog extends React.Component {
 
     return (
       <div>
-        <div className="table-responsive">
+        <div className="table-responsive" style={{ maxHeight: '210px', overflowX: 'auto' }}>
           <Table striped size="sm">
             <thead>
               <tr>
