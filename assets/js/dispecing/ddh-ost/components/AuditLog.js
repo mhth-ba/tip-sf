@@ -31,7 +31,7 @@ class AuditLog extends React.Component {
     this.state = {
       activeTab: '1',
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       pageSizes: [5, 10, 20, 50]
     }
 
