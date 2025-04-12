@@ -46,7 +46,6 @@ export default (state = initState, action) => {
     case TYPES.UPDATE_POZNAMKA_ERROR:
       return { ...state, loading: false, error: action.data }
 
-    // Add handlers for delete actions
     case TYPES.DELETE_POZNAMKA_REQUEST:
       return { ...state, loading: true, error: null }
 

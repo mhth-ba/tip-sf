@@ -9,7 +9,7 @@ import PraceNaOSTPrevadzkaWrapper from './PraceNaOSTPrevadzkaWrapper'
 import PraceNaOSTDispecingWrapper from './PraceNaOSTDispecingWrapper'
 import PlanovanePraceOdstavkyOSTWrapper from './PlanovanePraceOdstavkyOSTWrapper'
 import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
-import PoznamkyWrapper from './PoznamkyWrapper'
+import GlobalPoznamky from './GlobalPoznamky'
 
 const MainContent = ({ hlavny }) => {
   if (!hlavny.initialized) {
@@ -17,7 +17,17 @@ const MainContent = ({ hlavny }) => {
   }
 
   if (hlavny.id === null) {
-    return <NoDataAlert />
+    return (
+      <div>
+        <Row>
+          <Col>
+            <GlobalPoznamky />
+          </Col>
+        </Row>
+        <br />
+        <NoDataAlert />
+      </div>
+    )
   }
 
   // Check if the entry date is in the past
@@ -36,6 +46,12 @@ const MainContent = ({ hlavny }) => {
 
   return (
     <div>
+      <Row>
+        <Col>
+          <GlobalPoznamky />
+        </Col>
+      </Row>
+
       {isHistoricalData && (
         <Row>
           <Col>
@@ -70,12 +86,6 @@ const MainContent = ({ hlavny }) => {
         </Col>
         <Col md={6} sm={12}>
           <OdstavkyOSTNad24Hod />
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col md={6}>
-          <PoznamkyWrapper />
         </Col>
       </Row>
       <br />

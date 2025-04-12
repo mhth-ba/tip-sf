@@ -5,12 +5,11 @@ use Doctrine\ORM\EntityRepository;
 
 class PoznamkaRepository extends EntityRepository
 {
-    public function getByHlavnyId($hlavnyId)
+    public function getAll()
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.hlavny = :hlavnyId')
-            ->setParameter('hlavnyId', $hlavnyId)
-            ->orderBy('p.id', 'asc')
+            ->where('p.valid != false OR p.valid IS NULL')
+            ->orderBy('p.datum_cas', 'desc')
             ->getQuery()
             ->getResult();
     }

@@ -82,11 +82,29 @@ class PoznamkyReadOnly extends React.Component {
   }
 
   render() {
+    const { horizontal } = this.props
     // Filter entries to show only those that are valid
     const validEntries =
       this.props.poznamky && this.props.poznamky.entries
         ? this.props.poznamky.entries.filter(entry => entry.valid !== false)
         : []
+
+    if (horizontal) {
+      return (
+        <div>
+          {validEntries.map(entry => (
+            <Card key={entry.id} style={{ minWidth: '300px', maxWidth: '350px', flex: '0 0 auto' }}>
+              <CardBody>{this.renderEntry(entry)}</CardBody>
+            </Card>
+          ))}
+          {validEntries.length === 0 && (
+            <div className="text-center p-3" style={{ width: '100%' }}>
+              <p className="text-muted mb-0">Žiadne záznamy na zobrazenie.</p>
+            </div>
+          )}
+        </div>
+      )
+    }
 
     return (
       <Card>

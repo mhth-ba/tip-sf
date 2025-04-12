@@ -852,14 +852,9 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
      */
     public function getPoznamkyListAction(Request $request)
     {
-        $hlavnyId = $request->query->get('hlavny_id');
-        if (!$hlavnyId) {
-            throw new BadRequestHttpException('Missing hlavny_id parameter.');
-        }
-
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Dispecing\DDH\Poznamka');
-        $entries = $repository->getByHlavnyId($hlavnyId);
+        $entries = $repository->getAll();
 
         $apiModels = [];
         foreach ($entries as $entry) {
@@ -885,24 +880,10 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
      */
     public function createPoznamkaAction(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
-        if ($data === null) {
-            throw new BadRequestHttpException('Invalid JSON');
-        }
-        if (!isset($data['hlavny_id'])) {
-            throw new BadRequestHttpException('Missing hlavny_id');
-        }
-
         $em = $this->getDoctrine()->getManager();
-        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
-        if (!$hlavny) {
-            throw $this->createNotFoundException('Hlavny record not found.');
-        }
 
         $poznamka = new \AppBundle\Entity\Dispecing\DDH\Poznamka();
-        $poznamka->setHlavny($hlavny);
         $poznamka->setValid(true);
-        // Other fields remain null
         $em->persist($poznamka);
         $em->flush();
 
@@ -913,7 +894,6 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
 
         $apiModel = new \AppBundle\Api\Dispecing\DDH\OSTPoznamkaApiModel();
         $apiModel->id = $poznamka->getId();
-        // All other fields are null
         return $this->createApiResponse($apiModel, 201);
     }
 

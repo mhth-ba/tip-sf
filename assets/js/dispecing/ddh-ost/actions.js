@@ -126,9 +126,8 @@ export const fetchPoznamkyRequest = hlavnyId => ({
   hlavnyId
 })
 
-export const createPoznamkaRequest = hlavnyId => ({
-  type: TYPES.CREATE_POZNAMKA_REQUEST,
-  hlavnyId
+export const createPoznamkaRequest = () => ({
+  type: TYPES.CREATE_POZNAMKA_REQUEST
 })
 
 export const updatePoznamkaRequest = (data, rollbackCallback) => ({
@@ -546,8 +545,8 @@ export function* deletePlanovanePraceOdstavky(action) {
   }
 }
 
-export function* fetchPoznamky(action) {
-  const url = Routing.generate('ddh_ost_poznamky_list') + '?hlavny_id=' + action.hlavnyId
+export function* fetchPoznamky() {
+  const url = Routing.generate('ddh_ost_poznamky_list')
   try {
     const data = yield call(Api.fetch, url)
     yield put({ type: TYPES.FETCH_POZNAMKY_SUCCESS, data })
@@ -557,10 +556,10 @@ export function* fetchPoznamky(action) {
   }
 }
 
-export function* createPoznamka(action) {
+export function* createPoznamka() {
   const url = Routing.generate('ddh_ost_poznamky_create')
   try {
-    const data = yield call(Api.post, url, { hlavny_id: action.hlavnyId })
+    const data = yield call(Api.post, url)
     yield put({ type: TYPES.CREATE_POZNAMKA_SUCCESS, data })
     yield put(
       Notifications.success({
