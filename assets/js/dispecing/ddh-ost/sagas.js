@@ -38,7 +38,7 @@ function* mySaga() {
     takeLatest(TYPES.UPLOAD_PRILOHA_REQUEST, uploadPriloha),
     takeLatest(TYPES.DELETE_PRILOHA_REQUEST, deletePriloha),
 
-    // Initial loadt
+    // Initial load
     takeLatest(TYPES.FETCH_OPRAVNENIA_REQUEST, fetchOpravnenia),
     takeLatest(TYPES.FETCH_ZOZNAM_OST_REQUEST, fetchZoznamOST),
     takeLatest(TYPES.FETCH_ZOZNAM_DISPECEROV_REQUEST, fetchZoznamDispecerov),
