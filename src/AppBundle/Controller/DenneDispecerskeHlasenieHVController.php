@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Api\Dispecing\DispecerApiModel;
+use AppBundle\Entity\Dispecing\DDH\ZmenaNaHVVychod;
+use AppBundle\Entity\Dispecing\DDH\ZmenaNaHVZapad;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -197,5 +199,544 @@ class DenneDispecerskeHlasenieHVController extends BaseController
         }
 
         return $this->createApiResponse($apiModel);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-hv-vychod/{hlavnyId}", name="ddh_hv_zmena_na_hv_vychod_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getZmenaNaHVVychodListAction($hlavnyId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Dispecing\DDH\ZmenaNaHVVychod');
+        $entries = $repository->getByHlavnyId($hlavnyId);
+
+        $apiModels = [];
+        foreach ($entries as $entry) {
+            $model = new \AppBundle\Api\Dispecing\DDH\HVZmenaNaHVVychodApiModel();
+            $model->id = $entry->getId();
+            $model->datum_cas = $entry->getDatumCas();
+            $model->poznamka = $entry->getPoznamka();
+
+            $apiModels[] = $model;
+        }
+
+        return $this->createApiResponse($apiModels);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-hv-vychod", name="ddh_hv_zmena_na_hv_vychod_create", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function createZmenaNaHVVychodAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+        if (!isset($data['hlavny_id'])) {
+            throw new BadRequestHttpException('Missing hlavny_id');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyHV')->find($data['hlavny_id']);
+        if (!$hlavny) {
+            throw $this->createNotFoundException('Hlavny record not found.');
+        }
+
+        $zmena = new ZmenaNaHVVychod();
+        $zmena->setHlavny($hlavny);
+
+        // If date and poznamka are provided, set them
+        if (isset($data['datum_cas'])) {
+            $dateObj = new \DateTime();
+            $dateObj->setTimestamp($data['datum_cas']);
+            $zmena->setDatumCas($dateObj);
+        }
+
+        if (isset($data['poznamka'])) {
+            $zmena->setPoznamka($data['poznamka']);
+        }
+
+        $em->persist($zmena);
+        $em->flush();
+
+        $this->logCreateActivity(
+            $zmena->getId(),
+            'AppBundle:Dispecing\DDH\ZmenaNaHVVychod'
+        );
+
+        $apiModel = new \AppBundle\Api\Dispecing\DDH\HVZmenaNaHVVychodApiModel();
+        $apiModel->id = $zmena->getId();
+        $apiModel->datum_cas = $zmena->getDatumCas();
+        $apiModel->poznamka = $zmena->getPoznamka();
+
+        return $this->createApiResponse($apiModel, 201);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-hv-vychod/{id}", name="ddh_hv_zmena_na_hv_vychod_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function updateZmenaNaHVVychodAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $zmena = $em->getRepository('AppBundle:Dispecing\DDH\ZmenaNaHVVychod')->find($id);
+        if (!$zmena) {
+            throw $this->createNotFoundException(sprintf('Zmena na HV Východ s id %s sa nenašla', $id));
+        }
+
+        // Get data from the request
+        $data = json_decode($request->getContent(), true);
+
+        // Find the field being updated (the one that's not id)
+        $fieldName = null;
+        $fieldValue = null;
+        foreach ($data as $key => $value) {
+            if ($key !== 'id') {
+                $fieldName = $key;
+                $fieldValue = $value;
+                break;
+            }
+        }
+
+        // Handle datetime field directly before form processing
+        if ($fieldName === 'datum_cas') {
+            // If value is null, set the datetime field to null
+            if ($fieldValue === null) {
+                $zmena->setDatumCas(null);
+            } else if (is_numeric($fieldValue)) {
+                $dateObj = new \DateTime();
+                $dateObj->setTimestamp($fieldValue);
+                $zmena->setDatumCas($dateObj);
+            }
+
+            $em->persist($zmena);
+            $em->flush();
+        }
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Dispecing\DDH\ZmenaNaHVVychod',
+            \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaHVVychodType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-hv-vychod/{id}", name="ddh_hv_zmena_na_hv_vychod_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function deleteZmenaNaHVVychodAction($id)
+    {
+        return $this->deleteFromDatabase($id, 'AppBundle:Dispecing\DDH\ZmenaNaHVVychod', new Request());
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-hv-zapad/{hlavnyId}", name="ddh_hv_zmena_na_hv_zapad_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getZmenaNaHVZapadListAction($hlavnyId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Dispecing\DDH\ZmenaNaHVZapad');
+        $entries = $repository->getByHlavnyId($hlavnyId);
+
+        $apiModels = [];
+        foreach ($entries as $entry) {
+            $model = new \AppBundle\Api\Dispecing\DDH\HVZmenaNaHVZapadApiModel();
+            $model->id = $entry->getId();
+            $model->datum_cas = $entry->getDatumCas();
+            $model->poznamka = $entry->getPoznamka();
+
+            $apiModels[] = $model;
+        }
+
+        return $this->createApiResponse($apiModels);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-hv-zapad", name="ddh_hv_zmena_na_hv_zapad_create", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function createZmenaNaHVZapadAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+        if (!isset($data['hlavny_id'])) {
+            throw new BadRequestHttpException('Missing hlavny_id');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyHV')->find($data['hlavny_id']);
+        if (!$hlavny) {
+            throw $this->createNotFoundException('Hlavny record not found.');
+        }
+
+        $zmena = new ZmenaNaHVZapad();
+        $zmena->setHlavny($hlavny);
+
+        // If date and poznamka are provided, set them
+        if (isset($data['datum_cas'])) {
+            $dateObj = new \DateTime();
+            $dateObj->setTimestamp($data['datum_cas']);
+            $zmena->setDatumCas($dateObj);
+        }
+
+        if (isset($data['poznamka'])) {
+            $zmena->setPoznamka($data['poznamka']);
+        }
+
+        $em->persist($zmena);
+        $em->flush();
+
+        $this->logCreateActivity(
+            $zmena->getId(),
+            'AppBundle:Dispecing\DDH\ZmenaNaHVZapad'
+        );
+
+        $apiModel = new \AppBundle\Api\Dispecing\DDH\HVZmenaNaHVZapadApiModel();
+        $apiModel->id = $zmena->getId();
+        $apiModel->datum_cas = $zmena->getDatumCas();
+        $apiModel->poznamka = $zmena->getPoznamka();
+
+        return $this->createApiResponse($apiModel, 201);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-hv-zapad/{id}", name="ddh_hv_zmena_na_hv_zapad_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function updateZmenaNaHVZapadAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $zmena = $em->getRepository('AppBundle:Dispecing\DDH\ZmenaNaHVZapad')->find($id);
+        if (!$zmena) {
+            throw $this->createNotFoundException(sprintf('Zmena na HV Západ s id %s sa nenašla', $id));
+        }
+
+        // Get data from the request
+        $data = json_decode($request->getContent(), true);
+
+        // Find the field being updated (the one that's not id)
+        $fieldName = null;
+        $fieldValue = null;
+        foreach ($data as $key => $value) {
+            if ($key !== 'id') {
+                $fieldName = $key;
+                $fieldValue = $value;
+                break;
+            }
+        }
+
+        // Handle datetime field directly before form processing
+        if ($fieldName === 'datum_cas') {
+            // If value is null, set the datetime field to null
+            if ($fieldValue === null) {
+                $zmena->setDatumCas(null);
+            } else if (is_numeric($fieldValue)) {
+                $dateObj = new \DateTime();
+                $dateObj->setTimestamp($fieldValue);
+                $zmena->setDatumCas($dateObj);
+            }
+
+            $em->persist($zmena);
+            $em->flush();
+        }
+
+        return $this->updateDatabase(
+            $id,
+            'AppBundle:Dispecing\DDH\ZmenaNaHVZapad',
+            \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaHVZapadType::class,
+            $request
+        );
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-hv-zapad/{id}", name="ddh_hv_zmena_na_hv_zapad_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function deleteZmenaNaHVZapadAction($id)
+    {
+        return $this->deleteFromDatabase($id, 'AppBundle:Dispecing\DDH\ZmenaNaHVZapad', new Request());
+    }
+
+    // Helper function to determine the entity class based on source type
+    private function getEntityClass($sourceType)
+    {
+        switch ($sourceType) {
+            case 'TpV':
+                return 'AppBundle:Dispecing\DDH\ZmenaNaTpV';
+            case 'TpZ':
+                return 'AppBundle:Dispecing\DDH\ZmenaNaTpZ';
+            case 'VhJ':
+                return 'AppBundle:Dispecing\DDH\ZmenaNaVhJ';
+            case 'Slovnaft':
+                return 'AppBundle:Dispecing\DDH\ZmenaNaSlovnaft';
+            case 'CW':
+                return 'AppBundle:Dispecing\DDH\ZmenaNaCW';
+            case 'OLO':
+                return 'AppBundle:Dispecing\DDH\ZmenaNaOLO';
+            case 'PPC':
+                return 'AppBundle:Dispecing\DDH\ZmenaNaPPC';
+            default:
+                throw new \InvalidArgumentException("Unknown source type: $sourceType");
+        }
+    }
+
+    // Helper function to determine the API model class based on source type
+    private function getApiModelClass($sourceType)
+    {
+        switch ($sourceType) {
+            case 'TpV':
+                return \AppBundle\Api\Dispecing\DDH\HVZmenaNaTpVApiModel::class;
+            case 'TpZ':
+                return \AppBundle\Api\Dispecing\DDH\HVZmenaNaTpZApiModel::class;
+            case 'VhJ':
+                return \AppBundle\Api\Dispecing\DDH\HVZmenaNaVhJApiModel::class;
+            case 'Slovnaft':
+                return \AppBundle\Api\Dispecing\DDH\HVZmenaNaSlovnaftApiModel::class;
+            case 'CW':
+                return \AppBundle\Api\Dispecing\DDH\HVZmenaNaCWApiModel::class;
+            case 'OLO':
+                return \AppBundle\Api\Dispecing\DDH\HVZmenaNaOLOApiModel::class;
+            case 'PPC':
+                return \AppBundle\Api\Dispecing\DDH\HVZmenaNaPPCApiModel::class;
+            default:
+                throw new \InvalidArgumentException("Unknown source type: $sourceType");
+        }
+    }
+
+    // Helper function to determine the form type class based on source type
+    private function getFormTypeClass($sourceType)
+    {
+        switch ($sourceType) {
+            case 'TpV':
+                return \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaTpVType::class;
+            case 'TpZ':
+                return \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaTpZType::class;
+            case 'VhJ':
+                return \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaVhJType::class;
+            case 'Slovnaft':
+                return \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaSlovnaftType::class;
+            case 'CW':
+                return \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaCWType::class;
+            case 'OLO':
+                return \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaOLOType::class;
+            case 'PPC':
+                return \AppBundle\Form\Type\Dispecing\DDH\ZmenaNaPPCType::class;
+            default:
+                throw new \InvalidArgumentException("Unknown source type: $sourceType");
+        }
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-zdroj/{sourceType}/{hlavnyId}", name="ddh_hv_zmena_na_zdroj_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getZmenaNaZdrojListAction($sourceType, $hlavnyId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entityClass = $this->getEntityClass($sourceType);
+        $repository = $em->getRepository($entityClass);
+        $entries = $repository->getByHlavnyId($hlavnyId);
+
+        $apiModelClass = $this->getApiModelClass($sourceType);
+        $apiModels = [];
+        foreach ($entries as $entry) {
+            $model = new $apiModelClass();
+            $model->id = $entry->getId();
+            $model->datum_cas = $entry->getDatumCas();
+            $model->zariadenie = $entry->getZariadenie();
+            $model->poznamka = $entry->getPoznamka();
+            $model->stav = $entry->getStav();
+
+            $apiModels[] = $model;
+        }
+
+        return $this->createApiResponse($apiModels);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-zdroj/{sourceType}", name="ddh_hv_zmena_na_zdroj_create", options={"expose"=true})
+     * @Method("POST")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function createZmenaNaZdrojAction($sourceType, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        if ($data === null) {
+            throw new BadRequestHttpException('Invalid JSON');
+        }
+        if (!isset($data['hlavny_id'])) {
+            throw new BadRequestHttpException('Missing hlavny_id');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyHV')->find($data['hlavny_id']);
+        if (!$hlavny) {
+            throw $this->createNotFoundException('Hlavny record not found.');
+        }
+
+        $entityClass = $this->getEntityClass($sourceType);
+        $entityNamespace = str_replace('AppBundle:', 'AppBundle\\Entity\\', $entityClass);
+        $zmena = new $entityNamespace();
+        $zmena->setHlavny($hlavny);
+
+        // If fields are provided, set them
+        if (isset($data['datum_cas'])) {
+            $dateObj = new \DateTime();
+            $dateObj->setTimestamp($data['datum_cas']);
+            $zmena->setDatumCas($dateObj);
+        }
+
+        if (isset($data['zariadenie'])) {
+            $zmena->setZariadenie($data['zariadenie']);
+        }
+
+        if (isset($data['poznamka'])) {
+            $zmena->setPoznamka($data['poznamka']);
+        }
+
+        if (isset($data['stav'])) {
+            $zmena->setStav($data['stav']);
+        }
+
+        $em->persist($zmena);
+        $em->flush();
+
+        $this->logCreateActivity(
+            $zmena->getId(),
+            $entityClass
+        );
+
+        $apiModelClass = $this->getApiModelClass($sourceType);
+        $apiModel = new $apiModelClass();
+        $apiModel->id = $zmena->getId();
+        $apiModel->datum_cas = $zmena->getDatumCas();
+        $apiModel->zariadenie = $zmena->getZariadenie();
+        $apiModel->poznamka = $zmena->getPoznamka();
+        $apiModel->stav = $zmena->getStav();
+
+        return $this->createApiResponse($apiModel, 201);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-zdroj/{sourceType}/{id}", name="ddh_hv_zmena_na_zdroj_update", options={"expose"=true})
+     * @Method("PATCH")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function updateZmenaNaZdrojAction($sourceType, $id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entityClass = $this->getEntityClass($sourceType);
+        $zmena = $em->getRepository($entityClass)->find($id);
+        if (!$zmena) {
+            throw $this->createNotFoundException(sprintf('Zmena na %s s id %s sa nenašla', $sourceType, $id));
+        }
+
+        // Get data from the request
+        $data = json_decode($request->getContent(), true);
+
+        // Find the field being updated (the one that's not id)
+        $fieldName = null;
+        $fieldValue = null;
+        foreach ($data as $key => $value) {
+            if ($key !== 'id') {
+                $fieldName = $key;
+                $fieldValue = $value;
+                break;
+            }
+        }
+
+        // Handle datetime field directly before form processing
+        if ($fieldName === 'datum_cas') {
+            // If value is null, set the datetime field to null
+            if ($fieldValue === null) {
+                $zmena->setDatumCas(null);
+            } else if (is_numeric($fieldValue)) {
+                $dateObj = new \DateTime();
+                $dateObj->setTimestamp($fieldValue);
+                $zmena->setDatumCas($dateObj);
+            }
+
+            $em->persist($zmena);
+            $em->flush();
+        }
+
+        $formTypeClass = $this->getFormTypeClass($sourceType);
+        return $this->updateDatabase(
+            $id,
+            $entityClass,
+            $formTypeClass,
+            $request
+        );
+    }
+
+    /**
+     * @Route("disp/ddh-hv/zmena-na-zdroj/{sourceType}/{id}", name="ddh_hv_zmena_na_zdroj_delete", options={"expose"=true})
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_DDH')")
+     */
+    public function deleteZmenaNaZdrojAction($sourceType, $id)
+    {
+        $entityClass = $this->getEntityClass($sourceType);
+        return $this->deleteFromDatabase($id, $entityClass, new Request());
+    }
+
+    /**
+     * @Route("disp/ddh-hv/stav-zariadeni/{date}", name="ddh_hv_stav_zariadeni_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getStavZariadeniAction($date)
+    {
+        // Convert the date parameter into a DateTime object.
+        try {
+            $dateObj = new \DateTime($date);
+            // Set time to the end of day to include all records for that day
+            $dateObj->setTime(23, 59, 59);
+        } catch (\Exception $e) {
+            // If the date is invalid, return an empty array
+            return $this->createApiResponse([]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        // Source types and their repositories
+        $sourceTypes = [
+            'TpV', 'TpZ', 'VhJ', 'Slovnaft', 'CW', 'OLO', 'PPC'
+        ];
+
+        $result = [];
+
+        foreach ($sourceTypes as $sourceType) {
+            $entityClass = $this->getEntityClass($sourceType);
+            $repository = $em->getRepository($entityClass);
+
+            // Get latest status for each device in this source
+            $latestStatuses = $repository->getLatestStatusesOfDevices($dateObj);
+
+            foreach ($latestStatuses as $status) {
+                $item = [
+                    'source' => $sourceType,
+                    'zariadenie' => $status->getZariadenie(),
+                    'stav' => $status->getStav(),
+                    'datum_cas' => $status->getDatumCas(),
+                    'poznamka' => $status->getPoznamka()
+                ];
+
+                $result[] = $item;
+            }
+        }
+
+        return $this->createApiResponse($result);
     }
 }
