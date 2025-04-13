@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Type\Dispecing\DDH;
 
-use AppBundle\Entity\Dispecing\DDH\ZmenaNaTpV;
+use AppBundle\Entity\Dispecing\DDH\ZmenaNaPPC;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,7 +22,7 @@ class ZmenaNaPPCType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ZmenaNaTpV::class,
+            'data_class' => ZmenaNaPPC::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ]);

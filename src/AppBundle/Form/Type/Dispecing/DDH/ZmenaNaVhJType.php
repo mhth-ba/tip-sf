@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Type\Dispecing\DDH;
 
-use AppBundle\Entity\Dispecing\DDH\ZmenaNaTpV;
+use AppBundle\Entity\Dispecing\DDH\ZmenaNaVhJ;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,7 +22,7 @@ class ZmenaNaVhJType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ZmenaNaTpV::class,
+            'data_class' => ZmenaNaVhJ::class,
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ]);
