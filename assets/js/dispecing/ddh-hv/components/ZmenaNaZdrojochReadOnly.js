@@ -15,7 +15,7 @@ class ZmenaNaZdrojochReadOnly extends React.Component {
       sourceMapping: {
         'Tepláreň Západ': 'TpZ',
         'Cogen West': 'CW',
-        'Tepláreň východ': 'TpV',
+        'Tepláreň Východ': 'TpV',
         'Výhrevňa Juh': 'VhJ',
         'VS Slovnaft': 'Slovnaft',
         OLO: 'OLO',
@@ -24,7 +24,7 @@ class ZmenaNaZdrojochReadOnly extends React.Component {
       sourcesDisplayNames: {
         TpZ: 'Tepláreň Západ',
         CW: 'Cogen West',
-        TpV: 'Tepláreň východ',
+        TpV: 'Tepláreň Východ',
         VhJ: 'Výhrevňa Juh',
         Slovnaft: 'VS Slovnaft',
         OLO: 'OLO',
