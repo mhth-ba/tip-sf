@@ -600,6 +600,7 @@ class OdstavkyOSTNad24Hod extends React.Component {
                 <option value="RIS">RIS</option>
                 <option value="Obvod východ">Obvod východ</option>
                 <option value="Obvod západ">Obvod západ</option>
+                <option value="Meranie">Meranie</option>
               </Input>
             </FormGroup>
           </Col>
