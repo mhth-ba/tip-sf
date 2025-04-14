@@ -26,6 +26,7 @@ import {
   createPlanovanePraceOdstavky,
   updatePlanovanePraceOdstavky,
   deletePlanovanePraceOdstavky,
+  fetchOdstavkyOSTNad24Hod,
   fetchPoznamky,
   createPoznamka,
   updatePoznamka,
@@ -70,6 +71,9 @@ function* mySaga() {
     takeEvery(TYPES.CREATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, createPlanovanePraceOdstavky),
     takeEvery(TYPES.UPDATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, updatePlanovanePraceOdstavky),
     takeEvery(TYPES.DELETE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, deletePlanovanePraceOdstavky),
+
+    // Odstavky nad 24 hodin
+    takeLatest(TYPES.FETCH_ODSTAVKY_OST_NAD_24_HOD_REQUEST, fetchOdstavkyOSTNad24Hod),
 
     // Poznamka (global)
     takeEvery(TYPES.CREATE_POZNAMKA_REQUEST, createPoznamka),

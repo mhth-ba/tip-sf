@@ -126,6 +126,11 @@ export const deletePlanovanePraceOdstavkyRequest = id => ({
   id
 })
 
+export const fetchOdstavkyOSTNad24HodRequest = hlavnyId => ({
+  type: TYPES.FETCH_ODSTAVKY_OST_NAD_24_HOD_REQUEST,
+  hlavnyId
+})
+
 export const fetchPoznamkyRequest = hlavnyId => ({
   type: TYPES.FETCH_POZNAMKY_REQUEST,
   hlavnyId
@@ -559,6 +564,17 @@ export function* deletePlanovanePraceOdstavky(action) {
         autoDismiss: 5
       })
     )
+    console.error(e)
+  }
+}
+
+export function* fetchOdstavkyOSTNad24Hod(action) {
+  const url = Routing.generate('ddh_ost_odstavky_nad_24_hod_list') + '?hlavny_id=' + action.hlavnyId
+  try {
+    const data = yield call(Api.fetch, url)
+    yield put({ type: TYPES.FETCH_ODSTAVKY_OST_NAD_24_HOD_SUCCESS, data })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_ODSTAVKY_OST_NAD_24_HOD_ERROR, data: e })
     console.error(e)
   }
 }

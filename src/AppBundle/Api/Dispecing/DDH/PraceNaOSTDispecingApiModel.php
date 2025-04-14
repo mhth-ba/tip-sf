@@ -27,4 +27,6 @@ class PraceNaOSTDispecingApiModel extends DefaultApiModel
     public $priloha;
 
     public $valid;
+
+    public $source;
 }

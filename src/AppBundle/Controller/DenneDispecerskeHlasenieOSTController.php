@@ -871,6 +871,80 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     }
 
     /**
+     * @Route("disp/ddh-ost/odstavky-nad-24-hod", name="ddh_ost_odstavky_nad_24_hod_list", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getOdstavkyOSTNad24HodListAction(Request $request)
+    {
+        $hlavnyId = $request->query->get('hlavny_id');
+        if (!$hlavnyId) {
+            throw new BadRequestHttpException('Missing hlavny_id parameter.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        // First, get the current date from the HlavnyOST record
+        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($hlavnyId);
+        if (!$hlavny) {
+            throw $this->createNotFoundException('Hlavny record not found.');
+        }
+
+        // Format as Y-m-d to ensure we're only comparing the date part
+        $selectedDate = (new \DateTime())->setTimestamp($hlavny->getDatum())->format('Y-m-d');
+
+        // Fetch PraceNaOSTPrevadzka entries
+        $pracePrevadzkaRepository = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka');
+        $pracePrevadzkaEntries = $pracePrevadzkaRepository->getOdstavkyNad24Hod($selectedDate);
+
+        // Fetch PraceNaOSTDispecing entries
+        $praceDispecingRepository = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTDispecing');
+        $praceDispecingEntries = $praceDispecingRepository->getOdstavkyNad24Hod($selectedDate);
+
+        // Create API models for both sets
+        $apiModels = [];
+
+        // Add PraceNaOSTPrevadzka entries
+        foreach ($pracePrevadzkaEntries as $entry) {
+            $model = new \AppBundle\Api\Dispecing\DDH\PraceNaOSTPrevadzkaApiModel();
+            $model->id = $entry->getId();
+            $model->ost = $entry->getOst();
+            $model->datum_cas_zaciatok = $entry->getDatumCasZaciatok();
+            $model->datum_cas_ukoncenie = $entry->getDatumCasUkoncenie();
+            $model->vplyv_na_dodavku = $entry->getVplyvNaDodavku();
+            $model->vyvod = $entry->getVyvod();
+            $model->poznamka = $entry->getPoznamka();
+            $model->stav = $entry->getStav();
+            $model->vybavuje = $entry->getVybavuje();
+            $model->priloha = $entry->getPriloha();
+            $model->valid = $entry->getValid();
+            // Add source indicator
+            $model->source = 'prevadzka';
+            $apiModels[] = $model;
+        }
+
+        // Add PraceNaOSTDispecing entries
+        foreach ($praceDispecingEntries as $entry) {
+            $model = new \AppBundle\Api\Dispecing\DDH\PraceNaOSTDispecingApiModel();
+            $model->id = $entry->getId();
+            $model->ost = $entry->getOst();
+            $model->datum_cas_zaciatok = $entry->getDatumCasZaciatok();
+            $model->datum_cas_ukoncenie = $entry->getDatumCasUkoncenie();
+            $model->vplyv_na_dodavku = $entry->getVplyvNaDodavku();
+            $model->vyvod = $entry->getVyvod();
+            $model->poznamka = $entry->getPoznamka();
+            $model->stav = $entry->getStav();
+            $model->vybavuje = $entry->getVybavuje();
+            $model->priloha = $entry->getPriloha();
+            $model->valid = $entry->getValid();
+            // Add source indicator
+            $model->source = 'dispecing';
+            $apiModels[] = $model;
+        }
+
+        return $this->createApiResponse($apiModels);
+    }
+
+    /**
      * @Route("disp/ddh-ost/poznamky", name="ddh_ost_poznamky_list", options={"expose"=true})
      * @Method("GET")
      */
