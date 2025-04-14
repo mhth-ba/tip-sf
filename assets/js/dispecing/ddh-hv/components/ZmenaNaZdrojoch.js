@@ -78,7 +78,7 @@ class ZmenaNaZdrojoch extends React.Component {
         VhJ: ['HK3', 'HK4'],
         Slovnaft: ['V1', 'V2', 'V3', 'V4', 'Para 0,3 MPa', 'Para 1 Mpa'],
         OLO: ['VS'],
-        PPC: ['TG3']
+        PPC: ['TG3', 'Chladič']
       }
     }
 
