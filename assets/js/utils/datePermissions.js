@@ -13,13 +13,21 @@ export const canEditData = (hlavny, opravnenia) => {
   }
 
   // Now check if date is within the allowed range (today, yesterday, or day before yesterday)
-  if (!hlavny || !hlavny.datum) {
+  if (!hlavny) {
+    // If no hlavny object available, default to read-only
+    return false
+  }
+
+  // Find the date - it could be either directly in hlavny.datum or in hlavny.ost_data.datum
+  const timestamp = hlavny.datum || (hlavny.ost_data && hlavny.ost_data.datum)
+
+  if (!timestamp) {
     // If no date available, default to read-only
     return false
   }
 
   // Convert entry date to moment object
-  const entryDate = moment.unix(hlavny.datum)
+  const entryDate = moment.unix(timestamp)
   const today = moment().startOf('day')
 
   // Calculate the difference in days

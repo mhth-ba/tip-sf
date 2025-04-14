@@ -41,11 +41,11 @@ class HlavickaReadOnly extends React.Component {
                       <th>Dispečer - nočná zmena:</th>
                       <td>{dispecer_2 || '-'}</td>
                     </tr>
-                    <tr>
+                    {/*<tr>
                       <th colSpan="2" className="pt-3 pb-2">
                         <h5>Údaje z OST:</h5>
                       </th>
-                    </tr>
+                    </tr>*/}
                     <tr>
                       <th>Poruchová služba - denná zmena:</th>
                       <td>{poruchovka_1 || '-'}</td>

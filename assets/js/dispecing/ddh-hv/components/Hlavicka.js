@@ -164,11 +164,11 @@ class Hlavicka extends React.Component {
                 </Row>
 
                 {/* Row 2: Read-only fields from OST_Hlavny - Poruchová služba */}
-                <Row>
+                {/*<Row>
                   <Col md="12">
                     <h5 className="mt-3 mb-3">Údaje z OST (len na čítanie)</h5>
                   </Col>
-                </Row>
+                </Row>*/}
                 <Row>
                   <Col md="6">
                     <FormGroup>

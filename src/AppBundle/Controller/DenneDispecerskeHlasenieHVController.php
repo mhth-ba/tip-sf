@@ -63,6 +63,62 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     }
 
     /**
+     * @Route("disp/ddh-hv/aktivita", name="ddh_hv_aktivita_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getAktivitaAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $aktivita = $em->getRepository('AppBundle:Dispecing\DDH\AuditLog')
+            ->findUserActivityAll();
+
+        return $this->createApiResponse([
+            'udaje_vsetky' => $aktivita,
+        ]);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/aktivita/{id}", name="ddh_hv_aktivita_hlavny_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getAktivitaByHlavnyAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $aktivita = $em->getRepository('AppBundle:Dispecing\DDH\AuditLog')
+            ->findUserActivityByHlavny($id);
+
+        return $this->createApiResponse([
+            'udaje_hlavny' => $aktivita,
+        ]);
+    }
+
+    /**
+     * @Route("disp/ddh-hv/aktivita-by-date/{date}", name="ddh_hv_aktivita_by_date_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getAktivitaByDateAction($date)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        try {
+            $dateObj = new \DateTime($date);
+            $aktivita = $em->getRepository('AppBundle:Dispecing\DDH\AuditLog')
+                ->findUserActivityByDate($dateObj);
+
+            return $this->createApiResponse([
+                'udaje_hlavny' => $aktivita,
+            ]);
+        } catch (\Exception $e) {
+            // If the date is invalid, return an empty array
+            return $this->createApiResponse([
+                'udaje_hlavny' => [],
+            ]);
+        }
+    }
+
+    /**
      * @Route("disp/ddh-hv/hlavicka/{date}", name="ddh_hv_hlavicka_get", options={"expose"=true})
      * @Method("GET")
      */

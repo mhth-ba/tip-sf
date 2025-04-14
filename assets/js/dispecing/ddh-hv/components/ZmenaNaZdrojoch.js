@@ -1,156 +1,372 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import {
-  Button, Modal, ModalHeader, ModalBody, ModalFooter,
-  Card, CardImg, CardText, CardBody, CardTitle, CardFooter, CardHeader,
-  Form, FormGroup, Label, Input, Table, Badge, UncontrolledTooltip,
-  Nav, NavItem, NavLink, TabContent, TabPane,
-  Row, Col,
-  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  CardFooter,
+  CardHeader,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Table,
+  Badge,
+  UncontrolledTooltip,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
+  Row,
+  Col,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Alert
 } from 'reactstrap'
 import FontAwesome from 'react-fontawesome'
 import classnames from 'classnames'
+import moment from 'moment'
+import debounce from '../../../utils/debounce'
+import {
+  createZmenaNaZdrojRequest,
+  updateZmenaNaZdrojRequest,
+  fetchZmenaNaZdrojRequest,
+  deleteZmenaNaZdrojRequest
+} from '../actions'
+import { canEditData } from '../../../utils/datePermissions'
 
 class ZmenaNaZdrojoch extends React.Component {
   constructor(props) {
     super(props)
 
-    // We'll store an array of zmena (change) entries in local state.
-    // Each entry has 7 groups, each group with { datetime, zariadenie, poznamka, stav }.
     this.state = {
-      zmeny: []
-    }
-
-    this.handleAddZmena = this.handleAddZmena.bind(this)
-    this.handleRemoveZmena = this.handleRemoveZmena.bind(this)
-    this.handleGroupChange = this.handleGroupChange.bind(this)
-  }
-
-  /**
-   * Returns a fresh, empty structure for one entire "Zmena" with all 7 groups.
-   */
-  getEmptyZmena() {
-    return {
-      teplarenZapad: {
-        datetime: '',
-        zariadenie: '',
-        poznamka: '',
-        stav: ''
+      selectedSourceType: 'TpV', // Default selected source
+      localEntries: {}, // Store local entry values for optimistic updates
+      debouncedUpdates: {}, // Store debounced update functions for each entry by ID
+      sourceMapping: {
+        'Tepláreň Západ': 'TpZ',
+        'Cogen West': 'CW',
+        'Tepláreň Východ': 'TpV',
+        'Výhrevňa Juh': 'VhJ',
+        'VS Slovnaft': 'Slovnaft',
+        OLO: 'OLO',
+        PPC: 'PPC'
       },
-      cogenWest: {
-        datetime: '',
-        zariadenie: '',
-        poznamka: '',
-        stav: ''
+      sourcesDisplayNames: {
+        TpZ: 'Tepláreň Západ',
+        CW: 'Cogen West',
+        TpV: 'Tepláreň Východ',
+        VhJ: 'Výhrevňa Juh',
+        Slovnaft: 'VS Slovnaft',
+        OLO: 'OLO',
+        PPC: 'PPC'
       },
-      teplarenVychod: {
-        datetime: '',
-        zariadenie: '',
-        poznamka: '',
-        stav: ''
-      },
-      vyhrevnaJuh: {
-        datetime: '',
-        zariadenie: '',
-        poznamka: '',
-        stav: ''
-      },
-      vsSlovnaft: {
-        datetime: '',
-        zariadenie: '',
-        poznamka: '',
-        stav: ''
-      },
-      olo: {
-        datetime: '',
-        zariadenie: '',
-        poznamka: '',
-        stav: ''
-      },
-      ppc: {
-        datetime: '',
-        zariadenie: '',
-        poznamka: '',
-        stav: ''
+      sourceDeviceOptions: {
+        TpZ: ['HK1', 'HK3', 'K6', 'TG1'],
+        CW: ['MG1', 'MG2'],
+        TpV: ['K5', 'K6', 'TG1'],
+        VhJ: ['HK3', 'HK4'],
+        Slovnaft: ['V1', 'V2', 'V3', 'V4', 'Para 0,3 MPa', 'Para 1 Mpa'],
+        OLO: ['VS'],
+        PPC: ['TG3']
       }
     }
+
+    this.handleAddEntry = this.handleAddEntry.bind(this)
+    this.handleRemoveEntry = this.handleRemoveEntry.bind(this)
+    this.handleSourceTypeChange = this.handleSourceTypeChange.bind(this)
+    this.fetchCurrentSourceData = this.fetchCurrentSourceData.bind(this)
   }
 
-  /**
-   * "Pridať" - Add a new blank Zmena to the zmeny array.
-   */
-  handleAddZmena() {
-    this.setState((prevState) => ({
-      zmeny: [...prevState.zmeny, this.getEmptyZmena()]
-    }))
+  componentDidMount() {
+    this.fetchCurrentSourceData()
   }
 
-  /**
-   * "Odstrániť" - Remove the Zmena at the given index.
-   */
-  handleRemoveZmena(index) {
-    this.setState((prevState) => {
-      const newZmeny = [...prevState.zmeny]
-      newZmeny.splice(index, 1)
-      return { zmeny: newZmeny }
-    })
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // Fetch data when selectedSourceType changes
+    if (prevState.selectedSourceType !== this.state.selectedSourceType) {
+      this.fetchCurrentSourceData()
+    }
+
+    // Fetch data when hlavny_id changes
+    if (this.props.hlavny && prevProps.hlavny && this.props.hlavny.id !== prevProps.hlavny.id) {
+      this.fetchCurrentSourceData()
+    }
+
+    // Update local entries when entries change WITHOUT triggering a re-fetch
+    if (this.props.entries !== prevProps.entries && !this.props.loading) {
+      const localEntries = {}
+      this.props.entries.forEach(entry => {
+        localEntries[entry.id] = { ...entry }
+      })
+      this.setState({ localEntries })
+    }
   }
 
-  /**
-   * A universal handler for changes in any group's field.
-   * We pass in (zmenaIndex, groupKey, fieldName, event) so we know
-   * which Zmena entry, which group, and which field to update.
-   */
-  handleGroupChange(zmenaIndex, groupKey, fieldName, e) {
-    const { value } = e.target
-    this.setState((prevState) => {
-      const newZmeny = [...prevState.zmeny]
-      newZmeny[zmenaIndex] = {
-        ...newZmeny[zmenaIndex],
-        [groupKey]: {
-          ...newZmeny[zmenaIndex][groupKey],
+  fetchCurrentSourceData() {
+    if (this.props.hlavny && this.props.hlavny.id) {
+      this.props.fetchZmenaNaZdroj(this.state.selectedSourceType, this.props.hlavny.id)
+    }
+  }
+
+  handleSourceTypeChange(e) {
+    this.setState({ selectedSourceType: e.target.value })
+  }
+
+  handleAddEntry() {
+    const { hlavny, createZmenaNaZdroj } = this.props
+    const { selectedSourceType } = this.state
+
+    if (!hlavny || !hlavny.id) {
+      alert('Hlavný záznam nie je načítaný.')
+      return
+    }
+
+    createZmenaNaZdroj(selectedSourceType, hlavny.id)
+  }
+
+  handleRemoveEntry(id) {
+    const { deleteZmenaNaZdroj } = this.props
+    const { selectedSourceType } = this.state
+
+    if (window.confirm('Naozaj chcete odstrániť túto položku?')) {
+      deleteZmenaNaZdroj(selectedSourceType, id)
+    }
+  }
+
+  // Get or create a debounced update function for a specific entry
+  getDebouncedUpdate(entryId, fieldName) {
+    const key = `${entryId}-${fieldName}`
+
+    if (!this.state.debouncedUpdates[key]) {
+      const debouncedFn = debounce(value => {
+        // Save the previous value before sending the update
+        const entry = this.props.entries.find(e => e.id === entryId)
+        const previousValue = entry ? entry[fieldName] : undefined
+
+        // Create rollback function for sagas
+        const rollbackCallback = () => {
+          this.setState(prevState => ({
+            localEntries: {
+              ...prevState.localEntries,
+              [entryId]: {
+                ...prevState.localEntries[entryId],
+                [fieldName]: previousValue
+              }
+            }
+          }))
+        }
+
+        // Send the update request
+        this.props.updateZmenaNaZdroj(
+          this.state.selectedSourceType,
+          {
+            id: entryId,
+            [fieldName]: value
+          },
+          rollbackCallback
+        )
+      }, 2000)
+
+      // Store the debounced function
+      this.setState(prevState => ({
+        debouncedUpdates: {
+          ...prevState.debouncedUpdates,
+          [key]: debouncedFn
+        }
+      }))
+
+      return debouncedFn
+    }
+
+    return this.state.debouncedUpdates[key]
+  }
+
+  handleChangeField = (entry, fieldName, value) => {
+    // First, update local state for immediate visual feedback
+    this.setState(prevState => ({
+      localEntries: {
+        ...prevState.localEntries,
+        [entry.id]: {
+          ...prevState.localEntries[entry.id],
           [fieldName]: value
         }
       }
-      return { zmeny: newZmeny }
-    })
+    }))
+
+    // Handle dates specially
+    if (fieldName === 'datum_cas') {
+      this.handleDateChange(entry, fieldName, value)
+      return
+    }
+
+    const inputType =
+      fieldName === 'poznamka' ? 'textarea' : ['zariadenie', 'stav'].includes(fieldName) ? 'select' : 'text'
+
+    // For select fields, update immediately
+    if (inputType === 'select') {
+      // Save the previous value for possible rollback
+      const previousValue = entry[fieldName]
+
+      // Create rollback function for sagas
+      const rollbackCallback = () => {
+        this.setState(prevState => ({
+          localEntries: {
+            ...prevState.localEntries,
+            [entry.id]: {
+              ...prevState.localEntries[entry.id],
+              [fieldName]: previousValue
+            }
+          }
+        }))
+      }
+
+      this.props.updateZmenaNaZdroj(
+        this.state.selectedSourceType,
+        {
+          id: entry.id,
+          [fieldName]: value
+        },
+        rollbackCallback
+      )
+    }
+    // For text fields and textareas, use debounce
+    else {
+      // Get the debounced function for this entry and field
+      const debouncedUpdate = this.getDebouncedUpdate(entry.id, fieldName)
+      debouncedUpdate(value)
+    }
   }
 
-  /**
-   * Options for "Stav" used by all groups.
-   */
+  handleDateChange = (entry, fieldName, newValue) => {
+    // Store previous value for possible rollback
+    const previousValue = entry[fieldName]
+
+    // Create rollback function for sagas
+    const rollbackCallback = () => {
+      this.setState(prevState => ({
+        localEntries: {
+          ...prevState.localEntries,
+          [entry.id]: {
+            ...prevState.localEntries[entry.id],
+            [fieldName]: previousValue
+          }
+        }
+      }))
+    }
+
+    // If user clears the field, send null
+    if (!newValue) {
+      this.props.updateZmenaNaZdroj(
+        this.state.selectedSourceType,
+        {
+          id: entry.id,
+          [fieldName]: null
+        },
+        rollbackCallback
+      )
+      return
+    }
+
+    try {
+      // Create a date object from the input
+      const dateObj = new Date(newValue)
+
+      // Use timestamp for consistency across all date fields
+      const timestamp = Math.floor(dateObj.getTime() / 1000) // Convert to seconds
+
+      // Only send the ID and the changed field
+      this.props.updateZmenaNaZdroj(
+        this.state.selectedSourceType,
+        {
+          id: entry.id,
+          [fieldName]: timestamp
+        },
+        rollbackCallback
+      )
+    } catch (err) {
+      console.error(`Error converting date: ${newValue}`, err)
+    }
+  }
+
+  // Convert a numeric timestamp to a format suitable for datetime-local input
+  getDisplayDate = value => {
+    if (!value) return ''
+    // If value is numeric (a Unix timestamp), convert it.
+    if (typeof value === 'number') {
+      return moment.unix(value).format('YYYY-MM-DDTHH:mm')
+    }
+    // Otherwise, assume it's a string that can be parsed.
+    // Try to parse known formats and output in the proper format.
+    return moment(value, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm']).format('YYYY-MM-DDTHH:mm')
+  }
+
   renderStavOptions() {
-    return (
-      [
-        <option value="">-- Vyberte --</option>,
-        <option value="V prevádzke">V prevádzke</option>,
-        <option value="V odstávke">V odstávke</option>,
-        <option value="V poruche">V poruche</option>,
-        <option value="V teplej zálohe">V teplej zálohe</option>,
-        <option value="V teplej zálohe s povolením prác">
-          V teplej zálohe s povolením prác
-        </option>,
-        <option value="Havária">Havária</option>
-      ]
-    )
+    return [
+      <option key="idx-0" value="">
+        -- Vyberte --
+      </option>,
+      <option key="idx-1" value="V prevádzke">
+        V prevádzke
+      </option>,
+      <option key="idx-2" value="V odstávke">
+        V odstávke
+      </option>,
+      <option key="idx-3" value="V poruche">
+        V poruche
+      </option>,
+      <option key="idx-4" value="V teplej zálohe">
+        V teplej zálohe
+      </option>,
+      <option key="idx-5" value="V teplej zálohe s povolením prác">
+        V teplej zálohe s povolením prác
+      </option>,
+      <option key="idx-6" value="Havária">
+        Havária
+      </option>
+    ]
   }
 
-  /**
-   * Renders a group with fields:
-   *  Dátum a čas (datetime-local),
-   *  Zariadenie (select),
-   *  Poznámka (textarea),
-   *  Stav (select).
-   *
-   *  We pass the group key (e.g. 'teplarenZapad') to retrieve the correct data from the zmena object.
-   *  Also pass the array of zariadenie options relevant to that group.
-   */
-  renderGroup(zmenaIndex, groupKey, groupLabel, zariadenieOptions) {
-    const groupData = this.state.zmeny[zmenaIndex][groupKey]
+  renderSourceTypeOptions() {
+    return Object.entries(this.state.sourcesDisplayNames).map(([key, value]) => (
+      <option key={key} value={key}>
+        {value}
+      </option>
+    ))
+  }
+
+  renderDeviceOptions(sourceType) {
+    return this.state.sourceDeviceOptions[sourceType].map(device => (
+      <option key={device} value={device}>
+        {device}
+      </option>
+    ))
+  }
+
+  renderEntry(entry) {
+    // Get the local entry data for optimistic updates
+    const localEntry = this.state.localEntries[entry.id] || entry
+    const { selectedSourceType } = this.state
+
+    // Convert timestamp to local datetime format
+    const dateDisplay = this.getDisplayDate(localEntry.datum_cas)
 
     return (
-      <div style={{ border: '1px solid #dedede', padding: '1rem', marginTop: '1rem' }}>
-        <h5>{groupLabel}</h5>
+      <Form
+        key={entry.id}
+        className="mt-4"
+        style={{ border: '1px solid #dedede', padding: '1rem', marginBottom: '1rem' }}
+      >
         {/* Dátum a čas */}
         <Row>
           <Col md="6">
@@ -158,8 +374,8 @@ class ZmenaNaZdrojoch extends React.Component {
               <Label>Dátum a čas</Label>
               <Input
                 type="datetime-local"
-                value={groupData.datetime}
-                onChange={(e) => this.handleGroupChange(zmenaIndex, groupKey, 'datetime', e)}
+                value={dateDisplay}
+                onChange={e => this.handleChangeField(entry, 'datum_cas', e.target.value)}
               />
             </FormGroup>
           </Col>
@@ -172,15 +388,11 @@ class ZmenaNaZdrojoch extends React.Component {
               <Label>Zariadenie</Label>
               <Input
                 type="select"
-                value={groupData.zariadenie}
-                onChange={(e) => this.handleGroupChange(zmenaIndex, groupKey, 'zariadenie', e)}
+                value={localEntry.zariadenie || ''}
+                onChange={e => this.handleChangeField(entry, 'zariadenie', e.target.value)}
               >
                 <option value="">-- Vyberte --</option>
-                {zariadenieOptions.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
+                {this.renderDeviceOptions(selectedSourceType)}
               </Input>
             </FormGroup>
           </Col>
@@ -193,8 +405,8 @@ class ZmenaNaZdrojoch extends React.Component {
               <Label>Poznámka</Label>
               <Input
                 type="textarea"
-                value={groupData.poznamka}
-                onChange={(e) => this.handleGroupChange(zmenaIndex, groupKey, 'poznamka', e)}
+                value={localEntry.poznamka || ''}
+                onChange={e => this.handleChangeField(entry, 'poznamka', e.target.value)}
               />
             </FormGroup>
           </Col>
@@ -207,12 +419,76 @@ class ZmenaNaZdrojoch extends React.Component {
               <Label>Stav</Label>
               <Input
                 type="select"
-                value={groupData.stav}
-                onChange={(e) => this.handleGroupChange(zmenaIndex, groupKey, 'stav', e)}
+                value={localEntry.stav || ''}
+                onChange={e => this.handleChangeField(entry, 'stav', e.target.value)}
               >
                 {this.renderStavOptions()}
               </Input>
             </FormGroup>
+          </Col>
+        </Row>
+
+        {/* "Odstrániť" button to remove this entry */}
+        <Button color="danger" className="mt-3" onClick={() => this.handleRemoveEntry(entry.id)}>
+          Odstrániť
+        </Button>
+      </Form>
+    )
+  }
+
+  renderReadOnlyEntry(entry) {
+    // Get the local entry data
+    const localEntry = this.state.localEntries[entry.id] || entry
+
+    // Format date for display
+    const formattedDate = localEntry.datum_cas ? moment.unix(localEntry.datum_cas).format('DD.MM.YYYY HH:mm') : '-'
+
+    return (
+      <div key={entry.id} className="mb-3 p-3 border rounded">
+        <Row className="mb-2">
+          <Col xs="4" className="text-muted">
+            Dátum a čas:
+          </Col>
+          <Col xs="8">{formattedDate}</Col>
+        </Row>
+        <Row className="mb-2">
+          <Col xs="4" className="text-muted">
+            Zariadenie:
+          </Col>
+          <Col xs="8">{localEntry.zariadenie || '-'}</Col>
+        </Row>
+        <Row className="mb-2">
+          <Col xs="4" className="text-muted">
+            Poznámka:
+          </Col>
+          <Col xs="8" style={{ whiteSpace: 'pre-line' }}>
+            {localEntry.poznamka || '-'}
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="4" className="text-muted">
+            Stav:
+          </Col>
+          <Col xs="8">
+            {localEntry.stav ? (
+              <Badge
+                color={
+                  localEntry.stav === 'V prevádzke'
+                    ? 'success'
+                    : localEntry.stav === 'V odstávke'
+                    ? 'warning'
+                    : localEntry.stav === 'V poruche'
+                    ? 'danger'
+                    : localEntry.stav === 'Havária'
+                    ? 'danger'
+                    : 'info'
+                }
+              >
+                {localEntry.stav}
+              </Badge>
+            ) : (
+              '-'
+            )}
           </Col>
         </Row>
       </div>
@@ -220,99 +496,93 @@ class ZmenaNaZdrojoch extends React.Component {
   }
 
   render() {
+    const { hlavny, opravnenia, entries = [], loading } = this.props
+    const { selectedSourceType, sourcesDisplayNames } = this.state
+
+    // Sort entries by datetime (oldest to newest)
+    const sortedEntries = [...entries].sort((a, b) => {
+      const dateA = a.datum_cas || 0
+      const dateB = b.datum_cas || 0
+      return dateA - dateB
+    })
+
+    // Check if user can edit based on permissions and date
+    const canEdit = hlavny && opravnenia ? canEditData(hlavny, opravnenia) : false
 
     return (
       <Card>
-        <CardHeader className="bg-primary text-white">Zmena na zdrojoch</CardHeader>
+        <CardHeader className="bg-primary text-white">Zmeny na zdrojoch</CardHeader>
         <CardBody>
-          <Button color="success" onClick={this.handleAddZmena}>
-            Pridať
-          </Button>
+          {/* Source Type Selector */}
+          <Row className="mb-3">
+            <Col md="6">
+              <FormGroup>
+                <Label for="sourceTypeSelect">Zdroj</Label>
+                <Input
+                  type="select"
+                  id="sourceTypeSelect"
+                  value={selectedSourceType}
+                  onChange={this.handleSourceTypeChange}
+                >
+                  {this.renderSourceTypeOptions()}
+                </Input>
+              </FormGroup>
+            </Col>
+          </Row>
 
-          {this.state.zmeny.map((zmena, zmenaIndex) => (
-            <Form key={zmenaIndex} className="mt-4" style={{ border: '2px solid #ccc', padding: '1rem' }}>
-              {/* Group: Tepláreň Západ */}
-              {this.renderGroup(
-                zmenaIndex,
-                'teplarenZapad',
-                'Tepláreň Západ',
-                ['HK1', 'HK3', 'K6', 'TG1']
-              )}
-              {/* Group: Cogen West */}
-              {this.renderGroup(
-                zmenaIndex,
-                'cogenWest',
-                'Cogen West',
-                ['MG1', 'MG2']
-              )}
-              {/* Group: Tepláreň Východ */}
-              {this.renderGroup(
-                zmenaIndex,
-                'teplarenVychod',
-                'Tepláreň Východ',
-                ['K5', 'K6', 'TG1']
-              )}
-              {/* Group: Výhrevňa Juh */}
-              {this.renderGroup(
-                zmenaIndex,
-                'vyhrevnaJuh',
-                'Výhrevňa Juh',
-                ['HK3', 'HK4']
-              )}
-              {/* Group: VS Slovnaft */}
-              {this.renderGroup(
-                zmenaIndex,
-                'vsSlovnaft',
-                'VS Slovnaft',
-                [
-                  'V1',
-                  'V2',
-                  'V3',
-                  'V4',
-                  'Para 0,3 MPa',
-                  'Para 1 Mpa'
-                ]
-              )}
-              {/* Group: OLO */}
-              {this.renderGroup(
-                zmenaIndex,
-                'olo',
-                'OLO',
-                ['VS']
-              )}
-              {/* Group: PPC */}
-              {this.renderGroup(
-                zmenaIndex,
-                'ppc',
-                'PPC',
-                ['TG3']
-              )}
+          {/* Add Button - only for users with edit permissions */}
+          {canEdit && (
+            <Button color="success" onClick={this.handleAddEntry} className="mb-3">
+              Pridať
+            </Button>
+          )}
 
-              {/* "Odstrániť" button to remove this entire Zmena entry */}
-              <Button
-                color="danger"
-                className="mt-3"
-                onClick={() => this.handleRemoveZmena(zmenaIndex)}
-              >
-                Odstrániť
-              </Button>
-            </Form>
-          ))}
+          {/* Loading state only shown during initial load, not during CRUD operations */}
+          {loading && sortedEntries.length === 0 && !this.state.localEntries[0] && (
+            <div className="text-center p-3">
+              <p className="mt-2">Načítavam údaje...</p>
+            </div>
+          )}
+
+          {/* No Data message - only shown when not loading */}
+          {!loading && sortedEntries.length === 0 && (
+            <Alert color="info">
+              <FontAwesome name="info-circle" /> Žiadne záznamy pre {sourcesDisplayNames[selectedSourceType]}
+            </Alert>
+          )}
+
+          {/* Entries list - always show during CRUD operations */}
+          {(sortedEntries.length > 0 || Object.keys(this.state.localEntries).length > 0) && (
+            <div>
+              {canEdit
+                ? sortedEntries.map(entry => this.renderEntry(entry))
+                : sortedEntries.map(entry => this.renderReadOnlyEntry(entry))}
+            </div>
+          )}
         </CardBody>
       </Card>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  // zoznam: state.zoznam,
+const mapStateToProps = (state, ownProps) => {
+  // Get the entries for the current source type
+  const sourceTypeKey = state.zmenaZdroje.currentSourceType || 'TpV'
+
+  return {
+    hlavny: state.hlavny,
+    opravnenia: state.opravnenia,
+    entries: state.zmenaZdroje.entries[sourceTypeKey] || [],
+    loading: state.zmenaZdroje.loading || false
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchZmenaNaZdroj: (sourceType, hlavnyId) => dispatch(fetchZmenaNaZdrojRequest(sourceType, hlavnyId)),
+  createZmenaNaZdroj: (sourceType, hlavnyId) => dispatch(createZmenaNaZdrojRequest(sourceType, hlavnyId)),
+  updateZmenaNaZdroj: (sourceType, data, rollbackCallback) =>
+    dispatch(updateZmenaNaZdrojRequest(sourceType, data, rollbackCallback)),
+  deleteZmenaNaZdroj: (sourceType, id) => dispatch(deleteZmenaNaZdrojRequest(sourceType, id))
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  // update: (id, val, row, col) => dispatch(updatePoznamkyRequest(id, val, row, col))
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ZmenaNaZdrojoch)
+export default connect(mapStateToProps, mapDispatchToProps)(ZmenaNaZdrojoch)
