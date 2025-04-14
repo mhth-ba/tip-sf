@@ -7,6 +7,7 @@ import {
   fetchZoznamDispecerov,
   fetchAuditlog,
   fetchAuditlogByDate,
+  fetchAllZmenyNaZariadeniach,
   fetchDenneDispecerskeHlasenieHV,
   updateHVHlavny,
   fetchZmenaNaHV,
@@ -32,20 +33,23 @@ function* mySaga() {
     takeLatest(TYPES.LOAD_HVHLAVNY_REQUEST, fetchDenneDispecerskeHlasenieHV),
     takeEvery(TYPES.UPDATE_HVHLAVNY_REQUEST, updateHVHlavny),
 
-    // ZmenaNaHV
+    // Zmeny na HV
     takeLatest(TYPES.FETCH_ZMENA_NA_HV_REQUEST, fetchZmenaNaHV),
     takeEvery(TYPES.CREATE_ZMENA_NA_HV_REQUEST, createZmenaNaHV),
     takeEvery(TYPES.UPDATE_ZMENA_NA_HV_REQUEST, updateZmenaNaHV),
     takeEvery(TYPES.DELETE_ZMENA_NA_HV_REQUEST, deleteZmenaNaHV),
 
-    // ZmenaNaZdroj
+    // Zmeny na zdrojoch
     takeLatest(TYPES.FETCH_ZMENA_NA_ZDROJ_REQUEST, fetchZmenaNaZdroj),
     takeEvery(TYPES.CREATE_ZMENA_NA_ZDROJ_REQUEST, createZmenaNaZdroj),
     takeEvery(TYPES.UPDATE_ZMENA_NA_ZDROJ_REQUEST, updateZmenaNaZdroj),
     takeEvery(TYPES.DELETE_ZMENA_NA_ZDROJ_REQUEST, deleteZmenaNaZdroj),
 
-    // StavZariadeni
-    takeLatest(TYPES.FETCH_STAV_ZARIADENI_REQUEST, fetchStavZariadeni)
+    // Stav zariadeni
+    takeLatest(TYPES.FETCH_STAV_ZARIADENI_REQUEST, fetchStavZariadeni),
+
+    // Chronologicky prehlad zmien
+    takeLatest(TYPES.FETCH_VSETKY_ZMENY_NA_ZARIADENIACH_REQUEST, fetchAllZmenyNaZariadeniach)
   ])
 }
 

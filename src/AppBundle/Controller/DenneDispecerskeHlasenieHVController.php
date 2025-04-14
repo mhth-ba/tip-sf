@@ -795,4 +795,97 @@ class DenneDispecerskeHlasenieHVController extends BaseController
 
         return $this->createApiResponse($result);
     }
+
+    /**
+     * @Route("disp/ddh-hv/vsetky-zmeny-na-zariadeniach/{date}", name="ddh_hv_all_zmeny_na_zariadeniach_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getAllZmenyNaZariadeniach($date)
+    {
+        // Convert the date parameter into a DateTime object.
+        try {
+            $dateObj = new \DateTime($date);
+        } catch (\Exception $e) {
+            // If the date is invalid, return an empty array
+            return $this->createApiResponse([]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        // First, find the OST_Hlavny record for the given date
+        $ostHlavnyRepository = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST');
+        $ostHlavny = $ostHlavnyRepository->findOneBy(['datum' => $dateObj]);
+
+        // If no OST_Hlavny record exists for this date, return an empty array
+        if (!$ostHlavny) {
+            return $this->createApiResponse([]);
+        }
+
+        // Find the HV_Hlavny record associated with this OST_Hlavny record
+        $hvHlavnyRepository = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyHV');
+        $hvHlavny = $hvHlavnyRepository->findOneBy(['ost_hlavny_id' => $ostHlavny->getId()]);
+
+        if (!$hvHlavny) {
+            return $this->createApiResponse([]);
+        }
+
+        $hlavnyId = $hvHlavny->getId();
+        $result = [
+            'zmenaZdroje' => [],
+            'zmenaHV' => []
+        ];
+
+        // Fetch all source type changes
+        $sourceTypes = ['TpV', 'TpZ', 'VhJ', 'Slovnaft', 'CW', 'OLO', 'PPC'];
+        foreach ($sourceTypes as $sourceType) {
+            $entityClass = $this->getEntityClass($sourceType);
+            $repository = $em->getRepository($entityClass);
+            $entries = $repository->getByHlavnyId($hlavnyId);
+
+            $apiModelClass = $this->getApiModelClass($sourceType);
+            $apiModels = [];
+            foreach ($entries as $entry) {
+                $model = new $apiModelClass();
+                $model->id = $entry->getId();
+                $model->datum_cas = $entry->getDatumCas();
+                $model->zariadenie = $entry->getZariadenie();
+                $model->poznamka = $entry->getPoznamka();
+                $model->stav = $entry->getStav();
+                $model->sourceType = $sourceType;
+                $model->isHV = false;
+
+                $apiModels[] = $model;
+            }
+
+            $result['zmenaZdroje'][$sourceType] = $apiModels;
+        }
+
+        // Fetch all HV type changes
+        $hvTypes = ['Zapad', 'Vychod'];
+        foreach ($hvTypes as $hvType) {
+            if ($hvType === 'Zapad') {
+                $repository = $em->getRepository('AppBundle:Dispecing\DDH\ZmenaNaHVZapad');
+            } else {
+                $repository = $em->getRepository('AppBundle:Dispecing\DDH\ZmenaNaHVVychod');
+            }
+
+            $entries = $repository->getByHlavnyId($hlavnyId);
+
+            $apiModels = [];
+            foreach ($entries as $entry) {
+                $model = new \stdClass();
+                $model->id = $entry->getId();
+                $model->datum_cas = $entry->getDatumCas();
+                $model->poznamka = $entry->getPoznamka();
+                $model->sourceType = $hvType;
+                $model->isHV = true;
+
+                $apiModels[] = $model;
+            }
+
+            $result['zmenaHV'][$hvType] = $apiModels;
+        }
+
+        return $this->createApiResponse($result);
+    }
 }

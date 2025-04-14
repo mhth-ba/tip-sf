@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Card, CardHeader, CardBody, Table, Badge, Alert } from 'reactstrap'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
+import { fetchAllZmenyNaZariadeniachRequest } from '../actions'
 
 class ChronologicalTimeline extends React.Component {
   constructor(props) {
@@ -21,6 +22,30 @@ class ChronologicalTimeline extends React.Component {
         Zapad: 'HV Západ',
         Vychod: 'HV Východ'
       }
+    }
+
+    this.fetchTimelineData = this.fetchTimelineData.bind(this)
+  }
+
+  componentDidMount() {
+    this.fetchTimelineData()
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // Fetch timeline data when the selected date changes
+    if (this.props.hlavny && prevProps.hlavny) {
+      if (this.props.hlavny.ost_data && prevProps.hlavny.ost_data) {
+        if (this.props.hlavny.ost_data.datum !== prevProps.hlavny.ost_data.datum) {
+          this.fetchTimelineData()
+        }
+      }
+    }
+  }
+
+  fetchTimelineData() {
+    if (this.props.hlavny && this.props.hlavny.ost_data && this.props.hlavny.ost_data.datum) {
+      const date = moment.unix(this.props.hlavny.ost_data.datum).format('YYYY-MM-DD')
+      this.props.fetchAllZmenyNaZariadeniach(date)
     }
   }
 
@@ -74,7 +99,7 @@ class ChronologicalTimeline extends React.Component {
     })
 
     // Sort by timestamp (most recent first)
-    return allEntries.sort((a, b) => a.datum_cas - b.datum_cas)
+    return allEntries.sort((a, b) => moment.unix(a.datum_cas).diff(moment.unix(b.datum_cas)))
   }
 
   render() {
@@ -125,7 +150,7 @@ class ChronologicalTimeline extends React.Component {
               </thead>
               <tbody>
                 {allEntries.map((entry, index) => (
-                  <tr key={`${entry.sourceType}-${entry.id}`}>
+                  <tr key={`${entry.sourceType}-${entry.id}-${index}`}>
                     <td>{entry.datum_cas ? moment.unix(entry.datum_cas).format('DD.MM.YYYY HH:mm') : '-'}</td>
                     <td>{sourceDisplayNames[entry.sourceType] || entry.sourceType}</td>
                     <td>{entry.isHV ? 'Horúcovod' : entry.zariadenie || '-'}</td>
@@ -150,4 +175,8 @@ const mapStateToProps = state => ({
   error: state.zmenaZdroje.error || state.zmenaHV.error
 })
 
-export default connect(mapStateToProps)(ChronologicalTimeline)
+const mapDispatchToProps = dispatch => ({
+  fetchAllZmenyNaZariadeniach: date => dispatch(fetchAllZmenyNaZariadeniachRequest(date))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChronologicalTimeline)

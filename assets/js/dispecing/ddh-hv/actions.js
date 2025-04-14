@@ -29,6 +29,10 @@ export const fetchDenneDispecerskeHlasenieHVRequest = date => ({
   type: TYPES.LOAD_HVHLAVNY_REQUEST,
   date
 })
+export const fetchAllZmenyNaZariadeniachRequest = date => ({
+  type: TYPES.FETCH_VSETKY_ZMENY_NA_ZARIADENIACH_REQUEST,
+  date
+})
 
 export const updateHVHlavnyRequest = data => ({
   type: TYPES.UPDATE_HVHLAVNY_REQUEST,
@@ -167,6 +171,43 @@ export function* fetchAuditlogByDate(action) {
     yield put({
       type: TYPES.FETCH_AUDIT_LOG_ERROR,
       data: e
+    })
+    console.error(e)
+  }
+}
+
+export function* fetchAllZmenyNaZariadeniach(action) {
+  const { date } = action
+  const url = Routing.generate('ddh_hv_all_zmeny_na_zariadeniach_get', { date })
+
+  try {
+    const data = yield call(Api.fetch, url)
+
+    // Update the zmenaZdroje state with all source types
+    for (const sourceType in data.zmenaZdroje) {
+      yield put({
+        type: TYPES.FETCH_ZMENA_NA_ZDROJ_SUCCESS,
+        sourceType,
+        data: data.zmenaZdroje[sourceType]
+      })
+    }
+
+    // Update the zmenaHV state with all HV types
+    for (const hvType in data.zmenaHV) {
+      yield put({
+        type: TYPES.FETCH_ZMENA_NA_HV_SUCCESS,
+        hvType,
+        data: data.zmenaHV[hvType]
+      })
+    }
+
+    yield put({
+      type: TYPES.FETCH_VSETKY_ZMENY_NA_ZARIADENIACH_SUCCESS
+    })
+  } catch (e) {
+    yield put({
+      type: TYPES.FETCH_VSETKY_ZMENY_NA_ZARIADENIACH_ERROR,
+      error: e
     })
     console.error(e)
   }
