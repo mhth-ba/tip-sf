@@ -244,11 +244,7 @@ class ZmenaNaHV extends React.Component {
     const dateDisplay = this.getDisplayDate(localEntry.datum_cas)
 
     return (
-      <Form
-        key={entry.id}
-        className="mt-4"
-        style={{ border: '1px solid #dedede', padding: '1rem', marginBottom: '1rem' }}
-      >
+      <Form className="mt-4" style={{ border: '1px solid #dedede', padding: '1rem', marginBottom: '1rem' }}>
         {/* Dátum a čas */}
         <Row>
           <Col md="6">
@@ -338,7 +334,11 @@ class ZmenaNaHV extends React.Component {
 
           {/* Entries list - always show during CRUD operations to maintain UI stability */}
           {(sortedEntries.length > 0 || Object.keys(this.state.localEntries).length > 0) && (
-            <div>{sortedEntries.map(entry => this.renderEntry(entry))}</div>
+            <div>
+              {sortedEntries.map((entry, index) => (
+                <div key={`hv-entry-${entry.id}-${index}`}>{this.renderEntry(entry)}</div>
+              ))}
+            </div>
           )}
         </CardBody>
       </Card>
