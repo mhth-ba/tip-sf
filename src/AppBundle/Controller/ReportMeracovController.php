@@ -39,7 +39,7 @@ class ReportMeracovController extends BaseController
         $model = new HlavnyApiModel();
 
         $model->id = $hlavny->getId();
-        $model->datum = $hlavny->getDatum();
+        $model->datum = $hlavny->getDatum()->getTimestamp();
 
         return $model;
     }
