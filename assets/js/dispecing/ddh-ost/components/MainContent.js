@@ -8,7 +8,7 @@ import HlavickaWrapper from './HlavickaWrapper'
 import PraceNaOSTPrevadzkaWrapper from './PraceNaOSTPrevadzkaWrapper'
 import PraceNaOSTDispecingWrapper from './PraceNaOSTDispecingWrapper'
 import PlanovanePraceOdstavkyOSTWrapper from './PlanovanePraceOdstavkyOSTWrapper'
-import OdstavkyOSTNad24Hod from './OdstavkyOSTNad24Hod'
+import OdstavkyOSTNad24HodWrapper from './OdstavkyOSTNad24HodWrapper'
 import GlobalPoznamky from './GlobalPoznamky'
 
 const MainContent = ({ hlavny }) => {
@@ -85,7 +85,7 @@ const MainContent = ({ hlavny }) => {
           <PlanovanePraceOdstavkyOSTWrapper />
         </Col>
         <Col md={6} sm={12}>
-          <OdstavkyOSTNad24Hod />
+          <OdstavkyOSTNad24HodWrapper />
         </Col>
       </Row>
       <br />
