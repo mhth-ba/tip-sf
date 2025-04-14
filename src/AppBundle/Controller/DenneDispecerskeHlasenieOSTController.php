@@ -319,6 +319,30 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     }
 
     /**
+     * @Route("disp/ddh-ost/aktivita-by-date/{date}", name="ddh_ost_aktivita_by_date_get", options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getAktivitaByDateAction($date)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        try {
+            $dateObj = new \DateTime($date);
+            $aktivita = $em->getRepository('AppBundle:Dispecing\DDH\AuditLog')
+                ->findUserActivityByDate($dateObj);
+
+            return $this->createApiResponse([
+                'udaje_hlavny' => $aktivita,
+            ]);
+        } catch (\Exception $e) {
+            // If the date is invalid, return an empty array
+            return $this->createApiResponse([
+                'udaje_hlavny' => [],
+            ]);
+        }
+    }
+
+    /**
      * @Route("disp/ddh-ost/hlavicka/{date}", name="ddh_ost_hlavicka_get", options={"expose"=true})
      * @Method("GET")
      */

@@ -23,4 +23,22 @@ class AuditLogRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function findUserActivityByDate($date)
+    {
+        $startDate = clone $date;
+        $startDate->setTime(0, 0, 0);
+
+        $endDate = clone $date;
+        $endDate->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('a')
+            ->where('a.vytvorene >= :startDate')
+            ->andWhere('a.vytvorene <= :endDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->orderBy('a.id', 'desc')
+            ->getQuery()
+            ->execute();
+    }
 }

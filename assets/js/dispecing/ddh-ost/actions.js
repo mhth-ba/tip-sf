@@ -42,6 +42,11 @@ export const fetchAuditlogRequest = id => ({
   id
 })
 
+export const fetchAuditlogByDateRequest = date => ({
+  type: TYPES.FETCH_AUDIT_LOG_BY_DATE_REQUEST,
+  date
+})
+
 export const fetchDenneDispecerskeHlasenieOSTRequest = date => ({
   type: TYPES.LOAD_OSTHLAVNY_REQUEST,
   date
@@ -260,6 +265,19 @@ export function* fetchAuditlog(action) {
     url = Routing.generate('ddh_ost_aktivita_hlavny_get')
     url = `${url}/${id}`
   }
+
+  try {
+    const udaje = yield call(Api.fetch, url)
+
+    yield put({ type: TYPES.FETCH_AUDIT_LOG_SUCCESS, data: udaje })
+  } catch (e) {
+    yield put({ type: TYPES.FETCH_AUDIT_LOG_ERROR, data: e })
+    console.error(e)
+  }
+}
+
+export function* fetchAuditlogByDate(action) {
+  const url = Routing.generate('ddh_ost_aktivita_by_date_get', { date: action.date })
 
   try {
     const udaje = yield call(Api.fetch, url)

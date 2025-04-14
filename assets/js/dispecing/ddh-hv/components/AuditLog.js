@@ -45,7 +45,7 @@ class AuditLog extends React.Component {
     this.props.fetchAuditlog()
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState) {
     // If tab changed to '1', fetch all logs
     if (prevState.activeTab !== this.state.activeTab && this.state.activeTab === '1') {
       this.props.fetchAuditlog()

@@ -11,6 +11,7 @@ import {
   fetchZoznamDispecerov,
   fetchZoznamPoruchovka,
   fetchAuditlog,
+  fetchAuditlogByDate,
   fetchDenneDispecerskeHlasenieOST,
   updateOSTHlavny,
   fetchPraceNaOSTPrevadzka,
@@ -44,10 +45,13 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_ZOZNAM_DISPECEROV_REQUEST, fetchZoznamDispecerov),
     takeLatest(TYPES.FETCH_ZOZNAM_PORUCHOVKA_REQUEST, fetchZoznamPoruchovka),
     takeLatest(TYPES.FETCH_AUDIT_LOG_REQUEST, fetchAuditlog),
+    takeLatest(TYPES.FETCH_AUDIT_LOG_BY_DATE_REQUEST, fetchAuditlogByDate),
 
     takeLatest(TYPES.FETCH_PLANOVANE_PRACE_ODSTAVKY_REQUEST, fetchPlanovanePraceOdstavky),
     takeLatest(TYPES.FETCH_POZNAMKY_REQUEST, fetchPoznamky),
 
+    // Hlavicka
+    takeLatest(TYPES.LOAD_OSTHLAVNY_REQUEST, fetchDenneDispecerskeHlasenieOST),
     takeEvery(TYPES.UPDATE_OSTHLAVNY_REQUEST, updateOSTHlavny),
 
     // Prace na OST - prevadzka
@@ -63,7 +67,6 @@ function* mySaga() {
     takeEvery(TYPES.DELETE_PRACE_NA_OST_DISPECING_REQUEST, deletePraceNaOSTDispecing),
 
     // Planovane prace a odstavky
-    takeLatest(TYPES.LOAD_OSTHLAVNY_REQUEST, fetchDenneDispecerskeHlasenieOST),
     takeEvery(TYPES.CREATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, createPlanovanePraceOdstavky),
     takeEvery(TYPES.UPDATE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, updatePlanovanePraceOdstavky),
     takeEvery(TYPES.DELETE_PLANOVANE_PRACE_ODSTAVKY_REQUEST, deletePlanovanePraceOdstavky),
