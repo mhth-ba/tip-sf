@@ -21,7 +21,7 @@ class StavZariadeni extends React.Component {
         PPC: 'PPC'
       },
       // Define ordering of sources for display
-      sourceOrder: ['TpZ', 'CW', 'TpV', 'PPC', 'VhJ', 'Slovnaft', 'OLO', 'PPC']
+      sourceOrder: ['TpZ', 'CW', 'TpV', 'VhJ', 'Slovnaft', 'OLO', 'PPC']
     }
   }
 
