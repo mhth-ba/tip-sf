@@ -45,7 +45,7 @@ class AuditLog extends React.Component {
     this.props.fetchAuditlog()
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     // If tab changed to '1', fetch all logs
     if (prevState.activeTab !== this.state.activeTab && this.state.activeTab === '1') {
       this.props.fetchAuditlog()
@@ -107,7 +107,18 @@ class AuditLog extends React.Component {
   // Format timestamp for display
   formatTimestamp(timestamp) {
     if (!timestamp) return '-'
-    return moment.unix(timestamp).format('DD.MM.YYYY HH:mm:ss')
+    return moment.unix(timestamp).format('DD.MM.YYYY HH:mm')
+  }
+
+  formatValueIfTimestamp(value) {
+    if (!value) return '-'
+
+    if (/^\d{10}$/.test(value)) {
+      const timestamp = parseInt(value, 10)
+      return moment.unix(timestamp).format('DD.MM.YYYY HH:mm')
+    }
+
+    return value
   }
 
   // Get badge color based on table name/action
@@ -318,7 +329,7 @@ class AuditLog extends React.Component {
                     {item.pouzivatel && item.pouzivatel.fullname ? item.pouzivatel.fullname : '-'}
                   </td>
                   <td className="text-truncate" style={{ maxWidth: '150px' }} title={item.hodnota}>
-                    {item.hodnota || '-'}
+                    {this.formatValueIfTimestamp(item.hodnota)}
                   </td>
                 </tr>
               ))}
