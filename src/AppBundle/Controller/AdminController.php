@@ -216,7 +216,6 @@ class AdminController extends BaseController
             'admin_roles_get',
             ['id' => $role->getId()]
         );
-        $model->addLink('_self', $selfUrl);
 
         return $model;
     }
@@ -232,7 +231,6 @@ class AdminController extends BaseController
             'admin_grants_get',
             ['id' => $grant->getId()]
         );
-        $model->addLink('_self', $selfUrl);
 
         return $model;
     }
