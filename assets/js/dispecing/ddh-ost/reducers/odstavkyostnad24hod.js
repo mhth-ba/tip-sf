@@ -20,13 +20,28 @@ export default (state = initState, action) => {
     // Since we're using existing update endpoints for both sources,
     // we need to handle updates to entries from both sources here
     case TYPES.UPDATE_PRACE_NA_OST_PREVADZKA_SUCCESS:
-    case TYPES.UPDATE_PRACE_NA_OST_DISPECING_SUCCESS:
       // Only update if this entry is in our list
-      if (state.entries.some(entry => entry.id === action.data.id)) {
+      if (state.entries.some(entry => entry.id === action.data.id && entry.source === 'prevadzka')) {
         return {
           ...state,
           entries: state.entries.map(entry =>
-            entry.id === action.data.id ? { ...action.data, source: entry.source } : entry
+            entry.id === action.data.id && entry.source === 'prevadzka'
+              ? { ...action.data, source: 'prevadzka' }
+              : entry
+          )
+        }
+      }
+      return state
+
+    case TYPES.UPDATE_PRACE_NA_OST_DISPECING_SUCCESS:
+      // Only update if this entry is in our list
+      if (state.entries.some(entry => entry.id === action.data.id && entry.source === 'dispecing')) {
+        return {
+          ...state,
+          entries: state.entries.map(entry =>
+            entry.id === action.data.id && entry.source === 'dispecing'
+              ? { ...action.data, source: 'dispecing' }
+              : entry
           )
         }
       }

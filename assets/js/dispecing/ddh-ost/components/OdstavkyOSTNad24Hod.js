@@ -34,9 +34,9 @@ class OdstavkyOSTNad24Hod extends React.Component {
     this.state = {
       // Store per-entry OST filters
       entryOstFilters: {},
-      // Store local entry values for optimistic updates
+      // Store local entry values for optimistic updates using composite keys
       localEntries: {},
-      // Store debounced update functions for each entry by ID
+      // Store debounced update functions for each entry by composite key
       debouncedUpdates: {},
       // File upload configuration
       componentConfig: {
@@ -74,7 +74,9 @@ class OdstavkyOSTNad24Hod extends React.Component {
     if (prevProps.odstavky.entries !== this.props.odstavky.entries) {
       const localEntries = {}
       this.props.odstavky.entries.forEach(entry => {
-        localEntries[entry.id] = { ...entry }
+        // Use composite key combining id and source
+        const compositeKey = `${entry.id}-${entry.source}`
+        localEntries[compositeKey] = { ...entry }
       })
       this.setState({ localEntries })
     }
@@ -116,23 +118,28 @@ class OdstavkyOSTNad24Hod extends React.Component {
   }
 
   // Handle OST filter change for a specific entry
-  handleOstFilterChange = (entryId, value) => {
+  handleOstFilterChange = (entryId, source, value) => {
+    // Use composite key combining id and source
+    const compositeKey = `${entryId}-${source}`
+
     this.setState(prevState => ({
       entryOstFilters: {
         ...prevState.entryOstFilters,
-        [entryId]: value
+        [compositeKey]: value
       }
     }))
   }
 
   // Get or create a debounced update function for a specific entry
   getDebouncedUpdate(entryId, fieldName, source) {
+    // Use composite key combining id, field name, and source
     const key = `${entryId}-${fieldName}-${source}`
 
     if (!this.state.debouncedUpdates[key]) {
       const debouncedFn = debounce(value => {
-        // Find the entry in our local entries
-        const entry = this.state.localEntries[entryId]
+        // Find the entry in our local entries using composite key
+        const compositeKey = `${entryId}-${source}`
+        const entry = this.state.localEntries[compositeKey]
         if (!entry) return
 
         // Save the previous value for possible rollback
@@ -143,8 +150,8 @@ class OdstavkyOSTNad24Hod extends React.Component {
           this.setState(prevState => ({
             localEntries: {
               ...prevState.localEntries,
-              [entryId]: {
-                ...prevState.localEntries[entryId],
+              [compositeKey]: {
+                ...prevState.localEntries[compositeKey],
                 [fieldName]: previousValue
               }
             }
@@ -187,12 +194,15 @@ class OdstavkyOSTNad24Hod extends React.Component {
 
   // Modified handleChangeField method
   handleChangeField = (entry, fieldName, value) => {
+    // Use composite key combining id and source
+    const compositeKey = `${entry.id}-${entry.source}`
+
     // First, update local state for immediate visual feedback
     this.setState(prevState => ({
       localEntries: {
         ...prevState.localEntries,
-        [entry.id]: {
-          ...prevState.localEntries[entry.id],
+        [compositeKey]: {
+          ...prevState.localEntries[compositeKey],
           [fieldName]: value
         }
       }
@@ -221,8 +231,8 @@ class OdstavkyOSTNad24Hod extends React.Component {
         this.setState(prevState => ({
           localEntries: {
             ...prevState.localEntries,
-            [entry.id]: {
-              ...prevState.localEntries[entry.id],
+            [compositeKey]: {
+              ...prevState.localEntries[compositeKey],
               [fieldName]: previousValue
             }
           }
@@ -257,12 +267,15 @@ class OdstavkyOSTNad24Hod extends React.Component {
   }
 
   handleDateChange = (entry, fieldName, newValue) => {
+    // Use composite key combining id and source
+    const compositeKey = `${entry.id}-${entry.source}`
+
     // First, update local state for immediate visual feedback
     this.setState(prevState => ({
       localEntries: {
         ...prevState.localEntries,
-        [entry.id]: {
-          ...prevState.localEntries[entry.id],
+        [compositeKey]: {
+          ...prevState.localEntries[compositeKey],
           [fieldName]: newValue
         }
       }
@@ -276,8 +289,8 @@ class OdstavkyOSTNad24Hod extends React.Component {
       this.setState(prevState => ({
         localEntries: {
           ...prevState.localEntries,
-          [entry.id]: {
-            ...prevState.localEntries[entry.id],
+          [compositeKey]: {
+            ...prevState.localEntries[compositeKey],
             [fieldName]: previousValue
           }
         }
@@ -371,11 +384,12 @@ class OdstavkyOSTNad24Hod extends React.Component {
   }
 
   renderEntry(entry) {
-    // Get the local entry data for optimistic updates
-    const localEntry = this.state.localEntries[entry.id] || entry
+    // Get the local entry data for optimistic updates using composite key
+    const compositeKey = `${entry.id}-${entry.source}`
+    const localEntry = this.state.localEntries[compositeKey] || entry
 
-    // Get the OST filter for this specific entry
-    const ostFilter = this.state.entryOstFilters[entry.id] || ''
+    // Get the OST filter for this specific entry using composite key
+    const ostFilter = this.state.entryOstFilters[compositeKey] || ''
 
     // Group OST options by type
     const ostByType = {}
@@ -444,14 +458,15 @@ class OdstavkyOSTNad24Hod extends React.Component {
     const endDateDisplay = this.getDisplayDate(localEntry.datum_cas_ukoncenie)
 
     // Determine badge color for source
-    // const sourceBadgeColor = localEntry.source === 'prevadzka' ? 'secondary' : 'secondary'
     const sourceBadgeColor = 'primary'
     const sourceLabel = localEntry.source === 'prevadzka' ? 'Prevádzka' : 'Dispečing a poruchová služba'
 
     return (
-      <Form key={entry.id} className="mt-4">
+      <Form key={`${entry.id}-${entry.source}`} className="mt-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="mb-0"># {entry.id}</h5>
+          <h5 className="mb-0">
+            # {entry.id} ({entry.source})
+          </h5>
           <Badge color={sourceBadgeColor}>{sourceLabel}</Badge>
         </div>
 
@@ -462,7 +477,7 @@ class OdstavkyOSTNad24Hod extends React.Component {
               <Input
                 type="text"
                 value={ostFilter}
-                onChange={e => this.handleOstFilterChange(entry.id, e.target.value)}
+                onChange={e => this.handleOstFilterChange(entry.id, entry.source, e.target.value)}
                 placeholder="Zadajte filter pre OST..."
               />
               <FormText color="muted">Filter funguje aj bez diakritiky a na veľkosti písmen nezáleží.</FormText>

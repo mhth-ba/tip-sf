@@ -30,11 +30,11 @@ class PraceNaOSTPrevadzkaRepository extends EntityRepository
         // Where start date is on or before the end of the selected day
         $qb->andWhere('p.datum_cas_zaciatok <= :endOfDay');
 
-        // Where end date is null OR end date is on or after the start of the selected day
+        // Where end date is null OR end date is AFTER the start of the selected day (changed from >= to >)
         $qb->andWhere(
             $qb->expr()->orX(
                 $qb->expr()->isNull('p.datum_cas_ukoncenie'),
-                $qb->expr()->gte('p.datum_cas_ukoncenie', ':startOfDay')
+                $qb->expr()->gt('p.datum_cas_ukoncenie', ':startOfDay')
             )
         );
 

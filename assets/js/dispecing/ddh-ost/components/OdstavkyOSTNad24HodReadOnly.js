@@ -53,9 +53,11 @@ class OdstavkyOSTNad24HodReadOnly extends React.Component {
     const sourceLabel = entry.source === 'prevadzka' ? 'Prevádzka' : 'Dispečing a poruchová služba'
 
     return (
-      <div key={entry.id} className="mt-4">
+      <div key={`${entry.id}-${entry.source}`} className="mt-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="mb-0"># {entry.id}</h5>
+          <h5 className="mb-0">
+            # {entry.id} ({entry.source})
+          </h5>
           <Badge color={sourceBadgeColor}>{sourceLabel}</Badge>
         </div>
 
