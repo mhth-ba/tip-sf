@@ -61,10 +61,10 @@ class OdstavkyOSTNad24Hod extends React.Component {
       this.props.fetchOdstavkyOSTNad24Hod(this.props.hlavny.id)
     }
 
-    // Fetch attachments for all entries
+    // Fetch attachments for all entries with the correct source
     if (this.props.odstavky && this.props.odstavky.entries) {
       this.props.odstavky.entries.forEach(entry => {
-        this.props.fetchPrilohy(entry.id)
+        this.props.fetchPrilohy(entry.id, entry.source)
       })
     }
   }
@@ -111,7 +111,8 @@ class OdstavkyOSTNad24Hod extends React.Component {
       hlavny_id: hlavny.id,
       entry_id: entry.id,
       original: original,
-      subor: filename
+      subor: filename,
+      source: entry.source // sekcia
     }
 
     this.props.uploadPriloha(data)
@@ -367,7 +368,7 @@ class OdstavkyOSTNad24Hod extends React.Component {
         <Col md="12">
           <FormGroup>
             <Label>Prílohy</Label>
-            <FileAttachments entryId={entry.id} />
+            <FileAttachments entryId={entry.id} source={entry.source} />
             <DropzoneComponent
               config={this.state.componentConfig}
               djsConfig={this.state.djsConfig}

@@ -31,10 +31,10 @@ class OdstavkyOSTNad24HodReadOnly extends React.Component {
       this.props.fetchOdstavkyOSTNad24Hod(this.props.hlavny.id)
     }
 
-    // Fetch attachments for all entries
+    // Fetch attachments for all entries with the correct source
     if (this.props.odstavky && this.props.odstavky.entries) {
       this.props.odstavky.entries.forEach(entry => {
-        this.props.fetchPrilohy(entry.id)
+        this.props.fetchPrilohy(entry.id, entry.source)
       })
     }
   }
@@ -143,7 +143,7 @@ class OdstavkyOSTNad24HodReadOnly extends React.Component {
             Prílohy:
           </Col>
           <Col md="9">
-            <FileAttachments entryId={entry.id} readOnly={true} />
+            <FileAttachments entryId={entry.id} source={entry.source} readOnly={true} />
           </Col>
         </Row>
 

@@ -50,7 +50,7 @@ class PraceNaOSTPrevadzka extends React.Component {
     // Add this to fetch attachments for all entries when the component mounts
     if (this.props.prace && this.props.prace.entries) {
       this.props.prace.entries.forEach(entry => {
-        this.props.fetchPrilohy(entry.id)
+        this.props.fetchPrilohy(entry.id, 'prevadzka')
       })
     }
   }
@@ -92,7 +92,8 @@ class PraceNaOSTPrevadzka extends React.Component {
       hlavny_id: hlavny.id,
       entry_id: entry.id,
       original: original,
-      subor: filename
+      subor: filename,
+      source: 'prevadzka' // sekcia
     }
 
     this.props.uploadPriloha(data)
@@ -329,7 +330,7 @@ class PraceNaOSTPrevadzka extends React.Component {
         <Col md="12">
           <FormGroup>
             <Label>Prílohy</Label>
-            <FileAttachments entryId={entry.id} />
+            <FileAttachments entryId={entry.id} source="prevadzka" />
             <DropzoneComponent
               config={this.state.componentConfig}
               djsConfig={this.state.djsConfig}

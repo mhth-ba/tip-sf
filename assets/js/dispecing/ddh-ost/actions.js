@@ -6,9 +6,10 @@ import Notifications from 'react-notification-system-redux'
 
 import Routing from '../../Components/Routing'
 
-export const fetchPrilohyRequest = entryId => ({
+export const fetchPrilohyRequest = (entryId, source = 'prevadzka') => ({
   type: TYPES.FETCH_PRILOHY_REQUEST,
-  entryId
+  entryId,
+  source
 })
 
 export const uploadPrilohaRequest = data => ({
@@ -152,13 +153,26 @@ export const deletePoznamkaRequest = id => ({
 })
 
 export function* fetchPrilohy(action) {
-  const url = Routing.generate('ddh_ost_prilohy_list', { entryId: action.entryId })
+  const url = Routing.generate('ddh_ost_prilohy_list', {
+    entryId: action.entryId,
+    source: action.source
+  })
 
   try {
     const prilohy = yield call(Api.fetch, url)
-    yield put({ type: TYPES.FETCH_PRILOHY_SUCCESS, entryId: action.entryId, data: prilohy })
+    yield put({
+      type: TYPES.FETCH_PRILOHY_SUCCESS,
+      entryId: action.entryId,
+      source: action.source,
+      data: prilohy
+    })
   } catch (e) {
-    yield put({ type: TYPES.FETCH_PRILOHY_ERROR, entryId: action.entryId, data: e })
+    yield put({
+      type: TYPES.FETCH_PRILOHY_ERROR,
+      entryId: action.entryId,
+      source: action.source,
+      data: e
+    })
     console.error(e)
   }
 }

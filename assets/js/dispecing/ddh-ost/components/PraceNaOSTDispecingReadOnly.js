@@ -109,7 +109,7 @@ class PraceNaOSTDispecingReadOnly extends React.Component {
               Prílohy:
             </Col>
             <Col xs="12">
-              <FileAttachments entryId={entry.id} readOnly={true} />
+              <FileAttachments entryId={entry.id} source="dispecing" readOnly={true} />
             </Col>
           </Row>
         </CardBody>
@@ -172,7 +172,7 @@ class PraceNaOSTDispecingReadOnly extends React.Component {
               </td>
               <td>{entry.vybavuje || '-'}</td>
               <td>
-                <FileAttachments entryId={entry.id} readOnly={true} compact={true} />
+                <FileAttachments entryId={entry.id} source="dispecing" readOnly={true} compact={true} />
               </td>
             </tr>
           ))}

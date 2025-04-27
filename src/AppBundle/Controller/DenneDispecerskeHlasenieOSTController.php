@@ -25,18 +25,21 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     }
 
     /**
-     * @Route("disp/ddh-ost/prilohy/{entryId}", name="ddh_ost_prilohy_list", options={"expose"=true})
+     * @Route("disp/ddh-ost/prilohy/{entryId}/{source}", name="ddh_ost_prilohy_list", options={"expose"=true})
      * @Method("GET")
      */
-    public function getPrilohyAction($entryId)
+    public function getPrilohyAction($entryId, $source = 'prevadzka')
     {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Dispecing\DDH\PrilohyOST');
 
-        // Get all attachments for this entry
+        // Determine the sekcia based on the source parameter
+        $sekcia = ($source === 'dispecing') ? 2 : 1; // 1 = prevadzka, 2 = dispecing
+
+        // Get all attachments for this entry with the correct sekcia
         $prilohy = $repository->createQueryBuilder('p')
             ->andWhere('p.sekcia = :sekcia AND p.entry_id = :entryId')
-            ->setParameter('sekcia', 1) // 1 = PraceNaOSTPrevadzka
+            ->setParameter('sekcia', $sekcia)
             ->setParameter('entryId', $entryId)
             ->orderBy('p.datum', 'desc')
             ->getQuery()
@@ -76,6 +79,10 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             throw new BadRequestHttpException('Missing required fields');
         }
 
+        // Get the source from the data to determine the "sekcia" value
+        $source = isset($data['source']) ? $data['source'] : 'prevadzka'; // Default to prevadzka if not specified
+        $sekcia = ($source === 'dispecing') ? 2 : 1; // 1 = prevadzka, 2 = dispecing
+
         $em = $this->getDoctrine()->getManager();
 
         // Find the hlavny record
@@ -87,7 +94,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         // Create new attachment record
         $priloha = new \AppBundle\Entity\Dispecing\DDH\PrilohyOST();
         $priloha->setHlavny($hlavny);
-        $priloha->setSekcia(1); // 1 = PraceNaOSTPrevadzka
+        $priloha->setSekcia($sekcia); // Set "sekcia" based on the source
         $priloha->setEntryId($data['entry_id']);
         $priloha->setOriginal($data['original']);
         $priloha->setSubor($data['subor']);

@@ -1,7 +1,7 @@
 import * as TYPES from '../../../services/ActionTypes'
 
 const initState = {
-  // Store file attachments by entry ID
+  // Store file attachments by entry ID and source
   byEntryId: {},
   loading: false,
   error: null
@@ -24,12 +24,14 @@ export default (state = initState, action) => {
       }
 
     case TYPES.FETCH_PRILOHY_SUCCESS:
+      // Use a composite key that includes both entryId and source
+      const compositeKey = `${action.entryId}-${action.source || 'prevadzka'}`
       return {
         ...state,
         loading: false,
         byEntryId: {
           ...state.byEntryId,
-          [action.entryId]: action.data
+          [compositeKey]: action.data
         }
       }
 
@@ -43,13 +45,15 @@ export default (state = initState, action) => {
     case TYPES.UPLOAD_PRILOHA_SUCCESS:
       const newPriloha = action.data
       const entryId = newPriloha.entry_id
-      const currentEntryPrilohy = state.byEntryId[entryId] || []
+      const source = newPriloha.sekcia === 2 ? 'dispecing' : 'prevadzka' // Determine source from sekcia
+      const compositeEntryKey = `${entryId}-${source}`
+      const currentEntryPrilohy = state.byEntryId[compositeEntryKey] || []
 
       return {
         ...state,
         byEntryId: {
           ...state.byEntryId,
-          [entryId]: [...currentEntryPrilohy, newPriloha]
+          [compositeEntryKey]: [...currentEntryPrilohy, newPriloha]
         }
       }
 
