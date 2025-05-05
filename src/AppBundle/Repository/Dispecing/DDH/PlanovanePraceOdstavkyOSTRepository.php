@@ -6,12 +6,11 @@ use Doctrine\ORM\EntityRepository;
 
 class PlanovanePraceOdstavkyOSTRepository extends EntityRepository
 {
-    public function getByHlavnyId($hlavnyId)
+    public function getAll()
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.hlavny = :hlavnyId')
-            ->setParameter('hlavnyId', $hlavnyId)
-            ->orderBy('p.datum_cas', 'asc')
+            ->where('p.valid = true OR p.valid IS NULL')
+            ->orderBy('p.datum_cas', 'desc')
             ->getQuery()
             ->getResult();
     }

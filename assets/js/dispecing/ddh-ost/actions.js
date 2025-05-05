@@ -502,8 +502,8 @@ export function* deletePraceNaOSTDispecing(action) {
   }
 }
 
-export function* fetchPlanovanePraceOdstavky(action) {
-  const url = Routing.generate('ddh_ost_planovane_prace_odstavky_list') + '?hlavny_id=' + action.hlavnyId
+export function* fetchPlanovanePraceOdstavky() {
+  const url = Routing.generate('ddh_ost_planovane_prace_odstavky_list')
   try {
     const data = yield call(Api.fetch, url)
     yield put({ type: TYPES.FETCH_PLANOVANE_PRACE_ODSTAVKY_SUCCESS, data })
@@ -513,10 +513,10 @@ export function* fetchPlanovanePraceOdstavky(action) {
   }
 }
 
-export function* createPlanovanePraceOdstavky(action) {
+export function* createPlanovanePraceOdstavky() {
   const url = Routing.generate('ddh_ost_planovane_prace_odstavky_create')
   try {
-    const data = yield call(Api.post, url, { hlavny_id: action.hlavnyId })
+    const data = yield call(Api.post, url, {})
     yield put({ type: TYPES.CREATE_PLANOVANE_PRACE_ODSTAVKY_SUCCESS, data })
     yield put(
       Notifications.success({

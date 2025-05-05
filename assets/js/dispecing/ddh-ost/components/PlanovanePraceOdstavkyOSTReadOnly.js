@@ -3,9 +3,15 @@ import { connect } from 'react-redux'
 import { Card, CardHeader, CardBody, Row, Col, Table, Badge } from 'reactstrap'
 import moment from 'moment'
 import ReadOnlyBadge from '../../../components/ReadOnlyBadge'
+import { fetchPlanovanePraceOdstavkyRequest } from '../actions'
 
 // Read-only view component for PlanovanePraceOdstavkyOST
 class PlanovanePraceOdstavkyOSTReadOnly extends React.Component {
+  componentDidMount() {
+    // Fetch data on component mount, regardless of hlavny_id
+    this.props.fetchPlanovanePraceOdstavky()
+  }
+
   // Helper function to format dates consistently
   formatDate = timestamp => {
     if (!timestamp) return '-'
@@ -60,22 +66,22 @@ class PlanovanePraceOdstavkyOSTReadOnly extends React.Component {
     return (
       <Table responsive striped hover className="mt-3">
         <thead>
-          <tr>
-            <th>Objekt OST/PK</th>
-            <th>Dátum a čas</th>
-            <th>Poznámka</th>
-          </tr>
+        <tr>
+          <th>Objekt OST/PK</th>
+          <th>Dátum a čas</th>
+          <th>Poznámka</th>
+        </tr>
         </thead>
         <tbody>
-          {entries.map(entry => (
-            <tr key={entry.id}>
-              <td>{entry.ost || '-'}</td>
-              <td>{this.formatDate(entry.datum_cas)}</td>
-              <td className="text-wrap" style={{ maxWidth: '500px', whiteSpace: 'pre-line' }}>
-                {entry.poznamka || '-'}
-              </td>
-            </tr>
-          ))}
+        {entries.map(entry => (
+          <tr key={entry.id}>
+            <td>{entry.ost || '-'}</td>
+            <td>{this.formatDate(entry.datum_cas)}</td>
+            <td className="text-wrap" style={{ maxWidth: '500px', whiteSpace: 'pre-line' }}>
+              {entry.poznamka || '-'}
+            </td>
+          </tr>
+        ))}
         </tbody>
       </Table>
     )
@@ -120,4 +126,8 @@ const mapStateToProps = state => ({
   ost: (state.ost && state.ost.entries) || []
 })
 
-export default connect(mapStateToProps)(PlanovanePraceOdstavkyOSTReadOnly)
+const mapDispatchToProps = dispatch => ({
+  fetchPlanovanePraceOdstavky: () => dispatch(fetchPlanovanePraceOdstavkyRequest())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlanovanePraceOdstavkyOSTReadOnly)

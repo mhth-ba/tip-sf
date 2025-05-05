@@ -40,6 +40,11 @@ class Calendar extends React.Component {
     this.props.fetchZoznamOST()
     this.props.fetchDispeceri()
     this.props.fetchPoruchovka()
+
+    // Loadl all global data
+    this.props.fetchPlanovanePraceOdstavky()
+    this.props.fetchPoznamky()
+
     // On mount, load today's main entry.
     const today = new Date()
     const dateString = moment(today).format('YYYY-MM-DD')
@@ -56,8 +61,8 @@ class Calendar extends React.Component {
       if (currentId) {
         this.props.fetchPraceNaOSTPrevadzka(currentId)
         this.props.fetchPraceNaOSTDispecing(currentId)
-        this.props.fetchPlanovanePraceOdstavky(currentId)
-        this.props.fetchPoznamky(currentId)
+        // this.props.fetchPlanovanePraceOdstavky(currentId)
+        // this.props.fetchPoznamky(currentId)
       } else {
         // Optionally, dispatch an action to clear related entries
         // this.props.clearPraceNaOSTPrevadzka();
@@ -282,8 +287,8 @@ const mapDispatchToProps = dispatch => ({
   fetchDenneDispecerskeHlasenieOST: date => dispatch(fetchDenneDispecerskeHlasenieOSTRequest(date)),
   fetchPraceNaOSTPrevadzka: hlavnyId => dispatch(fetchPraceNaOSTPrevadzkaRequest(hlavnyId)),
   fetchPraceNaOSTDispecing: hlavnyId => dispatch(fetchPraceNaOSTDispecingRequest(hlavnyId)),
-  fetchPlanovanePraceOdstavky: hlavnyId => dispatch(fetchPlanovanePraceOdstavkyRequest(hlavnyId)),
-  fetchPoznamky: hlavnyId => dispatch(fetchPoznamkyRequest(hlavnyId))
+  fetchPlanovanePraceOdstavky: () => dispatch(fetchPlanovanePraceOdstavkyRequest()),
+  fetchPoznamky: () => dispatch(fetchPoznamkyRequest())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar)

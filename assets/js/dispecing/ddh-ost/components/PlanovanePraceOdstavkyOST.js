@@ -27,10 +27,8 @@ class PlanovanePraceOdstavkyOST extends React.Component {
   }
 
   componentDidMount() {
-    // If hlavny_id is available, fetch data
-    if (this.props.hlavny && this.props.hlavny.id) {
-      this.props.fetchPlanovanePraceOdstavky(this.props.hlavny.id)
-    }
+    // Fetch data on component mount, regardless of hlavny_id
+    this.props.fetchPlanovanePraceOdstavky()
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -41,11 +39,6 @@ class PlanovanePraceOdstavkyOST extends React.Component {
         localEntries[entry.id] = { ...entry }
       })
       this.setState({ localEntries })
-    }
-
-    // Check if hlavny_id has changed and fetch data if needed
-    if (prevProps.hlavny.id !== this.props.hlavny.id && this.props.hlavny.id) {
-      this.props.fetchPlanovanePraceOdstavky(this.props.hlavny.id)
     }
 
     // If there's an error, we need to check which update caused it
@@ -66,22 +59,18 @@ class PlanovanePraceOdstavkyOST extends React.Component {
   }
 
   handleAddForm() {
-    const { hlavny, createPlanovanePraceOdstavkyRequest, fetchPlanovanePraceOdstavky } = this.props
-    if (!hlavny || !hlavny.id) {
-      alert('Hlavný záznam nie je načítaný.')
-      return
-    }
+    const { createPlanovanePraceOdstavkyRequest, fetchPlanovanePraceOdstavky } = this.props
 
     // Dispatch create action
-    createPlanovanePraceOdstavkyRequest(hlavny.id)
+    createPlanovanePraceOdstavkyRequest()
 
     // Re-fetch all entries after creation
-    fetchPlanovanePraceOdstavky(hlavny.id)
+    fetchPlanovanePraceOdstavky()
   }
 
   // Handle the delete button click
   handleDeleteEntry = entryId => {
-    const { hlavny, deletePlanovanePraceOdstavkyRequest, fetchPlanovanePraceOdstavky } = this.props
+    const { deletePlanovanePraceOdstavkyRequest, fetchPlanovanePraceOdstavky } = this.props
 
     if (window.confirm('Naozaj chcete odstrániť túto položku?')) {
       // First remove from local state for immediate UI update
@@ -95,9 +84,7 @@ class PlanovanePraceOdstavkyOST extends React.Component {
       deletePlanovanePraceOdstavkyRequest(entryId)
 
       // After deletion, refresh the list
-      if (hlavny && hlavny.id) {
-        fetchPlanovanePraceOdstavky(hlavny.id)
-      }
+      fetchPlanovanePraceOdstavky()
     }
   }
 
@@ -456,16 +443,15 @@ class PlanovanePraceOdstavkyOST extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  hlavny: state.hlavny,
   planovane: state.planovanepraceodstavky,
   ost: (state.ost && state.ost.entries) || []
 })
 
 const mapDispatchToProps = dispatch => ({
-  createPlanovanePraceOdstavkyRequest: hlavnyId => dispatch(createPlanovanePraceOdstavkyRequest(hlavnyId)),
+  createPlanovanePraceOdstavkyRequest: () => dispatch(createPlanovanePraceOdstavkyRequest()),
   updatePlanovanePraceOdstavkyRequest: (data, rollbackCallback) =>
     dispatch(updatePlanovanePraceOdstavkyRequest(data, rollbackCallback)),
-  fetchPlanovanePraceOdstavky: hlavnyId => dispatch(fetchPlanovanePraceOdstavkyRequest(hlavnyId)),
+  fetchPlanovanePraceOdstavky: () => dispatch(fetchPlanovanePraceOdstavkyRequest()),
   deletePlanovanePraceOdstavkyRequest: id => dispatch(deletePlanovanePraceOdstavkyRequest(id))
 })
 

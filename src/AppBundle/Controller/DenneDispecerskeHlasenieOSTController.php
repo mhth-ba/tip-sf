@@ -737,14 +737,10 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
      */
     public function getPlanovanePraceOdstavkyOSTListAction(Request $request)
     {
-        $hlavnyId = $request->query->get('hlavny_id');
-        if (!$hlavnyId) {
-            throw new BadRequestHttpException('Missing hlavny_id parameter.');
-        }
-
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Dispecing\DDH\PlanovanePraceOdstavkyOST');
-        $entries = $repository->getByHlavnyId($hlavnyId);
+
+        $entries = $repository->getAll();
 
         $apiModels = [];
         foreach ($entries as $entry) {
@@ -773,18 +769,11 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         if ($data === null) {
             throw new BadRequestHttpException('Invalid JSON');
         }
-        if (!isset($data['hlavny_id'])) {
-            throw new BadRequestHttpException('Missing hlavny_id');
-        }
 
         $em = $this->getDoctrine()->getManager();
-        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
-        if (!$hlavny) {
-            throw $this->createNotFoundException('Hlavny record not found.');
-        }
+
 
         $planovana = new \AppBundle\Entity\Dispecing\DDH\PlanovanePraceOdstavkyOST();
-        $planovana->setHlavny($hlavny);
         $planovana->setValid(true);
         // Other fields remain null
         $em->persist($planovana);
@@ -797,7 +786,6 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
 
         $apiModel = new \AppBundle\Api\Dispecing\DDH\PlanovanePraceOdstavkyApiModel();
         $apiModel->id = $planovana->getId();
-        // All other fields are null
         return $this->createApiResponse($apiModel, 201);
     }
 

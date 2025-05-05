@@ -19,12 +19,6 @@ class PlanovanePraceOdstavkyOST extends BaseEntity
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Dispecing\DDH\HlavnyOST")
-     * @ORM\JoinColumn(name="hlavny_id", referencedColumnName="id", nullable=true)
-     */
-    private $hlavny;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $datum_cas;
@@ -52,16 +46,6 @@ class PlanovanePraceOdstavkyOST extends BaseEntity
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    public function getHlavny()
-    {
-        return $this->hlavny;
-    }
-
-    public function setHlavny($hlavny)
-    {
-        $this->hlavny = $hlavny;
     }
 
     public function getDatumCas()
