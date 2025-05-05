@@ -25,12 +25,14 @@ class PraceNaOSTDispecingRepository extends EntityRepository
         $endOfDay->setTime(23, 59, 59);
 
         $qb = $this->createQueryBuilder('p')
-            ->andWhere('p.valid != false OR p.valid IS NULL');
+            ->andWhere('p.valid != false OR p.valid IS NULL')
+            // Add condition to exclude "Vyriešené" entries
+            ->andWhere('p.stav != :stav OR p.stav IS NULL');
 
         // Where start date is on or before the end of the selected day
         $qb->andWhere('p.datum_cas_zaciatok <= :endOfDay');
 
-        // Where end date is null OR end date is AFTER the start of the selected day (changed from >= to >)
+        // Where end date is null OR end date is AFTER the start of the selected day
         $qb->andWhere(
             $qb->expr()->orX(
                 $qb->expr()->isNull('p.datum_cas_ukoncenie'),
@@ -40,6 +42,7 @@ class PraceNaOSTDispecingRepository extends EntityRepository
 
         $qb->setParameter('startOfDay', $startOfDay);
         $qb->setParameter('endOfDay', $endOfDay);
+        $qb->setParameter('stav', 'Vyriešené');
         $qb->orderBy('p.id', 'asc');
 
         return $qb->getQuery()->getResult();

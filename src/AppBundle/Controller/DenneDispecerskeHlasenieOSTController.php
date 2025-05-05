@@ -899,11 +899,11 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         // Format as Y-m-d to ensure we're only comparing the date part
         $selectedDate = (new \DateTime())->setTimestamp($hlavny->getDatum())->format('Y-m-d');
 
-        // Fetch PraceNaOSTPrevadzka entries
+        // Fetch PraceNaOSTPrevadzka entries - The repository method now excludes "Vyriešené" entries
         $pracePrevadzkaRepository = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka');
         $pracePrevadzkaEntries = $pracePrevadzkaRepository->getOdstavkyNad24Hod($selectedDate);
 
-        // Fetch PraceNaOSTDispecing entries
+        // Fetch PraceNaOSTDispecing entries - The repository method now excludes "Vyriešené" entries
         $praceDispecingRepository = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTDispecing');
         $praceDispecingEntries = $praceDispecingRepository->getOdstavkyNad24Hod($selectedDate);
 
