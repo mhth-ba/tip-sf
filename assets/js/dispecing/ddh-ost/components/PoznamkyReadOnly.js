@@ -29,7 +29,7 @@ class PoznamkyReadOnly extends React.Component {
     return (
       <Card key={entry.id} className="mb-4 shadow-sm">
         <CardBody>
-          <h5 className="card-title mb-3">{entry.ost || 'OST neurčený'}</h5>
+          <h5 className="card-title mb-3">{entry.ost || 'OST neurčená'}</h5>
 
           <Row className="mb-3">
             <Col xs="6" md="3" className="text-muted">
