@@ -12,7 +12,12 @@ import {
   Row,
   Col,
   FormText,
-  Badge
+  Badge,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
 } from 'reactstrap'
 import moment from 'moment'
 import debounce from '../../../utils/debounce'
@@ -38,6 +43,8 @@ class OdstavkyOSTNad24Hod extends React.Component {
       localEntries: {},
       // Store debounced update functions for each entry by composite key
       debouncedUpdates: {},
+      // Active tab
+      activeTab: null,
       // File upload configuration
       componentConfig: {
         showFiletypeIcon: true,
@@ -53,6 +60,7 @@ class OdstavkyOSTNad24Hod extends React.Component {
 
     this.handleAddedFile = this.handleAddedFile.bind(this)
     this.handleUpload = this.handleUpload.bind(this)
+    this.toggle = this.toggle.bind(this)
   }
 
   componentDidMount() {
@@ -66,6 +74,14 @@ class OdstavkyOSTNad24Hod extends React.Component {
       this.props.odstavky.entries.forEach(entry => {
         this.props.fetchPrilohy(entry.id, entry.source)
       })
+
+      // Set initial active tab to the first entry
+      if (this.props.odstavky.entries.length > 0) {
+        const validEntries = this.props.odstavky.entries.filter(entry => entry.valid !== false)
+        if (validEntries.length > 0) {
+          this.setState({ activeTab: `${validEntries[0].id}-${validEntries[0].source}` })
+        }
+      }
     }
   }
 
@@ -79,6 +95,14 @@ class OdstavkyOSTNad24Hod extends React.Component {
         localEntries[compositeKey] = { ...entry }
       })
       this.setState({ localEntries })
+
+      // If active tab is not set and we have entries, set it to the first one
+      if (!this.state.activeTab && this.props.odstavky.entries.length > 0) {
+        const validEntries = this.props.odstavky.entries.filter(entry => entry.valid !== false)
+        if (validEntries.length > 0) {
+          this.setState({ activeTab: `${validEntries[0].id}-${validEntries[0].source}` })
+        }
+      }
     }
 
     // Check if hlavny_id has changed and fetch data if needed
@@ -89,6 +113,12 @@ class OdstavkyOSTNad24Hod extends React.Component {
     // If there's an error, handle it
     if (!prevProps.odstavky.error && this.props.odstavky.error) {
       console.error('Operation failed:', this.props.odstavky.error)
+    }
+  }
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({ activeTab: tab })
     }
   }
 
@@ -624,8 +654,6 @@ class OdstavkyOSTNad24Hod extends React.Component {
 
         {/* File upload section */}
         {this.renderFileUpload(entry)}
-
-        <hr style={{ marginTop: '20px' }} />
       </Form>
     )
   }
@@ -653,7 +681,35 @@ class OdstavkyOSTNad24Hod extends React.Component {
             </div>
           )}
 
-          {validEntries.map(entry => this.renderEntry(entry))}
+          {validEntries.length > 0 && [
+            <Nav pills key="nav-tabs">
+              {validEntries.map(entry => {
+                const compositeKey = `${entry.id}-${entry.source}`
+                const tabLabel = entry.ost || `${entry.id} (${entry.source})`
+                return (
+                  <NavItem key={compositeKey}>
+                    <NavLink
+                      className={this.state.activeTab === compositeKey ? 'active' : ''}
+                      onClick={() => this.toggle(compositeKey)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {tabLabel}
+                    </NavLink>
+                  </NavItem>
+                )
+              })}
+            </Nav>,
+            <TabContent activeTab={this.state.activeTab} key="tab-content">
+              {validEntries.map(entry => {
+                const compositeKey = `${entry.id}-${entry.source}`
+                return (
+                  <TabPane key={compositeKey} tabId={compositeKey}>
+                    {this.renderEntry(entry)}
+                  </TabPane>
+                )
+              })}
+            </TabContent>
+          ]}
         </CardBody>
       </Card>
     )

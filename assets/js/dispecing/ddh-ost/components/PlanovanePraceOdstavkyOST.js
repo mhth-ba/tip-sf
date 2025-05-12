@@ -1,6 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap'
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Row,
+  Col,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
+} from 'reactstrap'
 import moment from 'moment'
 import debounce from '../../../utils/debounce'
 import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
@@ -20,15 +36,26 @@ class PlanovanePraceOdstavkyOST extends React.Component {
       // Store local entry values for optimistic updates
       localEntries: {},
       // Store debounced update functions for each entry by ID
-      debouncedUpdates: {}
+      debouncedUpdates: {},
+      // Active tab
+      activeTab: null
     }
 
     this.handleAddForm = this.handleAddForm.bind(this)
+    this.toggle = this.toggle.bind(this)
   }
 
   componentDidMount() {
     // Fetch data on component mount, regardless of hlavny_id
     this.props.fetchPlanovanePraceOdstavky()
+
+    // Set initial active tab to the first (most recently updated) entry
+    if (this.props.planovane && this.props.planovane.entries) {
+      const validEntries = this.props.planovane.entries.filter(entry => entry.valid !== false)
+      if (validEntries.length > 0) {
+        this.setState({ activeTab: validEntries[0].id.toString() })
+      }
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -39,12 +66,40 @@ class PlanovanePraceOdstavkyOST extends React.Component {
         localEntries[entry.id] = { ...entry }
       })
       this.setState({ localEntries })
+
+      // If we have more entries than before (new entry added), set active tab to the newest
+      const prevValidEntries = prevProps.planovane.entries
+        ? prevProps.planovane.entries.filter(entry => entry.valid !== false)
+        : []
+      const currentValidEntries = this.props.planovane.entries
+        ? this.props.planovane.entries.filter(entry => entry.valid !== false)
+        : []
+
+      if (currentValidEntries.length > prevValidEntries.length) {
+        // New entry was added, switch to it (newest first)
+        const sortedEntries = [...currentValidEntries].sort((a, b) => b.id - a.id)
+        if (sortedEntries.length > 0) {
+          this.setState({ activeTab: sortedEntries[0].id.toString() })
+        }
+      } else if (currentValidEntries.length < prevValidEntries.length || !this.state.activeTab) {
+        // Entry was deleted or no active tab, switch to first available
+        const sortedEntries = [...currentValidEntries].sort((a, b) => b.id - a.id)
+        if (sortedEntries.length > 0) {
+          this.setState({ activeTab: sortedEntries[0].id.toString() })
+        }
+      }
     }
 
     // If there's an error, we need to check which update caused it
     if (!prevProps.planovane.error && this.props.planovane.error) {
       // Error handling could be implemented here if needed
       console.error('Operation failed:', this.props.planovane.error)
+    }
+  }
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({ activeTab: tab })
     }
   }
 
@@ -66,6 +121,8 @@ class PlanovanePraceOdstavkyOST extends React.Component {
 
     // Re-fetch all entries after creation
     fetchPlanovanePraceOdstavky()
+
+    // Note: The active tab will be set in componentDidUpdate when new entries arrive
   }
 
   // Handle the delete button click
@@ -85,6 +142,8 @@ class PlanovanePraceOdstavkyOST extends React.Component {
 
       // After deletion, refresh the list
       fetchPlanovanePraceOdstavky()
+
+      // Note: The active tab will be set in componentDidUpdate when entries change
     }
   }
 
@@ -408,8 +467,6 @@ class PlanovanePraceOdstavkyOST extends React.Component {
             </Button>
           </Col>
         </Row>
-
-        <hr style={{ marginTop: '20px' }} />
       </Form>
     )
   }
@@ -425,11 +482,32 @@ class PlanovanePraceOdstavkyOST extends React.Component {
       <Card>
         <CardHeader className="bg-primary text-white">Plánované práce a odstávky na OST</CardHeader>
         <CardBody>
-          <Button color="success" onClick={this.handleAddForm}>
+          <Button color="success" onClick={this.handleAddForm} className="mb-3">
             Pridať
           </Button>
 
-          {validEntries.map(entry => this.renderEntry(entry))}
+          {validEntries.length > 0 && [
+            <Nav pills key="nav-tabs">
+              {validEntries.map(entry => (
+                <NavItem key={entry.id}>
+                  <NavLink
+                    className={this.state.activeTab === entry.id.toString() ? 'active' : ''}
+                    onClick={() => this.toggle(entry.id.toString())}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {entry.ost || entry.id}
+                  </NavLink>
+                </NavItem>
+              ))}
+            </Nav>,
+            <TabContent activeTab={this.state.activeTab} key="tab-content">
+              {validEntries.map(entry => (
+                <TabPane key={entry.id} tabId={entry.id.toString()}>
+                  {this.renderEntry(entry)}
+                </TabPane>
+              ))}
+            </TabContent>
+          ]}
 
           {validEntries.length === 0 && (
             <div className="text-center mt-4">

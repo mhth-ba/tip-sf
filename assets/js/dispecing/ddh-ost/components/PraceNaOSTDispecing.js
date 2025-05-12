@@ -1,6 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Row, Col, FormText } from 'reactstrap'
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Row,
+  Col,
+  FormText,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
+} from 'reactstrap'
 import moment from 'moment'
 import debounce from '../../../utils/debounce'
 import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
@@ -26,6 +43,8 @@ class PraceNaOSTDispecing extends React.Component {
       localEntries: {},
       // Store debounced update functions for each entry by ID
       debouncedUpdates: {},
+      // Active tab
+      activeTab: null,
       // File upload configuration
       componentConfig: {
         //iconFiletypes: ['.pdf', '.jpg', '.png', '.doc', '.docx', '.xls', '.xlsx'],
@@ -44,6 +63,7 @@ class PraceNaOSTDispecing extends React.Component {
     this.handleAddForm = this.handleAddForm.bind(this)
     this.handleAddedFile = this.handleAddedFile.bind(this)
     this.handleUpload = this.handleUpload.bind(this)
+    this.toggle = this.toggle.bind(this)
   }
 
   componentDidMount() {
@@ -52,6 +72,16 @@ class PraceNaOSTDispecing extends React.Component {
       this.props.prace.entries.forEach(entry => {
         this.props.fetchPrilohy(entry.id, 'dispecing')
       })
+
+      // Set initial active tab to the first (newest) entry
+      if (this.props.prace.entries.length > 0) {
+        const sortedEntries = [...this.props.prace.entries]
+          .filter(entry => entry.valid !== false)
+          .sort((a, b) => b.id - a.id)
+        if (sortedEntries.length > 0) {
+          this.setState({ activeTab: sortedEntries[0].id.toString() })
+        }
+      }
     }
   }
 
@@ -63,12 +93,40 @@ class PraceNaOSTDispecing extends React.Component {
         localEntries[entry.id] = { ...entry }
       })
       this.setState({ localEntries })
+
+      // If we have more entries than before (new entry added), set active tab to the newest
+      const prevValidEntries = prevProps.prace.entries
+        ? prevProps.prace.entries.filter(entry => entry.valid !== false)
+        : []
+      const currentValidEntries = this.props.prace.entries
+        ? this.props.prace.entries.filter(entry => entry.valid !== false)
+        : []
+
+      if (currentValidEntries.length > prevValidEntries.length) {
+        // New entry was added, switch to it (newest first)
+        const sortedEntries = [...currentValidEntries].sort((a, b) => b.id - a.id)
+        if (sortedEntries.length > 0) {
+          this.setState({ activeTab: sortedEntries[0].id.toString() })
+        }
+      } else if (currentValidEntries.length < prevValidEntries.length || !this.state.activeTab) {
+        // Entry was deleted or no active tab, switch to first available
+        const sortedEntries = [...currentValidEntries].sort((a, b) => b.id - a.id)
+        if (sortedEntries.length > 0) {
+          this.setState({ activeTab: sortedEntries[0].id.toString() })
+        }
+      }
     }
 
     // If there's an error, we need to check which update caused it
     if (!prevProps.prace.error && this.props.prace.error) {
       // Error handling could be implemented here if needed
       console.error('Operation failed:', this.props.prace.error)
+    }
+  }
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({ activeTab: tab })
     }
   }
 
@@ -121,6 +179,8 @@ class PraceNaOSTDispecing extends React.Component {
 
     // Re-fetch all entries after creation
     fetchPraceNaOSTDispecing(hlavny.id)
+
+    // Note: The active tab will be set in componentDidUpdate when new entries arrive
   }
 
   // Handle the delete button click
@@ -142,6 +202,8 @@ class PraceNaOSTDispecing extends React.Component {
       if (hlavny && hlavny.id) {
         fetchPraceNaOSTDispecing(hlavny.id)
       }
+
+      // Note: The active tab will be set in componentDidUpdate when entries change
     }
   }
 
@@ -582,8 +644,6 @@ class PraceNaOSTDispecing extends React.Component {
             </Button>
           </Col>
         </Row>
-
-        <hr style={{ marginTop: '20px' }} />
       </Form>
     )
   }
@@ -602,11 +662,32 @@ class PraceNaOSTDispecing extends React.Component {
       <Card>
         <CardHeader className="bg-primary text-white">Práce na OST - dispečing a poruchová služba</CardHeader>
         <CardBody>
-          <Button color="success" onClick={this.handleAddForm}>
+          <Button color="success" onClick={this.handleAddForm} className="mb-3">
             Pridať
           </Button>
 
-          {sortedEntries.map(entry => this.renderEntry(entry))}
+          {sortedEntries.length > 0 && [
+            <Nav pills key="nav-tabs">
+              {sortedEntries.map(entry => (
+                <NavItem key={entry.id}>
+                  <NavLink
+                    className={this.state.activeTab === entry.id.toString() ? 'active' : ''}
+                    onClick={() => this.toggle(entry.id.toString())}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {entry.ost || entry.id}
+                  </NavLink>
+                </NavItem>
+              ))}
+            </Nav>,
+            <TabContent activeTab={this.state.activeTab} key="tab-content">
+              {sortedEntries.map(entry => (
+                <TabPane key={entry.id} tabId={entry.id.toString()}>
+                  {this.renderEntry(entry)}
+                </TabPane>
+              ))}
+            </TabContent>
+          ]}
 
           {sortedEntries.length === 0 && (
             <div className="text-center mt-4">
@@ -627,7 +708,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   uploadPriloha: data => dispatch(uploadPrilohaRequest(data)),
-  fetchPrilohy: entryId => dispatch(fetchPrilohyRequest(entryId)),
+  fetchPrilohy: (entryId, source) => dispatch(fetchPrilohyRequest(entryId, source)),
   createPraceNaOSTDispecingRequest: hlavnyId => dispatch(createPraceNaOSTDispecingRequest(hlavnyId)),
   updatePraceNaOSTDispecingRequest: (data, rollbackCallback) =>
     dispatch(updatePraceNaOSTDispecingRequest(data, rollbackCallback)),
