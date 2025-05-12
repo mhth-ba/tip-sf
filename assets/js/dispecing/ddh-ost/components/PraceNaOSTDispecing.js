@@ -595,6 +595,9 @@ class PraceNaOSTDispecing extends React.Component {
         ? this.props.prace.entries.filter(entry => entry.valid !== false)
         : []
 
+    // Sort entries by id DESC (newest entries first)
+    const sortedEntries = [...validEntries].sort((a, b) => b.id - a.id)
+
     return (
       <Card>
         <CardHeader className="bg-primary text-white">Práce na OST - dispečing a poruchová služba</CardHeader>
@@ -603,9 +606,9 @@ class PraceNaOSTDispecing extends React.Component {
             Pridať
           </Button>
 
-          {validEntries.map(entry => this.renderEntry(entry))}
+          {sortedEntries.map(entry => this.renderEntry(entry))}
 
-          {validEntries.length === 0 && (
+          {sortedEntries.length === 0 && (
             <div className="text-center mt-4">
               <p>Žiadne záznamy. Kliknite na "Pridať" pre vytvorenie nového záznamu.</p>
             </div>
