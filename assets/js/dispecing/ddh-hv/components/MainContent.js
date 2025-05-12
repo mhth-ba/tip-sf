@@ -4,6 +4,8 @@ import NoDataAlert from './NoDataAlert'
 import { Col, Row } from 'reactstrap'
 import moment from 'moment'
 import { Alert } from 'reactstrap'
+import Calendar from './Calendar'
+import AuditLog from './AuditLog'
 import HlavickaWrapper from './HlavickaWrapper'
 import ZmenaNaZdrojochWrapper from './ZmenaNaZdrojochWrapper'
 import ZmenaNaHVWrapper from './ZmenaNaHVWrapper'
@@ -11,11 +13,12 @@ import StavZariadeni from './StavZariadeni'
 import ChronologicalTimeline from './ChronologicalTimeline'
 
 class MainContent extends React.Component {
-  render() {
+  renderMiddleContent() {
     const { hlavny } = this.props
 
+    // Only render middle content if initialized
     if (!hlavny.initialized) {
-      return <div></div>
+      return null
     }
 
     if (!hlavny.id) {
@@ -31,8 +34,8 @@ class MainContent extends React.Component {
     // Calculate how many days old the data is
     const daysDifference = isHistoricalData
       ? moment()
-          .startOf('day')
-          .diff(moment.unix(hlavny.ost_data.datum).startOf('day'), 'days')
+        .startOf('day')
+        .diff(moment.unix(hlavny.ost_data.datum).startOf('day'), 'days')
       : 0
 
     // Check if the data is older than the 3-day edit window
@@ -54,12 +57,6 @@ class MainContent extends React.Component {
           </Row>
         )}
         <Row>
-          <Col>
-            <HlavickaWrapper />
-          </Col>
-        </Row>
-        <br />
-        <Row>
           <Col md={6} sm={12}>
             <ZmenaNaZdrojochWrapper />
           </Col>
@@ -79,7 +76,34 @@ class MainContent extends React.Component {
             <ChronologicalTimeline />
           </Col>
         </Row>
-        <br />
+      </div>
+    )
+  }
+
+  render() {
+    const { hlavny } = this.props
+
+    return (
+      <div>
+        {/* Top row with Calendar and Hlavička - Always visible */}
+        <Row className="mb-3">
+          <Col md={6} sm={12}>
+            <Calendar />
+          </Col>
+          <Col md={6} sm={12}>
+            {hlavny.initialized && hlavny.id ? <HlavickaWrapper /> : <div />}
+          </Col>
+        </Row>
+
+        {/* Middle content - Only visible when initialized */}
+        {this.renderMiddleContent()}
+
+        {/* Bottom row with AuditLog (Aktivita) - Always visible */}
+        <Row className="mt-3">
+          <Col>
+            <AuditLog />
+          </Col>
+        </Row>
       </div>
     )
   }
