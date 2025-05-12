@@ -1,6 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Alert, Row, Col } from 'reactstrap'
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Alert,
+  Row,
+  Col,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
+} from 'reactstrap'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import debounce from '../../../utils/debounce'
@@ -20,6 +37,7 @@ class ZmenaNaHV extends React.Component {
       selectedHVType: 'Zapad', // Default selected HV type
       localEntries: {}, // Store local entry values for optimistic updates
       debouncedUpdates: {}, // Store debounced update functions for each entry by ID
+      activeTab: null, // Active tab
       hvMapping: {
         'HV Západ': 'Zapad',
         'HV Východ': 'Vychod'
@@ -34,16 +52,27 @@ class ZmenaNaHV extends React.Component {
     this.handleRemoveEntry = this.handleRemoveEntry.bind(this)
     this.handleHVTypeChange = this.handleHVTypeChange.bind(this)
     this.fetchCurrentHVData = this.fetchCurrentHVData.bind(this)
+    this.toggle = this.toggle.bind(this)
   }
 
   componentDidMount() {
     this.fetchCurrentHVData()
+
+    // Set initial active tab if entries exist
+    if (this.props.entries && this.props.entries.length > 0 && !this.state.activeTab) {
+      const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
+      if (sortedEntries.length > 0) {
+        this.setState({ activeTab: sortedEntries[0].id.toString() })
+      }
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     // Fetch data when selectedHVType changes
     if (prevState.selectedHVType !== this.state.selectedHVType) {
       this.fetchCurrentHVData()
+      // Reset active tab when HV type changes
+      this.setState({ activeTab: null })
     }
 
     // Fetch data when hlavny_id changes
@@ -58,12 +87,34 @@ class ZmenaNaHV extends React.Component {
         localEntries[entry.id] = { ...entry }
       })
       this.setState({ localEntries })
+
+      // Handle tab switching after add/delete
+      const prevCount = prevProps.entries ? prevProps.entries.length : 0
+      const currentCount = this.props.entries ? this.props.entries.length : 0
+
+      if (currentCount > prevCount && this.props.entries.length > 0) {
+        // New entry added, switch to newest
+        const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
+        this.setState({ activeTab: sortedEntries[0].id.toString() })
+      } else if (currentCount < prevCount || (!this.state.activeTab && currentCount > 0)) {
+        // Entry deleted or no active tab, switch to first
+        const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
+        if (sortedEntries.length > 0) {
+          this.setState({ activeTab: sortedEntries[0].id.toString() })
+        }
+      }
     }
   }
 
   fetchCurrentHVData() {
     if (this.props.hlavny && this.props.hlavny.id) {
       this.props.fetchZmenaNaHV(this.state.selectedHVType, this.props.hlavny.id)
+    }
+  }
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({ activeTab: tab })
     }
   }
 
@@ -244,7 +295,7 @@ class ZmenaNaHV extends React.Component {
     const dateDisplay = this.getDisplayDate(localEntry.datum_cas)
 
     return (
-      <Form className="mt-4" style={{ border: '1px solid #dedede', padding: '1rem', marginBottom: '1rem' }}>
+      <Form className="mt-4">
         {/* Dátum a čas */}
         <Row>
           <Col md="6">
@@ -274,9 +325,13 @@ class ZmenaNaHV extends React.Component {
         </Row>
 
         {/* "Odstrániť" button to remove this entry */}
-        <Button color="danger" className="mt-3" onClick={() => this.handleRemoveEntry(entry.id)}>
-          Odstrániť
-        </Button>
+        <Row className="mt-4 mb-3">
+          <Col className="text-center">
+            <Button color="danger" onClick={() => this.handleRemoveEntry(entry.id)} className="px-4">
+              Odstrániť
+            </Button>
+          </Col>
+        </Row>
       </Form>
     )
   }
@@ -285,8 +340,8 @@ class ZmenaNaHV extends React.Component {
     const { hlavny, opravnenia, entries = [], loading } = this.props
     const { selectedHVType, hvDisplayNames } = this.state
 
-    // Sort entries by id DESC (newest entries first)
-    const sortedEntries = [...entries].sort((a, b) => b.id - a.id)
+    // Sort entries by id DESC (newest entries first) and filter out invalid entries
+    const sortedEntries = [...entries].filter(entry => entry && entry.id).sort((a, b) => b.id - a.id)
 
     // Check if user can edit based on permissions and date
     const canEdit = hlavny && opravnenia ? canEditData(hlavny, opravnenia) : false
@@ -328,14 +383,43 @@ class ZmenaNaHV extends React.Component {
             </Alert>
           )}
 
-          {/* Entries list - always show during CRUD operations to maintain UI stability */}
-          {(sortedEntries.length > 0 || Object.keys(this.state.localEntries).length > 0) && (
-            <div>
-              {sortedEntries.map((entry, index) => (
-                <div key={`hv-entry-${entry.id}-${index}`}>{this.renderEntry(entry)}</div>
-              ))}
-            </div>
-          )}
+          {/* Entries tabs and content */}
+          {sortedEntries.length > 0 && [
+            <Nav key="nav-tabs" pills>
+              {sortedEntries.map(entry => {
+                if (!entry || !entry.id) return null
+                const tabLabel = entry.datum_cas
+                  ? moment.unix(entry.datum_cas).format('DD.MM.YYYY HH:mm')
+                  : `#${entry.id}`
+                return (
+                  <NavItem key={entry.id}>
+                    <NavLink
+                      className={this.state.activeTab && this.state.activeTab === entry.id.toString() ? 'active' : ''}
+                      onClick={() => this.toggle(entry.id.toString())}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {tabLabel}
+                    </NavLink>
+                  </NavItem>
+                )
+              })}
+            </Nav>,
+            <TabContent
+              key="tab-content"
+              activeTab={
+                this.state.activeTab || (sortedEntries[0] && sortedEntries[0].id && sortedEntries[0].id.toString())
+              }
+            >
+              {sortedEntries.map(entry => {
+                if (!entry || !entry.id) return null
+                return (
+                  <TabPane key={entry.id} tabId={entry.id.toString()}>
+                    {this.renderEntry(entry)}
+                  </TabPane>
+                )
+              })}
+            </TabContent>
+          ]}
         </CardBody>
       </Card>
     )

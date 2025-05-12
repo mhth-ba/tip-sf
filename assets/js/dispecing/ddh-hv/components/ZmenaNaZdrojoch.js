@@ -53,6 +53,7 @@ class ZmenaNaZdrojoch extends React.Component {
       selectedSourceType: 'TpV', // Default selected source
       localEntries: {}, // Store local entry values for optimistic updates
       debouncedUpdates: {}, // Store debounced update functions for each entry by ID
+      activeTab: null, // Active tab
       sourceMapping: {
         'Tepláreň Západ': 'TpZ',
         'Cogen West': 'CW',
@@ -86,16 +87,27 @@ class ZmenaNaZdrojoch extends React.Component {
     this.handleRemoveEntry = this.handleRemoveEntry.bind(this)
     this.handleSourceTypeChange = this.handleSourceTypeChange.bind(this)
     this.fetchCurrentSourceData = this.fetchCurrentSourceData.bind(this)
+    this.toggle = this.toggle.bind(this)
   }
 
   componentDidMount() {
     this.fetchCurrentSourceData()
+
+    // Set initial active tab if entries exist
+    if (this.props.entries && this.props.entries.length > 0 && !this.state.activeTab) {
+      const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
+      if (sortedEntries.length > 0) {
+        this.setState({ activeTab: sortedEntries[0].id.toString() })
+      }
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     // Fetch data when selectedSourceType changes
     if (prevState.selectedSourceType !== this.state.selectedSourceType) {
       this.fetchCurrentSourceData()
+      // Reset active tab when source type changes
+      this.setState({ activeTab: null })
     }
 
     // Fetch data when hlavny_id changes
@@ -110,12 +122,34 @@ class ZmenaNaZdrojoch extends React.Component {
         localEntries[entry.id] = { ...entry }
       })
       this.setState({ localEntries })
+
+      // Handle tab switching after add/delete
+      const prevCount = prevProps.entries ? prevProps.entries.length : 0
+      const currentCount = this.props.entries ? this.props.entries.length : 0
+
+      if (currentCount > prevCount && this.props.entries.length > 0) {
+        // New entry added, switch to newest
+        const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
+        this.setState({ activeTab: sortedEntries[0].id.toString() })
+      } else if (currentCount < prevCount || (!this.state.activeTab && currentCount > 0)) {
+        // Entry deleted or no active tab, switch to first
+        const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
+        if (sortedEntries.length > 0) {
+          this.setState({ activeTab: sortedEntries[0].id.toString() })
+        }
+      }
     }
   }
 
   fetchCurrentSourceData() {
     if (this.props.hlavny && this.props.hlavny.id) {
       this.props.fetchZmenaNaZdroj(this.state.selectedSourceType, this.props.hlavny.id)
+    }
+  }
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({ activeTab: tab })
     }
   }
 
@@ -362,11 +396,7 @@ class ZmenaNaZdrojoch extends React.Component {
     const dateDisplay = this.getDisplayDate(localEntry.datum_cas)
 
     return (
-      <Form
-        key={entry.id}
-        className="mt-4"
-        style={{ border: '1px solid #dedede', padding: '1rem', marginBottom: '1rem' }}
-      >
+      <Form key={entry.id} className="mt-4">
         {/* Dátum a čas */}
         <Row>
           <Col md="6">
@@ -429,9 +459,13 @@ class ZmenaNaZdrojoch extends React.Component {
         </Row>
 
         {/* "Odstrániť" button to remove this entry */}
-        <Button color="danger" className="mt-3" onClick={() => this.handleRemoveEntry(entry.id)}>
-          Odstrániť
-        </Button>
+        <Row className="mt-4 mb-3">
+          <Col className="text-center">
+            <Button color="danger" onClick={() => this.handleRemoveEntry(entry.id)} className="px-4">
+              Odstrániť
+            </Button>
+          </Col>
+        </Row>
       </Form>
     )
   }
@@ -499,8 +533,8 @@ class ZmenaNaZdrojoch extends React.Component {
     const { hlavny, opravnenia, entries = [], loading } = this.props
     const { selectedSourceType, sourcesDisplayNames } = this.state
 
-    // Sort entries by id DESC (newest entries first)
-    const sortedEntries = [...entries].sort((a, b) => b.id - a.id)
+    // Sort entries by id DESC (newest entries first) and filter out invalid entries
+    const sortedEntries = [...entries].filter(entry => entry && entry.id).sort((a, b) => b.id - a.id)
 
     // Check if user can edit based on permissions and date
     const canEdit = hlavny && opravnenia ? canEditData(hlavny, opravnenia) : false
@@ -547,14 +581,45 @@ class ZmenaNaZdrojoch extends React.Component {
             </Alert>
           )}
 
-          {/* Entries list - always show during CRUD operations */}
-          {(sortedEntries.length > 0 || Object.keys(this.state.localEntries).length > 0) && (
-            <div>
-              {canEdit
-                ? sortedEntries.map(entry => this.renderEntry(entry))
-                : sortedEntries.map(entry => this.renderReadOnlyEntry(entry))}
-            </div>
-          )}
+          {/* Entries tabs and content */}
+          {sortedEntries.length > 0 && [
+            <Nav key="nav-tabs" pills>
+              {sortedEntries.map(entry => {
+                if (!entry || !entry.id) return null
+                const tabLabel = entry.zariadenie
+                  ? `${entry.zariadenie} ${entry.datum_cas ? moment.unix(entry.datum_cas).format('DD.MM.') : ''}`
+                  : entry.datum_cas
+                  ? moment.unix(entry.datum_cas).format('DD.MM.YYYY HH:mm')
+                  : `#${entry.id}`
+                return (
+                  <NavItem key={entry.id}>
+                    <NavLink
+                      className={this.state.activeTab && this.state.activeTab === entry.id.toString() ? 'active' : ''}
+                      onClick={() => this.toggle(entry.id.toString())}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {tabLabel}
+                    </NavLink>
+                  </NavItem>
+                )
+              })}
+            </Nav>,
+            <TabContent
+              key="tab-content"
+              activeTab={
+                this.state.activeTab || (sortedEntries[0] && sortedEntries[0].id && sortedEntries[0].id.toString())
+              }
+            >
+              {sortedEntries.map(entry => {
+                if (!entry || !entry.id) return null
+                return (
+                  <TabPane key={entry.id} tabId={entry.id.toString()}>
+                    {canEdit ? this.renderEntry(entry) : this.renderReadOnlyEntry(entry)}
+                  </TabPane>
+                )
+              })}
+            </TabContent>
+          ]}
         </CardBody>
       </Card>
     )
