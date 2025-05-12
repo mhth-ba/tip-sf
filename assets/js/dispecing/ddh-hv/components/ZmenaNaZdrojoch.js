@@ -499,12 +499,8 @@ class ZmenaNaZdrojoch extends React.Component {
     const { hlavny, opravnenia, entries = [], loading } = this.props
     const { selectedSourceType, sourcesDisplayNames } = this.state
 
-    // Sort entries by datetime (oldest to newest)
-    const sortedEntries = [...entries].sort((a, b) => {
-      const dateA = a.datum_cas || 0
-      const dateB = b.datum_cas || 0
-      return dateA - dateB
-    })
+    // Sort entries by id DESC (newest entries first)
+    const sortedEntries = [...entries].sort((a, b) => b.id - a.id)
 
     // Check if user can edit based on permissions and date
     const canEdit = hlavny && opravnenia ? canEditData(hlavny, opravnenia) : false
