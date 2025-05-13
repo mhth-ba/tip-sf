@@ -832,7 +832,6 @@ class DenneDispecerskeHlasenieHVController extends BaseController
         $hlavnyId = $hvHlavny->getId();
         $result = [
             'zmenaZdroje' => [],
-            'zmenaHV' => []
         ];
 
         // Fetch all source type changes
@@ -858,32 +857,6 @@ class DenneDispecerskeHlasenieHVController extends BaseController
             }
 
             $result['zmenaZdroje'][$sourceType] = $apiModels;
-        }
-
-        // Fetch all HV type changes
-        $hvTypes = ['Zapad', 'Vychod'];
-        foreach ($hvTypes as $hvType) {
-            if ($hvType === 'Zapad') {
-                $repository = $em->getRepository('AppBundle:Dispecing\DDH\ZmenaNaHVZapad');
-            } else {
-                $repository = $em->getRepository('AppBundle:Dispecing\DDH\ZmenaNaHVVychod');
-            }
-
-            $entries = $repository->getByHlavnyId($hlavnyId);
-
-            $apiModels = [];
-            foreach ($entries as $entry) {
-                $model = new \stdClass();
-                $model->id = $entry->getId();
-                $model->datum_cas = $entry->getDatumCas();
-                $model->poznamka = $entry->getPoznamka();
-                $model->sourceType = $hvType;
-                $model->isHV = true;
-
-                $apiModels[] = $model;
-            }
-
-            $result['zmenaHV'][$hvType] = $apiModels;
         }
 
         return $this->createApiResponse($result);
