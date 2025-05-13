@@ -25,7 +25,7 @@ export default (state = initState, action) => {
 
     case TYPES.FETCH_PRILOHY_SUCCESS:
       // Use a composite key that includes both entryId and source
-      const compositeKey = `${action.entryId}-${action.source || 'prevadzka'}`
+      const compositeKey = `${action.entryId}-${action.source}`
       return {
         ...state,
         loading: false,

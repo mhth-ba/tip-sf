@@ -728,7 +728,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updatePraceNaOSTPrevadzkaRequest(data, rollbackCallback)),
   updatePraceNaOSTDispecingRequest: (data, rollbackCallback) =>
     dispatch(updatePraceNaOSTDispecingRequest(data, rollbackCallback)),
-  fetchPrilohy: entryId => dispatch(fetchPrilohyRequest(entryId)),
+  fetchPrilohy: (entryId, source) => dispatch(fetchPrilohyRequest(entryId, source)),
   uploadPriloha: data => dispatch(uploadPrilohaRequest(data))
 })
 

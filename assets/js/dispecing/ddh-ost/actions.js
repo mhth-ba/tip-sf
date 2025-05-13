@@ -6,7 +6,7 @@ import Notifications from 'react-notification-system-redux'
 
 import Routing from '../../Components/Routing'
 
-export const fetchPrilohyRequest = (entryId, source = 'prevadzka') => ({
+export const fetchPrilohyRequest = (entryId, source) => ({
   type: TYPES.FETCH_PRILOHY_REQUEST,
   entryId,
   source

@@ -1,10 +1,30 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Button, ListGroup, ListGroupItem } from 'reactstrap'
-import { deletePrilohaRequest } from '../actions'
+import { deletePrilohaRequest, fetchPrilohyRequest } from '../actions'
 import Routing from '../../../Components/Routing'
 
 class FileAttachments extends React.Component {
+  componentDidMount() {
+    const { entryId, source } = this.props
+
+    // Fetch attachments when component mounts
+    if (entryId && source) {
+      this.props.fetchPrilohy(entryId, source)
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { entryId, source } = this.props
+
+    // Refetch if entryId or source changes
+    if (prevProps.entryId !== entryId || prevProps.source !== source) {
+      if (entryId && source) {
+        this.props.fetchPrilohy(entryId, source)
+      }
+    }
+  }
+
   handleDelete = prilohaId => {
     if (window.confirm('Naozaj chcete vymazať túto prílohu?')) {
       this.props.deletePriloha(prilohaId)
@@ -55,7 +75,7 @@ class FileAttachments extends React.Component {
   }
 
   render() {
-    const { entryId, source = 'prevadzka', prilohy, readOnly, compact } = this.props
+    const { entryId, source, prilohy, readOnly, compact } = this.props
 
     // Use a composite key that includes both entryId and source
     const compositeKey = `${entryId}-${source}`
@@ -80,6 +100,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  fetchPrilohy: (entryId, source) => dispatch(fetchPrilohyRequest(entryId, source)),
   deletePriloha: id => dispatch(deletePrilohaRequest(id))
 })
 

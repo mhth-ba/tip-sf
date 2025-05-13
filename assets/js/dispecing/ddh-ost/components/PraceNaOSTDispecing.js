@@ -26,8 +26,7 @@ import {
   createPraceNaOSTDispecingRequest,
   updatePraceNaOSTDispecingRequest,
   fetchPraceNaOSTDispecingRequest,
-  deletePraceNaOSTDispecingRequest,
-  fetchPrilohyRequest
+  deletePraceNaOSTDispecingRequest
 } from '../actions'
 
 import DropzoneComponent from 'react-dropzone-component'
@@ -69,10 +68,6 @@ class PraceNaOSTDispecing extends React.Component {
   componentDidMount() {
     // Add this to fetch attachments for all entries when the component mounts
     if (this.props.prace && this.props.prace.entries) {
-      this.props.prace.entries.forEach(entry => {
-        this.props.fetchPrilohy(entry.id, 'dispecing')
-      })
-
       // Set initial active tab to the first (newest) entry
       if (this.props.prace.entries.length > 0) {
         const sortedEntries = [...this.props.prace.entries]
@@ -708,7 +703,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   uploadPriloha: data => dispatch(uploadPrilohaRequest(data)),
-  fetchPrilohy: (entryId, source) => dispatch(fetchPrilohyRequest(entryId, source)),
   createPraceNaOSTDispecingRequest: hlavnyId => dispatch(createPraceNaOSTDispecingRequest(hlavnyId)),
   updatePraceNaOSTDispecingRequest: (data, rollbackCallback) =>
     dispatch(updatePraceNaOSTDispecingRequest(data, rollbackCallback)),

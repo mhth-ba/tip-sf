@@ -28,7 +28,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
      * @Route("disp/ddh-ost/prilohy/{entryId}/{source}", name="ddh_ost_prilohy_list", options={"expose"=true})
      * @Method("GET")
      */
-    public function getPrilohyAction($entryId, $source = 'prevadzka')
+    public function getPrilohyAction($entryId, $source)
     {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Dispecing\DDH\PrilohyOST');
