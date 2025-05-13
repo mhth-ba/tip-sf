@@ -60,9 +60,9 @@ class ZmenaNaHV extends React.Component {
 
     // Set initial active tab if entries exist
     if (this.props.entries && this.props.entries.length > 0 && !this.state.activeTab) {
-      const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
-      if (sortedEntries.length > 0) {
-        this.setState({ activeTab: sortedEntries[0].id.toString() })
+      const validEntries = this.getValidEntries(this.props.entries)
+      if (validEntries.length > 0) {
+        this.setState({ activeTab: validEntries[0].id.toString() })
       }
     }
   }
@@ -83,27 +83,45 @@ class ZmenaNaHV extends React.Component {
     // Update local entries when entries change WITHOUT triggering a re-fetch
     if (this.props.entries !== prevProps.entries && !this.props.loading) {
       const localEntries = {}
-      this.props.entries.forEach(entry => {
+      const validEntries = this.getValidEntries(this.props.entries)
+      validEntries.forEach(entry => {
         localEntries[entry.id] = { ...entry }
       })
       this.setState({ localEntries })
 
       // Handle tab switching after add/delete
-      const prevCount = prevProps.entries ? prevProps.entries.length : 0
-      const currentCount = this.props.entries ? this.props.entries.length : 0
+      const prevValidEntries = this.getValidEntries(prevProps.entries || [])
+      const prevCount = prevValidEntries.length
+      const currentCount = validEntries.length
 
-      if (currentCount > prevCount && this.props.entries.length > 0) {
+      if (currentCount > prevCount && validEntries.length > 0) {
         // New entry added, switch to newest
-        const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
+        const sortedEntries = [...validEntries].sort((a, b) => b.id - a.id)
         this.setState({ activeTab: sortedEntries[0].id.toString() })
       } else if (currentCount < prevCount || (!this.state.activeTab && currentCount > 0)) {
         // Entry deleted or no active tab, switch to first
-        const sortedEntries = [...this.props.entries].sort((a, b) => b.id - a.id)
+        const sortedEntries = [...validEntries].sort((a, b) => b.id - a.id)
         if (sortedEntries.length > 0) {
           this.setState({ activeTab: sortedEntries[0].id.toString() })
         }
       }
     }
+  }
+
+  // Helper method to filter out invalid entries (empty arrays, objects without id, etc.)
+  getValidEntries(entries) {
+    if (!Array.isArray(entries)) return []
+
+    return entries.filter(entry => {
+      // Check if entry is not null/undefined
+      if (!entry) return false
+      // Check if entry is an object (not an array or primitive)
+      if (typeof entry !== 'object' || Array.isArray(entry)) return false
+      // Check if entry has a valid id
+      if (!entry.id) return false
+
+      return true
+    })
   }
 
   fetchCurrentHVData() {
@@ -150,7 +168,7 @@ class ZmenaNaHV extends React.Component {
     if (!this.state.debouncedUpdates[key]) {
       const debouncedFn = debounce(value => {
         // Save the previous value before sending the update
-        const entry = this.props.entries.find(e => e.id === entryId)
+        const entry = this.getValidEntries(this.props.entries).find(e => e.id === entryId)
         const previousValue = entry ? entry[fieldName] : undefined
 
         // Create rollback function for sagas
@@ -340,8 +358,9 @@ class ZmenaNaHV extends React.Component {
     const { hlavny, opravnenia, entries = [], loading } = this.props
     const { selectedHVType, hvDisplayNames } = this.state
 
-    // Sort entries by id DESC (newest entries first) and filter out invalid entries
-    const sortedEntries = [...entries].filter(entry => entry && entry.id).sort((a, b) => b.id - a.id)
+    // Filter out invalid entries and sort by id DESC (newest entries first)
+    const validEntries = this.getValidEntries(entries)
+    const sortedEntries = [...validEntries].sort((a, b) => b.id - a.id)
 
     // Check if user can edit based on permissions and date
     const canEdit = hlavny && opravnenia ? canEditData(hlavny, opravnenia) : false
