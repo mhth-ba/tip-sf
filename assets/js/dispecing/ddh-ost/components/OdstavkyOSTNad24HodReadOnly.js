@@ -31,18 +31,28 @@ class OdstavkyOSTNad24HodReadOnly extends React.Component {
       this.props.fetchOdstavkyOSTNad24Hod(this.props.hlavny.id)
     }
 
-    // Fetch attachments for all entries with the correct source
-    if (this.props.odstavky && this.props.odstavky.entries) {
-      this.props.odstavky.entries.forEach(entry => {
-        this.props.fetchPrilohy(entry.id, entry.source)
-      })
-    }
+    // Don't fetch attachments here - wait for entries to be loaded
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     // Check if hlavny_id has changed and fetch data if needed
     if (prevProps.hlavny.id !== this.props.hlavny.id && this.props.hlavny.id) {
       this.props.fetchOdstavkyOSTNad24Hod(this.props.hlavny.id)
+    }
+
+    // Check if entries have been loaded or updated
+    const prevEntries = prevProps.odstavky && prevProps.odstavky.entries ? prevProps.odstavky.entries : []
+    const currentEntries = this.props.odstavky && this.props.odstavky.entries ? this.props.odstavky.entries : []
+
+    // If entries have changed (different length or different content)
+    if (
+      prevEntries.length !== currentEntries.length ||
+      JSON.stringify(prevEntries) !== JSON.stringify(currentEntries)
+    ) {
+      // Fetch attachments for all entries
+      currentEntries.forEach(entry => {
+        this.props.fetchPrilohy(entry.id, entry.source)
+      })
     }
   }
 
@@ -193,7 +203,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchOdstavkyOSTNad24Hod: hlavnyId => dispatch(fetchOdstavkyOSTNad24HodRequest(hlavnyId)),
-  fetchPrilohy: entryId => dispatch(fetchPrilohyRequest(entryId))
+  fetchPrilohy: (entryId, source) => dispatch(fetchPrilohyRequest(entryId, source))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OdstavkyOSTNad24HodReadOnly)
