@@ -9,7 +9,7 @@ class PoznamkaRepository extends EntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.valid != false OR p.valid IS NULL')
-            ->orderBy('p.datum_cas', 'desc')
+            ->orderBy('p.id', 'desc')
             ->getQuery()
             ->getResult();
     }

@@ -8,6 +8,7 @@ use AppBundle\Api\Dispecing\PoruchovkaApiModel;
 use AppBundle\Entity\Dispecing\Dispecer;
 use AppBundle\Entity\Dispecing\OST;
 use AppBundle\Entity\Dispecing\Poruchovka;
+use AppBundle\Form\Type\Dispecing\DDH\PoznamkaType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -953,8 +954,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         foreach ($entries as $entry) {
             $model = new \AppBundle\Api\Dispecing\DDH\OSTPoznamkaApiModel();
             $model->id = $entry->getId();
-            $model->datum_cas = $entry->getDatumCas();
-            $model->ost = $entry->getOst();
+            $model->predmet = $entry->getPredmet();
             $model->poznamka = $entry->getPoznamka();
             $model->valid = $entry->getValid();
 
@@ -1003,39 +1003,10 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             throw $this->createNotFoundException(sprintf('Poznámka s id %s sa nenašla', $id));
         }
 
-        // Get data from the request
-        $data = json_decode($request->getContent(), true);
-
-        // Find the field being updated (the one that's not id)
-        $fieldName = null;
-        $fieldValue = null;
-        foreach ($data as $key => $value) {
-            if ($key !== 'id') {
-                $fieldName = $key;
-                $fieldValue = $value;
-                break;
-            }
-        }
-
-        // Handle datetime field directly before form processing
-        if ($fieldName === 'datum_cas') {
-            // If value is null, set the datetime field to null
-            if ($fieldValue === null) {
-                $poznamka->setDatumCas(null);
-            } else if (is_numeric($fieldValue)) {
-                $dateObj = new \DateTime();
-                $dateObj->setTimestamp($fieldValue);
-                $poznamka->setDatumCas($dateObj);
-            }
-
-            $em->persist($poznamka);
-            $em->flush();
-        }
-
         return $this->updateDatabase(
             $id,
             'AppBundle:Dispecing\DDH\Poznamka',
-            \AppBundle\Form\Type\Dispecing\DDH\PoznamkaType::class,
+            PoznamkaType::class,
             $request
         );
     }

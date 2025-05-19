@@ -19,14 +19,9 @@ class Poznamka extends BaseEntity
     private $id;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $datum_cas;
-
-    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $ost;
+    private $predmet;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -48,24 +43,14 @@ class Poznamka extends BaseEntity
         $this->id = $id;
     }
 
-    public function getDatumCas()
+    public function getPredmet()
     {
-        return $this->getTimestampWithoutOffset($this->datum_cas);
+        return $this->predmet;
     }
 
-    public function setDatumCas($datum_cas)
+    public function setPredmet($predmet)
     {
-        $this->datum_cas = $datum_cas;
-    }
-
-    public function getOst()
-    {
-        return $this->ost;
-    }
-
-    public function setOst($ost)
-    {
-        $this->ost = $ost;
+        $this->predmet = $predmet;
     }
 
     public function getPoznamka()

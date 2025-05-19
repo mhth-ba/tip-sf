@@ -11,13 +11,13 @@ import PraceNaOSTPrevadzkaWrapper from './PraceNaOSTPrevadzkaWrapper'
 import PraceNaOSTDispecingWrapper from './PraceNaOSTDispecingWrapper'
 import PlanovanePraceOdstavkyOSTWrapper from './PlanovanePraceOdstavkyOSTWrapper'
 import OdstavkyOSTNad24HodWrapper from './OdstavkyOSTNad24HodWrapper'
-import GlobalPoznamky from './GlobalPoznamky'
+import Poznamky from './Poznamky'
 
 const MainContent = ({ hlavny }) => {
   const renderMiddleContent = () => {
     // Only render middle content if initialized
     if (!hlavny.initialized) {
-      return null;
+      return null
     }
 
     if (hlavny.id === null) {
@@ -31,8 +31,8 @@ const MainContent = ({ hlavny }) => {
     // Calculate how many days old the data is
     const daysDifference = isHistoricalData
       ? moment()
-        .startOf('day')
-        .diff(moment.unix(hlavny.datum).startOf('day'), 'days')
+          .startOf('day')
+          .diff(moment.unix(hlavny.datum).startOf('day'), 'days')
       : 0
 
     // Check if the data is older than the 3-day edit window
@@ -89,10 +89,10 @@ const MainContent = ({ hlavny }) => {
       {/* Middle content - Only visible when initialized */}
       {renderMiddleContent()}
 
-      {/* Bottom row with GlobalPoznamky (Poznámky) - Always visible */}
+      {/* Bottom row with Poznamky - Always visible */}
       <Row className="mt-3">
         <Col>
-          <GlobalPoznamky />
+          <Poznamky />
         </Col>
       </Row>
       <Row>

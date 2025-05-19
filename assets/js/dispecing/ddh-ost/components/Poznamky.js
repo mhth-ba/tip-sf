@@ -1,31 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap'
-import moment from 'moment'
+import { Card, CardHeader, CardBody, Button, Row, Col } from 'reactstrap'
+import { createPoznamkaRequest, fetchPoznamkyRequest } from '../actions'
 import debounce from '../../../utils/debounce'
-import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
-import { createPoznamkaRequest, updatePoznamkaRequest, fetchPoznamkyRequest, deletePoznamkaRequest } from '../actions'
+import { updatePoznamkaRequest, deletePoznamkaRequest } from '../actions'
 
 class Poznamky extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      // Store per-entry OST filters
-      entryOstFilters: {},
       // Store local entry values for optimistic updates
       localEntries: {},
       // Store debounced update functions for each entry by ID
       debouncedUpdates: {}
     }
-
-    this.handleAddForm = this.handleAddForm.bind(this)
   }
 
   componentDidMount() {
-    // If hlavny_id is available, fetch data
-    if (this.props.hlavny && this.props.hlavny.id) {
-      this.props.fetchPoznamky(this.props.hlavny.id)
-    }
+    // Fetch all poznamky when component mounts
+    this.props.fetchPoznamky()
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -37,47 +30,14 @@ class Poznamky extends React.Component {
       })
       this.setState({ localEntries })
     }
-
-    // Check if hlavny_id has changed and fetch data if needed
-    if (prevProps.hlavny.id !== this.props.hlavny.id && this.props.hlavny.id) {
-      this.props.fetchPoznamky(this.props.hlavny.id)
-    }
-
-    // If there's an error, we need to check which update caused it
-    if (!prevProps.poznamky.error && this.props.poznamky.error) {
-      // Error handling could be implemented here if needed
-      console.error('Operation failed:', this.props.poznamky.error)
-    }
   }
 
-  // Handle OST filter change for a specific entry
-  handleOstFilterChange = (entryId, value) => {
-    this.setState(prevState => ({
-      entryOstFilters: {
-        ...prevState.entryOstFilters,
-        [entryId]: value
-      }
-    }))
-  }
-
-  handleAddForm() {
-    const { hlavny, createPoznamkaRequest, fetchPoznamky } = this.props
-    if (!hlavny || !hlavny.id) {
-      alert('Hlavný záznam nie je načítaný.')
-      return
-    }
-
-    // Dispatch create action
-    createPoznamkaRequest(hlavny.id)
-
-    // Re-fetch all entries after creation
-    fetchPoznamky(hlavny.id)
+  handleAddForm = () => {
+    this.props.createPoznamka()
   }
 
   // Handle the delete button click
   handleDeleteEntry = entryId => {
-    const { hlavny, deletePoznamkaRequest, fetchPoznamky } = this.props
-
     if (window.confirm('Naozaj chcete odstrániť túto položku?')) {
       // First remove from local state for immediate UI update
       this.setState(prevState => {
@@ -87,12 +47,7 @@ class Poznamky extends React.Component {
       })
 
       // Then send the delete request to the server
-      deletePoznamkaRequest(entryId)
-
-      // After deletion, refresh the list
-      if (hlavny && hlavny.id) {
-        fetchPoznamky(hlavny.id)
-      }
+      this.props.deletePoznamka(entryId)
     }
   }
 
@@ -120,7 +75,7 @@ class Poznamky extends React.Component {
         }
 
         // Send the update request
-        this.props.updatePoznamkaRequest(
+        this.props.updatePoznamka(
           {
             id: entryId,
             [fieldName]: value
@@ -143,7 +98,7 @@ class Poznamky extends React.Component {
     return this.state.debouncedUpdates[key]
   }
 
-  // Modified handleChangeField method
+  // Handle field changes
   handleChangeField = (entry, fieldName, value) => {
     // First, update local state for immediate visual feedback
     this.setState(prevState => ({
@@ -156,312 +111,106 @@ class Poznamky extends React.Component {
       }
     }))
 
-    // Handle dates specially
-    if (fieldName === 'datum_cas') {
-      this.handleDateChange(entry, fieldName, value)
-      return
-    }
-
-    const inputType = fieldName === 'poznamka' ? 'textarea' : fieldName === 'ost' ? 'select' : 'text'
-
-    // For select fields, update immediately
-    if (inputType === 'select') {
-      // Save the previous value for possible rollback
-      const previousValue = entry[fieldName]
-
-      // Create rollback function for sagas
-      const rollbackCallback = () => {
-        this.setState(prevState => ({
-          localEntries: {
-            ...prevState.localEntries,
-            [entry.id]: {
-              ...prevState.localEntries[entry.id],
-              [fieldName]: previousValue
-            }
-          }
-        }))
-      }
-
-      this.props.updatePoznamkaRequest(
-        {
-          id: entry.id,
-          [fieldName]: value
-        },
-        rollbackCallback
-      )
-    }
-    // For text fields and textareas, use debounce
-    else {
-      // Get the debounced function for this entry and field
-      const debouncedUpdate = this.getDebouncedUpdate(entry.id, fieldName)
-      debouncedUpdate(value)
-    }
+    // For all text fields, use debounced updates
+    const debouncedUpdate = this.getDebouncedUpdate(entry.id, fieldName)
+    debouncedUpdate(value)
   }
 
-  handleDateChange = (entry, fieldName, newValue) => {
-    // First, update local state for immediate visual feedback
-    this.setState(prevState => ({
-      localEntries: {
-        ...prevState.localEntries,
-        [entry.id]: {
-          ...prevState.localEntries[entry.id],
-          [fieldName]: newValue // For date fields, store the date string locally
-        }
-      }
-    }))
-
-    // Store previous value for possible rollback
-    const previousValue = entry[fieldName]
-
-    // Create rollback function for sagas
-    const rollbackCallback = () => {
-      this.setState(prevState => ({
-        localEntries: {
-          ...prevState.localEntries,
-          [entry.id]: {
-            ...prevState.localEntries[entry.id],
-            [fieldName]: previousValue
-          }
-        }
-      }))
-    }
-
-    // If user clears the field, send null
-    if (!newValue) {
-      this.props.updatePoznamkaRequest(
-        {
-          id: entry.id,
-          [fieldName]: null
-        },
-        rollbackCallback
-      )
-      return
-    }
-
-    try {
-      // Create a date object from the input
-      const dateObj = new Date(newValue)
-
-      // Use timestamp for consistency across all date fields
-      const timestamp = Math.floor(dateObj.getTime() / 1000) // Convert to seconds
-
-      // Only send the ID and the changed field
-      this.props.updatePoznamkaRequest(
-        {
-          id: entry.id,
-          [fieldName]: timestamp
-        },
-        rollbackCallback
-      )
-    } catch (err) {
-      console.error(`Error converting date: ${newValue}`, err)
-    }
-  }
-
-  // Convert a numeric or string date from Redux to "YYYY-MM-DDTHH:mm" for <input type="datetime-local">
-  getDisplayDate = value => {
-    if (!value) return ''
-    // If value is numeric (a Unix timestamp), convert it.
-    if (typeof value === 'number') {
-      return moment.unix(value).format('YYYY-MM-DDTHH:mm')
-    }
-    // Otherwise, assume it's a string that can be parsed.
-    // Try to parse known formats and output in the proper format.
-    return moment(value, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm']).format('YYYY-MM-DDTHH:mm')
-  }
-
-  renderEntry(entry) {
+  renderEntryForm(entry) {
     // Get the local entry data for optimistic updates
     const localEntry = this.state.localEntries[entry.id] || entry
 
-    // Get the OST filter for this specific entry
-    const ostFilter = this.state.entryOstFilters[entry.id] || ''
-
-    // Group OST options by type
-    const ostByType = {}
-
-    if (this.props.ost && this.props.ost.length > 0) {
-      this.props.ost.forEach(ost => {
-        if (!ostByType[ost.typ]) {
-          ostByType[ost.typ] = []
-        }
-
-        // Create the option with the format "cislo + space + adresa"
-        const ostOption = {
-          value: `${ost.cislo} ${ost.adresa}`,
-          label: `${ost.cislo} ${ost.adresa}`,
-          cislo: ost.cislo,
-          adresa: ost.adresa
-        }
-
-        ostByType[ost.typ].push(ostOption)
-      })
-    }
-
-    // Filter OST options based on the entry-specific filter using diacritic-insensitive filtering
-    const filteredOstOptions = {}
-    Object.keys(ostByType).forEach(typ => {
-      // Use diacriticFilter function for each type group
-      if (ostFilter) {
-        const filtered = ostByType[typ].filter(
-          ost =>
-            diacriticMatch(ost.label, ostFilter) ||
-            diacriticMatch(ost.cislo, ostFilter) ||
-            diacriticMatch(ost.adresa, ostFilter)
-        )
-        if (filtered.length > 0) {
-          filteredOstOptions[typ] = filtered
-        }
-      } else {
-        filteredOstOptions[typ] = ostByType[typ]
-      }
-    })
-
-    // Custom sort order for option groups: PK, OST, OOST, OŠ, then others alphabetically
-    const customSortOrder = {
-      PK: 1,
-      OST: 2,
-      OOST: 3,
-      OŠ: 4
-    }
-
-    // Sort the keys (typ) according to custom order
-    const sortedTypes = Object.keys(filteredOstOptions).sort((a, b) => {
-      const orderA = customSortOrder[a] || 100 // Default high value for types not in the custom order
-      const orderB = customSortOrder[b] || 100
-
-      if (orderA === orderB) {
-        // If both are in the "others" category (or the same category), sort alphabetically
-        return a.localeCompare(b)
-      }
-
-      return orderA - orderB
-    })
-
-    // Convert the DB/stored date/time into the format needed by <input type="datetime-local">
-    const dateDisplay = this.getDisplayDate(localEntry.datum_cas)
-
     return (
-      <Form key={entry.id} className="mt-4">
-        <Row>
-          <Col md="12">
-            <FormGroup>
-              <Label>Filter OST pre tento záznam</Label>
-              <Input
-                type="text"
-                value={ostFilter}
-                onChange={e => this.handleOstFilterChange(entry.id, e.target.value)}
-                placeholder="Zadajte filter pre OST..."
-              />
-            </FormGroup>
-          </Col>
-        </Row>
+      <div style={{ padding: '10px' }}>
+        <div className="form-group mb-2">
+          <label>Predmet</label>
+          <input
+            type="text"
+            className="form-control"
+            value={localEntry.predmet || ''}
+            onChange={e => this.handleChangeField(entry, 'predmet', e.target.value)}
+            placeholder="Zadajte predmet..."
+          />
+        </div>
 
-        <Row>
-          <Col md="6">
-            <FormGroup>
-              <Label>Dátum a čas</Label>
-              <Input
-                type="datetime-local"
-                value={dateDisplay}
-                onChange={e => this.handleChangeField(entry, 'datum_cas', e.target.value)}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
+        <div className="form-group mb-3">
+          <label>Poznámka</label>
+          <textarea
+            className="form-control"
+            value={localEntry.poznamka || ''}
+            onChange={e => this.handleChangeField(entry, 'poznamka', e.target.value)}
+            rows="3"
+          />
+        </div>
 
-        <Row>
-          <Col md="6">
-            <FormGroup>
-              <Label>Objekt OST/PK</Label>
-              <Input
-                type="select"
-                value={localEntry.ost || ''}
-                onChange={e => this.handleChangeField(entry, 'ost', e.target.value)}
-              >
-                <option value="">-- Vyberte --</option>
+        <div className="text-center">
+          <Button color="danger" size="sm" onClick={() => this.handleDeleteEntry(entry.id)}>
+            Odstrániť
+          </Button>
+        </div>
+      </div>
+    )
+  }
 
-                {/* Render grouped OST options in custom sort order */}
-                {sortedTypes.map(typ => (
-                  <optgroup key={typ} label={typ}>
-                    {filteredOstOptions[typ].map(opt => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </Input>
-            </FormGroup>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md="12">
-            <FormGroup>
-              <Label>Poznámka</Label>
-              <Input
-                type="textarea"
-                value={localEntry.poznamka || ''}
-                onChange={e => this.handleChangeField(entry, 'poznamka', e.target.value)}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-
-        <Row className="mt-4 mb-3">
-          <Col className="text-center">
-            <Button color="danger" onClick={() => this.handleDeleteEntry(entry.id)} className="px-4">
-              Odstrániť
-            </Button>
-          </Col>
-        </Row>
-
-        <hr style={{ marginTop: '20px' }} />
-      </Form>
+  renderReadOnlyEntry(entry) {
+    return (
+      <div style={{ padding: '10px' }}>
+        <div className="mb-2">
+          <strong>Predmet:</strong>
+          <div>{entry.predmet || '-'}</div>
+        </div>
+        <div className="mb-2">
+          <strong>Poznámka:</strong>
+          <div style={{ whiteSpace: 'pre-line' }}>{entry.poznamka || '-'}</div>
+        </div>
+      </div>
     )
   }
 
   render() {
-    const { horizontal } = this.props
-    // Filter entries to show only those that are valid
-    const validEntries =
-      this.props.poznamky && this.props.poznamky.entries
-        ? this.props.poznamky.entries.filter(entry => entry.valid !== false)
-        : []
-
-    if (horizontal) {
-      return (
-        <div>
-          {validEntries.map(entry => (
-            <Card key={entry.id} style={{ minWidth: '300px', maxWidth: '350px', flex: '0 0 auto' }}>
-              <CardBody>{this.renderEntry(entry)}</CardBody>
-            </Card>
-          ))}
-          {validEntries.length === 0 && (
-            <div className="text-center p-3" style={{ width: '100%' }}>
-              <p className="text-muted mb-0">Žiadne záznamy na zobrazenie.</p>
-            </div>
-          )}
-        </div>
-      )
-    }
+    const { opravnenia, poznamky } = this.props
+    const canEdit = opravnenia && opravnenia.editor
+    const validEntries = poznamky && poznamky.entries ? poznamky.entries.filter(entry => entry.valid !== false) : []
 
     return (
-      <Card>
+      <Card className="mb-4">
         <CardHeader className="bg-primary text-white">Poznámky</CardHeader>
         <CardBody>
-          <Button color="success" onClick={this.handleAddForm}>
-            Pridať
-          </Button>
-
-          {validEntries.map(entry => this.renderEntry(entry))}
-
-          {validEntries.length === 0 && (
-            <div className="text-center mt-4">
-              <p>Žiadne záznamy. Kliknite na "Pridať" pre vytvorenie nového záznamu.</p>
+          {canEdit && (
+            <div className="mb-3">
+              <Button color="success" onClick={this.handleAddForm}>
+                Pridať
+              </Button>
             </div>
           )}
+
+          <div
+            style={{
+              overflowX: 'auto',
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'nowrap',
+              gap: '15px'
+            }}
+            className="horizontal-scroll-container"
+          >
+            {validEntries.length === 0 ? (
+              <div className="text-center p-3" style={{ width: '100%' }}>
+                <p className="text-muted mb-0">Žiadne záznamy na zobrazenie.</p>
+              </div>
+            ) : (
+              validEntries.map(entry => (
+                <Card
+                  key={entry.id}
+                  style={{ minWidth: '300px', maxWidth: '350px', flex: '0 0 auto', marginBottom: 0 }}
+                >
+                  <CardBody style={{ padding: '0.75rem' }}>
+                    {canEdit ? this.renderEntryForm(entry) : this.renderReadOnlyEntry(entry)}
+                  </CardBody>
+                </Card>
+              ))
+            )}
+          </div>
         </CardBody>
       </Card>
     )
@@ -469,16 +218,15 @@ class Poznamky extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  hlavny: state.hlavny,
-  poznamky: state.poznamky,
-  ost: (state.ost && state.ost.entries) || []
+  opravnenia: state.opravnenia,
+  poznamky: state.poznamky
 })
 
 const mapDispatchToProps = dispatch => ({
-  createPoznamkaRequest: hlavnyId => dispatch(createPoznamkaRequest(hlavnyId)),
-  updatePoznamkaRequest: (data, rollbackCallback) => dispatch(updatePoznamkaRequest(data, rollbackCallback)),
-  fetchPoznamky: hlavnyId => dispatch(fetchPoznamkyRequest(hlavnyId)),
-  deletePoznamkaRequest: id => dispatch(deletePoznamkaRequest(id))
+  fetchPoznamky: () => dispatch(fetchPoznamkyRequest()),
+  createPoznamka: () => dispatch(createPoznamkaRequest()),
+  updatePoznamka: (data, rollbackCallback) => dispatch(updatePoznamkaRequest(data, rollbackCallback)),
+  deletePoznamka: id => dispatch(deletePoznamkaRequest(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Poznamky)

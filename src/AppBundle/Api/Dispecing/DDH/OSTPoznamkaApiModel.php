@@ -8,9 +8,7 @@ class OSTPoznamkaApiModel extends DefaultApiModel
 {
     public $id;
 
-    public $datum_cas;
-
-    public $ost;
+    public $predmet;
 
     public $poznamka;
 
