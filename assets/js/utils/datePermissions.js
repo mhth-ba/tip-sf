@@ -12,6 +12,11 @@ export const canEditData = (hlavny, opravnenia) => {
     return false
   }
 
+  // If user has ROLE_DDH role (admin access), they can edit regardless of date
+  if (opravnenia.admin) {
+    return true
+  }
+
   // Now check if date is within the allowed range (today, yesterday, or day before yesterday)
   if (!hlavny) {
     // If no hlavny object available, default to read-only
