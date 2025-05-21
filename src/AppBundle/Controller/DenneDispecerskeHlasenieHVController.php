@@ -183,7 +183,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/hlavicka/{id}", name="ddh_hv_hlavicka_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updateHlavickaAction($id, Request $request)
     {
@@ -283,7 +283,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-hv-vychod", name="ddh_hv_zmena_na_hv_vychod_create", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function createZmenaNaHVVychodAction(Request $request)
     {
@@ -334,7 +334,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-hv-vychod/{id}", name="ddh_hv_zmena_na_hv_vychod_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updateZmenaNaHVVychodAction($id, Request $request)
     {
@@ -384,7 +384,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-hv-vychod/{id}", name="ddh_hv_zmena_na_hv_vychod_delete", options={"expose"=true})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function deleteZmenaNaHVVychodAction($id)
     {
@@ -417,7 +417,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-hv-zapad", name="ddh_hv_zmena_na_hv_zapad_create", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function createZmenaNaHVZapadAction(Request $request)
     {
@@ -468,7 +468,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-hv-zapad/{id}", name="ddh_hv_zmena_na_hv_zapad_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updateZmenaNaHVZapadAction($id, Request $request)
     {
@@ -518,7 +518,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-hv-zapad/{id}", name="ddh_hv_zmena_na_hv_zapad_delete", options={"expose"=true})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function deleteZmenaNaHVZapadAction($id)
     {
@@ -624,7 +624,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-zdroj/{sourceType}", name="ddh_hv_zmena_na_zdroj_create", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function createZmenaNaZdrojAction($sourceType, Request $request)
     {
@@ -688,7 +688,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-zdroj/{sourceType}/{id}", name="ddh_hv_zmena_na_zdroj_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updateZmenaNaZdrojAction($sourceType, $id, Request $request)
     {
@@ -740,7 +740,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
     /**
      * @Route("disp/ddh-hv/zmena-na-zdroj/{sourceType}/{id}", name="ddh_hv_zmena_na_zdroj_delete", options={"expose"=true})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function deleteZmenaNaZdrojAction($sourceType, $id)
     {

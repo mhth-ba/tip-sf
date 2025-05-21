@@ -67,7 +67,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/prilohy-upload", name="ddh_ost_prilohy_upload", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function uploadPrilohaAction(Request $request)
     {
@@ -150,7 +150,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/prilohy/{id}", name="ddh_ost_prilohy_delete", options={"expose"=true})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function deletePrilohaAction($id)
     {
@@ -392,7 +392,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/hlavicka/{id}", name="ddh_ost_hlavicka_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updateHlavickaAction($id, Request $request)
     {
@@ -449,7 +449,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/prace-na-ost-prevadzka", name="ddh_ost_prace_na_ost_prevadzka_create", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function createPraceNaOSTPrevadzkaAction(Request $request)
     {
@@ -488,7 +488,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/prace-na-ost-prevadzka/{id}", name="ddh_ost_prace_na_ost_prevadzka_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updatePraceNaOSTPrevadzkaAction($id, Request $request)
     {
@@ -549,7 +549,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/prace-na-ost-prevadzka/{id}", name="ddh_ost_prace_na_ost_prevadzka_delete", options={"expose"=true})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function deletePraceNaOSTPrevadzkaAction($id)
     {
@@ -609,7 +609,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/prace-na-ost-dispecing", name="ddh_ost_prace_na_ost_dispecing_create", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function createPraceNaOSTDispecingAction(Request $request)
     {
@@ -648,7 +648,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/prace-na-ost-dispecing/{id}", name="ddh_ost_prace_na_ost_dispecing_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updatePraceNaOSTDispecingAction($id, Request $request)
     {
@@ -709,7 +709,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/prace-na-ost-dispecing/{id}", name="ddh_ost_prace_na_ost_dispecing_delete", options={"expose"=true})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function deletePraceNaOSTDispecingAction($id)
     {
@@ -762,7 +762,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/planovane-prace-odstavky", name="ddh_ost_planovane_prace_odstavky_create", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function createPlanovanePraceOdstavkyOSTAction(Request $request)
     {
@@ -793,7 +793,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/planovane-prace-odstavky/{id}", name="ddh_ost_planovane_prace_odstavky_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updatePlanovanePraceOdstavkyOSTAction($id, Request $request)
     {
@@ -843,7 +843,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/planovane-prace-odstavky/{id}", name="ddh_ost_planovane_prace_odstavky_delete", options={"expose"=true})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function deletePlanovanePraceOdstavkyOSTAction($id)
     {
@@ -969,7 +969,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/poznamky", name="ddh_ost_poznamky_create", options={"expose"=true})
      * @Method("POST")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function createPoznamkaAction(Request $request)
     {
@@ -993,7 +993,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/poznamky/{id}", name="ddh_ost_poznamky_update", options={"expose"=true})
      * @Method("PATCH")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function updatePoznamkaAction($id, Request $request)
     {
@@ -1014,7 +1014,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
     /**
      * @Route("disp/ddh-ost/poznamky/{id}", name="ddh_ost_poznamky_delete", options={"expose"=true})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_DDH')")
+     * @Security("has_role('ROLE_DDH_DISPEC')")
      */
     public function deletePoznamkaAction($id)
     {
