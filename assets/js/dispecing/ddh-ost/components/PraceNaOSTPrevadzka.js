@@ -572,8 +572,10 @@ class PraceNaOSTPrevadzka extends React.Component {
                 <option value="TV">TV</option>
                 <option value="ÚK">ÚK</option>
                 <option value="VZT">VZT</option>
+                <option value="Chladenie">Chladenie</option>
                 <option value="TV + ÚK">TV + ÚK</option>
                 <option value="TV + VZT">TV + VZT</option>
+                <option value="TV + Chladenie">TV + Chladenie</option>
                 <option value="ÚK + VZT">ÚK + VZT</option>
                 <option value="TV + ÚK + VZT">TV + ÚK + VZT</option>
               </Input>
