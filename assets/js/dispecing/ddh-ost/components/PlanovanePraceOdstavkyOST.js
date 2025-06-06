@@ -322,6 +322,17 @@ class PlanovanePraceOdstavkyOST extends React.Component {
     return moment(value, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm']).format('YYYY-MM-DDTHH:mm')
   }
 
+  // New method to format date for tab display
+  formatTabDate = value => {
+    if (!value) return null
+    // If value is numeric (a Unix timestamp), convert it.
+    if (typeof value === 'number') {
+      return moment.unix(value).format('DD.MM.YYYY')
+    }
+    // Otherwise, assume it's a string that can be parsed.
+    return moment(value, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm']).format('DD.MM.YYYY')
+  }
+
   renderEntry(entry) {
     // Get the local entry data for optimistic updates
     const localEntry = this.state.localEntries[entry.id] || entry
@@ -492,17 +503,27 @@ class PlanovanePraceOdstavkyOST extends React.Component {
 
           {sortedEntries.length > 0 && [
             <Nav pills key="nav-tabs">
-              {sortedEntries.map(entry => (
-                <NavItem key={entry.id}>
-                  <NavLink
-                    className={this.state.activeTab === entry.id.toString() ? 'active' : ''}
-                    onClick={() => this.toggle(entry.id.toString())}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {entry.ost || entry.id}
-                  </NavLink>
-                </NavItem>
-              ))}
+              {sortedEntries.map(entry => {
+                const tabLabel = entry.ost || entry.id
+                const formattedDate = this.formatTabDate(entry.datum_cas)
+
+                return (
+                  <NavItem key={entry.id}>
+                    <NavLink
+                      className={this.state.activeTab === entry.id.toString() ? 'active' : ''}
+                      onClick={() => this.toggle(entry.id.toString())}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <div style={{ lineHeight: '1.2' }}>
+                        <div>{tabLabel}</div>
+                        {formattedDate && (
+                          <div style={{ fontSize: '0.75rem', color: '#6c757d', marginTop: '2px' }}>{formattedDate}</div>
+                        )}
+                      </div>
+                    </NavLink>
+                  </NavItem>
+                )
+              })}
             </Nav>,
             <TabContent activeTab={this.state.activeTab} key="tab-content">
               {sortedEntries.map(entry => (

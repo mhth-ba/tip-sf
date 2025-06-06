@@ -393,6 +393,17 @@ class OdstavkyOSTNad24Hod extends React.Component {
     return moment(value, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm']).format('YYYY-MM-DDTHH:mm')
   }
 
+  // New method to format date for tab display
+  formatTabDate = value => {
+    if (!value) return null
+    // If value is numeric (a Unix timestamp), convert it.
+    if (typeof value === 'number') {
+      return moment.unix(value).format('DD.MM.YYYY')
+    }
+    // Otherwise, assume it's a string that can be parsed.
+    return moment(value, ['YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DDTHH:mm']).format('DD.MM.YYYY')
+  }
+
   renderFileUpload(entry) {
     return (
       <Row>
@@ -692,6 +703,8 @@ class OdstavkyOSTNad24Hod extends React.Component {
               {sortedEntries.map(entry => {
                 const compositeKey = `${entry.id}-${entry.source}`
                 const tabLabel = entry.ost || `${entry.id} (${entry.source})`
+                const formattedDate = this.formatTabDate(entry.datum_cas_zaciatok)
+
                 return (
                   <NavItem key={compositeKey}>
                     <NavLink
@@ -699,7 +712,12 @@ class OdstavkyOSTNad24Hod extends React.Component {
                       onClick={() => this.toggle(compositeKey)}
                       style={{ cursor: 'pointer' }}
                     >
-                      {tabLabel}
+                      <div style={{ lineHeight: '1.2' }}>
+                        <div>{tabLabel}</div>
+                        {formattedDate && (
+                          <div style={{ fontSize: '0.75rem', color: '#6c757d', marginTop: '2px' }}>{formattedDate}</div>
+                        )}
+                      </div>
                     </NavLink>
                   </NavItem>
                 )
