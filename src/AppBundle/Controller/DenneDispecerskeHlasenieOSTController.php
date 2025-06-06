@@ -35,7 +35,13 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         $repository = $em->getRepository('AppBundle:Dispecing\DDH\PrilohyOST');
 
         // Determine the sekcia based on the source parameter
-        $sekcia = ($source === 'dispecing') ? 2 : 1; // 1 = prevadzka, 2 = dispecing
+        if ($source === 'dispecing') {
+            $sekcia = 2;
+        } elseif ($source === 'poznamky') {
+            $sekcia = 3;
+        } else {
+            $sekcia = 1; // prevadzka (default)
+        }
 
         // Get all attachments for this entry with the correct sekcia
         $prilohy = $repository->createQueryBuilder('p')
@@ -51,7 +57,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             $model = new \AppBundle\Api\Dispecing\DDH\PrilohyOSTApiModel();
             $model->id = $priloha->getId();
             $model->datum = $priloha->getDatum()->getTimestamp();
-            $model->hlavny_id = $priloha->getHlavny()->getId();
+            $model->hlavny_id = $priloha->getHlavny() ? $priloha->getHlavny()->getId() : null;
             $model->sekcia = $priloha->getSekcia();
             $model->entry_id = $priloha->getEntryId();
             $model->original = $priloha->getOriginal();
@@ -76,25 +82,41 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             throw new BadRequestHttpException('Invalid JSON');
         }
 
-        if (!isset($data['hlavny_id']) || !isset($data['entry_id']) || !isset($data['original']) || !isset($data['subor'])) {
+        if (!isset($data['entry_id']) || !isset($data['original']) || !isset($data['subor'])) {
             throw new BadRequestHttpException('Missing required fields');
         }
 
         // Get the source from the data to determine the "sekcia" value
         $source = isset($data['source']) ? $data['source'] : 'prevadzka'; // Default to prevadzka if not specified
-        $sekcia = ($source === 'dispecing') ? 2 : 1; // 1 = prevadzka, 2 = dispecing
+        
+        // Check if hlavny_id is required (not required for poznamky)
+        if ($source !== 'poznamky' && !isset($data['hlavny_id'])) {
+            throw new BadRequestHttpException('Missing hlavny_id for non-poznamky sources');
+        }
+        if ($source === 'dispecing') {
+            $sekcia = 2;
+        } elseif ($source === 'poznamky') {
+            $sekcia = 3;
+        } else {
+            $sekcia = 1; // prevadzka (default)
+        }
 
         $em = $this->getDoctrine()->getManager();
 
-        // Find the hlavny record
-        $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
-        if (!$hlavny) {
-            throw $this->createNotFoundException('Hlavny record not found');
+        // Find the hlavny record (only for non-poznamky sources)
+        $hlavny = null;
+        if ($source !== 'poznamky') {
+            $hlavny = $em->getRepository('AppBundle:Dispecing\DDH\HlavnyOST')->find($data['hlavny_id']);
+            if (!$hlavny) {
+                throw $this->createNotFoundException('Hlavny record not found');
+            }
         }
 
         // Create new attachment record
         $priloha = new \AppBundle\Entity\Dispecing\DDH\PrilohyOST();
-        $priloha->setHlavny($hlavny);
+        if ($hlavny) {
+            $priloha->setHlavny($hlavny);
+        }
         $priloha->setSekcia($sekcia); // Set "sekcia" based on the source
         $priloha->setEntryId($data['entry_id']);
         $priloha->setOriginal($data['original']);
@@ -117,7 +139,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
         $model = new \AppBundle\Api\Dispecing\DDH\PrilohyOSTApiModel();
         $model->id = $priloha->getId();
         $model->datum = $priloha->getDatum()->getTimestamp();
-        $model->hlavny_id = $priloha->getHlavny()->getId();
+        $model->hlavny_id = $priloha->getHlavny() ? $priloha->getHlavny()->getId() : null;
         $model->sekcia = $priloha->getSekcia();
         $model->entry_id = $priloha->getEntryId();
         $model->original = $priloha->getOriginal();

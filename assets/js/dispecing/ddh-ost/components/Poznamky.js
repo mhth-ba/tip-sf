@@ -1,9 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, CardHeader, CardBody, Button, Row, Col } from 'reactstrap'
-import { createPoznamkaRequest, fetchPoznamkyRequest } from '../actions'
+import { Card, CardHeader, CardBody, Button, Row, Col, FormText, FormGroup, Label } from 'reactstrap'
+import { createPoznamkaRequest, fetchPoznamkyRequest, uploadPrilohaRequest } from '../actions'
 import debounce from '../../../utils/debounce'
 import { updatePoznamkaRequest, deletePoznamkaRequest } from '../actions'
+
+import DropzoneComponent from 'react-dropzone-component'
+import FileAttachments from './FileAttachments'
 
 class Poznamky extends React.Component {
   constructor(props) {
@@ -12,8 +15,22 @@ class Poznamky extends React.Component {
       // Store local entry values for optimistic updates
       localEntries: {},
       // Store debounced update functions for each entry by ID
-      debouncedUpdates: {}
+      debouncedUpdates: {},
+      // File upload configuration
+      componentConfig: {
+        showFiletypeIcon: true,
+        postUrl: $('#uploader').data('endpoint'),
+        maxFilesize: 1000 // MB
+      },
+      djsConfig: {
+        autoProcessQueue: true,
+        dictDefaultMessage: 'Presuňte súbory sem, alebo kliknite pre nahratie',
+        dictInvalidFileType: 'Neplatný typ súboru'
+      }
     }
+
+    this.handleAddedFile = this.handleAddedFile.bind(this)
+    this.handleUpload = this.handleUpload.bind(this)
   }
 
   componentDidMount() {
@@ -116,6 +133,45 @@ class Poznamky extends React.Component {
     debouncedUpdate(value)
   }
 
+  handleAddedFile(file) {
+    // This method is called when a file is added to the dropzone
+    // You can use it for UI feedback if needed
+  }
+
+  handleUpload(file, entry) {
+    const original = file.name
+    const filename = JSON.parse(file.xhr.response).filename
+
+    const data = {
+      entry_id: entry.id,
+      original: original,
+      subor: filename,
+      source: 'poznamky'
+    }
+
+    this.props.uploadPriloha(data)
+  }
+
+  renderFileUpload(entry) {
+    return (
+      <div className="mt-3">
+        <FormGroup>
+          <Label>Prílohy</Label>
+          <FileAttachments entryId={entry.id} source="poznamky" readOnly={false} compact={true} />
+          <DropzoneComponent
+            config={this.state.componentConfig}
+            djsConfig={this.state.djsConfig}
+            eventHandlers={{
+              addedfile: file => this.handleAddedFile(file),
+              complete: file => this.handleUpload(file, entry)
+            }}
+          />
+          <FormText color="muted">Nahrajte súbory súvisiace s touto poznámkou (max. 1000MB na súbor)</FormText>
+        </FormGroup>
+      </div>
+    )
+  }
+
   renderEntryForm(entry) {
     // Get the local entry data for optimistic updates
     const localEntry = this.state.localEntries[entry.id] || entry
@@ -143,6 +199,9 @@ class Poznamky extends React.Component {
           />
         </div>
 
+        {/* File upload section */}
+        {this.renderFileUpload(entry)}
+
         <div className="text-center">
           <Button color="danger" size="sm" onClick={() => this.handleDeleteEntry(entry.id)}>
             Odstrániť
@@ -162,6 +221,10 @@ class Poznamky extends React.Component {
         <div className="mb-2">
           <strong>Poznámka:</strong>
           <div style={{ whiteSpace: 'pre-line' }}>{entry.poznamka || '-'}</div>
+        </div>
+        <div className="mb-2">
+          <strong>Prílohy:</strong>
+          <FileAttachments entryId={entry.id} source="poznamky" readOnly={true} compact={true} />
         </div>
       </div>
     )
@@ -226,7 +289,8 @@ const mapDispatchToProps = dispatch => ({
   fetchPoznamky: () => dispatch(fetchPoznamkyRequest()),
   createPoznamka: () => dispatch(createPoznamkaRequest()),
   updatePoznamka: (data, rollbackCallback) => dispatch(updatePoznamkaRequest(data, rollbackCallback)),
-  deletePoznamka: id => dispatch(deletePoznamkaRequest(id))
+  deletePoznamka: id => dispatch(deletePoznamkaRequest(id)),
+  uploadPriloha: data => dispatch(uploadPrilohaRequest(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Poznamky)
