@@ -22,6 +22,7 @@ import {
 import moment from 'moment'
 import debounce from '../../../utils/debounce'
 import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
+import { sortEntriesByDateAndId } from '../../../utils/sorting'
 import {
   fetchOdstavkyOSTNad24HodRequest,
   updatePraceNaOSTPrevadzkaRequest,
@@ -667,25 +668,28 @@ class OdstavkyOSTNad24Hod extends React.Component {
         ? this.props.odstavky.entries.filter(entry => entry.valid !== false)
         : []
 
+    // Sort all entries together regardless of source
+    const sortedEntries = sortEntriesByDateAndId(validEntries)
+
     return (
       <Card>
         <CardHeader className="bg-primary text-white">Odstávky OST nad 24 hod.</CardHeader>
         <CardBody>
-          {validEntries.length === 0 && this.props.odstavky.loading && (
+          {sortedEntries.length === 0 && this.props.odstavky.loading && (
             <div className="text-center mt-4">
               <p>Načítavam údaje...</p>
             </div>
           )}
 
-          {validEntries.length === 0 && !this.props.odstavky.loading && (
+          {sortedEntries.length === 0 && !this.props.odstavky.loading && (
             <div className="text-center text-muted mb-0">
               <p>Žiadne odstávky OST nad 24 hodín.</p>
             </div>
           )}
 
-          {validEntries.length > 0 && [
+          {sortedEntries.length > 0 && [
             <Nav pills key="nav-tabs">
-              {validEntries.map(entry => {
+              {sortedEntries.map(entry => {
                 const compositeKey = `${entry.id}-${entry.source}`
                 const tabLabel = entry.ost || `${entry.id} (${entry.source})`
                 return (
@@ -702,7 +706,7 @@ class OdstavkyOSTNad24Hod extends React.Component {
               })}
             </Nav>,
             <TabContent activeTab={this.state.activeTab} key="tab-content">
-              {validEntries.map(entry => {
+              {sortedEntries.map(entry => {
                 const compositeKey = `${entry.id}-${entry.source}`
                 return (
                   <TabPane key={compositeKey} tabId={compositeKey}>

@@ -20,6 +20,7 @@ import {
 import moment from 'moment'
 import debounce from '../../../utils/debounce'
 import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
+import { sortEntriesByDateAndId } from '../../../utils/sorting'
 import {
   createPlanovanePraceOdstavkyRequest,
   updatePlanovanePraceOdstavkyRequest,
@@ -478,6 +479,9 @@ class PlanovanePraceOdstavkyOST extends React.Component {
         ? this.props.planovane.entries.filter(entry => entry.valid !== false)
         : []
 
+    // Sort entries by datum_cas DESC, id ASC (note: different field name)
+    const sortedEntries = sortEntriesByDateAndId(validEntries, 'datum_cas')
+
     return (
       <Card>
         <CardHeader className="bg-primary text-white">Plánované práce a odstávky na OST</CardHeader>
@@ -486,9 +490,9 @@ class PlanovanePraceOdstavkyOST extends React.Component {
             Pridať
           </Button>
 
-          {validEntries.length > 0 && [
+          {sortedEntries.length > 0 && [
             <Nav pills key="nav-tabs">
-              {validEntries.map(entry => (
+              {sortedEntries.map(entry => (
                 <NavItem key={entry.id}>
                   <NavLink
                     className={this.state.activeTab === entry.id.toString() ? 'active' : ''}
@@ -501,7 +505,7 @@ class PlanovanePraceOdstavkyOST extends React.Component {
               ))}
             </Nav>,
             <TabContent activeTab={this.state.activeTab} key="tab-content">
-              {validEntries.map(entry => (
+              {sortedEntries.map(entry => (
                 <TabPane key={entry.id} tabId={entry.id.toString()}>
                   {this.renderEntry(entry)}
                 </TabPane>
@@ -509,7 +513,7 @@ class PlanovanePraceOdstavkyOST extends React.Component {
             </TabContent>
           ]}
 
-          {validEntries.length === 0 && (
+          {sortedEntries.length === 0 && (
             <div className="text-center mt-4">
               <p>Žiadne záznamy. Kliknite na "Pridať" pre vytvorenie nového záznamu.</p>
             </div>

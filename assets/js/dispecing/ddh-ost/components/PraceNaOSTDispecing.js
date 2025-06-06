@@ -21,6 +21,7 @@ import {
 import moment from 'moment'
 import debounce from '../../../utils/debounce'
 import { diacriticFilter, diacriticMatch } from '../../../utils/diacritic'
+import { sortEntriesByDateAndId } from '../../../utils/sorting'
 import {
   uploadPrilohaRequest,
   createPraceNaOSTDispecingRequest,
@@ -652,8 +653,8 @@ class PraceNaOSTDispecing extends React.Component {
         ? this.props.prace.entries.filter(entry => entry.valid !== false)
         : []
 
-    // Sort entries by id DESC (newest entries first)
-    const sortedEntries = [...validEntries].sort((a, b) => b.id - a.id)
+    // Sort entries by datum_cas_zaciatok DESC, id ASC
+    const sortedEntries = sortEntriesByDateAndId(validEntries)
 
     return (
       <Card>
