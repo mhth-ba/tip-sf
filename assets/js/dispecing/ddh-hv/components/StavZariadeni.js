@@ -49,7 +49,7 @@ class StavZariadeni extends React.Component {
   }
 
   // Helper to render a status badge with appropriate color
-  renderStatusBadge(stav) {
+  renderStatusBadge(stav, date) {
     if (!stav) return '-'
 
     let color = 'secondary'
@@ -63,7 +63,21 @@ class StavZariadeni extends React.Component {
       color = 'info'
     }
 
-    return <Badge color={color}>{stav}</Badge>
+    const badge = <Badge color={color}>{stav}</Badge>
+    
+    // Add date if available
+    if (date) {
+      // Handle both timestamp (number) and date string formats
+      const momentDate = typeof date === 'number' ? moment.unix(date) : moment(date)
+      const formattedDate = momentDate.format('DD.MM.YYYY HH:mm')
+      return (
+        <span>
+          {badge} <small className="text-muted">{formattedDate}</small>
+        </span>
+      )
+    }
+    
+    return badge
   }
 
   // Group devices by source and sort them
@@ -160,7 +174,7 @@ class StavZariadeni extends React.Component {
                     <tr key={`${source}-${device.zariadenie}`}>
                       <td>{isFirstInSource ? sourceDisplayNames[source] || source : ''}</td>
                       <td>{device.zariadenie}</td>
-                      <td>{this.renderStatusBadge(device.stav)}</td>
+                      <td>{this.renderStatusBadge(device.stav, device.datum_cas || device.datum || device.date || device.timestamp)}</td>
                     </tr>
                   )
                 })}
