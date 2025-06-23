@@ -191,7 +191,7 @@ const webpackConfig = {
     // library packages are separated into library.dll.js
     new webpack.DllReferencePlugin({
       context: __dirname,
-      manifest: require('./web/build/library/library5.json')
+      manifest: require('./web/build/library/library6.json')
     }),
 
     // hot module replacement

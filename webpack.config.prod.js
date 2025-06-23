@@ -203,7 +203,7 @@ const webpackConfig = {
     // DLL plugin to optimize build speed
     new webpack.DllReferencePlugin({
       context: __dirname,
-      manifest: require('./web/build/library/library5.json')
+      manifest: require('./web/build/library/library6.json')
     }),
 
     // optimize javascript files

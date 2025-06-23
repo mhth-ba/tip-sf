@@ -14,7 +14,7 @@ const webpackConfig = {
   },
 
   entry: {
-    library5: [
+    library6: [
       'jquery',
       'bootstrap',
       'highcharts',
@@ -52,7 +52,8 @@ const webpackConfig = {
       'react-dropzone-component',
       'react-notification-system',
       'react-notification-system-redux',
-      'react-transition-group'
+      'react-transition-group',
+      'react-select'
     ]
   },
 
