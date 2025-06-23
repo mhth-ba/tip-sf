@@ -152,6 +152,36 @@ export const deletePoznamkaRequest = id => ({
   id
 })
 
+export const setViewMode = mode => ({
+  type: TYPES.SET_VIEW_MODE,
+  mode
+})
+
+export const setFilter = (filterName, value) => ({
+  type: TYPES.SET_FILTER,
+  filterName,
+  value
+})
+
+export const clearFilters = () => ({
+  type: TYPES.CLEAR_FILTERS
+})
+
+export const fetchFilteredDataRequest = filters => ({
+  type: TYPES.FETCH_FILTERED_DATA_REQUEST,
+  filters
+})
+
+export const fetchFilteredDataSuccess = data => ({
+  type: TYPES.FETCH_FILTERED_DATA_SUCCESS,
+  data
+})
+
+export const fetchFilteredDataError = error => ({
+  type: TYPES.FETCH_FILTERED_DATA_ERROR,
+  error
+})
+
 export function* fetchPrilohy(action) {
   const url = Routing.generate('ddh_ost_prilohy_list', {
     entryId: action.entryId,
@@ -666,6 +696,32 @@ export function* deletePoznamka(action) {
     yield put(
       Notifications.error({
         message: 'Chyba pri mazaní záznamu',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
+
+export function* fetchFilteredData(action) {
+  const url = Routing.generate('ddh_ost_filtered_data')
+  const params = {
+    dateFrom: action.filters.dateFrom,
+    dateTo: action.filters.dateTo,
+    ost: action.filters.ost,
+    vplyvNaDodavku: action.filters.vplyvNaDodavku,
+    vyvod: action.filters.vyvod,
+    stav: action.filters.stav
+  }
+  
+  try {
+    const data = yield call(Api.post, url, params)
+    yield put(fetchFilteredDataSuccess(data))
+  } catch (e) {
+    yield put(fetchFilteredDataError(e))
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri načítaní filtrovaných údajov',
         autoDismiss: 5
       })
     )

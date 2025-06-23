@@ -12,6 +12,7 @@ import pracenaostdispecing from './pracenaostdispecing'
 import planovanepraceodstavky from './planovanepraceodstavky'
 import odstavkyostnad24hod from './odstavkyostnad24hod'
 import poznamky from './poznamky'
+import filterView from './filterView'
 
 import { reducer as notifications } from 'react-notification-system-redux'
 
@@ -28,6 +29,7 @@ export default combineReducers({
   planovanepraceodstavky,
   odstavkyostnad24hod,
   poznamky,
+  filterView,
 
   notifications
 })

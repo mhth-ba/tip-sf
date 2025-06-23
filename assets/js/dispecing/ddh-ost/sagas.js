@@ -30,7 +30,8 @@ import {
   fetchPoznamky,
   createPoznamka,
   updatePoznamka,
-  deletePoznamka
+  deletePoznamka,
+  fetchFilteredData
 } from './actions'
 
 function* mySaga() {
@@ -78,7 +79,10 @@ function* mySaga() {
     // Poznamka (global)
     takeEvery(TYPES.CREATE_POZNAMKA_REQUEST, createPoznamka),
     takeEvery(TYPES.UPDATE_POZNAMKA_REQUEST, updatePoznamka),
-    takeEvery(TYPES.DELETE_POZNAMKA_REQUEST, deletePoznamka)
+    takeEvery(TYPES.DELETE_POZNAMKA_REQUEST, deletePoznamka),
+
+    // Filter view
+    takeLatest(TYPES.FETCH_FILTERED_DATA_REQUEST, fetchFilteredData)
   ])
 }
 

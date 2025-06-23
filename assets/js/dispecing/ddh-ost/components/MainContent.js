@@ -12,8 +12,11 @@ import PraceNaOSTDispecingWrapper from './PraceNaOSTDispecingWrapper'
 import PlanovanePraceOdstavkyOSTWrapper from './PlanovanePraceOdstavkyOSTWrapper'
 import OdstavkyOSTNad24HodWrapper from './OdstavkyOSTNad24HodWrapper'
 import Poznamky from './Poznamky'
+import ViewModeToggle from './ViewModeToggle'
+import FilterControls from './FilterControls'
+import FilterResults from './FilterResults'
 
-const MainContent = ({ hlavny }) => {
+const MainContent = ({ hlavny, viewMode }) => {
   const renderMiddleContent = () => {
     // Only render middle content if initialized
     if (!hlavny.initialized) {
@@ -76,36 +79,62 @@ const MainContent = ({ hlavny }) => {
 
   return (
     <div>
-      {/* Top row with Calendar and Hlavička - Always visible */}
+      {/* View mode toggle */}
       <Row className="mb-3">
-        <Col lg={6} md={12}>
-          <Calendar />
-        </Col>
-        <Col lg={6} md={12}>
-          {hlavny.initialized && hlavny.id !== null ? <HlavickaWrapper /> : <div />}
-        </Col>
-      </Row>
-
-      {/* Middle content - Only visible when initialized */}
-      {renderMiddleContent()}
-
-      {/* Bottom row with Poznamky - Always visible */}
-      <Row className="mt-3">
         <Col>
-          <Poznamky />
+          <ViewModeToggle />
         </Col>
       </Row>
-      <Row>
-        <Col lg={9} sm={12}>
-          <AuditLog />
-        </Col>
-      </Row>
+
+      {viewMode === 'calendar' ? (
+        <div>
+          {/* Calendar View */}
+          <Row className="mb-3">
+            <Col lg={6} md={12}>
+              <Calendar />
+            </Col>
+            <Col lg={6} md={12}>
+              {hlavny.initialized && hlavny.id !== null ? <HlavickaWrapper /> : <div />}
+            </Col>
+          </Row>
+
+          {/* Middle content - Only visible when initialized */}
+          {renderMiddleContent()}
+
+          {/* Bottom row with Poznamky - Always visible */}
+          <Row className="mt-3">
+            <Col>
+              <Poznamky />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={9} sm={12}>
+              <AuditLog />
+            </Col>
+          </Row>
+        </div>
+      ) : (
+        <div>
+          {/* Filter View */}
+          <Row className="mb-3">
+            <Col>
+              <FilterControls />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FilterResults />
+            </Col>
+          </Row>
+        </div>
+      )}
     </div>
   )
 }
 
 const mapStateToProps = state => ({
-  hlavny: state.hlavny
+  hlavny: state.hlavny,
+  viewMode: state.filterView.mode
 })
 
 export default connect(mapStateToProps)(MainContent)

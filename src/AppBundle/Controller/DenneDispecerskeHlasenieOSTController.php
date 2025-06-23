@@ -1058,4 +1058,60 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
 
         return new Response('', 204); // Return 204 No Content on success
     }
+
+    /**
+     * @Route("disp/ddh-ost/filtered-data", name="ddh_ost_filtered_data", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function getFilteredDataAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $data = json_decode($request->getContent(), true);
+        
+        // Validate input
+        if (!$data || !isset($data['dateFrom']) || !isset($data['dateTo'])) {
+            throw new BadRequestHttpException('Date range is required');
+        }
+        
+        // Use repository methods to get filtered data
+        $prevadzkaRepo = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTPrevadzka');
+        $dispecingRepo = $em->getRepository('AppBundle:Dispecing\DDH\PraceNaOSTDispecing');
+        
+        $prevadzkaEntities = $prevadzkaRepo->getFilteredData($data);
+        $dispecingEntities = $dispecingRepo->getFilteredData($data);
+        
+        // Convert entities to API format using getter methods
+        $results = [
+            'prevadzka' => [],
+            'dispecing' => []
+        ];
+        
+        foreach ($prevadzkaEntities as $entity) {
+            $results['prevadzka'][] = [
+                'id' => $entity->getId(),
+                'datum_cas_zaciatok' => $entity->getDatumCasZaciatok(),
+                'vplyv_na_dodavku' => $entity->getVplyvNaDodavku(),
+                'vyvod' => $entity->getVyvod(),
+                'stav' => $entity->getStav(),
+                'poznamka' => $entity->getPoznamka(),
+                'ost' => $entity->getOst(),
+                'vybavuje' => $entity->getVybavuje()
+            ];
+        }
+        
+        foreach ($dispecingEntities as $entity) {
+            $results['dispecing'][] = [
+                'id' => $entity->getId(),
+                'datum_cas_zaciatok' => $entity->getDatumCasZaciatok(),
+                'vplyv_na_dodavku' => $entity->getVplyvNaDodavku(),
+                'vyvod' => $entity->getVyvod(),
+                'stav' => $entity->getStav(),
+                'poznamka' => $entity->getPoznamka(),
+                'ost' => $entity->getOst(),
+                'vybavuje' => $entity->getVybavuje()
+            ];
+        }
+        
+        return $this->createApiResponse($results);
+    }
 }
