@@ -881,7 +881,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
             'horucovod' => []
         ];
         
-        // Process Zdroje section filters - always process if date range is provided
+        // Process Zdroje section filters - delegate to repository methods
         $sourceTypes = ['TpV', 'TpZ', 'VhJ', 'Slovnaft', 'CW', 'OLO', 'PPC'];
         
         // Filter by selected sources if specified
@@ -893,42 +893,10 @@ class DenneDispecerskeHlasenieHVController extends BaseController
             $entityClass = $this->getEntityClass($sourceType);
             $repository = $em->getRepository($entityClass);
             
-            // Build filter criteria for sources
-            $criteria = [
-                'dateFrom' => $data['dateFrom'],
-                'dateTo' => $data['dateTo']
-            ];
+            // Use repository method for filtering
+            $entries = $repository->getFilteredData($data);
             
-            if (!empty($data['zariadenie'])) {
-                $criteria['zariadenie'] = $data['zariadenie'];
-            }
-            
-            if (!empty($data['stav'])) {
-                $criteria['stav'] = $data['stav'];
-            }
-            
-            // Get filtered entries using custom query
-            $qb = $repository->createQueryBuilder('z')
-                ->andWhere('z.datum_cas >= :dateFrom')
-                ->andWhere('z.datum_cas <= :dateTo')
-                ->setParameter('dateFrom', new \DateTime($criteria['dateFrom'] . ' 00:00:00'))
-                ->setParameter('dateTo', new \DateTime($criteria['dateTo'] . ' 23:59:59'));
-            
-            // Apply zariadenie filter
-            if (!empty($criteria['zariadenie'])) {
-                $qb->andWhere('z.zariadenie LIKE :zariadenie')
-                    ->setParameter('zariadenie', '%' . $criteria['zariadenie'] . '%');
-            }
-            
-            // Apply stav filter
-            if (!empty($criteria['stav'])) {
-                $qb->andWhere('z.stav IN (:stav)')
-                    ->setParameter('stav', $criteria['stav']);
-            }
-            
-            $qb->orderBy('z.datum_cas', 'DESC');
-            $entries = $qb->getQuery()->getResult();
-            
+            // Convert entities to API format
             foreach ($entries as $entry) {
                 $results['zdroje'][] = [
                     'id' => $entry->getId(),
@@ -941,7 +909,7 @@ class DenneDispecerskeHlasenieHVController extends BaseController
             }
         }
         
-        // Process Horúcovod section filters - always process if date range is provided
+        // Process Horúcovod section filters - delegate to repository methods
         $hvTypes = ['vychod', 'zapad'];
         
         // Filter by selected HV types if specified
@@ -965,32 +933,10 @@ class DenneDispecerskeHlasenieHVController extends BaseController
                 
             $repository = $em->getRepository($entityClass);
             
-            // Build filter criteria for HV
-            $criteria = [
-                'dateFrom' => $data['dateFrom'],
-                'dateTo' => $data['dateTo']
-            ];
+            // Use repository method for filtering
+            $entries = $repository->getFilteredData($data);
             
-            if (!empty($data['poznamka'])) {
-                $criteria['poznamka'] = $data['poznamka'];
-            }
-            
-            // Get filtered entries using custom query
-            $qb = $repository->createQueryBuilder('z')
-                ->andWhere('z.datum_cas >= :dateFrom')
-                ->andWhere('z.datum_cas <= :dateTo')
-                ->setParameter('dateFrom', new \DateTime($criteria['dateFrom'] . ' 00:00:00'))
-                ->setParameter('dateTo', new \DateTime($criteria['dateTo'] . ' 23:59:59'));
-            
-            // Apply poznamka filter
-            if (!empty($criteria['poznamka'])) {
-                $qb->andWhere('z.poznamka LIKE :poznamka')
-                    ->setParameter('poznamka', '%' . $criteria['poznamka'] . '%');
-            }
-            
-            $qb->orderBy('z.datum_cas', 'DESC');
-            $entries = $qb->getQuery()->getResult();
-            
+            // Convert entities to API format
             foreach ($entries as $entry) {
                 $results['horucovod'][] = [
                     'id' => $entry->getId(),

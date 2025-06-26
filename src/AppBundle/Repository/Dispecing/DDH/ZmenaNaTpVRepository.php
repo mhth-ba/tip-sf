@@ -48,4 +48,27 @@ class ZmenaNaTpVRepository extends EntityRepository
 
         return $result;
     }
+
+    public function getFilteredData($filters)
+    {
+        $qb = $this->createQueryBuilder('z')
+            ->where('z.datum_cas >= :dateFrom')
+            ->andWhere('z.datum_cas <= :dateTo')
+            ->setParameter('dateFrom', new \DateTime($filters['dateFrom'] . ' 00:00:00'))
+            ->setParameter('dateTo', new \DateTime($filters['dateTo'] . ' 23:59:59'));
+            
+        // Apply zariadenie filter
+        if (!empty($filters['zariadenie'])) {
+            $qb->andWhere('z.zariadenie LIKE :zariadenie')
+                ->setParameter('zariadenie', '%' . $filters['zariadenie'] . '%');
+        }
+        
+        // Apply stav filter
+        if (!empty($filters['stav'])) {
+            $qb->andWhere('z.stav IN (:stav)')
+                ->setParameter('stav', $filters['stav']);
+        }
+        
+        return $qb->orderBy('z.datum_cas', 'DESC')->getQuery()->getResult();
+    }
 }
