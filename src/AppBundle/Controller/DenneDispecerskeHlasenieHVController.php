@@ -861,4 +861,146 @@ class DenneDispecerskeHlasenieHVController extends BaseController
 
         return $this->createApiResponse($result);
     }
+
+    /**
+     * @Route("disp/ddh-hv/filtered-data", name="ddh_hv_filtered_data", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function getFilteredDataAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $data = json_decode($request->getContent(), true);
+        
+        // Validate input
+        if (!$data || !isset($data['dateFrom']) || !isset($data['dateTo'])) {
+            throw new BadRequestHttpException('Date range is required');
+        }
+        
+        $results = [
+            'zdroje' => [],
+            'horucovod' => []
+        ];
+        
+        // Process Zdroje section filters - always process if date range is provided
+        $sourceTypes = ['TpV', 'TpZ', 'VhJ', 'Slovnaft', 'CW', 'OLO', 'PPC'];
+        
+        // Filter by selected sources if specified
+        if (!empty($data['zdroj'])) {
+            $sourceTypes = array_intersect($sourceTypes, $data['zdroj']);
+        }
+        
+        foreach ($sourceTypes as $sourceType) {
+            $entityClass = $this->getEntityClass($sourceType);
+            $repository = $em->getRepository($entityClass);
+            
+            // Build filter criteria for sources
+            $criteria = [
+                'dateFrom' => $data['dateFrom'],
+                'dateTo' => $data['dateTo']
+            ];
+            
+            if (!empty($data['zariadenie'])) {
+                $criteria['zariadenie'] = $data['zariadenie'];
+            }
+            
+            if (!empty($data['stav'])) {
+                $criteria['stav'] = $data['stav'];
+            }
+            
+            // Get filtered entries using custom query
+            $qb = $repository->createQueryBuilder('z')
+                ->andWhere('z.datum_cas >= :dateFrom')
+                ->andWhere('z.datum_cas <= :dateTo')
+                ->setParameter('dateFrom', new \DateTime($criteria['dateFrom'] . ' 00:00:00'))
+                ->setParameter('dateTo', new \DateTime($criteria['dateTo'] . ' 23:59:59'));
+            
+            // Apply zariadenie filter
+            if (!empty($criteria['zariadenie'])) {
+                $qb->andWhere('z.zariadenie LIKE :zariadenie')
+                    ->setParameter('zariadenie', '%' . $criteria['zariadenie'] . '%');
+            }
+            
+            // Apply stav filter
+            if (!empty($criteria['stav'])) {
+                $qb->andWhere('z.stav IN (:stav)')
+                    ->setParameter('stav', $criteria['stav']);
+            }
+            
+            $qb->orderBy('z.datum_cas', 'DESC');
+            $entries = $qb->getQuery()->getResult();
+            
+            foreach ($entries as $entry) {
+                $results['zdroje'][] = [
+                    'id' => $entry->getId(),
+                    'datum_cas' => $entry->getDatumCas(),
+                    'zdroj' => $sourceType,
+                    'zariadenie' => $entry->getZariadenie(),
+                    'stav' => $entry->getStav(),
+                    'poznamka' => $entry->getPoznamka()
+                ];
+            }
+        }
+        
+        // Process Horúcovod section filters - always process if date range is provided
+        $hvTypes = ['vychod', 'zapad'];
+        
+        // Filter by selected HV types if specified
+        if (!empty($data['horucovod'])) {
+            $hvTypeMap = [
+                'Východ' => 'vychod',
+                'Západ' => 'zapad'
+            ];
+            $hvTypes = [];
+            foreach ($data['horucovod'] as $hvName) {
+                if (isset($hvTypeMap[$hvName])) {
+                    $hvTypes[] = $hvTypeMap[$hvName];
+                }
+            }
+        }
+        
+        foreach ($hvTypes as $hvType) {
+            $entityClass = $hvType === 'vychod' ? 
+                'AppBundle:Dispecing\\DDH\\ZmenaNaHVVychod' : 
+                'AppBundle:Dispecing\\DDH\\ZmenaNaHVZapad';
+                
+            $repository = $em->getRepository($entityClass);
+            
+            // Build filter criteria for HV
+            $criteria = [
+                'dateFrom' => $data['dateFrom'],
+                'dateTo' => $data['dateTo']
+            ];
+            
+            if (!empty($data['poznamka'])) {
+                $criteria['poznamka'] = $data['poznamka'];
+            }
+            
+            // Get filtered entries using custom query
+            $qb = $repository->createQueryBuilder('z')
+                ->andWhere('z.datum_cas >= :dateFrom')
+                ->andWhere('z.datum_cas <= :dateTo')
+                ->setParameter('dateFrom', new \DateTime($criteria['dateFrom'] . ' 00:00:00'))
+                ->setParameter('dateTo', new \DateTime($criteria['dateTo'] . ' 23:59:59'));
+            
+            // Apply poznamka filter
+            if (!empty($criteria['poznamka'])) {
+                $qb->andWhere('z.poznamka LIKE :poznamka')
+                    ->setParameter('poznamka', '%' . $criteria['poznamka'] . '%');
+            }
+            
+            $qb->orderBy('z.datum_cas', 'DESC');
+            $entries = $qb->getQuery()->getResult();
+            
+            foreach ($entries as $entry) {
+                $results['horucovod'][] = [
+                    'id' => $entry->getId(),
+                    'datum_cas' => $entry->getDatumCas(),
+                    'horucovod' => $hvType === 'vychod' ? 'Východ' : 'Západ',
+                    'poznamka' => $entry->getPoznamka()
+                ];
+            }
+        }
+        
+        return $this->createApiResponse($results);
+    }
 }

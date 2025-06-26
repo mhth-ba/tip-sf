@@ -11,6 +11,9 @@ import ZmenaNaZdrojochWrapper from './ZmenaNaZdrojochWrapper'
 import ZmenaNaHVWrapper from './ZmenaNaHVWrapper'
 import StavZariadeni from './StavZariadeni'
 import ChronologicalTimeline from './ChronologicalTimeline'
+import ViewModeToggle from './ViewModeToggle'
+import FilterControls from './FilterControls'
+import FilterResults from './FilterResults'
 
 class MainContent extends React.Component {
   renderMiddleContent() {
@@ -81,36 +84,62 @@ class MainContent extends React.Component {
   }
 
   render() {
-    const { hlavny } = this.props
+    const { hlavny, viewMode } = this.props
 
     return (
       <div>
-        {/* Top row with Calendar and Hlavička - Always visible */}
+        {/* View mode toggle */}
         <Row className="mb-3">
-          <Col md={6} sm={12}>
-            <Calendar />
-          </Col>
-          <Col md={6} sm={12}>
-            {hlavny.initialized && hlavny.id ? <HlavickaWrapper /> : <div />}
-          </Col>
-        </Row>
-
-        {/* Middle content - Only visible when initialized */}
-        {this.renderMiddleContent()}
-
-        {/* Bottom row with AuditLog (Aktivita) - Always visible */}
-        <Row className="mt-3">
           <Col>
-            <AuditLog />
+            <ViewModeToggle />
           </Col>
         </Row>
+
+        {viewMode === 'calendar' ? (
+          <div>
+            {/* Calendar View */}
+            <Row className="mb-3">
+              <Col md={6} sm={12}>
+                <Calendar />
+              </Col>
+              <Col md={6} sm={12}>
+                {hlavny.initialized && hlavny.id ? <HlavickaWrapper /> : <div />}
+              </Col>
+            </Row>
+
+            {/* Middle content - Only visible when initialized */}
+            {this.renderMiddleContent()}
+
+            {/* Bottom row with AuditLog (Aktivita) - Always visible */}
+            <Row className="mt-3">
+              <Col>
+                <AuditLog />
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <div>
+            {/* Filter View */}
+            <Row className="mb-3">
+              <Col>
+                <FilterControls />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FilterResults />
+              </Col>
+            </Row>
+          </div>
+        )}
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  hlavny: state.hlavny
+  hlavny: state.hlavny,
+  viewMode: state.filterView.mode
 })
 
 export default connect(mapStateToProps)(MainContent)

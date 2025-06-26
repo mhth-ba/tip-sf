@@ -7,6 +7,7 @@ import hlavny from './hlavny'
 import zmenaHV from './zmenaHV'
 import zmenaZdroje from './zmenaZdroje'
 import stavZariadeni from './stavZariadeni'
+import filterView from './filterView'
 
 import { reducer as notifications } from 'react-notification-system-redux'
 
@@ -18,6 +19,7 @@ export default combineReducers({
   zmenaHV,
   zmenaZdroje,
   stavZariadeni,
+  filterView,
 
   notifications
 })

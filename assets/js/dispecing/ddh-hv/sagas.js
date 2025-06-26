@@ -18,7 +18,8 @@ import {
   createZmenaNaZdroj,
   updateZmenaNaZdroj,
   deleteZmenaNaZdroj,
-  fetchStavZariadeni
+  fetchStavZariadeni,
+  fetchFilteredData
 } from './actions'
 
 function* mySaga() {
@@ -49,7 +50,10 @@ function* mySaga() {
     takeLatest(TYPES.FETCH_STAV_ZARIADENI_REQUEST, fetchStavZariadeni),
 
     // Chronologicky prehlad zmien
-    takeLatest(TYPES.FETCH_VSETKY_ZMENY_NA_ZARIADENIACH_REQUEST, fetchAllZmenyNaZariadeniach)
+    takeLatest(TYPES.FETCH_VSETKY_ZMENY_NA_ZARIADENIACH_REQUEST, fetchAllZmenyNaZariadeniach),
+
+    // Filter view
+    takeLatest(TYPES.FETCH_FILTERED_DATA_REQUEST, fetchFilteredData)
   ])
 }
 

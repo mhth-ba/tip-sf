@@ -554,3 +554,61 @@ export function* fetchStavZariadeni(action) {
     console.error(e)
   }
 }
+
+// Filter View Actions
+export const setViewMode = mode => ({
+  type: TYPES.SET_VIEW_MODE,
+  mode
+})
+
+export const setFilter = (filterName, value) => ({
+  type: TYPES.SET_FILTER,
+  filterName,
+  value
+})
+
+export const clearFilters = () => ({
+  type: TYPES.CLEAR_FILTERS
+})
+
+export const fetchFilteredDataRequest = filters => ({
+  type: TYPES.FETCH_FILTERED_DATA_REQUEST,
+  filters
+})
+
+export const fetchFilteredDataSuccess = data => ({
+  type: TYPES.FETCH_FILTERED_DATA_SUCCESS,
+  data
+})
+
+export const fetchFilteredDataError = error => ({
+  type: TYPES.FETCH_FILTERED_DATA_ERROR,
+  error
+})
+
+export function* fetchFilteredData(action) {
+  const url = Routing.generate('ddh_hv_filtered_data')
+  const params = {
+    dateFrom: action.filters.dateFrom,
+    dateTo: action.filters.dateTo,
+    zdroj: action.filters.zdroj,
+    zariadenie: action.filters.zariadenie,
+    stav: action.filters.stav,
+    horucovod: action.filters.horucovod,
+    poznamka: action.filters.poznamka
+  }
+  
+  try {
+    const data = yield call(Api.post, url, params)
+    yield put(fetchFilteredDataSuccess(data))
+  } catch (e) {
+    yield put(fetchFilteredDataError(e))
+    yield put(
+      Notifications.error({
+        message: 'Chyba pri načítaní filtrovaných údajov',
+        autoDismiss: 5
+      })
+    )
+    console.error(e)
+  }
+}
