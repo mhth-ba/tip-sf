@@ -1,171 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% set title = 'Admin' %}
+{% set title = 'Admin rozhranie' %}
 
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <h1>
-        {{ 'page.admin.title'|trans }}
-        <br>
-        <small>
-            <em>{{ 'page.admin.subtitle'|trans }}</em>
-        </small>
-    </h1>
-    <br>
-    <div class="row">
-        <div class="col">
-            <div id="admin-container"></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col js-connected-users">
-            <div class="card mb-3">
-                {#<img class="card-img-top" src="{{ asset('build/static/digitaldata.jpg') }}" alt="Card image cap">#}
-                <div class="card-header">
-                    {{ 'admin.connected_users.card_title'|trans }}
-                </div>
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">{{ 'admin.connected_users.card_subtitle'|trans }}</h6>
-                    <br>
-                    <table class="table table-striped table-sm">
-                        <thead>
-                        <tr>
-                            <th>{{ 'admin.connected_users.zone'|trans }}</th>
-                            <th>Session ID</th>
-                            <th>{{ 'admin.connected_users.time'|trans }}</th>
-                            {#<th>User ID</th>#}
-                            <th>{{ 'admin.connected_users.name'|trans }}</th>
-                            <th>E-mail</th>
-                            <th>{{ 'admin.connected_users.title'|trans }}</th>
-                            <th>{{ 'admin.connected_users.department'|trans }}</th>
-                            <th>{{ 'admin.connected_users.office'|trans }}</th>
-                            <th>{{ 'admin.connected_users.phone'|trans }}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="js-log"></tbody>
-                    </table>
-                </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>{{ title }}</h1>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 col-lg-6 js-roles">
-            <div class="card mb-3">
-                <div class="card-header">
-                    {{ 'admin.roles'|trans }}
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped table-sm js-list">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Názov</th>
-                            <th>Rola</th>
-                            <th>Popis</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
 
-                    {{ include('admin/_form.role.html.twig') }}
+        <p>
+            <small>
+                <em>PHP Thread-Safe | VC11</em>
+            </small>
+        </p>
 
-                </div>
+        <div class="row">
+            <div class="col">
+                <div id="admin"></div>
             </div>
         </div>
-        <div class="col-md-12 col-lg-6 js-grants">
-            <div class="card mb-3">
-                <div class="card-header">
-                    {{ 'admin.grants'|trans }}
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped table-sm js-list">
-                        <thead>
-                        <tr>
-                            <th>Rola</th>
-                            <th>Užívateľ</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
 
-                    {{ include('admin/_form.grants.html.twig') }}
-
-                </div>
-            </div>
-        </div>
+        {#https://github.com/1up-lab/OneupUploaderBundle/issues/143#}
+        <div id="uploader" data-endpoint="{{ oneup_uploader_endpoint('admin') }}"></div>
     </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
 
     <script src="{{ asset('build/admin.js') }}"></script>
-
-{#<script src="{{ asset('js/admin.js'|asset_version) }}"></script>#}
-
-<script>
-    //$(function () {
-        //var $wrapperConnectedUsers = $('.js-connected-users');
-        //var $wrapperRoles = $('.js-role-table');
-        //var $wrapperGrants = $('.js-grant-table');
-
-        //var connectedUsersApp = new ConnectedUsersApp($wrapperConnectedUsers);
-        //var roleApp = new RoleApp($wrapperRoles);
-        //var grantApp = new GrantApp($wrapperGrants);
-
-        //var $wrapperRoles = $('.js-roles');
-        //var $wrapperGrants = $('.js-grants');
-
-        /*var roleApp = new MainApp(
-            $wrapperRoles,
-            { newAction: 'admin_roles_new', listAction: 'admin_roles_list' },
-            { row: '#js-role-row-template' }
-        );*/
-
-        /*var grantApp = new MainApp(
-            $wrapperGrants,
-            { newAction: 'admin_grants_new', listAction: 'admin_grants_list' },
-            { row: '#js-grant-row-template' }
-        );*/
-    //});
-</script>
-{#
-<script type="text/template" id="js-role-row-template">
-    <tr>
-        <td><%= id %></td>
-        <td><%= name %></td>
-        <td><%= role %></td>
-        <td><%= description %></td>
-        <td>
-            <a href="#"
-               class="js-delete-entry"
-               data-url="<%= links._self %>">
-                <span class="fa fa-times"></span>
-            </a>
-        </td>
-    </tr>
-</script>
-
-<script type="text/template" id="js-grant-row-template">
-    <tr>
-        <td><%= role.name %></td>
-        <td><%= user.fullname %></td>
-        <td>
-            <a href="#"
-               class="js-delete-entry"
-               data-url="<%= links._self %>">
-                <span class="fa fa-times"></span>
-            </a>
-        </td>
-    </tr>
-</script>
-#}
-
 {% endblock %}
