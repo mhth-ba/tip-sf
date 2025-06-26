@@ -1090,6 +1090,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             $results['prevadzka'][] = [
                 'id' => $entity->getId(),
                 'datum_cas_zaciatok' => $entity->getDatumCasZaciatok(),
+                'datum_cas_ukoncenie' => $entity->getDatumCasUkoncenie(),
                 'vplyv_na_dodavku' => $entity->getVplyvNaDodavku(),
                 'vyvod' => $entity->getVyvod(),
                 'stav' => $entity->getStav(),
@@ -1103,6 +1104,7 @@ class DenneDispecerskeHlasenieOSTController extends BaseController
             $results['dispecing'][] = [
                 'id' => $entity->getId(),
                 'datum_cas_zaciatok' => $entity->getDatumCasZaciatok(),
+                'datum_cas_ukoncenie' => $entity->getDatumCasUkoncenie(),
                 'vplyv_na_dodavku' => $entity->getVplyvNaDodavku(),
                 'vyvod' => $entity->getVyvod(),
                 'stav' => $entity->getStav(),

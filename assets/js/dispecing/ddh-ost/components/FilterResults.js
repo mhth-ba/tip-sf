@@ -4,12 +4,12 @@ import { Card, CardHeader, CardBody, Table, Alert, Badge } from 'reactstrap'
 import moment from 'moment'
 
 // Helper function to format dates consistently
-const formatDate = (dateValue) => {
+const formatDate = dateValue => {
   if (!dateValue) return '-'
-  
+
   // Try different date parsing approaches
   let date
-  
+
   // If it's already a moment object
   if (moment.isMoment(dateValue)) {
     date = dateValue
@@ -21,7 +21,8 @@ const formatDate = (dateValue) => {
   // If it's a number (Unix timestamp in seconds)
   else if (typeof dateValue === 'number') {
     // Check if it's a reasonable Unix timestamp (not too large or small)
-    if (dateValue > 946684800 && dateValue < 4102444800) { // Between 2000 and 2100
+    if (dateValue > 946684800 && dateValue < 4102444800) {
+      // Between 2000 and 2100
       date = moment.unix(dateValue)
     } else {
       // Might be milliseconds timestamp
@@ -40,17 +41,16 @@ const formatDate = (dateValue) => {
   // If it's an object with date properties (SQL datetime object)
   else if (typeof dateValue === 'object' && dateValue.date) {
     date = moment(dateValue.date)
-  }
-  else {
+  } else {
     // Try direct moment parsing
     date = moment(dateValue)
   }
-  
+
   // Return formatted date if valid, otherwise return dash
   if (date && date.isValid()) {
     return date.format('DD.MM.YYYY HH:mm')
   }
-  
+
   return '-'
 }
 
@@ -97,7 +97,9 @@ const FilterResults = ({ results, isLoading, error }) => {
           <h5 className="mb-0">
             <i className={`fa ${type === 'prevadzka' ? 'fa-wrench' : 'fa-headset'} mr-2`} />
             {title}
-            <Badge color="secondary" className="ml-2">{data.length}</Badge>
+            <Badge color="secondary" className="ml-2">
+              {data.length}
+            </Badge>
           </h5>
         </CardHeader>
         <CardBody>
@@ -106,6 +108,7 @@ const FilterResults = ({ results, isLoading, error }) => {
               <thead>
                 <tr>
                   <th>Dátum začiatku</th>
+                  <th>Dátum ukončenia</th>
                   <th>OST</th>
                   <th>Vplyv na dodávku</th>
                   <th>Vývod</th>
@@ -117,24 +120,23 @@ const FilterResults = ({ results, isLoading, error }) => {
               <tbody>
                 {data.map(row => (
                   <tr key={row.id}>
-                    <td>
-                      {formatDate(row.datum_cas_zaciatok)}
-                    </td>
+                    <td>{formatDate(row.datum_cas_zaciatok)}</td>
+                    <td>{formatDate(row.datum_cas_ukoncenie)}</td>
                     <td>{row.ost || '-'}</td>
                     <td>
-                      {row.vplyv_na_dodavku === 'ano' ? (
-                        <Badge color="danger">Áno</Badge>
-                      ) : row.vplyv_na_dodavku === 'nie' ? (
-                        <Badge color="success">Nie</Badge>
+                      {row.vplyv_na_dodavku === 'Prerušenie' ? (
+                        <Badge color="danger">Prerušenie</Badge>
+                      ) : row.vplyv_na_dodavku === 'Obmedzenie' ? (
+                        <Badge color="warning">Obmedzenie</Badge>
                       ) : (
                         '-'
                       )}
                     </td>
                     <td>{row.vyvod || '-'}</td>
                     <td>
-                      {row.stav === 'novy' && <Badge color="info">Nový</Badge>}
-                      {row.stav === 'spracovany' && <Badge color="warning">Spracovaný</Badge>}
-                      {row.stav === 'ukonceny' && <Badge color="success">Ukončený</Badge>}
+                      {row.stav === 'V riešení' && <Badge color="danger">V riešení</Badge>}
+                      {row.stav === 'Provizórne vyriešené' && <Badge color="warning">Provizórne vyriešené</Badge>}
+                      {row.stav === 'Vyriešené' && <Badge color="success">Vyriešené</Badge>}
                       {!row.stav && '-'}
                     </td>
                     <td>{row.poznamka || '-'}</td>
