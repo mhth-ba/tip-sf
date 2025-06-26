@@ -231,9 +231,6 @@ class FilterControls extends React.Component {
                   }}
                   style={{ height: 'auto' }}
                 >
-                  <option value="" disabled style={{ fontStyle: 'italic', color: '#999' }}>
-                    ------
-                  </option>
                   <option value="Východ">Východ</option>
                   <option value="Západ">Západ</option>
                 </Input>
