@@ -134,15 +134,13 @@ const polozky = [
         url: Routing.generate('ddh-ost'),
         nazov: 'Denné hlásenie • OST',
         color: 'primary',
-        size: 'md',
-        new: true
+        size: 'md'
       },
       {
         url: Routing.generate('ddh-hv'),
         nazov: 'Denné hlásenie • Zdroje a HV',
         color: 'primary',
-        size: 'md',
-        new: true
+        size: 'md'
       }
     ]
   },
